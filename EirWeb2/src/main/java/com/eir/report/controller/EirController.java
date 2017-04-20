@@ -29,7 +29,7 @@ public class EirController {
 		String message = "<br><div style='text-align:center;'>"
 				+ "<h3>********** Hello World, Spring MVC Tutorial</h3>This message is coming from CrunchifyHelloWorld.java **********</div><br><br>";
 		logger.debug("EirController - helloWorld: End");
-		return new ModelAndView("welcome", "message", message + retrieveRequest);
+		return new ModelAndView("welcome", "message", message );
 	}
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)

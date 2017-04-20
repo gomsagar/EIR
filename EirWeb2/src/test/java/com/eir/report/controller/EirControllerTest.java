@@ -14,6 +14,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.eir.report.service.EirService;
 
@@ -39,7 +40,16 @@ public class EirControllerTest {
     @Before
     public void setup() {
         //this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-        this.mockMvc = MockMvcBuilders.standaloneSetup(eirController).build();
+        //this.mockMvc = MockMvcBuilders.standaloneSetup(eirController).build();
+        
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setPrefix("/WEB-INF/jsp/view/");
+        viewResolver.setSuffix(".jsp");
+ 
+        mockMvc = MockMvcBuilders.standaloneSetup(eirController)
+                                 .setViewResolvers(viewResolver)
+                                 .build();
+        
     }
 
     @Test

@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Entity
 
-@Table(catalog = "eir", name = "address")
+@Table(name = "address")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "eir/com/eir/report/entity", name = "Address")
 
