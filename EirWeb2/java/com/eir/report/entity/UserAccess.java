@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 
 @Entity
-@Table(catalog = "eir", name = "user_access")
+@Table(name = "user_access")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "eir/com/eir/report/entity", name = "UserAccess")
 
