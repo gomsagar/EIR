@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.eir.report.entity.Address;
 import com.eir.report.entity.BirRequest;
+import com.eir.report.repository.AddressRepository;
 import com.eir.report.repository.BirRequestRepository;
 import com.eir.report.service.EirService;
 
@@ -14,12 +16,27 @@ public class EirServiceImpl implements EirService{
 
 	@Autowired
 	BirRequestRepository birRequestRepository;
+	
+	@Autowired
+	AddressRepository addrRepository;
 
 	@Override
 	public List<BirRequest> retrieveRequest() {
 		return birRequestRepository.findAll();
 		//return null;
 	}
+
+	public void saveUser(Address adr) {
+		
+		 addrRepository.save(adr);
+	}
+
+	@Override
+	public List<Address> getAddress() {
+		return addrRepository.findAll();
+	}
+	
+	
 
 	
 	
