@@ -13,7 +13,7 @@
 
 	<context:component-scan base-package="com.eir.report.service.*"/>
 	
-	<context:property-placeholder location="classpath:application.properties"/>
+	<context:property-placeholder location="classpath:application.properties, classpath:sso.properties"/>
 	
 	<!-- Configure to plugin JSON as request and response in method handler -->
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
@@ -28,4 +28,39 @@
 	<bean id="jsonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 	</bean>
 	
+	 <!--  Imports in this specific order
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreResourceNotFound" value="false" />
+        <property name="systemPropertiesMode" value="2" />
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="locations">
+                <value>classpath:sso.properties</value>
+		</property>
+	</bean> --> 
+	
+	<!-- <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+
+		<property name="location">
+			<value>sso.properties</value>
+		</property>
+	</bean> -->
+	
+	<!-- == SSO related setup begin == -->
+	<bean id="ssoConfig" class="com.eir.report.servlet.SSOConfig">
+    	<property name="devMode" value="${futt}"/>
+    	<property name="whiteCharList" value="${sso.white.char.list}"/>
+    	<property name="redirectPage" value="${sso.redirect.page}"/>
+    	<property name="redirectLegacyPage" value="${sso.redirect.page.legacy}"/>
+    	<!--   property name="legacyVersion" value="${legacy.version}"/ -->
+    	<property name="ewacsHelper" ref="ewacsHelper"/>
+    	<property name="ssoLogoutUrl" value="${sso.logout.address}"/>
+    </bean>
+    <bean id="ewacsHelper" class="com.eir.report.web.service.EwacsHelper">
+        <constructor-arg index="0" value="${sso.ewacs.endpoint}"/>
+        <constructor-arg index="1" value="${sso.ewacs.product.name}"/>
+    </bean>
+
+    <!-- == SSO related setup end == -->
+
 </beans>

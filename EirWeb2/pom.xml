@@ -60,22 +60,22 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>4.3.7.RELEASE</version>
+			<version>${spring-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
-			<version>4.3.7.RELEASE</version>
+			<version>${spring-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>4.3.7.RELEASE</version>
+			<version>${spring-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
-			<version>4.3.7.RELEASE</version>
+			<version>${spring-version}</version>
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
@@ -157,12 +157,6 @@
 		    <artifactId>javax.servlet-api</artifactId>
 		    <version>3.1.0</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.json/json -->
-		<dependency>
-		    <groupId>org.json</groupId>
-		    <artifactId>json</artifactId>
-		    <version>20090211</version>
-		</dependency>
 		
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -176,7 +170,7 @@
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>		-->			
-		<!-- <dependency>
+		<dependency>
 			<groupId>com.experian.nextgen</groupId>
 			<artifactId>nextgen-ind-services-ewacs</artifactId>
 			<version>0.50.4.1-SNAPSHOT</version>
@@ -202,7 +196,7 @@
 			<artifactId>commons-lang</artifactId>
 			<version>2.4</version>
 			<scope>provided</scope>
-		</dependency> -->
+		</dependency> 
 				
 	</dependencies>
 
