@@ -47,19 +47,19 @@
 	</bean> -->
 	
 	<!-- == SSO related setup begin == -->
-	<bean id="ssoConfig" class="com.eir.report.servlet.SSOConfig">
+	<!-- <bean id="ssoConfig" class="com.eir.report.servlet.SSOConfig">
     	<property name="devMode" value="${futt}"/>
     	<property name="whiteCharList" value="${sso.white.char.list}"/>
     	<property name="redirectPage" value="${sso.redirect.page}"/>
     	<property name="redirectLegacyPage" value="${sso.redirect.page.legacy}"/>
-    	<!--   property name="legacyVersion" value="${legacy.version}"/ -->
+    	  property name="legacyVersion" value="${legacy.version}"/
     	<property name="ewacsHelper" ref="ewacsHelper"/>
     	<property name="ssoLogoutUrl" value="${sso.logout.address}"/>
     </bean>
     <bean id="ewacsHelper" class="com.eir.report.web.service.EwacsHelper">
         <constructor-arg index="0" value="${sso.ewacs.endpoint}"/>
         <constructor-arg index="1" value="${sso.ewacs.product.name}"/>
-    </bean>
+    </bean> -->
 
     <!-- == SSO related setup end == -->
 

@@ -28,7 +28,7 @@ public class EirController {
 	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
 	public ModelAndView helloWorld() {
 		logger.debug("EirController - helloWorld: Start");
-		List<BirRequest> retrieveRequest = eirService.retrieveRequest();
+		//List<BirRequest> retrieveRequest = eirService.retrieveRequest();
 
 		String message = "<br><div style='text-align:center;'>"
 				+ "<h3>********** Hello World, Spring MVC Tutorial</h3>This message is coming from CrunchifyHelloWorld.java **********</div><br><br>";

@@ -28,6 +28,9 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
+					<excludes>
+		                <exclude>ngapp/**</exclude>
+		            </excludes>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -37,6 +40,9 @@
 				<configuration>
 					<webXml>${basedir}/src/main/WebRoot/WEB-INF/web.xml</webXml>
     				<warSourceDirectory>${basedir}/src/main/WebRoot</warSourceDirectory>
+    				<excludes>
+		                <exclude>ngapp/**</exclude>
+		            </excludes>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -53,6 +59,43 @@
                     <downloadJavadocs>true</downloadJavadocs>
                 </configuration>
             </plugin>
+            <plugin>
+		        <groupId>org.codehaus.mojo</groupId>
+		        <artifactId>exec-maven-plugin</artifactId>
+		        <!-- <version>1.5.0</version> -->
+		        <executions>
+		            <execution>
+		                <id>exec-npm-install</id>
+		                <phase>generate-sources</phase>
+		                <configuration>
+		                    <workingDirectory>${project.basedir}/src/main/ngapp</workingDirectory>
+		                    <executable>npm</executable>
+		                    <arguments>
+		                        <argument>install</argument>
+		                    </arguments>
+		                </configuration>
+		                <goals>
+		                    <goal>exec</goal>
+		                </goals>
+		            </execution>
+		            <execution>
+		                <id>exec-npm-ng-build</id>
+		                <phase>generate-sources</phase>
+		                <configuration>
+		                    <workingDirectory>${project.basedir}/src/main/ngapp</workingDirectory>
+		                    <executable>ng</executable>
+		                    <arguments>
+		                        <argument>build</argument>
+		                        <argument>--base-href=./ng/</argument>
+		                        <argument>--output-path=${project.basedir}/src/main/WebRoot/ng</argument>
+		                    </arguments>
+		                </configuration>
+		                <goals>
+		                    <goal>exec</goal>
+		                </goals>
+		            </execution>
+		        </executions>
+		    </plugin>
 		</plugins>
 	</build>
 
