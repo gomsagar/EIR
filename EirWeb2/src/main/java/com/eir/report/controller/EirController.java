@@ -18,6 +18,7 @@ import com.eir.report.entity.Request;
 import com.eir.report.service.EirService;
 
 @Controller
+//@RequestMapping("eir")
 public class EirController {
 
 	@Autowired
@@ -36,7 +37,7 @@ public class EirController {
 		return new ModelAndView("welcome", "message", message );
 	}
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView hello() {
 		logger.debug("EirController - helloWorld: Start");
 		List<BirRequest> retrieveRequest = eirService.retrieveRequest();
@@ -45,7 +46,7 @@ public class EirController {
 				+ "<h3>********** Hello World, Spring MVC Tutorial</h3>This message is coming from CrunchifyHelloWorld.java **********</div><br><br>";
 		logger.debug("EirController - helloWorld: End");
 		return new ModelAndView("welcome", "message", message + retrieveRequest);
-	}
+	}*/
 	
 	@RequestMapping(value = "/newuser", method = RequestMethod.GET)
 	public ModelAndView addUser() {
