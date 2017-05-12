@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router} from '@angular/router';
+import { HomeComponent } from './component/eir.home';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Deleted node_modules!';
+  constructor(private router: Router) 
+  {
+    console.log("HOmepage");
+    this.router.navigate(['home']);
+  }
+
 }

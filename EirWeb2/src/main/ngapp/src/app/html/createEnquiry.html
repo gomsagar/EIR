@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>EIR</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/app/css/bootstrap.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="/app/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/app/css/dashboard.css" rel="stylesheet">
+	  <link href="/app/css/carousel.css" rel="stylesheet">
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/app/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	<style>
+		.list-group.panel > .list-group-item {
+		  border-bottom-right-radius: 4px;
+		  border-bottom-left-radius: 4px
+		}
+		.list-group-submenu {
+		  margin-left:20px;
+		}
+	</style>
+  </head>
+
+  <body>
+   <form (ngSubmit)='selectedCheckBox()'>
+    <nav class="navbar navbar-fixed-top">
+      <div class="container-fluid">
+	  <div class="row">
+        <div class="navbar-header col-sm-3 col-md-2">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><img src="assets/img/logo.png"/></a>
+        </div>
+		<div class="col-sm-6 col-md-5">
+		  <h3>Create Enquiry</h3>
+		</div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li>				
+				<a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>John Doe	<span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span> </a>
+			</li>           
+          </ul>
+		  <!-- <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form> -->
+        </div>
+      </div> 
+	  </div>
+    </nav>
+
+    <div class="container-fluid">
+	
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">      
+        <div class="list-group panel">
+          <a href="/app/index.html" class="list-group-item" data-parent="#MainMenu">Dashboard</a>        
+		  <a href="#aboutus" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu">About us</a>    
+         <a href="#Sevice" class="list-group-item active" data-toggle="collapse" data-parent="#MainMenu" aria-expanded="true">Sevice <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></a>
+		  <div class="collapse in" id="Sevice" aria-expanded="true">
+            <a href="#" class="list-group-item">Create Enquiry</a>
+            <a href="/app/viewEarlierRequest.html" class="list-group-item">View Earlier Enquiry</a>
+          </div>
+           <a href="#Dispute" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu">Dispute <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span> </a>
+            <div class="collapse" id="Dispute">
+            <a href="#" class="list-group-item">Raise A Dispute</a>
+            <a href="" class="list-group-item">Track A Dispute</a>            
+          </div>
+		    <a href="#cust-supp" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu">Custmore Support</a>    
+        </div>
+  	  
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">	        
+          <div class="row">    		
+				<h1 class="page-header">Dashboard</h1>
+				<div class="table-responsive create-enquiry">
+				<table class="table table-bordered">
+				  <tr>
+					  <td>Combo with Score</td>
+					  <td>
+            
+						<input #chckCws type="checkbox" id="cws" class="cbx hidden" (change)="data.cws=chckCws.checked" name="cws" [disabled]="!isCws"/>
+						<label for="cws" class="lbl"></label>
+					  </td>
+					  <td>Combo without Score</td>
+					  <td><input #chckCwos type="checkbox" id="cwos" class="cbx hidden" (change)="data.cwos=chckCwos.checked"  ng-checked="true" name="cwos" [disabled]="!isCwos"/>
+						<label for="cwos" class="lbl"></label></td>
+				  </tr>
+				  <tr>
+					  <td>Commercial CIR with Score</td>
+					  <td><input #chckCIRws type="checkbox" id="CIRws" class="cbx hidden" disabled (change)="data.cwos=chckCIRws.checked" name="CIRws" [disabled]="!isCIRws"/>
+						<label for="CIRws" class="lbl"></label></td>
+					  <td>Commercial CIR without Score </td>
+					  <td><input #chckCIRwos type="checkbox" id="CIRwos" class="cbx hidden" (change)="data.cwos=chckCIRwos.checked" name="CIRwos" [disabled]="!isCIRwos"/>
+						<label for="CIRwos" class="lbl"></label></td>
+				  </tr>
+				  <tr>
+					  <td>Business Information Report<br>
+<span>(either from Vendor or ROC)</span></td>
+					  <td><input #chckBir type="checkbox" id="BIR" class="cbx hidden" (change)="data.cwos=chckBir.checked" name="BIR" [disabled]="!isBIR"/>
+						<label for="BIR" class="lbl"></label></td>
+					  <td>CRISIL SME Rating</td>
+					  <td><input #chckSme type="checkbox" id="SME" class="cbx hidden" disabled (change)="data.cwos=chckSme.checked" name="SME" [disabled]="!isSME"/>
+						<label for="SME" class="lbl"></label></td>
+				  </tr>
+				  <tr>
+					  <td>Litigations Data</td>
+					  <td><input #chckLd type="checkbox" id="ld" class="cbx hidden" disabled (change)="data.cwos=chckLd.checked" name="ld" [disabled]="!isld"/>
+						<label for="ld" class="lbl"></label></td>
+					  <td>News Feed</td>
+					  <td><input #chckNf type="checkbox" id="nf" class="cbx hidden" (change)="data.cwos=chckNf.checked" name="nf" [disabled]="!isnf"/>
+						<label for="nf" class="lbl"></label></td>
+				  </tr>
+				</table>
+				</div>
+				
+          </div>
+
+		  <div class="row">
+			<div class="back-btn pull-left"><a href="/app/home.html" type="button" class="btn btn-primary">Back</a></div>
+		<!--	<div class="next-btn pull-right"><a href="/app/EIR/create-2.html" type="submit" class="btn btn-primary">Next</a></div>-->
+    	<div class="next-btn pull-right"><button type="submit" class="btn btn-primary">Next</button></div>
+		  </div>  		  
+        </div>
+      </div>
+	  
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="/app/js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="/app/js/vendor/holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/app/js/ie10-viewport-bug-workaround.js"></script>
+    </form>
+  </body>
+</html>
