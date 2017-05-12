@@ -1,11 +1,11 @@
 package com.eir.report.web.service;
-
+/*
 import com.experian.ewacs.contract.query.v1.GetUserAndProductsInfo;
 import com.experian.ewacs.contract.query.v1.GetUserAndProductsInfoResponse;
 import com.experian.ewacs.contract.query.v1.QueryServiceImplService;
 import com.experian.ewacs.contract.query.v1.QueryServicePortType;
 import com.experian.ewacs.contract.query.v1.QueryUserProductInfoFault;
-import com.experian.ewacs.schema.query.v1.*;
+import com.experian.ewacs.schema.query.v1.*;*/
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Helper class to get bureau member details from EWACS system.
  */
-public class EwacsHelper {
+public class EwacsHelper {/*
     private final String ewacsServicePath;
     private final String ewacsProductName;
 
@@ -28,12 +28,12 @@ public class EwacsHelper {
     private static final String SUBCODE = "Subcode";
     private static final Log LOGGER = LogFactory.getLog(EwacsHelper.class);
 
-    /**
+    *//**
      * Construct with service path and product name
      * @param ewacsServicePath
      * @param ewacsProductName
      * @throws MalformedURLException
-     */
+     *//*
     public EwacsHelper(String ewacsServicePath, String ewacsProductName) throws MalformedURLException {
         this.ewacsServicePath = ewacsServicePath;
         LOGGER.info("this.ewacsServicePath : " + this.ewacsServicePath);
@@ -43,12 +43,12 @@ public class EwacsHelper {
         port = query.getQueryServicePortTypePort();
     }
 
-    /**
+    *//**
      * Returns list of bureau member ids assigned to given userid
      * @param userId
      * @return EwacsData
      * @throws QueryUserProductInfoFault
-     */
+     *//*
     public EwacsData getDetailsForUser(final String userId) throws QueryUserProductInfoFault {
         GetUserAndProductsInfoResponse response = getEwacsResponse(userId);
         LOGGER.debug("Got ewacs response for user Id : ");
@@ -58,12 +58,12 @@ public class EwacsHelper {
 
     }
 
-    /**
+    *//**
      * EWACS webservice call returns response object. this method helps to look at the
      * object graph and return list of 'Long' BM id.
      * @param response
      * @return
-     */
+     *//*
     private List<Long> extractBmIds(final GetUserAndProductsInfoResponse response) {
         List<Long> bureauMemberIdList = new ArrayList<Long>();
         ProductInfoResponseType products = response.getQueryUserProductInfoResponse().getProductInfoResponse();
@@ -114,4 +114,4 @@ public class EwacsHelper {
         LOGGER.debug("Time Taken for EWACS call [T:" + tId + "] :" + ( endTime - startTime ));
         return response;
     }
-}
+*/}

@@ -14,9 +14,9 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.eir.report.web.service.EwacsData;
-import com.experian.ewacs.contract.query.v1.QueryUserProductInfoFault;
+//import com.experian.ewacs.contract.query.v1.QueryUserProductInfoFault;
 
-public class SSOServlet extends HttpServlet {
+public class SSOServlet extends HttpServlet {/*
 
 	private static final String CT_REMOTE_USER = "ct-remote-user";
     private static final String USER_ID = "userId";
@@ -77,4 +77,4 @@ public class SSOServlet extends HttpServlet {
 		request.getSession().setAttribute(IP_ADDRESS, request.getRemoteAddr());
 	}
 
-}
+*/}
