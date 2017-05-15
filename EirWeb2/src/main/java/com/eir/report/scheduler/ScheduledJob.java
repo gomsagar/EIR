@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import com.eir.report.service.BirReportService;
 
-public class ScheduledJob {
+public class ScheduledJob { 
 	
 	@Autowired
 	BirReportService birSchedulerService;
