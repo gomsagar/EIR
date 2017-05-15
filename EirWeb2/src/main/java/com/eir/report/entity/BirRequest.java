@@ -132,6 +132,16 @@ public class BirRequest implements Serializable {
 	@Basic(fetch = FetchType.EAGER)
 	@XmlElement
 	String reportToken;
+	
+	@Column(name = "access_token", length = 45)
+	@Basic(fetch = FetchType.EAGER)
+	@XmlElement
+	String accessToken;
+	
+	@Column(name = "company_name", length = 45)
+	@Basic(fetch = FetchType.EAGER)
+	@XmlElement
+	String companyName;
 
 	/**
 	 */
@@ -351,4 +361,22 @@ public class BirRequest implements Serializable {
 	public void setReportToken(String reportToken) {
 		this.reportToken = reportToken;
 	}
+
+	public String getAccessToken() {
+		return accessToken;
+	}
+
+	public void setAccessToken(String accessToken) {
+		this.accessToken = accessToken;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+	
+	
 }
