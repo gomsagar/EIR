@@ -9,16 +9,16 @@ export class AppService {
 
     }
 
-    submit(data) {
+    submit(data) {/*
         console.log(data);
        
         var head = new Headers();
         head.append('Content-Type', 'application/json');
          
-        return this._http.post('http://localhost:8080/EirWeb2/getReport',
+        return this._http.post('http://localhost:8080/EirWeb2/eir/getReport',
         JSON.stringify(data), { 
            headers:head
         })
         .map(res=>res.json());
-    }
+    */}
 }

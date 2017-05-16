@@ -49,7 +49,7 @@ private _subscription;
    this.data.nf=false;
    this.data.ld=false;
 
-   this._subscription = this._dataService.getData()
+   /*this._subscription = this._dataService.getData()
             .subscribe(
                 (checkboxValue) => {
                     console.log("Inside init method"+ checkboxValue);
@@ -69,14 +69,14 @@ private _subscription;
                 },
                 (err) => console.log(err),
                 () => console.log('hello service test complete')
-        );    
+        );    */
   }
 
-  selectedCheckBox(){
+  selectedCheckBox(){/*
     console.log("Hello......... from function");
     console.log("CWS:"+this.data.cws);
     console.log("CWOS:"+this.data.cwos);
-    this._appService.submit(this.data).subscribe(this.data);
+    this._appService.submit(this.data).subscribe(this.data);*/
      this.router.navigate(['inputForEnquiry']);
   }
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.eir.report.entity.BIRCmpnySrchRequest;
 import com.eir.report.entity.BIRZaubaRequest;
 import com.eir.report.entity.BirRequest;
 import com.eir.report.entity.Response;
@@ -39,10 +40,10 @@ public class BirController {
 	}
 	
 	@RequestMapping(value = "/getCompanyList", method = RequestMethod.POST)
-	public @ResponseBody List<Response> getCompanyList(HttpServletRequest request, HttpServletResponse response) {
+	public @ResponseBody List<Response> getCompanyList(@RequestBody BIRCmpnySrchRequest request) {
 		logger.debug("ZaubaIntegrationController getCompanyList() ");
 		
-		String companyName=request.getParameter("COMPANY_NAME");
+		String companyName=request.getCmpName();
 				
 		System.out.println("Sending Company Search Request");
 		List<Response> listOfCompany = birZaubaIntegrtionService.companySearch(companyName);//Later on pass one more parameter as company name

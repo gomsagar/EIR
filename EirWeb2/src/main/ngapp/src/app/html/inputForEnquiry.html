@@ -41,7 +41,7 @@
   </head>
 
   <body>
-
+<form >
     <nav class="navbar navbar-fixed-top">
       <div class="container-fluid">
 	  <div class="row">
@@ -98,23 +98,23 @@
 				<!-- table-responsive -->
 				<div class="create-enquiry">
 					<div class="row top-bar">
-						<form class="main-form">
+						<form class="main-form" (ngSubmit)="getCompanyList()">
 						  <div class="form-group col-md-3">
 							<label for="exampleInputName2">Company Name</label>
-							<input type="text" class="form-control" id="exampleInputName2" placeholder="Enter Company Name">
+							<input type="text" class="form-control" id="exampleInputName2" placeholder="Enter Company Name" name="cmpName" [(ngModel)]="data.cmpName">
 						  </div>
 						  <div class="form-group col-md-4">
 								<label for="" style="visibility: hidden;" class="hidden-sm hidden-xs">Click to Search</label>
-								<button type="button" class="btn btn-primary">Validate <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+								<button type="submit" class="btn btn-primary">Validate <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
 						  </div>
-						  <div class="form-group  col-md-5">
+						  <div class="form-group  col-md-5" >
 							<label for="exampleInputEmail2">Company List</label>
-								<select class="form-control" onchange="companySelectList(this);">
-										  <option>Company 1</option>
-										  <option>Company 2</option>
+								<select  *ngFor="let data of temp" class="form-control" onchange="companySelectList(this);">
+										  <option>{{data.name}}</option>
+										  <!-- <option>Company 2</option>
 										  <option id="currectName">Company 3</option>
 										  <option>Company 4</option>
-										  <option>Company 5</option>
+										  <option>Company 5</option> -->
 								</select>	
 						  </div>						
 						</form>
@@ -464,5 +464,6 @@
 		function addMore(){ $("form.user-form.abpDetails").show();}
 		function removeThis(){ $("form.user-form.abpDetails").hide();}
 	</script>
+	</form>
   </body>
 </html>
