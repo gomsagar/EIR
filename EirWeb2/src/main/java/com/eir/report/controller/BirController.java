@@ -3,14 +3,11 @@ package com.eir.report.controller;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,7 +35,7 @@ public class BirController {
 				+ "<h3>********** Hello World, Spring MVC Tutorial</h3>This message is coming from CrunchifyHelloWorld.java **********</div><br><br>";
 		return new ModelAndView("welcome", "message", message);
 	}
-	
+	@CrossOrigin("*")
 	@RequestMapping(value = "/getCompanyList", method = RequestMethod.POST)
 	public @ResponseBody List<Response> getCompanyList(@RequestBody BIRCmpnySrchRequest request) {
 		logger.debug("ZaubaIntegrationController getCompanyList() ");

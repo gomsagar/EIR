@@ -26,7 +26,13 @@ export class InputForEnquiryComponent
     private jsonResponse: string;
     private messagess: Array<MessageJson>;
     data = <any>{};
-    temp = <any>{};
+    compList=<any>[];   
+     temp = <any>[{"Cin":"U70109WB1992PTC054090","Name":"LNT PVT LTD."}, {
+    "Cin": "U45201KA2008PTC048000",
+    "Name": "LNT PROMOTERS PRIVATE LIMITED"
+  }];
+    private hasList:boolean=false;
+    
     constructor(private _cmpservice:CompanyListService,private _cmpname:CompanyNameService,private router: Router){
    /* this._subscription = this._cmpservice.getData()
              .subscribe(
@@ -51,18 +57,26 @@ export class InputForEnquiryComponent
          );    */
    }
 
-   getCompanyList(){alert(this.data.cmpName);
+   getCompanyList(){
+   
+  // alert(this.data.cmpName);
      console.log("Hello......... from getCompanyList function");
      console.log("Company Name:"+this.data.cmpName);
     
      this._cmpname.validateName(this.data).subscribe((temp) => {
-         debugger;
+        // debugger;
+        this.compList=temp;
          console.log("responce   -  - "+ temp);
          this.jsonResponse = JSON.stringify(temp);
          console.log('json srijfkd -- '+this.jsonResponse);
-         console.log('name - '+temp.name);
+         console.log('name - '+temp[0].Name);
+          if(temp!=null)
+         {
+         this.hasList=true;
+        console.log('this.hasList......'+this.hasList);
+         }
          });
-     // this.router.navigate(['inputForEnquiry']);
+    
    }
   
 }
