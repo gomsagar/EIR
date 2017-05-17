@@ -9,7 +9,7 @@ export class AppService {
 
     }
 
-    submit(data) {/*
+    submit(data) {
         console.log(data);
        
         var head = new Headers();
@@ -20,5 +20,5 @@ export class AppService {
            headers:head
         })
         .map(res=>res.json());
-    */}
+    }
 }

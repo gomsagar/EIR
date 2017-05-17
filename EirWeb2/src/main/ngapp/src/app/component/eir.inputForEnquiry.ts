@@ -3,7 +3,9 @@ import { Router} from '@angular/router';
 import {HttpModule, Http} from "@angular/http";
 import{CompanyListService} from '../services/eir.companyList';
 import{CompanyNameService} from '../services/eir.sendCompName';
-
+import{FormGroup,FormBuilder, Validators} from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import {ValidationResult} from '../services/eir.validation';
 interface MessageJson {
     name:string;
     cin:string;
@@ -18,7 +20,7 @@ interface MessageJson {
                '../css/bootstrap-theme.min.css',
                '../css/carousel.css',
                '../css/dashboard.css'],
-               providers: [HttpModule,CompanyListService,CompanyNameService]
+               providers: [HttpModule,CompanyListService,CompanyNameService,FormsModule,ReactiveFormsModule]
 })
 export class InputForEnquiryComponent 
 {
@@ -32,8 +34,9 @@ export class InputForEnquiryComponent
     "Name": "LNT PROMOTERS PRIVATE LIMITED"
   }];
     private hasList:boolean=false;
+    complexForm : FormGroup;
     
-    constructor(private _cmpservice:CompanyListService,private _cmpname:CompanyNameService,private router: Router){
+    constructor(private _cmpservice:CompanyListService,private _cmpname:CompanyNameService,private router: Router,fb: FormBuilder){
    /* this._subscription = this._cmpservice.getData()
              .subscribe(
                  (checkboxValue) => {
@@ -55,6 +58,11 @@ export class InputForEnquiryComponent
                  (err) => console.log(err),
                  () => console.log('hello service test complete')
          );    */
+         this.complexForm = fb.group({
+          'firstName' : [null, Validators.required]
+          })
+
+         
    }
 
    getCompanyList(){
@@ -63,6 +71,7 @@ export class InputForEnquiryComponent
      console.log("Hello......... from getCompanyList function");
      console.log("Company Name:"+this.data.cmpName);
     
+
      this._cmpname.validateName(this.data).subscribe((temp) => {
         // debugger;
         this.compList=temp;

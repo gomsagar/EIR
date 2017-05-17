@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.eir.report.entity.BIRCmpnySrchRequest;
 import com.eir.report.entity.BIRZaubaRequest;
 import com.eir.report.entity.BirRequest;
+import com.eir.report.entity.EligibleReport;
 import com.eir.report.entity.Response;
 import com.eir.report.service.BirReportService;
 
@@ -91,5 +92,32 @@ public class BirController {
         }	
        	
 		return xmlResponseStatus;
+	}
+	
+	@CrossOrigin("*")
+	@RequestMapping(value="/getReport", method = RequestMethod.POST,produces="application/json")
+	public void getRequest(@RequestBody EligibleReport selection ){
+		
+		System.out.println("CWOS:"+selection.getComboWithScore());
+		System.out.println("CWS:"+selection.getComboWithoutScore());
+	
+	}
+	
+	@CrossOrigin("*")
+	@RequestMapping(value = "/getEligibleReport", method = RequestMethod.GET,produces="application/json")
+	public @ResponseBody EligibleReport getEligibleReport() {
+		EligibleReport selection = new EligibleReport();
+		
+		selection.setComboWithScore(true);
+		selection.setComboWithoutScore(true);
+		selection.setCommWithScore(true);
+		selection.setCommWithoutScore(true);
+		selection.setLitigation(false);
+		selection.setBir(true);
+		selection.setNewsFeed(false);
+		selection.setSme(false);
+		System.out.println("Combo with score ...."+selection.getComboWithScore());
+		System.out.println("Combo without score ...."+selection.getComboWithoutScore());
+		return selection;
 	}
 }

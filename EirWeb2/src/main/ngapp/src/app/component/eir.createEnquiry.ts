@@ -40,18 +40,17 @@ private _subscription;
   @Input() checkboxValue =<any>{};
   constructor(private _appService:AppService,private _dataService:DataService,private router: Router){
 
-   this.data.cwos=false;
-   this.data.cws=false;
-   this.data.CIRws=false;
-   this.data.CIRwos=false;
-   this.data.SME=false;
-   this.data.BIR=false;
-   this.data.nf=false;
-   this.data.ld=false;
+   this.data.comboWithoutScore=false;
+   this.data.comboWithScore=false;
+   this.data.commWithScore=false;
+   this.data.commWithoutScore=false;
+   this.data.sme=false;
+   this.data.bir=false;
+   this.data.newsFeed=false;
+   this.data.litigation=false;
 
-   /*this._subscription = this._dataService.getData()
-            .subscribe(
-                (checkboxValue) => {
+   this._subscription = this._dataService.getData()
+            .subscribe((checkboxValue) => {
                     console.log("Inside init method"+ checkboxValue);
                     this.jsonResponse = JSON.stringify(checkboxValue);
                     
@@ -69,14 +68,14 @@ private _subscription;
                 },
                 (err) => console.log(err),
                 () => console.log('hello service test complete')
-        );    */
+        );    
   }
 
-  selectedCheckBox(){/*
+  selectedCheckBox(){
     console.log("Hello......... from function");
     console.log("CWS:"+this.data.cws);
     console.log("CWOS:"+this.data.cwos);
-    this._appService.submit(this.data).subscribe(this.data);*/
+    this._appService.submit(this.data).subscribe(this.data);
      this.router.navigate(['inputForEnquiry']);
   }
 }

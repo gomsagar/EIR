@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
-
+import { ReactiveFormsModule  } from '@angular/forms'
 import { AppComponent } from './app.component';
 import { HomeComponent } from './component/eir.home';
 import { InputForEnquiryComponent } from './component/eir.inputForEnquiry';
@@ -32,9 +32,10 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    ReactiveFormsModule
   ],
-  providers: [RouterModule],
-  bootstrap: [AppComponent]
+  providers: [RouterModule,ReactiveFormsModule],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

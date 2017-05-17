@@ -85,36 +85,36 @@
 					  <td>Combo with Score</td>
 					  <td>
             
-						<input #chckCws type="checkbox" id="cws" class="cbx hidden" (change)="data.cws=chckCws.checked" name="cws" [disabled]="!isCws"/>
+						<input #chckCws type="checkbox" id="cws" class="cbx hidden" (change)="data.comboWithScore=chckCws.checked" name="cws" [disabled]="!isCws"/>
 						<label for="cws" class="lbl"></label>
 					  </td>
 					  <td>Combo without Score</td>
-					  <td><input #chckCwos type="checkbox" id="cwos" class="cbx hidden" (change)="data.cwos=chckCwos.checked"  ng-checked="true" name="cwos" [disabled]="!isCwos"/>
+					  <td><input #chckCwos type="checkbox" id="cwos" class="cbx hidden" (change)="data.comboWithoutScore=chckCwos.checked" name="cwos" [disabled]="!isCwos"/>
 						<label for="cwos" class="lbl"></label></td>
 				  </tr>
 				  <tr>
 					  <td>Commercial CIR with Score</td>
-					  <td><input #chckCIRws type="checkbox" id="CIRws" class="cbx hidden" disabled (change)="data.cwos=chckCIRws.checked" name="CIRws" [disabled]="!isCIRws"/>
+					  <td><input #chckCIRws type="checkbox" id="CIRws" class="cbx hidden" disabled (change)="data.commWithScore=chckCIRws.checked" name="CIRws" [disabled]="!isCIRws"/>
 						<label for="CIRws" class="lbl"></label></td>
 					  <td>Commercial CIR without Score </td>
-					  <td><input #chckCIRwos type="checkbox" id="CIRwos" class="cbx hidden" (change)="data.cwos=chckCIRwos.checked" name="CIRwos" [disabled]="!isCIRwos"/>
+					  <td><input #chckCIRwos type="checkbox" id="CIRwos" class="cbx hidden" (change)="data.commWithoutScore=chckCIRwos.checked" name="CIRwos" [disabled]="!isCIRwos"/>
 						<label for="CIRwos" class="lbl"></label></td>
 				  </tr>
 				  <tr>
 					  <td>Business Information Report<br>
 <span>(either from Vendor or ROC)</span></td>
-					  <td><input #chckBir type="checkbox" id="BIR" class="cbx hidden" (change)="data.cwos=chckBir.checked" name="BIR" [disabled]="!isBIR"/>
+					  <td><input #chckBir type="checkbox" id="BIR" class="cbx hidden" (change)="data.bir=chckBir.checked" name="BIR" [disabled]="!isBIR"/>
 						<label for="BIR" class="lbl"></label></td>
 					  <td>CRISIL SME Rating</td>
-					  <td><input #chckSme type="checkbox" id="SME" class="cbx hidden" disabled (change)="data.cwos=chckSme.checked" name="SME" [disabled]="!isSME"/>
+					  <td><input #chckSme type="checkbox" id="SME" class="cbx hidden" disabled (change)="data.sme=chckSme.checked" name="SME" [disabled]="!isSME"/>
 						<label for="SME" class="lbl"></label></td>
 				  </tr>
 				  <tr>
 					  <td>Litigations Data</td>
-					  <td><input #chckLd type="checkbox" id="ld" class="cbx hidden" disabled (change)="data.cwos=chckLd.checked" name="ld" [disabled]="!isld"/>
+					  <td><input #chckLd type="checkbox" id="ld" class="cbx hidden" disabled (change)="data.litigations=chckLd.checked" name="ld" [disabled]="!isld"/>
 						<label for="ld" class="lbl"></label></td>
 					  <td>News Feed</td>
-					  <td><input #chckNf type="checkbox" id="nf" class="cbx hidden" (change)="data.cwos=chckNf.checked" name="nf" [disabled]="!isnf"/>
+					  <td><input #chckNf type="checkbox" id="nf" class="cbx hidden" (change)="data.newsFeed=chckNf.checked" name="nf" [disabled]="!isnf"/>
 						<label for="nf" class="lbl"></label></td>
 				  </tr>
 				</table>
