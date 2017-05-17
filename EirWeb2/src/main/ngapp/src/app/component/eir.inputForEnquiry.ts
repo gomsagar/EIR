@@ -5,7 +5,7 @@ import{CompanyListService} from '../services/eir.companyList';
 import{CompanyNameService} from '../services/eir.sendCompName';
 import{FormGroup,FormBuilder, Validators} from '@angular/forms';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
-import {ValidationResult} from '../services/eir.validation';
+//import {ValidationResult} from '../services/eir.validation';
 interface MessageJson {
     name:string;
     cin:string;
@@ -59,7 +59,8 @@ export class InputForEnquiryComponent
                  () => console.log('hello service test complete')
          );    */
          this.complexForm = fb.group({
-          'firstName' : [null, Validators.required]
+          'firstName' : [null, Validators.required],
+           'pincode': [null, Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(6)])],
           })
 
          
