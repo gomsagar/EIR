@@ -25,7 +25,9 @@
   </head>
 
   <body>
-   <form (ngSubmit)='selectedCheckBox()'>
+   <!--<form (ngSubmit)='selectedCheckBox()'>-->
+    
+     <form>
     <nav class="navbar navbar-fixed-top">
       <div class="container-fluid">
 	  <div class="row">
@@ -123,9 +125,10 @@
           </div>
 
 		  <div class="row">
-			<div class="back-btn pull-left"><a href="/app/home.html" type="button" class="btn btn-primary">Back</a></div>
-		<!--	<div class="next-btn pull-right"><a href="/app/EIR/create-2.html" type="submit" class="btn btn-primary">Next</a></div>-->
-    	<div class="next-btn pull-right"><button type="submit" class="btn btn-primary">Next</button></div>
+        <div class="back-btn pull-left"><button type="submit" (click)='back()' class="btn btn-primary">Back</button></div>
+			<!--<div class="back-btn pull-left"><a href="/app/home.html" type="button" class="btn btn-primary">Back</a></div>
+			<div class="next-btn pull-right"><a href="/app/EIR/create-2.html" type="submit" class="btn btn-primary">Next</a></div>-->
+    	<div class="next-btn pull-right"><button type="submit" (click)='selectedCheckBox()' class="btn btn-primary">Next</button></div>
 		  </div>  		  
         </div>
       </div>

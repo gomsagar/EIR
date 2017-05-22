@@ -1,0 +1,664 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="CompanyReport">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="CompanyProfile">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:string" name="CIN"/>
+              <xs:element type="xs:string" name="Name"/>
+              <xs:element type="xs:string" name="Address"/>
+              <xs:element name="PreviousNames">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="Name"/>
+                  </xs:sequence>
+                  <xs:attribute type="xs:byte" name="NumPreviousName"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="PreviousCIN">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="CIN"/>
+                  </xs:sequence>
+                  <xs:attribute type="xs:byte" name="NumPreviousCIN"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element type="xs:string" name="PAN"/>
+              <xs:element type="xs:long" name="Telephone"/>
+              <xs:element type="xs:date" name="DateOfIncorporation"/>
+              <xs:element type="xs:int" name="AuthorizedCapital"/>
+              <xs:element type="xs:int" name="PaidUpCapital"/>
+              <xs:element name="EmploymentDetails">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:byte" name="NoOfEstablishments"/>
+                    <xs:element type="xs:byte" name="NoOfEmployees"/>
+                    <xs:element type="xs:int" name="AmountOfPFPaid"/>
+                  </xs:sequence>
+                  <xs:attribute type="xs:date" name="DataAsOf"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element type="xs:string" name="EmailID"/>
+              <xs:element type="xs:string" name="TypeOfCompany"/>
+              <xs:element type="xs:string" name="CategoryOfCompany"/>
+              <xs:element type="xs:string" name="SubCategoryOfCompany"/>
+              <xs:element name="StockExchangeDetails">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="StockExchange" maxOccurs="unbounded" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:byte" name="StockExchangeCode"/>
+                          <xs:element type="xs:string" name="StockExchangeDescription"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element type="xs:string" name="RegistrarAndTransferAgent"/>
+            </xs:sequence>
+            <xs:attribute type="xs:date" name="DataAsOf"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="PrincipalProductOrServices">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ProductOrService">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="ProductOrServiceDescription"/>
+                    <xs:element type="xs:int" name="ITCCode"/>
+                    <xs:element type="xs:int" name="ContributionToRevenue"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute type="xs:date" name="DataAsOf"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="CompanyStructure">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Subsidiaries">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Subsidiary">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:string" name="Name"/>
+                          <xs:element type="xs:string" name="CIN"/>
+                          <xs:element type="xs:float" name="PercentageOfSharesHeld"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute type="xs:date" name="DataAsOf"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="ShareCapital">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="EquityShareCapital">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="AuthorisedCapital">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NumberOfShares"/>
+                          <xs:element type="xs:float" name="NominalValuePerShare"/>
+                          <xs:element type="xs:float" name="TotalAmountOfShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="IssuedCapital">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NumberOfShares"/>
+                          <xs:element type="xs:float" name="NominalValuePerShare"/>
+                          <xs:element type="xs:float" name="TotalAmountOfShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="SubscribedCapital">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NumberOfShares"/>
+                          <xs:element type="xs:float" name="NominalValuePerShare"/>
+                          <xs:element type="xs:float" name="TotalAmountOfShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="PaidUpCapital">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NumberOfShares"/>
+                          <xs:element type="xs:float" name="NominalValuePerShare"/>
+                          <xs:element type="xs:float" name="TotalAmountOfShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element type="xs:string" name="PreferenceShareCapital"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="ShareHoldingPattern">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Promoters">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="IndividualIndian">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="IndividualNRI">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="IndividualForeignNational">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="CentralGovernment">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="StateGovernment">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="GovernmentCompanies">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="InsuranceCompanies">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Banks">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="FinancialInstitutions">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="ForeignInstitutionalInvestors" maxOccurs="unbounded" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="MutualFunds">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="VentureCapital">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="BodyCorporate">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Others">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="NonPromoters">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="IndividualIndian">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="IndividualNRI">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="IndividualForeignNational">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="CentralGovernment">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="StateGovernment">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="GovernmentCompanies">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="InsuranceCompanies">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Banks">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="FinancialInstitutions">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="ForeignInstitutionalInvestors">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="MutualFunds">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="VentureCapital">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="BodyCorporate">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Others">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:float" name="NoOfEquityShares"/>
+                          <xs:element type="xs:float" name="PercentageOfEquityShares"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="KeyManagerialPersons">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="KeyManagerialPerson" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="Name"/>
+                    <xs:element type="xs:int" name="DinOrPAN"/>
+                    <xs:element type="xs:string" name="Designation"/>
+                    <xs:element type="xs:date" name="DateOfAppointment"/>
+                    <xs:element type="xs:string" name="DateOfCessation"/>
+                    <xs:element type="xs:string" name="Address"/>
+                    <xs:element type="xs:string" name="EmailID"/>
+                    <xs:element type="xs:string" name="FatherName"/>
+                    <xs:element type="xs:string" name="DateOfBirth"/>
+                    <xs:element name="CompaniesAssociatedWith">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Company" maxOccurs="unbounded" minOccurs="0">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element type="xs:string" name="Name"/>
+                                <xs:element type="xs:string" name="CIN"/>
+                                <xs:element type="xs:string" name="Designation"/>
+                                <xs:element type="xs:date" name="DateOfAppointment"/>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Charges">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Charge" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="ChargeHolder"/>
+                    <xs:element type="xs:int" name="ChargeID"/>
+                    <xs:element type="xs:string" name="AssetsCharged"/>
+                    <xs:element type="xs:date" name="DateOfCreation"/>
+                    <xs:element type="xs:byte" name="DateOfModification"/>
+                    <xs:element type="xs:byte" name="DateOfSatisfaction"/>
+                    <xs:element type="xs:int" name="ChargeAmount"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Auditors">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Auditor">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="NameOfAuditFirm"/>
+                    <xs:element type="xs:string" name="RegistrationNumberOfAuditFirm"/>
+                    <xs:element type="xs:string" name="NameOfAuditor"/>
+                    <xs:element type="xs:int" name="MembershipNumberOfAuditor"/>
+                    <xs:element type="xs:date" name="FinancialYearForWhichAppointed"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="BalanceSheet">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Snapshot" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:date" name="BalanceSheetAsOf"/>
+                    <xs:element type="xs:int" name="ShareCapital"/>
+                    <xs:element type="xs:int" name="ReservesAndSurplus"/>
+                    <xs:element type="xs:int" name="MoneyReceivedAgainstShareWarrants"/>
+                    <xs:element type="xs:int" name="ShareholdersFunds"/>
+                    <xs:element type="xs:int" name="ShareApplicationMoneyPendingAllotment"/>
+                    <xs:element type="xs:string" name="DeferredGovernmentGrants"/>
+                    <xs:element type="xs:string" name="MinorityInterest"/>
+                    <xs:element type="xs:int" name="LongTermBorrowings"/>
+                    <xs:element type="xs:int" name="DeferredTaxLiabilitiesNet"/>
+                    <xs:element type="xs:string" name="ForeignCurrencyMonetaryItemTranslationDifferenceLiabilityAccount"/>
+                    <xs:element type="xs:short" name="OtherLongTermLiabilities"/>
+                    <xs:element type="xs:int" name="LongTermProvisions"/>
+                    <xs:element type="xs:int" name="NoncurrentLiabilities"/>
+                    <xs:element type="xs:int" name="ShortTermBorrowings"/>
+                    <xs:element type="xs:int" name="TradePayables"/>
+                    <xs:element type="xs:int" name="OtherCurrentLiabilities"/>
+                    <xs:element type="xs:int" name="ShortTermProvisions"/>
+                    <xs:element type="xs:int" name="CurrentLiabilities"/>
+                    <xs:element type="xs:int" name="EquityAndLiabilities"/>
+                    <xs:element type="xs:int" name="TangibleAssets"/>
+                    <xs:element type="xs:string" name="ProducingProperties"/>
+                    <xs:element type="xs:int" name="IntangibleAssets"/>
+                    <xs:element type="xs:string" name="PreproducingProperties"/>
+                    <xs:element type="xs:byte" name="TangibleAssetsCapitalWorkInProgress"/>
+                    <xs:element type="xs:byte" name="IntangibleAssetsUnderDevelopmentOrWorkInProgress"/>
+                    <xs:element type="xs:int" name="FixedAssets"/>
+                    <xs:element type="xs:int" name="NoncurrentInvestments"/>
+                    <xs:element type="xs:byte" name="DeferredTaxAssetsNet"/>
+                    <xs:element type="xs:string" name="ForeignCurrencyMonetaryItemTranslationDifferenceAssetAccount"/>
+                    <xs:element type="xs:int" name="LongTermLoansAndAdvances"/>
+                    <xs:element type="xs:byte" name="OtherNoncurrentAssets"/>
+                    <xs:element type="xs:int" name="NoncurrentAssets"/>
+                    <xs:element type="xs:byte" name="CurrentInvestments"/>
+                    <xs:element type="xs:byte" name="Inventories"/>
+                    <xs:element type="xs:int" name="TradeReceivables"/>
+                    <xs:element type="xs:int" name="CashAndBankBalances"/>
+                    <xs:element type="xs:int" name="ShortTermLoansAndAdvances"/>
+                    <xs:element type="xs:int" name="OtherCurrentAssets"/>
+                    <xs:element type="xs:int" name="CurrentAssets"/>
+                    <xs:element type="xs:int" name="Assets"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="ProfitAndLoss">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Snapshot" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:date" name="ProfitAndLossAsOf"/>
+                    <xs:element type="xs:byte" name="RevenueFromSaleOfProducts"/>
+                    <xs:element type="xs:byte" name="CurDomSalegoodsTrade"/>
+                    <xs:element type="xs:byte" name="CurExpSalegoodsMan"/>
+                    <xs:element type="xs:byte" name="CurExpSalegoodsTrade"/>
+                    <xs:element type="xs:byte" name="CurExpSaleSupServ"/>
+                    <xs:element type="xs:int" name="RevenueFromSaleOfServices"/>
+                    <xs:element type="xs:string" name="OtherOperatingRevenues"/>
+                    <xs:element type="xs:string" name="ExciseDuty"/>
+                    <xs:element type="xs:string" name="ServiceTaxCollected"/>
+                    <xs:element type="xs:string" name="OtherDutiesTaxesCollected"/>
+                    <xs:element type="xs:string" name="RevenueFromOperationsOtherThanFinanceCompany"/>
+                    <xs:element type="xs:string" name="RevenueFromInterest"/>
+                    <xs:element type="xs:string" name="RevenueFromOtherFinancialServices"/>
+                    <xs:element type="xs:string" name="RevenueFromOperationsFinanceCompany"/>
+                    <xs:element type="xs:string" name="RevenueFromOperations"/>
+                    <xs:element type="xs:int" name="OtherIncome"/>
+                    <xs:element type="xs:int" name="Revenue"/>
+                    <xs:element type="xs:byte" name="CostOfMaterialsConsumed"/>
+                    <xs:element type="xs:byte" name="PurchasesOfStockInTrade"/>
+                    <xs:element type="xs:byte" name="ChangesInInventoriesOfFinishedGoodsWorkInProgressAndStockInTrade"/>
+                    <xs:element type="xs:int" name="EmployeeBenefitExpense"/>
+                    <xs:element type="xs:int" name="CurManagerialRem"/>
+                    <xs:element type="xs:int" name="CurPaymentAuditors"/>
+                    <xs:element type="xs:byte" name="CurInsuranceExp"/>
+                    <xs:element type="xs:int" name="CurPowerFuel"/>
+                    <xs:element type="xs:int" name="FinanceCosts"/>
+                    <xs:element type="xs:string" name="DepreciationExpense"/>
+                    <xs:element type="xs:int" name="AmortisationExpense"/>
+                    <xs:element type="xs:string" name="DepletionExpense"/>
+                    <xs:element type="xs:int" name="DepreciationDepletionAndAmortisationExpense"/>
+                    <xs:element type="xs:string" name="ExpenditureOnProductionTransportationAndOtherExpenditure"/>
+                    <xs:element type="xs:string" name="CSRExpenditure"/>
+                    <xs:element type="xs:int" name="OtherExpenses"/>
+                    <xs:element type="xs:int" name="Expenses"/>
+                    <xs:element type="xs:int" name="ProfitBeforePriorPeriodItemsExceptionalItemsExtraordinaryItemsAndTax"/>
+                    <xs:element type="xs:string" name="PriorPeriodItemsBeforeTax"/>
+                    <xs:element type="xs:byte" name="ExceptionalItemsBeforeTax"/>
+                    <xs:element type="xs:int" name="ProfitBeforeExtraordinaryItemsAndTax"/>
+                    <xs:element type="xs:byte" name="ExtraordinaryItemsBeforeTax"/>
+                    <xs:element type="xs:int" name="ProfitBeforeTax"/>
+                    <xs:element type="xs:byte" name="CurrentTax"/>
+                    <xs:element type="xs:int" name="DeferredTax"/>
+                    <xs:element type="xs:int" name="TaxExpense"/>
+                    <xs:element type="xs:int" name="ProfitLossForPeriodFromContinuingOperations"/>
+                    <xs:element type="xs:byte" name="ProfitLossFromDiscontinuingOperationsBeforeTax"/>
+                    <xs:element type="xs:byte" name="TaxExpenseOfDiscontinuingOperations"/>
+                    <xs:element type="xs:byte" name="ProfitLossFromDiscontinuingOperationAfterTax"/>
+                    <xs:element type="xs:string" name="ProfitLossForPeriodBeforeMinorityInterest"/>
+                    <xs:element type="xs:string" name="ProfitLossOfMinorityInterest"/>
+                    <xs:element type="xs:string" name="ShareOfProfitLossOfAssociates"/>
+                    <xs:element type="xs:int" name="ProfitLossForPeriod"/>
+                    <xs:element type="xs:string" name="PreTaxGOLRecognisedOnDOAOrSOLAttributableToDO"/>
+                    <xs:element type="xs:float" name="BasicEarningPerEquityShare"/>
+                    <xs:element type="xs:float" name="DilutedEarningsPerEquityShare"/>
+                    <xs:element type="xs:string" name="BasicEarningPerEquityShareBeforeExtraordinaryItems"/>
+                    <xs:element type="xs:string" name="DilutedEarningsPerEquityShareBeforeExtraordinaryItems"/>
+                    <xs:element type="xs:string" name="NominalValueOfPerEquityShare"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element type="xs:string" name="CashFlowDirect"/>
+        <xs:element type="xs:string" name="CashFlowInDirect"/>
+        <xs:element type="xs:string" name="TangibleAssets"/>
+        <xs:element name="AllotmentOfNewEquity">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Allotment" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:date" name="DateOfAllotment"/>
+                    <xs:element type="xs:string" name="AllotmentOf"/>
+                    <xs:element type="xs:string" name="Particulars"/>
+                    <xs:element type="xs:int" name="NumberOfSecuritiesAllotted"/>
+                    <xs:element type="xs:float" name="NominalAmountPerSecurity"/>
+                    <xs:element type="xs:float" name="PremiumAmountPerSecurity"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element type="xs:string" name="Lawsuits"/>
+        <xs:element type="xs:string" name="Shareholders"/>
+        <xs:element name="FinacialRatios" maxOccurs="unbounded" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SolvencyRatios">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:float" name="CurrentRatio"/>
+                    <xs:element type="xs:float" name="QuickRatio"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="LeverageRatios">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:float" name="DebtRatio"/>
+                    <xs:element type="xs:float" name="DebtEquityRatio"/>
+                    <xs:element type="xs:float" name="CurrentLiabilitiesToNetWorth"/>
+                    <xs:element type="xs:float" name="FixedAssetsToNetWorth"/>
+                    <xs:element type="xs:float" name="InterestCoverageRatio" minOccurs="0"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="EffeciencyRatios">
+                <xs:complexType mixed="true">
+                  <xs:sequence>
+                    <xs:element type="xs:float" name="AverageCollectionDays" minOccurs="0"/>
+                    <xs:element type="xs:float" name="AccountReceivableTurnover" minOccurs="0"/>
+                    <xs:element type="xs:byte" name="AveragePaymentDays" minOccurs="0"/>
+                    <xs:element type="xs:byte" name="InventoryTurnoverRatio" minOccurs="0"/>
+                    <xs:element type="xs:float" name="AssetTurnoverRatio" minOccurs="0"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="ProfitabilityRatios">
+                <xs:complexType mixed="true">
+                  <xs:sequence>
+                    <xs:element type="xs:float" name="PATToTotalIncomeRatio" minOccurs="0"/>
+                    <xs:element type="xs:float" name="NetProfitMargin" minOccurs="0"/>
+                    <xs:element type="xs:float" name="ReturnOnAssets" minOccurs="0"/>
+                    <xs:element type="xs:float" name="ReturnOnInvestments" minOccurs="0"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute type="xs:date" name="AsOf" use="optional"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

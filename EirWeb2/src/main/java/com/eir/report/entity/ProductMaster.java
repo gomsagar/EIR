@@ -52,6 +52,12 @@ public class ProductMaster implements Serializable {
 	/**
 	 */
 
+	@Column(name = "product_code", length = 45)
+	@Basic(fetch = FetchType.EAGER)
+
+	@XmlElement
+	String productCode;
+	
 	@Column(name = "create_user_id", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
@@ -187,7 +193,14 @@ public class ProductMaster implements Serializable {
 	public void setMemberProductMappings(Set<MemberProductMapping> memberProductMappings) {
 		this.memberProductMappings = memberProductMappings;
 	}
+	
+	public String getProductCode() {
+		return productCode;
+	}
 
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
+	}
 	/**
 	 */
 	public Set<MemberProductMapping> getMemberProductMappings() {
@@ -209,6 +222,7 @@ public class ProductMaster implements Serializable {
 	public void copy(ProductMaster that) {
 		setProductId(that.getProductId());
 		setDiscription(that.getDiscription());
+		setProductCode(that.getProductCode());
 		setCreateUserId(that.getCreateUserId());
 		setCreateUserDate(that.getCreateUserDate());
 		setUpdateUserId(that.getUpdateUserId());
@@ -259,4 +273,6 @@ public class ProductMaster implements Serializable {
 			return false;
 		return true;
 	}
+
+	
 }

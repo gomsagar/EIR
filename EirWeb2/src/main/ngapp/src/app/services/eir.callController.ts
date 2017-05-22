@@ -15,8 +15,20 @@ export class AppService {
         var head = new Headers();
         head.append('Content-Type', 'application/json');
          
-        return this._http.post('http://localhost:8080/EirWeb2/eir/getReport',
+        return this._http.post('http://localhost:8080/EirWeb2/eir/eir/getReport',
         JSON.stringify(data), { 
+           headers:head
+        })
+        .map(res=>res.json());
+    }
+    submitInfo(info) {
+        console.log(info);
+       
+        var head = new Headers();
+        head.append('Content-Type', 'application/json');
+         
+        return this._http.post('http://localhost:8080/EirWeb2/eir/eir/getInfo',
+        JSON.stringify(info), { 
            headers:head
         })
         .map(res=>res.json());

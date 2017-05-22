@@ -53,13 +53,13 @@ public class EirController {
 		
 		Address adr = new Address();
 		
-		adr.setAddressId(3);
-		adr.setAddressLine1("pimple");
-		adr.setAddressLine2("saudagar");
-		adr.setAddressLine3("pune");
-		adr.setAddressType("perm");
-		adr.setCity("Pune 2");
-		adr.setPincode("411000");
+		adr.setAddressId(4);
+		adr.setAddressLine1("kothrud");
+		adr.setAddressLine2("depo");
+		adr.setAddressLine3("pune akot");
+		adr.setAddressType("temp");
+		adr.setCity("Pune 5");
+		adr.setPincode("411333");
 		
 		eirService.saveUser(adr);
 		System.out.println("inside new user");

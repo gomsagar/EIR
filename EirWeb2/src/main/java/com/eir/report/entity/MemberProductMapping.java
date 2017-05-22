@@ -41,6 +41,12 @@ public class MemberProductMapping implements Serializable {
 	@Id
 	@XmlElement
 	Integer memberId;
+	
+	@Column(name = "product_code", length = 45)
+	@Basic(fetch = FetchType.EAGER)
+
+	@XmlElement
+	String productCode;
 	/**
 	 */
 
@@ -125,6 +131,7 @@ public class MemberProductMapping implements Serializable {
 		return this.createUserId;
 	}
 
+
 	/**
 	 */
 	public void setCreateUserDate(Calendar createUserDate) {
@@ -172,6 +179,14 @@ public class MemberProductMapping implements Serializable {
 	public ProductMaster getProductMaster() {
 		return productMaster;
 	}
+	
+	public String getProductCode() {
+		return productCode;
+	}
+
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
+	}
 
 	/**
 	 */
@@ -184,6 +199,7 @@ public class MemberProductMapping implements Serializable {
 	 */
 	public void copy(MemberProductMapping that) {
 		setMemberId(that.getMemberId());
+		setProductCode(that.getProductCode());
 		setMailId(that.getMailId());
 		setCreateUserId(that.getCreateUserId());
 		setCreateUserDate(that.getCreateUserDate());

@@ -139,7 +139,7 @@ public class Request implements Serializable {
 	@OneToMany(mappedBy = "request", fetch = FetchType.LAZY)
 
 	@XmlElement(name = "", namespace = "")
-	java.util.Set<com.eir.report.entity.CirRequet> cirRequets;
+	java.util.Set<com.eir.report.entity.CirRequest> cirRequets;
 	/**
 	 */
 	@OneToMany(mappedBy = "request", fetch = FetchType.LAZY)
@@ -308,15 +308,15 @@ public class Request implements Serializable {
 
 	/**
 	 */
-	public void setCirRequets(Set<CirRequet> cirRequets) {
+	public void setCirRequets(Set<CirRequest> cirRequets) {
 		this.cirRequets = cirRequets;
 	}
 
 	/**
 	 */
-	public Set<CirRequet> getCirRequets() {
+	public Set<CirRequest> getCirRequets() {
 		if (cirRequets == null) {
-			cirRequets = new java.util.LinkedHashSet<com.eir.report.entity.CirRequet>();
+			cirRequets = new java.util.LinkedHashSet<com.eir.report.entity.CirRequest>();
 		}
 		return cirRequets;
 	}
@@ -359,7 +359,7 @@ public class Request implements Serializable {
 		setProductMaster(that.getProductMaster());
 		setBirRequests(new java.util.LinkedHashSet<com.eir.report.entity.BirRequest>(that.getBirRequests()));
 		setKycApproval(that.getKycApproval());
-		setCirRequets(new java.util.LinkedHashSet<com.eir.report.entity.CirRequet>(that.getCirRequets()));
+		setCirRequets(new java.util.LinkedHashSet<com.eir.report.entity.CirRequest>(that.getCirRequets()));
 		setConsumerRequets(new java.util.LinkedHashSet<com.eir.report.entity.ConsumerRequet>(that.getConsumerRequets()));
 	}
 

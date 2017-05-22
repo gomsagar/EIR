@@ -59,6 +59,13 @@ public class BirRequest implements Serializable {
 
 	@XmlElement
 	byte[] xmlOutput;
+	
+	@Column(name = "score_xml_Output", columnDefinition = "BLOB")
+	@Basic(fetch = FetchType.LAZY)
+	@Lob
+
+	@XmlElement
+	byte[] scoreXMlOutput;
 	/**
 	 */
 
@@ -82,7 +89,7 @@ public class BirRequest implements Serializable {
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String status;
+	Integer status;
 	/**
 	 */
 
@@ -205,13 +212,13 @@ public class BirRequest implements Serializable {
 
 	/**
 	 */
-	public void setStatus(String status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
 	/**
 	 */
-	public String getStatus() {
+	public Integer getStatus() {
 		return this.status;
 	}
 
@@ -377,6 +384,15 @@ public class BirRequest implements Serializable {
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
 	}
+
+	public byte[] getScoreXMlOutput() {
+		return scoreXMlOutput;
+	}
+
+	public void setScoreXMlOutput(byte[] scoreXMlOutput) {
+		this.scoreXMlOutput = scoreXMlOutput;
+	}
+	
 	
 	
 }

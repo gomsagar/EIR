@@ -1,11 +1,12 @@
 package com.eir.report.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import com.eir.report.entity.BirRequest;
+import com.eir.report.entity.MemberProductMapping;
+
+import java.util.List;
 
 public interface BirRequestRepository extends JpaRepository<BirRequest, Integer> {
 
@@ -18,5 +19,7 @@ public interface BirRequestRepository extends JpaRepository<BirRequest, Integer>
 	@Query("update BirRequest br set br.status=:status , br.updateUserDate=:CURRENT DATE where br.report_token=:report_token and br.cin_number=:cin and br.entity_name=:entityName")
 	public void updateRecord(@Param("report_token") String report_token,@Param("cin") String cin,
 			@Param("entityName")String entityName,@Param("status") String status);*/
+
+	public List<BirRequest> getByStatus(Integer statusId);
 
 }

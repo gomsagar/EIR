@@ -3,6 +3,7 @@ import {HttpModule, Http} from "@angular/http";
 import{AppService} from '../services/eir.callController';
 import{DataService} from '../services/eir.getData';
 import {Router} from '@angular/router';
+import { InputForEnquiryComponent } from './eir.inputForEnquiry';
 
 interface MessageJson {
     cws: boolean;
@@ -35,8 +36,9 @@ private _subscription;
   isBIR:boolean;
   isnf:boolean;
   isld:boolean;
-
+  value = <any>{};
   data = <any>{};
+  public isOnlyBir:boolean;
   @Input() checkboxValue =<any>{};
   constructor(private _appService:AppService,private _dataService:DataService,private router: Router){
 
@@ -69,13 +71,26 @@ private _subscription;
                 (err) => console.log(err),
                 () => console.log('hello service test complete')
         );    
+        this.value = this.data;
   }
-
+back(){
+  this.router.navigate(['home']);
+}
   selectedCheckBox(){
+    
     console.log("Hello......... from function");
-    console.log("CWS:"+this.data.cws);
-    console.log("CWOS:"+this.data.cwos);
-    this._appService.submit(this.data).subscribe(this.data);
-     this.router.navigate(['inputForEnquiry']);
+    
+    if(this.data.bir && 
+    !(this.data.comboWithoutScore || this.data.commWithoutScore || this.data.newsFeed ||
+    this.data.comboWithScore ||  this.data.commWithScore || this.data.litigation || this.data.sme)){
+        this.isOnlyBir = true;
+        console.log("Only bir:"+this.isOnlyBir);
+    }
+    //this._appService.submit(this.data).subscribe(this.data);
+    if(this.isOnlyBir){
+     this.router.navigate(['inputForEnquiry'],{ queryParams: { isOnlyBir: true} });
+    }else{
+      this.router.navigate(['inputForEnquiry'],{ queryParams: { isOnlyBir: false} });
+    }
   }
 }

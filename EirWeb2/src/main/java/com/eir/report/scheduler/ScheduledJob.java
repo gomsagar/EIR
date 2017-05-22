@@ -1,10 +1,13 @@
 package com.eir.report.scheduler;
 
-import java.util.Date;
+import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import com.eir.report.entity.BirRequest;
 import com.eir.report.service.BirReportService;
 
 public class ScheduledJob { 
@@ -12,17 +15,23 @@ public class ScheduledJob {
 	@Autowired
 	BirReportService birSchedulerService;
 	
+	Logger logger = LoggerFactory.getLogger(ScheduledJob.class);
 	//Scheduler call repeatedly after every 1 hour
 	@Scheduled(cron="* * 1 * * ?")
-	public void demoServiceMethod()
+	public void callServiceMethod()
 	{
-		String query = "select entity_name,cin_number,report_token from bir_request where status='PENDING'";
-		
+		logger.info("ScheduledJob callServiceMethod()");
 		//execute above query and get required details for the request getXMLResponse(report_token, cin,entityName)	
+		List<BirRequest> pendingRequestlist = birSchedulerService.getPendingRecord();
 		
-		String report_token = null,cin = null ,entityName = null;
+		logger.debug("getPendingRecord() : "+pendingRequestlist);
 		
-		birSchedulerService.getXMLResponse(report_token, cin,entityName);
-		System.out.println("Method executed at every 5 seconds. Current time is :: "+ new Date());
+		if(pendingRequestlist != null && !pendingRequestlist.isEmpty())
+		{
+			boolean isProcessed = birSchedulerService.getAndProcessBirReport(pendingRequestlist);
+			
+			logger.debug("getAndProcessBirReport() : "+isProcessed);
+		}
+	
 	}
 }

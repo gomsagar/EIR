@@ -1,11 +1,13 @@
 import { Component,Input } from '@angular/core';
-import { Router} from '@angular/router';
+import { Router,ActivatedRoute} from '@angular/router';
 import {HttpModule, Http} from "@angular/http";
 import{CompanyListService} from '../services/eir.companyList';
 import{CompanyNameService} from '../services/eir.sendCompName';
 import{FormGroup,FormBuilder, Validators} from '@angular/forms';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
-//import {ValidationResult} from '../services/eir.validation';
+import{AppService} from '../services/eir.callController';
+import{EirCreateComponent} from './eir.createEnquiry';
+
 interface MessageJson {
     name:string;
     cin:string;
@@ -20,14 +22,21 @@ interface MessageJson {
                '../css/bootstrap-theme.min.css',
                '../css/carousel.css',
                '../css/dashboard.css'],
-               providers: [HttpModule,CompanyListService,CompanyNameService,FormsModule,ReactiveFormsModule]
+               providers: [HttpModule,CompanyListService,AppService,CompanyNameService,FormsModule,ReactiveFormsModule]
 })
-export class InputForEnquiryComponent 
-{
+export class InputForEnquiryComponent {
+    
+    public fb1: FormBuilder;
     private _subscription;
     private jsonResponse: string;
+    private birVal: string;
     private messagess: Array<MessageJson>;
+    submitted:boolean;
+    public issOnlyBIR:boolean;
+    private route: ActivatedRoute;
     data = <any>{};
+    value = <any>{};
+    info= <any>{};
     compList=<any>[];   
      temp = <any>[{"Cin":"U70109WB1992PTC054090","Name":"LNT PVT LTD."}, {
     "Cin": "U45201KA2008PTC048000",
@@ -35,47 +44,79 @@ export class InputForEnquiryComponent
   }];
     private hasList:boolean=false;
     complexForm : FormGroup;
-    
-    constructor(private _cmpservice:CompanyListService,private _cmpname:CompanyNameService,private router: Router,fb: FormBuilder){
-   /* this._subscription = this._cmpservice.getData()
-             .subscribe(
-                 (checkboxValue) => {
-                     console.log("Inside init method"+ checkboxValue);
-                     this.jsonResponse = JSON.stringify(checkboxValue);
-                     
-                     console.log("Message data......"+this.messagess); 
-                     console.log("Json response:"+this.jsonResponse);     
-
-                this.isCws= checkboxValue.comboWithScore;
-                this.isCwos= checkboxValue.comboWithoutScore ;
-                this.isCIRws= checkboxValue.commWithScore ;
-                this.isCIRwos= checkboxValue.commWithoutScore ;
-                this.isSME= checkboxValue.sme ;
-                this.isBIR= checkboxValue.bir ;
-                this.isnf= checkboxValue.newsFeed ;
-                this.isld= checkboxValue.litigation ;
-                 },
-                 (err) => console.log(err),
-                 () => console.log('hello service test complete')
-         );    */
-         this.complexForm = fb.group({
-          'firstName' : [null, Validators.required],
-           'pincode': [null, Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(6)])],
-          })
-
-         
+  
+  
+    constructor(private _cmpservice:CompanyListService,private _cmpname:CompanyNameService,
+    private _appService:AppService,private router: Router,fb: FormBuilder,private _routeParams: ActivatedRoute)
+    {
+   
+            _routeParams.queryParams.subscribe(params => {this.issOnlyBIR = params['isOnlyBir'] || 'false'});
+            this.birVal = this.issOnlyBIR + ""; 
+            //console.log("constructor this.birVal --> " + this.birVal);
+        if(this.birVal == "true")
+            {
+                //console.log("constructor if");
+                //console.log("in if isOnlyBIR --> " + this.issOnlyBIR);
+                this.issOnlyBIR = true;
+            } 
+            else{
+                //console.log("constructor else");
+                this.issOnlyBIR = false;
+            }
+            console.log("after route --> " + this.issOnlyBIR);
+            
+   
+         this.submitted=false;
+         this.complexForm = fb.group(
+         {
+          'compName'    : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z0-9&]*')])],
+          'pincode'     : [null,  Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(6),Validators.pattern('^[0-9]*$')])],
+          'email'       : [null,  Validators.compose([Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$'),Validators.required])],
+          'pan'         : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})([PFCAHBLJRpfcahbljr]{1})([0-9]{4})([A-Za-z]{1})'),Validators.required])],
+          'cmppan'      : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})([PFCAHBLJRpfcahbljr]{1})([0-9]{4})([A-Za-z]{1})'),Validators.required])],
+          'personpan'   : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})([PFCAHBLJRpfcahbljr]{1})([0-9]{4})([A-Za-z]{1})'),Validators.required])],
+          'personPin'   : [null,  Validators.compose([Validators.required,Validators.pattern('[0-9]{6}')])],
+          'mobile'      : [null,  Validators.compose([Validators.required,Validators.pattern('[0-9]{10}')])],
+          'fname'       : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z]*')])],
+          'mname'       : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z]*')])],
+          'lname'       : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z]*')])],
+          'dob'         : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z]*')])],
+          'personCity'  : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z]*')])],
+          'city'        : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z]*')])],
+          'product'     : [null,  Validators.required],
+          'address'     : [null,  Validators.required],
+          'personAddr'  : [null,  Validators.required],
+          'cmplist'     : [null,  Validators.required],
+          'purpose'     : [null,  Validators.required],
+          'accType'     : [null,  Validators.required],
+          'accType1'    : [null,  Validators.required],
+          'personState' : [null,  Validators.required],
+          'state'       : [null,  Validators.required],
+          'gender'      : [null,  Validators.required]
+          
+})
    }
 
-   getCompanyList(){
-   
-  // alert(this.data.cmpName);
+   back(){
+       this.router.navigate(['createEnquiry']);
+   }
+  
+  validate(){
+      alert("Hello");
+   this.submitted=true;
+   console.log("Data............"+this.data);
+   this._appService.submitInfo(this.data).subscribe(this.data);
+     this.router.navigate(['inputForEnquiry']);
+}
+getCompanyList(){
+  
      console.log("Hello......... from getCompanyList function");
      console.log("Company Name:"+this.data.cmpName);
     
 
-     this._cmpname.validateName(this.data).subscribe((temp) => {
-        // debugger;
-        this.compList=temp;
+         this._cmpname.validateName(this.data).subscribe((temp) => {
+        
+         this.compList=temp;
          console.log("responce   -  - "+ temp);
          this.jsonResponse = JSON.stringify(temp);
          console.log('json srijfkd -- '+this.jsonResponse);
@@ -83,7 +124,7 @@ export class InputForEnquiryComponent
           if(temp!=null)
          {
          this.hasList=true;
-        console.log('this.hasList......'+this.hasList);
+         console.log('this.hasList......'+this.hasList);
          }
          });
     
