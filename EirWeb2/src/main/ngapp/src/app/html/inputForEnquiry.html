@@ -101,25 +101,34 @@
 					<div class="row top-bar">
 						<form class="main-form" [formGroup]="complexForm" (ngSubmit)="getCompanyList()">
 						<!-- <form class="main-form" (ngSubmit)="getCompanyList()">-->
-						  <div class="form-group col-md-3" [ngClass]="{'has-error':(!complexForm.controls['compName'].valid && complexForm.controls['compName'].touched)||(!complexForm.controls['compName'].valid && submitted)}">
-							<label for="exampleInputName2">Company Name *</label>
-							<input type="text" class="form-control" id="exampleInputName2" placeholder="Enter Company Name" name="cmpName" [formControl]="complexForm.controls['compName']" [(ngModel)]="data.cmpName">
-						  <small *ngIf="(complexForm.controls['compName'].hasError('required') && complexForm.controls['compName'].touched)||(complexForm.controls['compName'].hasError('required') && submitted)" class="alert" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;">You must include a Company name.</small>
-             	<small *ngIf="(complexForm.controls['compName'].hasError('pattern') && complexForm.controls['compName'].touched)||(complexForm.controls['compName'].hasError('required') && submitted)" class="alert" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;">No special character other than & is allowed.</small>
-							
+							<div class="form-group col-md-3">
+						  <label for="">Select type of Company</label>
+							<div class="radio-group">
+							  <input type="radio" id="option-one" name="selector" checked>
+							  <label for="option-one">Private Limited</label>
+							  <input type="radio" id="option-two" name="selector">
+							  <label for="option-two">Non Private Limited</label>							
 							</div>
-						  <div class="form-group col-md-4">
-								<label for="" style="visibility: hidden;" class="hidden-sm hidden-xs">Click to Search</label>
-								<button type="submit" class="btn btn-primary">Validate <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
 						  </div>
-						  <div class="form-group  col-md-5" [ngClass]="{'has-error':(!complexForm.controls['cmplist'].valid && complexForm.controls['cmplist'].touched)||(!complexForm.controls['cmplist'].valid && submitted)}"> 
-							<label for="exampleInputEmail2">Company List *</label>
-								<select  class="form-control" onchange="companySelectList(this);" [formControl]="complexForm.controls['cmplist']" name="cmpList" [(ngModel)]="data.cmpList">
+						  <div class="form-group col-md-5" >
+							<label for="exampleInputName2">Company Name *</label>
+							<div class="input-group" [ngClass]="{'has-error':(!complexForm.controls['compName'].valid && complexForm.controls['compName'].touched)||(!complexForm.controls['compName'].valid && submitted)}">
+							   <input type="text" class="form-control" placeholder="Company Name" name="cmpName" [formControl]="complexForm.controls['compName']" [(ngModel)]="data.cmpName">
+							  <span class="input-group-btn">
+							        <button type="submit" class="btn btn-default" >Validate <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+							   </span>
+								 	</div>							
+							 <small *ngIf="(complexForm.controls['compName'].hasError('required') && complexForm.controls['compName'].touched)||(complexForm.controls['compName'].hasError('required') && submitted)" class="alert" style="padding: 2px; border-color: #dca7a7; background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include a Company name.</small>
+								<small *ngIf="(complexForm.controls['compName'].hasError('pattern') && complexForm.controls['compName'].touched)||(complexForm.controls['compName'].hasError('required') && submitted)" class="alert" style="padding: 2px; border-color: #dca7a7; background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">No special character other than & is allowed.</small>
 						
+							</div>
+						  <div class="form-group  col-md-4" [ngClass]="{'has-error':(!complexForm.controls['cmplist'].valid && complexForm.controls['cmplist'].touched)||(!complexForm.controls['cmplist'].valid && submitted)}">
+							<label for="exampleInputEmail2">Company List</label>
+								<select  class="form-control" [formControl]="complexForm.controls['cmplist']" name="cmpList" [(ngModel)]="data.cmpList">
 										   <option *ngFor="let comp of compList">{{comp.Name}}</option> 	 
 								</select>	
-								<div *ngIf="(complexForm.controls['cmplist'].hasError('required') && complexForm.controls['cmplist'].touched)||(complexForm.controls['cmplist'].hasError('required') && submitted)" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;">You must select Product.</div>	
-						  </div>			
+								<div *ngIf="(complexForm.controls['cmplist'].hasError('required') && complexForm.controls['cmplist'].touched)||(complexForm.controls['cmplist'].hasError('required') && submitted)" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;">You must select Product.</div>		
+						  </div>						
 						</form>
 					
 						<div *ngIf="!issOnlyBIR">

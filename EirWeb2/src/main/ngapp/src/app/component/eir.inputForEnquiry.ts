@@ -52,15 +52,15 @@ export class InputForEnquiryComponent {
    
             _routeParams.queryParams.subscribe(params => {this.issOnlyBIR = params['isOnlyBir'] || 'false'});
             this.birVal = this.issOnlyBIR + ""; 
-            //console.log("constructor this.birVal --> " + this.birVal);
+            console.log("constructor this.birVal --> " + this.birVal);
         if(this.birVal == "true")
             {
-                //console.log("constructor if");
-                //console.log("in if isOnlyBIR --> " + this.issOnlyBIR);
+                console.log("constructor if");
+                console.log("in if isOnlyBIR --> " + this.issOnlyBIR);
                 this.issOnlyBIR = true;
             } 
             else{
-                //console.log("constructor else");
+                console.log("constructor else");
                 this.issOnlyBIR = false;
             }
             console.log("after route --> " + this.issOnlyBIR);

@@ -40,8 +40,10 @@ private _subscription;
   data = <any>{};
   public isOnlyBir:boolean;
   @Input() checkboxValue =<any>{};
-  constructor(private _appService:AppService,private _dataService:DataService,private router: Router){
 
+
+  constructor(private _appService:AppService,private _dataService:DataService,private router: Router)
+  {
    this.data.comboWithoutScore=false;
    this.data.comboWithScore=false;
    this.data.commWithScore=false;
@@ -73,24 +75,36 @@ private _subscription;
         );    
         this.value = this.data;
   }
-back(){
-  this.router.navigate(['home']);
-}
-  selectedCheckBox(){
-    
-    console.log("Hello......... from function");
-    
-    if(this.data.bir && 
-    !(this.data.comboWithoutScore || this.data.commWithoutScore || this.data.newsFeed ||
-    this.data.comboWithScore ||  this.data.commWithScore || this.data.litigation || this.data.sme)){
-        this.isOnlyBir = true;
-        console.log("Only bir:"+this.isOnlyBir);
+  back()
+  {
+    this.router.navigate(['home']);
+  }
+  selectedCheckBox()
+  { 
+      console.log("Hello......... from function");
+      if(this.data.comboWithoutScore || this.data.commWithoutScore || this.data.newsFeed ||
+        this.data.comboWithScore ||  this.data.commWithScore || this.data.litigation || this.data.sme || this.data.bir)
+      {
+          if(this.data.bir && !(this.data.comboWithoutScore || this.data.commWithoutScore || this.data.newsFeed ||
+          this.data.comboWithScore ||  this.data.commWithScore || this.data.litigation || this.data.sme))
+          {
+              this.isOnlyBir = true;
+              console.log("Only bir:"+this.isOnlyBir);
+          }
+          //this._appService.submit(this.data).subscribe(this.data);
+          if(this.isOnlyBir)
+          {
+            this.router.navigate(['inputForEnquiry'],{ queryParams: { isOnlyBir: true} });
+          }
+          else
+          {
+            this.router.navigate(['inputForEnquiry'],{ queryParams: { isOnlyBir: false} });
+          }
     }
-    //this._appService.submit(this.data).subscribe(this.data);
-    if(this.isOnlyBir){
-     this.router.navigate(['inputForEnquiry'],{ queryParams: { isOnlyBir: true} });
-    }else{
-      this.router.navigate(['inputForEnquiry'],{ queryParams: { isOnlyBir: false} });
+    else
+    {
+        alert("Select Product!!!");
+        this.router.navigate(['createEnquiry']);
     }
   }
 }
