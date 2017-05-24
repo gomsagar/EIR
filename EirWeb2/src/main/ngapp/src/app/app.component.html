@@ -1,1 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>EIR</title>
+
+    <!-- Bootstrap core CSS -->
+  <!--   <link href="/app/css/bootstrap.css" rel="stylesheet">
+ -->
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!-- <link href="/app/css/ie10-viewport-bug-workaround.css" rel="stylesheet"> -->
+
+    <!-- Custom styles for this template -->
+   <!--  <link href="/app/css/dashboard.css" rel="stylesheet">
+	  <link href="/app/css/carousel.css" rel="stylesheet"> -->
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	<style>
+		.list-group.panel > .list-group-item {
+		  border-bottom-right-radius: 4px;
+		  border-bottom-left-radius: 4px
+		}
+		.list-group-submenu {
+		  margin-left:20px;
+		}
+	</style>
+  </head>
+
+  <body>
+ <!--<form (ngSubmit)='goToCreateHtml()'>-->
+    <nav class="navbar navbar-fixed-top">
+      <div class="container-fluid">
+	  <div class="row">
+        <div class="navbar-header col-sm-3 col-md-2">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><img src="assets/img/logo.png"/></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+				
+				<a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>John Doe	<span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span> </a>
+			
+			</li>           
+          </ul>
+       <!--    <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form> -->
+        </div>
+      </div> </div>
+    </nav>
+
+    <div class="container-fluid">
+	
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <!-- <ul class="nav nav-sidebar">
+            <li class="active"><a href="#">Dashboard <span class="sr-only">(current)</span></a></li>
+            <li><a href="#">About us</a></li>
+            <li><a href="#">Sevice</a></li>
+            <li><a href="#">Dispute</a></li>
+			<li><a href="#">Custmore Support</a></li>
+          </ul>   -->
+        <div class="list-group panel">
+          <a href="#Dashboard" class="list-group-item active" data-toggle="collapse" data-parent="#MainMenu">Dashboard</a>        
+		  <a href="#aboutus" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu">About us</a>    
+          <a href="#Sevice" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu">Sevice <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></a>
+          <div class="collapse" id="Sevice">
+         <!-- <a href="./create.html" class="list-group-item">Create Enquiry</a>-->
+         	<button (click)="goToCreateEnquiry()" type="submit" name="Create Enquiry" class="hidden" id="enq"></button>	
+            <a href="./viewee.html" class="list-group-item">View Earlier Enquiry</a>
+          </div>
+           <a href="#Dispute" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu">Dispute <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span> </a>
+            <div class="collapse" id="Dispute">
+            <a href="#" class="list-group-item">Raise A Dispute</a>
+            <a href="" class="list-group-item">Track A Dispute</a>            
+          </div>
+		    <a href="#cust-supp" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu">Custmore Support</a>    
+        </div>
+  	  
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">   
+
+
 <router-outlet></router-outlet>
+</div>
+      </div>
+	  
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="assets/js/vendor/holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
+		<!--</form>-->
+  </body>
+</html>

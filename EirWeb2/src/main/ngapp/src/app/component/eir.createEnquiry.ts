@@ -39,6 +39,8 @@ private _subscription;
   value = <any>{};
   data = <any>{};
   public isOnlyBir:boolean;
+  public isCir:boolean;
+  public isCombo:boolean;
   @Input() checkboxValue =<any>{};
 
 
@@ -85,20 +87,43 @@ private _subscription;
       if(this.data.comboWithoutScore || this.data.commWithoutScore || this.data.newsFeed ||
         this.data.comboWithScore ||  this.data.commWithScore || this.data.litigation || this.data.sme || this.data.bir)
       {
-          if(this.data.bir && !(this.data.comboWithoutScore || this.data.commWithoutScore || this.data.newsFeed ||
-          this.data.comboWithScore ||  this.data.commWithScore || this.data.litigation || this.data.sme))
+        //  if(this.data.bir && !(this.data.comboWithoutScore || this.data.commWithoutScore || this.data.newsFeed ||
+        //  this.data.comboWithScore ||  this.data.commWithScore || this.data.litigation || this.data.sme))
+        if(this.data.bir)
           {
               this.isOnlyBir = true;
               console.log("Only bir:"+this.isOnlyBir);
           }
-          //this._appService.submit(this.data).subscribe(this.data);
-          if(this.isOnlyBir)
+          if(this.data.comboWithoutScore || this.data.comboWithScore)
           {
-            this.router.navigate(['inputForEnquiry'],{ queryParams: { isOnlyBir: true} });
+              this.isCombo = true;
+              console.log("Only Combo:"+this.isCombo);
           }
-          else
+          if(this.data.commWithoutScore ||  this.data.commWithScore)
           {
-            this.router.navigate(['inputForEnquiry'],{ queryParams: { isOnlyBir: false} });
+              this.isCir = true;
+              console.log("Only Cir:"+this.isCir);
+          }
+          //this._appService.submit(this.data).subscribe(this.data);
+          if(this.isOnlyBir && this.isCombo)
+          {
+            this.router.navigate(['inputForEnquiry'],{ queryParams: { isOnlyBir: true, isCombo: true, isCir: false} });
+          }
+          else if(this.isOnlyBir && this.isCir)
+          {
+            this.router.navigate(['inputForEnquiry'],{ queryParams: { isOnlyBir: true, isCir: true, isCombo: false} });
+          }
+          else if(this.isOnlyBir)
+          {
+            this.router.navigate(['inputForEnquiry'],{ queryParams: { isOnlyBir: true, isCir: false, isCombo: false} });
+          }
+          else if(this.isCir)
+          {
+            this.router.navigate(['inputForEnquiry'],{ queryParams: { isOnlyBir: false, isCir: true, isCombo: false} });
+          }
+          else if(this.isCombo)
+          {
+            this.router.navigate(['inputForEnquiry'],{ queryParams: { isOnlyBir: false, isCir: false, isCombo:true } });
           }
     }
     else

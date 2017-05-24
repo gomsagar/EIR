@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.eir.model.EIRDataConstant;
 import com.eir.model.EligibleReport;
+import com.eir.model.ResponseObject;
 import com.eir.report.entity.BIRCmpnySrchRequest;
 import com.eir.report.entity.BIRZaubaRequest;
 import com.eir.report.entity.BirRequest;
@@ -40,7 +41,7 @@ public class BirController {
 				+ "<h3>********** Hello World, Spring MVC Tutorial</h3>This message is coming from CrunchifyHelloWorld.java **********</div><br><br>";
 		return new ModelAndView("welcome", "message", message);
 	}
-	
+	@CrossOrigin("*")
 	@RequestMapping(value = "/getCompanyList", method = RequestMethod.POST)
 	public @ResponseBody List<Response> getCompanyList(@RequestBody BIRCmpnySrchRequest request) {
 		logger.debug("ZaubaIntegrationController getCompanyList() ");
@@ -81,8 +82,28 @@ public class BirController {
 	@CrossOrigin("*")
 	@RequestMapping(value = "/getEligibleReport", method = RequestMethod.GET,produces="application/json")
 	public @ResponseBody EligibleReport getEligibleReport() {
-		EligibleReport selectedProduct = birService.getEligibleReport();
+		//EligibleReport selectedProduct = birService.getEligibleReport();
+		
+			EligibleReport selectedProduct = new EligibleReport();
+					selectedProduct.setBir(true);
+					selectedProduct.setCommWithoutScore(true);
+					selectedProduct.setComboWithScore(true);
+					selectedProduct.setComboWithoutScore(true);
+					selectedProduct.setCommWithScore(true);
+
 		return selectedProduct;
+	}
+	@CrossOrigin("*")
+	@RequestMapping(value = "/getResponseObject", method = RequestMethod.GET,produces="application/json")
+	public @ResponseBody ResponseObject getResponseObject() {
+		//EligibleReport selectedProduct = birService.getEligibleReport();
+		ResponseObject responseObject = new ResponseObject();
+		responseObject.setInProcessEnquiry(5);
+		responseObject.setPendingDispute(3);
+		responseObject.setTotDispute(5);
+		responseObject.setTotEnquiry(8);
+		
+		return responseObject;
 	}
 	
 	@CrossOrigin("*")
