@@ -9,9 +9,13 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -21,6 +25,14 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 /**
  */
 
@@ -29,6 +41,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "eir/com/eir/report/entity", name = "ProductMaster")
 @XmlRootElement(namespace = "eir/com/eir/report/entity")
+
+@EntityListeners(AuditingEntityListener.class)
 public class ProductMaster implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -39,6 +53,12 @@ public class ProductMaster implements Serializable {
 	@Basic(fetch = FetchType.EAGER)
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="prodMaster_seq")
+	@SequenceGenerator(
+		name="prodMaster_seq",
+		sequenceName="productMaster_sequence",
+		allocationSize=1
+	)
 	@XmlElement
 	Integer productId;
 	/**
@@ -61,32 +81,34 @@ public class ProductMaster implements Serializable {
 	@Column(name = "create_user_id", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
-	@XmlElement
+	@CreatedBy
 	String createUserId;
 	/**
 	 */
-	@Temporal(TemporalType.DATE)
+	//@Temporal(TemporalType.DATE)
 	@Column(name = "create_user_date")
 	@Basic(fetch = FetchType.EAGER)
 
-	@XmlElement
-	Calendar createUserDate;
+	@CreatedDate
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	DateTime createUserDate ;
 	/**
 	 */
 
 	@Column(name = "update_user_id", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
-	@XmlElement
+	@LastModifiedBy
 	String updateUserId;
 	/**
 	 */
-	@Temporal(TemporalType.DATE)
+	//@Temporal(TemporalType.DATE)
 	@Column(name = "update_user_date")
 	@Basic(fetch = FetchType.EAGER)
 
-	@XmlElement
-	Calendar updateUserDate;
+	@LastModifiedDate
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	DateTime updateUserDate ;
 
 	/**
 	 */
@@ -139,13 +161,13 @@ public class ProductMaster implements Serializable {
 
 	/**
 	 */
-	public void setCreateUserDate(Calendar createUserDate) {
+	public void setCreateUserDate(DateTime createUserDate) {
 		this.createUserDate = createUserDate;
 	}
 
 	/**
 	 */
-	public Calendar getCreateUserDate() {
+	public DateTime getCreateUserDate() {
 		return this.createUserDate;
 	}
 
@@ -163,13 +185,13 @@ public class ProductMaster implements Serializable {
 
 	/**
 	 */
-	public void setUpdateUserDate(Calendar updateUserDate) {
+	public void setUpdateUserDate(DateTime updateUserDate) {
 		this.updateUserDate = updateUserDate;
 	}
 
 	/**
 	 */
-	public Calendar getUpdateUserDate() {
+	public DateTime getUpdateUserDate() {
 		return this.updateUserDate;
 	}
 

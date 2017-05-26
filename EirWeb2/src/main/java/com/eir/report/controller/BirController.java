@@ -3,6 +3,8 @@ package com.eir.report.controller;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +21,7 @@ import com.eir.model.EligibleReport;
 import com.eir.model.ResponseObject;
 import com.eir.report.entity.BIRCmpnySrchRequest;
 import com.eir.report.entity.BIRZaubaRequest;
-import com.eir.report.entity.BirRequest;
-import com.eir.report.entity.CirRequest;
-import com.eir.report.entity.MemberProductMapping;
-import com.eir.report.entity.MultipleRequest;
+import com.eir.bir.request.model.MultipleRequest;
 import com.eir.report.entity.Response;
 import com.eir.report.service.BirReportService;
 
@@ -108,12 +107,14 @@ public class BirController {
 	
 	@CrossOrigin("*")
 	@RequestMapping(value="/getInfo", method = RequestMethod.POST,produces="application/json")
-	public String getInfo(@RequestBody MultipleRequest input ){
+	public String getInfo(@RequestBody MultipleRequest input , HttpServletRequest request ){
 	
-		System.out.println("Inside getInfo method" + input.getBirRequest().getScore());
-		System.out.println("CmpName: ");
+		request.getSession().setAttribute("userId", "EIR");
+		System.out.println("session id - : "+request.getSession().getAttribute("userId"));
+		System.out.println("session id - : "+request.getRequestedSessionId());
+		System.out.println("Inside getInfo method" + input.getBirRequest().getCinNumber());
 		
-		birService.saveRequestedData(input);
+		birService.saveRequestedData(input , request);
 		
 	   return "" ;
 	}

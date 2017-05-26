@@ -2,11 +2,12 @@ package com.eir.report.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.eir.model.EligibleReport;
 import com.eir.report.entity.BIRZaubaRequest;
 import com.eir.report.entity.BirRequest;
-import com.eir.report.entity.MemberProductMapping;
-import com.eir.report.entity.MultipleRequest;
+import com.eir.bir.request.model.MultipleRequest;
 import com.eir.report.entity.Response;
 
 public interface BirReportService {
@@ -29,7 +30,7 @@ public interface BirReportService {
 	
 	public void saveSelectedReportData(EligibleReport selection);
 
-	public void saveRequestedData(MultipleRequest input);
+	public void saveRequestedData(MultipleRequest input, HttpServletRequest request);
 	
 
 }

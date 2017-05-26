@@ -30,6 +30,7 @@ public class SessionMonitorListener implements HttpSessionListener
 		
 		totalActiveSessions++;
 		logger.info("sessionCreated - add one session into counter");
+		System.out.println("sessionCreated - add one session into counter");
 		String randomNumber = "";
 		try{
 			SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");
@@ -45,6 +46,7 @@ public class SessionMonitorListener implements HttpSessionListener
 	@Override
 	public void sessionDestroyed(HttpSessionEvent arg0) {
 		totalActiveSessions--;
+		System.out.println("sessionDestroyed - deduct one session from counter");
 		logger.info("sessionDestroyed - deduct one session from counter");
 	}
 

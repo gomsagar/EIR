@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.eir.report.entity.Address;
 import com.eir.report.entity.BirRequest;
 import com.eir.report.entity.Request;
+import com.eir.report.entity.State;
 import com.eir.report.service.EirService;
 
 @Controller
@@ -50,6 +51,8 @@ public class EirController {
 	
 	@RequestMapping(value = "/newuser", method = RequestMethod.GET)
 	public ModelAndView addUser() {
+		
+		logger.debug("EirController - addUser(): Start");
 		
 		Address adr = new Address();
 		
@@ -122,5 +125,21 @@ public class EirController {
 		request.setErnNumber("ERN102");
 		System.out.println(request.getErnNumber());
 		return request;
+	}
+	
+	@RequestMapping(value="/getStateList", method = RequestMethod.GET)
+	public @ResponseBody List<State> getStateList(){
+		
+		logger.debug("EirController - getStateList(): Start");
+		
+		List<State> stateList = eirService.getStateList();
+		
+		for (State state : stateList) {
+			System.out.println("State Code - "+state.getCode());
+			System.out.println("State description - "+state.getCodeDescription());
+		}
+		logger.debug("EirController - getStateList(): State list"+ stateList );
+		
+		return stateList;		
 	}
 }

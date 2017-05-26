@@ -7,7 +7,7 @@ import{FormGroup,FormBuilder,FormControl, Validators} from '@angular/forms';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import{AppService} from '../services/eir.callController';
 import{EirCreateComponent} from './eir.createEnquiry';
-import { DatePickerOptions, DateModel } from 'ng2-datepicker';
+//import { DatePickerOptions, DateModel } from 'ng2-datepicker';
 
 interface MessageJson {
     name:string;

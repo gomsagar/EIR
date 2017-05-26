@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.eir.report.entity.Address;
 import com.eir.report.entity.BirRequest;
+import com.eir.report.entity.State;
 import com.eir.report.repository.AddressRepository;
 import com.eir.report.repository.BirRequestRepository;
+import com.eir.report.repository.StateRepository;
 import com.eir.report.service.EirService;
 
 @Service
@@ -19,6 +21,9 @@ public class EirServiceImpl implements EirService{
 	
 	@Autowired
 	AddressRepository addrRepository;
+	
+	@Autowired
+	StateRepository stateRepository;
 
 	@Override
 	public List<BirRequest> retrieveRequest() {
@@ -35,9 +40,11 @@ public class EirServiceImpl implements EirService{
 	public List<Address> getAddress() {
 		return addrRepository.findAll();
 	}
-	
-	
 
-	
+	@Override
+	public List<State> getStateList() {
+		
+		return stateRepository.findAll();
+	}
 	
 }
