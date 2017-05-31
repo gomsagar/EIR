@@ -11,9 +11,8 @@ import{EirCreateComponent} from './component/eir.createEnquiry';
 import{RaiseDisputeComponent} from './component/eir.raiseDispute';
 import{ViewEarlierRequestComponent} from './component/eir.viewEarlierRequest';
 import{TrackDisputeComponent} from  './component/eit.trackDispute';
-
-
-
+import{ConsumerComponent} from './component/eir.consumer';
+import {ControlMessages} from './services/control.message.component';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -22,11 +21,12 @@ const appRoutes: Routes = [
     { path: 'raiseDispute', component: RaiseDisputeComponent },
     { path: 'viewEarlierRequest', component: ViewEarlierRequestComponent },
      { path: 'trackDispute', component: TrackDisputeComponent},
+     { path: 'consumerComponent', component: ConsumerComponent},
      
 ];
 @NgModule({
   declarations: [AppComponent,HomeComponent,EirCreateComponent,InputForEnquiryComponent,RaiseDisputeComponent,
-  ViewEarlierRequestComponent,TrackDisputeComponent],
+  ViewEarlierRequestComponent,TrackDisputeComponent,ConsumerComponent,ControlMessages],
   imports: [
     RouterModule,
     RouterModule.forRoot(appRoutes),

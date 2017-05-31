@@ -1,13 +1,19 @@
-import { Component,Input } from '@angular/core';
+import { Component,Input,OnInit } from '@angular/core';
 import { Router,ActivatedRoute} from '@angular/router';
 import {HttpModule, Http} from "@angular/http";
 import{CompanyListService} from '../services/eir.companyList';
 import{CompanyNameService} from '../services/eir.sendCompName';
+import{StateListService} from '../services/eir.stateList';
+import{AddressTypeList} from '../services/eir.getAddressTypeList';
 import{FormGroup,FormBuilder,FormControl, Validators} from '@angular/forms';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import{AppService} from '../services/eir.callController';
 import{EirCreateComponent} from './eir.createEnquiry';
-//import { DatePickerOptions, DateModel } from 'ng2-datepicker';
+import { DatePickerOptions, DateModel } from 'ng2-datepicker';
+import {ConsumerComponent} from './eir.consumer';
+import{NewService} from '../services/eir.newService';
+import { ControlMessages } from '../services/control.message.component';
+//import{}
 
 interface MessageJson {
     name:string;
@@ -23,9 +29,9 @@ interface MessageJson {
                '../css/bootstrap-theme.min.css',
                '../css/carousel.css',
                '../css/dashboard.css'],
- providers: [HttpModule,CompanyListService,AppService,CompanyNameService,FormsModule,ReactiveFormsModule]
+ providers: [HttpModule,CompanyListService,AppService,CompanyNameService,StateListService,AddressTypeList,FormsModule,ReactiveFormsModule,NewService,ControlMessages]
 })
-export class InputForEnquiryComponent 
+export class InputForEnquiryComponent implements OnInit
 {
     private _subscription;
     private jsonResponse: string;
@@ -42,17 +48,76 @@ export class InputForEnquiryComponent
     data = <any>{};
     value = <any>{};
     info= <any>{};
-    compList=<any>[];   
+    compList=<any>[];
+    stateList=<any>[];
+    addressTypeList=<any>[];
+    cinNumber=<any>[]; 
     temp = <any>[];
     private hasList:boolean=false;
-    complexForm : FormGroup;
-    complexForm1 : FormGroup;
-    complexForm2: FormGroup;
+    cirForm : FormGroup;
+    birForm : FormGroup;
+    cirForm2: FormGroup;
     formValid:boolean=false;
-  
-    constructor(private _cmpservice:CompanyListService,private _cmpname:CompanyNameService,
+    isAddMore : boolean;
+    consumerValid : boolean;
+
+    commonArray: any = {
+         bir: {companyName:'',cmpList:''},
+        cir: {companyName:'',productField:'',purpose:'',amt:'',accType1:'',clientRefNo:'',accType2:'',cmpPan:'',addrType:'',addrLinen1:'',
+              addrline2:'',city:'',state:'',pinCode:'',telephoneNo:'',pan:'',cin:'',tin:'',emailId:'',triggers:''},
+        consumer: [ 
+                {relationType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
+                rationCard:'',passportNo:'',homeTelephoneNo:'',officeTelephoneNo:'',mobileNo:'',birthDate:'',maritalStatus:'',gender:'',
+                personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:''}                
+            ]
+};
+
+consumerData : any= [{relationType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
+                rationCard:'',passportNo:'',homeTelephoneNo:'',officeTelephoneNo:'',mobileNo:'',birthDate:'',maritalStatus:'',gender:'',
+                personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:''}]  ;
+
+  ngOnInit(){
+    this._stateListService.getStateList().subscribe((stateListSubs) => {
+
+           this.stateList=stateListSubs;
+
+            console.log("responce   -  - "+ stateListSubs);
+            this.jsonResponse = JSON.stringify(stateListSubs);
+            //console.log('json srijfkd -- '+this.jsonResponse);
+            //console.log('name - '+temp[0].Name);
+            if(stateListSubs!=null)
+            {
+            this.hasList=true;
+            }
+        });  
+        
+    this._addressTypeList.getAddressTypeList().subscribe((addressType) => {
+        debugger;
+        this.addressTypeList=addressType;
+        this.jsonResponse = JSON.stringify(addressType);
+        if(addressType!=null)
+            {
+            this.hasList=true;
+            }
+    });
+  }
+      
+    constructor(private _cmpservice:CompanyListService,private _cmpname:CompanyNameService,private _newService :NewService,private controlMessage:ControlMessages,private _stateListService:StateListService,private _addressTypeList:AddressTypeList,
     private _appService:AppService,private router: Router,fb: FormBuilder,fb1: FormBuilder,private _routeParams: ActivatedRoute)
     {
+
+         _newService.consumerCompVar$.subscribe(
+            consumerValidate => {
+                console.log("inputforEnquiry _appService.consumerCompVar$.subscribe consumerValidate --->  " + consumerValidate);
+                this.consumerValid = consumerValidate;
+        });
+         /*_newService.missionConfirmed$.subscribe(
+      astronaut => {
+          console.log("Astronot---->"+astronaut);
+       // this.history.push(`${astronaut} confirmed the mission`);
+      });*/
+
+        
             _routeParams.queryParams.subscribe(params => {this.issOnlyBIR = params['isOnlyBir'] || 'false',this.isCombo = params['isCombo'] || 'false',this.isCir = params['isCir'] || 'false'});
             this.birVal = this.issOnlyBIR + ""; 
             this.cirVal = this.isCir + "";
@@ -87,9 +152,9 @@ export class InputForEnquiryComponent
                 console.log("this.issOnlyBIR else"+this.isCombo);
                 this.isCombo = false;
             }
-   
+  // console.log("Inside constructtor..."+this.consumerObj.requisitionForm.valid);
          this.submitted=false;
-         this.complexForm= fb.group(
+         this.cirForm= fb.group(
          {          
           'pincode'     : [null,  Validators.compose([Validators.required,Validators.pattern('[0-9]{6}')])],
           'email'       : [null,  Validators.compose([Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$'),Validators.required])],
@@ -103,12 +168,12 @@ export class InputForEnquiryComponent
           'accType1'    : [null,  Validators.required],
           'state'       : [null,  Validators.required]
          });
-         this.complexForm1 =fb.group(
+         this.birForm =fb.group(
          {
           'compName'    :[null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z0-9&]*')])],          
           'cmplist'     :[null,  Validators.required]
         });
-        this.complexForm2 =fb1.group(
+        this.cirForm2 =fb1.group(
          {
           //'personpan'   : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})([PFCAHBLJRpfcahbljr]{1})([0-9]{4})([A-Za-z]{1})'),Validators.required])],
           'personPin'   : [null,  Validators.compose([Validators.required,Validators.pattern('[0-9]{6}')])],
@@ -126,61 +191,71 @@ export class InputForEnquiryComponent
 
     back()
     {
+        this.submitted=false;
+        this.controlMessage.getValidator(this.submitted);
         this.router.navigate(['createEnquiry']);
+    }
+
+    onChange(newValue) {
+             console.log("Inside Onchange method........"+newValue);
+             this.commonArray.cir.companyName = newValue;
+             console.log("Inside Onchange method commonArray.bir.compName........"+this.commonArray.cir.companyName);
     }
   
     validate()
     {
+        //debugger;
+        this._newService.inquerySubmitClick(true);
+       
+        console.log(" in validate consumerValid ----> " + this.consumerValid);
+            
+            
             this.submitted=true;
-            console.log("this.complexForm.valid"+this.complexForm.valid);
-            console.log("this.complexForm1.valid"+this.complexForm1.valid);
-            console.log("this.complexForm2.valid"+this.complexForm2.valid);
-            //this.validForm=this.complexForm1.valid + "";
+            this.controlMessage.getValidator(this.submitted);
+            //this.controlMessage.getValidator(this.submitted);
+           // console.log("Inside validate ConsumerComponent.consumerVal..."+ConsumerComponent.consumerVal);
+            console.log("this.cirForm.valid"+this.cirForm.valid);
+            console.log("this.cirForm1.valid"+this.birForm.valid);
+            console.log("this.cirForm2.valid"+this.cirForm2.valid);
+            //this.validForm=this.cirForm1.valid + "";
+         console.log("CIR:"+this.commonArray.cir.cmpName);
+         console.log("BIR:"+this.commonArray.bir);
+         console.log("Consumer:"+this.commonArray.consumer);
          
-           if(this.issOnlyBIR && this.isCombo)
-           {
-                if(this.complexForm1.valid && this.complexForm.valid && this.complexForm2.valid)
+        // debugger;
+         if(this.issOnlyBIR){
+                if(this.birForm.valid )
                 {
-                    this._appService.submitInfo(this.data).subscribe(this.data);
+                    this._appService.submitInfo(this.commonArray).subscribe(this.data);
                     alert("Data Submitted Successfully!!!");
-                    this.router.navigate(['inputForEnquiry']);
+                    //this.router.navigate(['inputForEnquiry']);
                 }
                 else
                 {
                     alert("Fill all the mandatory fields!!!");
                 }
-           }
-           else if(this.issOnlyBIR && this.isCir)
-           {
-                if(this.complexForm1.valid && this.complexForm.valid)
+         }
+
+          if(this.isCir || this.isCombo){
+                if(this.cirForm.valid && this.consumerValid)
                 {
-                    this._appService.submitInfo(this.data).subscribe(this.data);
+                    this._appService.submitInfo(this.commonArray).subscribe(this.data);
                     alert("Data Submitted Successfully!!!");
-                    this.router.navigate(['inputForEnquiry']);
+                    //this.router.navigate(['inputForEnquiry']);
                 }
                 else
                 {
                     alert("Fill all the mandatory fields!!!");
                 }
-           }
-            else if(this.issOnlyBIR )
-           {
-                if(this.complexForm1.valid)
-                {
-                this._appService.submitInfo(this.data).subscribe(this.data);
-                alert("Data Submitted Successfully!!!");
-                this.router.navigate(['inputForEnquiry']);
-                }
-                else
-                {
-                alert("Fill all the mandatory fields!!!");
-                }
-           }
+         }
+
+         
     }
 
     getCompanyList()
     {
-            this._cmpname.validateName(this.data).subscribe((temp) => {
+        console.log("this.commonArray.cir.cmpName---------"+this.commonArray.cir.cmpName)
+            this._cmpname.validateName(this.commonArray.cir ).subscribe((temp) => {
             
             this.compList=temp;
             //console.log("responce   -  - "+ temp);
@@ -191,7 +266,6 @@ export class InputForEnquiryComponent
             {
             this.hasList=true;
             }
-            });
-        
+            });        
     }
 }

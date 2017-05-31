@@ -1,396 +1,253 @@
-     
-          <div class="row">    		
-				<h1 class="page-header">Enter Enquiry Details</h1>
-				<!-- table-responsive -->
-				<div class="create-enquiry">
-					<div class="row top-bar">
-						<form class="main-form" [formGroup]="complexForm1" (ngSubmit)="getCompanyList()">
-						<!-- <form class="main-form" (ngSubmit)="getCompanyList()">-->
-							<div class="form-group col-md-3">
-						  <label for="">Select type of Company</label>
-							<div class="radio-group">
-							  <input type="radio" id="option-one" name="selector" checked>
-							  <label for="option-one">Private Limited</label>
-							  <input type="radio" id="option-two" name="selector">
-							  <label for="option-two">Non Private Limited</label>							
-							</div>
-						  </div>
-						  <div class="form-group col-md-5" >
-							<label for="exampleInputName2">Company Name *</label>
-							<div class="input-group" [ngClass]="{'has-error':(!complexForm1.controls['compName'].valid && complexForm1.controls['compName'].touched)||(!complexForm1.controls['compName'].valid && submitted)}">
-							   <input type="text" class="form-control" placeholder="Company Name" formControlName="compName" [formControl]="complexForm1.controls['compName']" [(ngModel)]="data.cmpName">
-							  <span class="input-group-btn">
+<div class="row">
+	<h1 class="page-header">Enter Enquiry Details</h1>
+	<!-- table-responsive -->
+	<div class="create-enquiry">
+		<div class="row top-bar">
+			<div *ngIf="issOnlyBIR">
+				<form class="main-form" [formGroup]="birForm" (ngSubmit)="getCompanyList()">
+					<!-- <form class="main-form" (ngSubmit)="getCompanyList()">-->
+					<div class="form-group col-md-3">
+						<label for="">Select type of Company</label>
+						<div class="radio-group">
+							<input type="radio" id="option-one" name="selector" checked>
+							<label for="option-one">Private Limited</label>
+							<input type="radio" id="option-two" name="selector">
+							<label for="option-two">Non Private Limited</label>
+						</div>
+					</div>
+					<div class="form-group col-md-5">
+						<label for="exampleInputName2">Company Name *</label>
+						<div class="input-group" [ngClass]="{'has-error':(!birForm.controls['compName'].valid && birForm.controls['compName'].touched)||(!birForm.controls['compName'].valid && submitted)}">
+							<input type="text" class="form-control" placeholder="Company Name" formControlName="compName" [formControl]="birForm.controls['compName']"
+							 [(ngModel)]="commonArray.bir.companyName">
+							<span class="input-group-btn">
 							        <button type="submit" class="btn btn-default" >Validate <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-							   </span>
-								 	</div>							
-							 <small *ngIf="(complexForm1.controls['compName'].hasError('required') && complexForm1.controls['compName'].touched)||(complexForm1.controls['compName'].hasError('required') && submitted)" class="alert" style="padding: 2px; border-color: #dca7a7; background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include a Company name.</small>
-								<small *ngIf="complexForm1.controls['compName'].hasError('pattern') && complexForm1.controls['compName'].touched" class="alert" style="padding: 2px; border-color: #dca7a7; background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">No special character other than & is allowed.</small>
-						
-							</div>
-						  <div class="form-group  col-md-4" [ngClass]="{'has-error':(!complexForm1.controls['cmplist'].valid && complexForm1.controls['cmplist'].touched)||(!complexForm1.controls['cmplist'].valid && submitted)}">
-							<label for="exampleInputEmail2">Company List</label>
-								<select  class="form-control" [formControl]="complexForm1.controls['cmplist']" name="cmpList" [(ngModel)]="data.cmpList">
+							</span>
+						</div>
+						<small *ngIf="(birForm.controls['compName'].hasError('required') && birForm.controls['compName'].touched)||(birForm.controls['compName'].hasError('required') && submitted)"
+						 class="alert" style="padding: 2px; border-color: #dca7a7; background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include a Company name.</small>
+						<small *ngIf="birForm.controls['compName'].hasError('pattern') && birForm.controls['compName'].touched" class="alert" style="padding: 2px; border-color: #dca7a7; background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">No special character other than & is allowed.</small>
+
+					</div>
+					<div class="form-group  col-md-4" [ngClass]="{'has-error':(!birForm.controls['cmplist'].valid && birForm.controls['cmplist'].touched)||(!birForm.controls['cmplist'].valid && submitted)}">
+					<label for="exampleInputEmail2">Company List</label> <select class="form-control" [formControl]="birForm.controls['cmplist']"
+						 name="cmpList" [(ngModel)]="commonArray.bir.cmpList" (ngModelChange)="onChange($event)">										  <option>--SELECT--</option>											<option *ngFor="let comp of compList">{{comp.Name}}</option> 	 
+								</select>
+						<div *ngIf="(birForm.controls['cmplist'].hasError('required') && birForm.controls['cmplist'].touched)||(birForm.controls['cmplist'].hasError('required') && submitted)"
+						 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must select Product.</div>
+					</div>
+				</form>
+			</div>
+			<div *ngIf="isCombo || isCir">
+				<form class="user-form col-md-12" id="comapnyDetails">
+					<div class="row">
+						<div class="form-group col-md-6 ">
+							<label for="exampleInputName2">Company Name</label>
+							<input type="text" class="form-control" id="exampleInputName2" value = {{commonArray.cir.companyName}} placeholder="Company Name" name="bankAccNo" [(ngModel)]="commonArray.cir.companyName">
+						</div>
+						<div class="form-group col-md-3" [ngClass]="{'has-error':(cirForm.controls['product'].hasError('required') && cirForm.controls['product'].touched)||(cirForm.controls['product'].hasError('required') && submitted )}">
+							<label for="exampleInputName2">Product Field *</label>
+							<select class="form-control" placeholder="Product Field" [formControl]="cirForm.controls['product']" name="productField"
+							 [(ngModel)]="commonArray.cir.productField">
+											<option>1</option>
+										  <option>2</option>
+										  <option>3</option>
+										  <option>4</option>
+										  <option>5</option>
+										</select>
+							<div *ngIf="(cirForm.controls['product'].hasError('required') && cirForm.controls['product'].touched)||(cirForm.controls['product'].hasError('required') && submitted)"
+							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must select Product.</div>
+						</div>
+						<div class="form-group col-md-3" [ngClass]="{'has-error':(!cirForm.controls['purpose'].valid && cirForm.controls['purpose'].touched)||(!cirForm.controls['purpose'].valid && submitted)}">
+							<label for="exampleInputName2">Purpose *</label>
+							<select class="form-control" [formControl]="cirForm.controls['purpose']" name="purpose" [(ngModel)]="commonArray.cir.purpose">
+											<option>1</option>
+										  <option>2</option>
+										  <option>3</option>
+										  <option>4</option>
+										  <option>5</option>
+										</select>
+							<div *ngIf="(cirForm.controls['purpose'].hasError('required') && cirForm.controls['purpose'].touched)||(cirForm.controls['purpose'].hasError('required') && submitted)"
+							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must select Purpose.</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-3">
+							<label for="exampleInputName2">Amount</label>
+							<select class="form-control" name="amt" [(ngModel)]="commonArray.cir.amt">
 										  <option>--SELECT--</option>
-											<option *ngFor="let comp of compList">{{comp.Name}}</option> 	 
-								</select>	
-								<div *ngIf="(complexForm1.controls['cmplist'].hasError('required') && complexForm1.controls['cmplist'].touched)||(complexForm1.controls['cmplist'].hasError('required') && submitted)" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must select Product.</div>		
-						  </div>						
-						</form>
-					
-						<div *ngIf="isCombo || isCir">
-						<form class="user-form col-md-12" id="comapnyDetails" >
-								<div class="row" >									
-									<div class="form-group col-md-6 ">
-										<label for="exampleInputName2" >Bank Account Number</label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="Bank Account Number" name="bankAccNo" [(ngModel)]="data.bankAccNo">
-									</div>
-									<div class="form-group col-md-3" [ngClass]="{'has-error':(complexForm.controls['product'].hasError('required') && complexForm.controls['product'].touched)||(complexForm.controls['product'].hasError('required') && submitted )}">
-										<label for="exampleInputName2">Product Field *</label>
-										<select class="form-control"  placeholder="Product Field" [formControl]="complexForm.controls['product']" name="productField" [(ngModel)]="data.productField">
 											<option>1</option>
 										  <option>2</option>
 										  <option>3</option>
 										  <option>4</option>
 										  <option>5</option>
-										</select>	
-										<div *ngIf="(complexForm.controls['product'].hasError('required') && complexForm.controls['product'].touched)||(complexForm.controls['product'].hasError('required') && submitted)" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must select Product.</div>	
-									</div>
-									<div class="form-group col-md-3" [ngClass]="{'has-error':(!complexForm.controls['purpose'].valid && complexForm.controls['purpose'].touched)||(!complexForm.controls['purpose'].valid && submitted)}">
-										<label for="exampleInputName2">Purpose *</label>
-										<select class="form-control" [formControl]="complexForm.controls['purpose']" name="purpose" [(ngModel)]="data.purpose">
-											<option>1</option>
-										  <option>2</option>
-										  <option>3</option>
-										  <option>4</option>
-										  <option>5</option>
-										</select>		
-											<div *ngIf="(complexForm.controls['purpose'].hasError('required') && complexForm.controls['purpose'].touched)||(complexForm.controls['purpose'].hasError('required') && submitted)" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must select Purpose.</div>								
-									</div>
-								</div>
-								<div class="row">	
-									<div class="form-group col-md-3">
-										<label for="exampleInputName2">Amount</label>
-										<select class="form-control" name="amt" [(ngModel)]="data.amt">
-										  <option>--SELECT--</option>
-											<option>1</option>
-										  <option>2</option>
-										  <option>3</option>
-										  <option>4</option>
-										  <option>5</option>
-										</select>		
-									</div>
-									<div class="form-group col-md-3" [ngClass]="{'has-error':(!complexForm.controls['accType1'].valid && complexForm.controls['accType1'].touched)||(!complexForm.controls['accType1'].valid && submitted)}">
-										<label for="exampleInputName2">Account type</label>
-										<select class="form-control" [formControl]="complexForm.controls['accType1']" name="accType1" [(ngModel)]="data.accType1">
+										</select>
+						</div>
+						<div class="form-group col-md-3" [ngClass]="{'has-error':(!cirForm.controls['accType1'].valid && cirForm.controls['accType1'].touched)||(!cirForm.controls['accType1'].valid && submitted)}">
+							<label for="exampleInputName2">Account type</label>
+							<select class="form-control" [formControl]="cirForm.controls['accType1']" name="accType1" [(ngModel)]="commonArray.cir.accType1">
 										 
 											<option>1</option>
 										  <option>2</option>
 										  <option>3</option>
 										  <option>4</option>
 										  <option>5</option>
-										</select>			
-										<div *ngIf="(complexForm.controls['accType1'].hasError('required') && complexForm.controls['accType1'].touched)||(complexForm.controls['accType1'].hasError('required') && submitted)" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must select Account type.</div>						
-									</div>
-									<div class="form-group col-md-3">
-										<label for="exampleInputName2">Client Ref. No.</label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="Client Ref. No." name="clientRefNo" [(ngModel)]="data.clientRefNo">
-									</div>
-									<div class="form-group col-md-3" [ngClass]="{'has-error':(!complexForm.controls['accType'].valid && complexForm.controls['accType'].touched)||(!complexForm.controls['accType'].valid && submitted)}">
-										<label for="exampleInputName2">Account type</label>
-										<select class="form-control" [formControl]="complexForm.controls['accType']" name="accType2" [(ngModel)]="data.accType2">
+										</select>
+							<div *ngIf="(cirForm.controls['accType1'].hasError('required') && cirForm.controls['accType1'].touched)||(cirForm.controls['accType1'].hasError('required') && submitted)"
+							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must select Account type.</div>
+						</div>
+						<div class="form-group col-md-3">
+							<label for="exampleInputName2">Client Ref. No.</label>
+							<input type="text" class="form-control" id="exampleInputName2" placeholder="Client Ref. No." name="clientRefNo" [(ngModel)]="commonArray.cir.clientRefNo">
+						</div>
+						<div class="form-group col-md-3" [ngClass]="{'has-error':(!cirForm.controls['accType'].valid && cirForm.controls['accType'].touched)||(!cirForm.controls['accType'].valid && submitted)}">
+							<label for="exampleInputName2">Account type</label>
+							<select class="form-control" [formControl]="cirForm.controls['accType']" name="accType2" [(ngModel)]="commonArray.cir.accType2">
 									
 											<option>1</option>
 										  <option>2</option>
 										  <option>3</option>
 										  <option>4</option>
 										  <option>5</option>
-										</select>	
-										<div *ngIf="(complexForm.controls['accType'].hasError('required') && complexForm.controls['accType'].touched)||(complexForm.controls['accType'].hasError('required') && submitted)" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must select Account type.</div>														
-									</div>
-								</div>
-								
-								<div class="row bg-form" >									
-									<div class="form-group col-md-6" [ngClass]="{'has-error':(!complexForm.controls['cmppan'].valid && complexForm.controls['cmppan'].touched)||(!complexForm.controls['cmppan'].valid && submitted)}">
-										<label for="exampleInputName2">Company PAN *</label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="Company PAN" name="cmpPan" [(ngModel)]="data.cmpPan" [formControl]="complexForm.controls['cmppan']">
-										<div *ngIf="(complexForm.controls['cmppan'].hasError('required') && complexForm.controls['cmppan'].touched)||(complexForm.controls['cmppan'].hasError('required') && submitted)" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include PAN.</div>
-									<div *ngIf="complexForm.controls['cmppan'].hasError('pattern') && complexForm.controls['cmppan'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Enter valid PAN.</div>
-									</div>
-									<div class="form-group col-md-6">
-										<label for="exampleInputName2">Address Type</label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="Address Type" name="addrType" [(ngModel)]="data.addrType">
-									</div>									
-																
-									<div class="form-group col-md-6" [ngClass]="{'has-error':(!complexForm.controls['address'].valid && complexForm.controls['address'].touched)||(!complexForm.controls['address'].valid && submitted)}">
-										<label for="exampleInputName2">Address Line 1 </label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="Address Line 1" name="addrLine1" [(ngModel)]="data.addrLine1" [formControl]="complexForm.controls['address']">
-									<div *ngIf="(complexForm.controls['address'].hasError('required') && complexForm.controls['address'].touched)||(complexForm.controls['address'].hasError('required') && submitted)" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include Address.</div>
-									</div>
-									<div class="form-group col-md-6">
-										<label for="exampleInputName2">Address Line 2</label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="Address Line 2" name="addrLine2" [(ngModel)]="data.addrLine2">
-									</div>									
-						
-									<div class="form-group col-md-3" [ngClass]="{'has-error':(!complexForm.controls['city'].valid && complexForm.controls['city'].touched)||(!complexForm.controls['city'].valid && submitted)}">
-										<label for="exampleInputName2">City</label>
-											<input type="text" class="form-control" id="exampleInputName2" placeholder="City" [formControl]="complexForm.controls['city']" name="city" [(ngModel)]="data.city">
-									<div *ngIf="(complexForm.controls['city'].hasError('required') && complexForm.controls['city'].touched)||(complexForm.controls['city'].hasError('required') && submitted)" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include City.</div>						
-									<div *ngIf="complexForm.controls['city'].hasError('pattern') && complexForm.controls['city'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Enter alphabets only.</div>
-									</div>
-									<div class="form-group col-md-3" [ngClass]="{'has-error':(!complexForm.controls['state'].valid && complexForm.controls['state'].touched)||(!complexForm.controls['state'].valid && submitted)}">
-										<label for="exampleInputName2">State</label>
-										<select class="form-control" [formControl]="complexForm.controls['state']" name="state" [(ngModel)]="data.state">
+										</select>
+							<div *ngIf="(cirForm.controls['accType'].hasError('required') && cirForm.controls['accType'].touched)||(cirForm.controls['accType'].hasError('required') && submitted)"
+							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must select Account type.</div>
+						</div>
+					</div>
+
+					<div class="row bg-form">
+						<div class="form-group col-md-6" [ngClass]="{'has-error':(!cirForm.controls['cmppan'].valid && cirForm.controls['cmppan'].touched)||(!cirForm.controls['cmppan'].valid && submitted)}">
+							<label for="exampleInputName2">Company PAN *</label>
+							<input type="text" class="form-control" id="exampleInputName2" placeholder="Company PAN" name="cmpPan" [(ngModel)]="commonArray.cir.cmpPan"
+							 [formControl]="cirForm.controls['cmppan']">
+							<div *ngIf="(cirForm.controls['cmppan'].hasError('required') && cirForm.controls['cmppan'].touched)||(cirForm.controls['cmppan'].hasError('required') && submitted)"
+							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include PAN.</div>
+							<div *ngIf="cirForm.controls['cmppan'].hasError('pattern') && cirForm.controls['cmppan'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Enter valid PAN.</div>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="exampleInputName2">Address Type</label>
+								<select class="form-control"  name="addrType" [(ngModel)]="commonArray.cir">
+											<option>--Select--</option>
+										  <option *ngFor="let addressType of addressTypeList" [ngValue]="addressType">{{addressType.addressTypeDescription}}</option>
+										</select>
+						</div>
+
+						<div class="form-group col-md-6" [ngClass]="{'has-error':(!cirForm.controls['address'].valid && cirForm.controls['address'].touched)||(!cirForm.controls['address'].valid && submitted)}">
+							<label for="exampleInputName2">Address Line 1 </label>
+							<input type="text" class="form-control" id="exampleInputName2" placeholder="Address Line 1" name="addrLine1" [(ngModel)]="commonArray.cir.addrLine1"
+							 [formControl]="cirForm.controls['address']">
+							<div *ngIf="(cirForm.controls['address'].hasError('required') && cirForm.controls['address'].touched)||(cirForm.controls['address'].hasError('required') && submitted)"
+							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include Address.</div>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="exampleInputName2">Address Line 2</label>
+							<input type="text" class="form-control" id="exampleInputName2" placeholder="Address Line 2" name="addrLine2" [(ngModel)]="commonArray.cir.addrLine2">
+						</div>
+
+						<div class="form-group col-md-3" [ngClass]="{'has-error':(!cirForm.controls['city'].valid && cirForm.controls['city'].touched)||(!cirForm.controls['city'].valid && submitted)}">
+							<label for="exampleInputName2">City</label>
+							<input type="text" class="form-control" id="exampleInputName2" placeholder="City" [formControl]="cirForm.controls['city']"
+							 name="city" [(ngModel)]="commonArray.cir.city">
+							<div *ngIf="(cirForm.controls['city'].hasError('required') && cirForm.controls['city'].touched)||(cirForm.controls['city'].hasError('required') && submitted)"
+							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include City.</div>
+							<div *ngIf="cirForm.controls['city'].hasError('pattern') && cirForm.controls['city'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Enter alphabets only.</div>
+						</div>
+						<div class="form-group col-md-3" [ngClass]="{'has-error':(!cirForm.controls['state'].valid && cirForm.controls['state'].touched)||(!cirForm.controls['state'].valid && submitted)}">
+							<label for="exampleInputName2">State</label>
+							<select class="form-control" [formControl]="cirForm.controls['state']" name="state" [(ngModel)]="commonArray.cir">
 										  
-											<option>1</option>
-										  <option>2</option>
-										  <option>3</option>
-										  <option>4</option>
-										  <option>5</option>
-										</select>		
-										<div *ngIf="(complexForm.controls['state'].hasError('required') && complexForm.controls['state'].touched)||(complexForm.controls['state'].hasError('required') && submitted)" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include State.</div>													
-									</div>									
-									<div class="form-group col-md-3"  [ngClass]="{'has-error':(!complexForm.controls['pincode'].valid && complexForm.controls['pincode'].touched)||(!complexForm.controls['pincode'].valid && submitted)}">
-										<label for="exampleInputName2">PIN Code </label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="PIN Code" name="pinCode" [(ngModel)]="data.pinCode" [formControl]="complexForm.controls['pincode']">
-										 <div *ngIf="(complexForm.controls['pincode'].hasError('required') && complexForm.controls['pincode'].touched)||(complexForm.controls['pincode'].hasError('required') && submitted)" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include pincode.</div>
-									 <div *ngIf="complexForm.controls['pincode'].hasError('pattern') && complexForm.controls['pincode'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Your Pincode must be a Number With 6 digits.</div>
-									</div>
-									<div class="form-group col-md-3">
-										<label for="exampleInputName2">Telephone</label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="Telephone" name="telephoneNo" [(ngModel)]="data.telephoneNo">
-									</div>									
-								</div>
-								
-								<div class="row">
-									<div class="form-group col-md-3" [ngClass]="{'has-error':(!complexForm.controls['pan'].valid && complexForm.controls['pan'].touched)||(!complexForm.controls['pan'].valid && submitted)}">
-										<label for="exampleInputName2">PAN</label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="PAN" [formControl]="complexForm.controls['pan']" name="pan" [(ngModel)]="data.pan">
-									<div *ngIf="(complexForm.controls['pan'].hasError('required') && complexForm.controls['pan'].touched)||(complexForm.controls['pan'].hasError('required') && submitted)" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include PAN.</div>
-									<div *ngIf="complexForm.controls['pan'].hasError('pattern') && complexForm.controls['pan'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Enter valid PAN.</div>
-									</div>
-									<div class="form-group col-md-3">
-										<label for="exampleInputName2">CIN</label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="CIN" name="cin" [(ngModel)]="data.cin">
-									</div>
-									<div class="form-group col-md-3">
-										<label for="exampleInputName2">TIN</label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="TIN" name="tin" [(ngModel)]="data.tin">
-									</div>
-							  	<div class="form-group col-md-3" [ngClass]="{'has-error':(!complexForm.controls['email'].valid && complexForm.controls['email'].touched)||(!complexForm.controls['email'].valid && submitted)}">
-										<label for="exampleInputName2">Email ID</label>
-										<input type="email" class="form-control" id="exampleInputName2" placeholder="Email ID" [formControl]="complexForm.controls['email']" name="emailId" [(ngModel)]="data.emailId">
-						   		<div *ngIf="(complexForm.controls['email'].hasError('required') && complexForm.controls['email'].touched)||(complexForm.controls['email'].hasError('required') && submitted)" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include email.</div>
-                  <div *ngIf="complexForm.controls['email'].hasError('pattern') && complexForm.controls['email'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Enter Valid EmailId.</div>
-									</div>											
-								</div>
-								
-								<div class="row">
-									<div class="form-group col-md-6">
-										<label for="exampleInputName2">Triggers</label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="Triggers" name="triggers" [(ngModel)]="data.triggers">
-										<label for="exampleInputName2">(If client opts for trigger then date option make available)</label>
-									</div>																
-								</div>
-								<div class="row">
-									<div class="form-group col-md-4">										
-										<button type="button" class="btn btn-primary abp" onclick="addMore(this);">Add more Business Partner <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
-									</div>
-								</div>								
-						</form>
-						<div *ngIf="isCombo">
-						<form class="user-form abpDetails col-md-12" >
-								<div class="row">									
-									<div class="form-group col-md-6">
-										<label for="exampleInputName2">Relation Type</label>
-										<select class="form-control" name="relationType" [(ngModel)]="data.relationType">
-										  <option>--SELECT--</option>
-											<option>1</option>
-										  <option>2</option>
-										  <option>3</option>
-										  <option>4</option>
-										  <option>5</option>
-										</select>	
-									</div>								
-								</div>				
-								
-								<div class="row bg-form" >									
-									<div class="form-group col-md-4" [ngClass]="{'has-error':(!complexForm2.controls['fname'].valid && complexForm2.controls['fname'].touched)||(!complexForm2.controls['fname'].valid && submitted)}">
-										<label for="exampleInputName2">Individual First Name *</label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="Individual First Name" name="firstName" [(ngModel)]="data.firstName" [formControl]="complexForm2.controls['fname']">
-									<div *ngIf="(complexForm2.controls['fname'].hasError('required') && complexForm2.controls['fname'].touched)||(complexForm2.controls['fname'].hasError('required') && submitted)" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include First Name.</div>
-                  <div *ngIf="complexForm2.controls['fname'].hasError('pattern') && complexForm2.controls['fname'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Enter Alphabets only</div>
-									</div>
-									<div class="form-group col-md-4" [ngClass]="{'has-error':(!complexForm2.controls['mname'].valid && complexForm2.controls['mname'].touched)||(!complexForm2.controls['mname'].valid && submitted)}">
-										<label for="exampleInputName2">Individual Middle Name *</label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="Individual Middle Name" name="middleName" [(ngModel)]="data.middleName" [formControl]="complexForm2.controls['mname']">
-								    <div *ngIf="(complexForm2.controls['mname'].hasError('required') && complexForm2.controls['mname'].touched)||(complexForm2.controls['mname'].hasError('required') && submitted)" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include Middle Name.</div>
-                    <div *ngIf="complexForm2.controls['mname'].hasError('pattern') && complexForm2.controls['mname'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Enter Alphabets only</div>
-									</div>						
-									<div class="form-group col-md-4" [ngClass]="{'has-error':(!complexForm2.controls['lname'].valid && complexForm2.controls['lname'].touched)||(!complexForm2.controls['lname'].valid && submitted)}">
-										<label for="exampleInputName2">Individual Last Name * </label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="Individual Last Name" name="lastName" [(ngModel)]="data.lastName" [formControl]="complexForm2.controls['lname']">
-									  <div *ngIf="(complexForm2.controls['lname'].hasError('required') && complexForm2.controls['lname'].touched)||(complexForm2.controls['lname'].hasError('required') && submitted)" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include Last Name.</div>
-                    <div *ngIf="complexForm2.controls['lname'].hasError('pattern') && complexForm2.controls['lname'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Enter Alphabets only</div>
-									</div>
-								</div>
-									<div class="row">
-									<div class="form-group col-md-3">
-										<label for="exampleInputName2">PAN</label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="PAN" name="personPan" [(ngModel)]="data.personPan">
-									</div>
-									<div class="form-group col-md-3">
-										<label for="exampleInputName2">Driving Licence</label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="Driving Licence" name="drivingLic" [(ngModel)]="data.drivingLic">
-									</div>
-									<div class="form-group col-md-3">
-										<label for="exampleInputName2">Aadhar Card</label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="Aadhar Card" name="aadharhCard" [(ngModel)]="data.aadharhCard">
-									</div>
-									<div class="form-group col-md-3">
-										<label for="exampleInputName2">Voter ID</label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="Voter ID" name="voterId" [(ngModel)]="data.voterId">
-									</div>										
-							<!--	</div>
-								
-								<div class="row">-->
-									<div class="form-group col-md-3">
-										<label for="exampleInputName2">Ration Card</label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="Ration Card" name="rationCard" [(ngModel)]="data.rationCard">
-									</div>
-									<div class="form-group col-md-3">
-										<label for="exampleInputName2">Passport No.</label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="Passport No." name="passportNo" [(ngModel)]="data.passportNo">
-									</div>
-									<!--		<div class="form-group col-md-3">
-										<label for="exampleInputName2">TIN</label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="TIN">
-									</div>-->
-																		
-						<!--		</div>
-								
-								<div class="row">-->
-									<div class="form-group col-md-3">
-										<label for="exampleInputName2">Home Tele. No.</label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="Home Tele. No." name="homeTelephoneNo" [(ngModel)]="data.homeTelephoneNo">
-									</div>
-									<div class="form-group col-md-3" >
-										<label for="exampleInputName2">Office Tele. No.</label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="Office Tele. No." name="officeTelephoneNo" [(ngModel)]="data.officeTelephoneNo">
-									</div>
-									<div class="form-group col-md-3" [ngClass]="{'has-error':(!complexForm2.controls['mobile'].valid && complexForm2.controls['mobile'].touched)||(!complexForm2.controls['mobile'].valid && submitted)}">
-										<label for="exampleInputName2">Mobile</label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="Mobile" [formControl]="complexForm2.controls['mobile']" name="mobileNo" [(ngModel)]="data.mobileNo">
-										<div *ngIf="(complexForm2.controls['mobile'].hasError('required') && complexForm2.controls['mobile'].touched)||(complexForm2.controls['mobile'].hasError('required') && submitted)" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Enter Mobile Number.</div>
-                    <div *ngIf="complexForm2.controls['mobile'].hasError('pattern') && complexForm2.controls['mobile'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Enter Number With 10 digits.</div>
-									</div>
-									<!--<div class="form-group col-md-3" [ngClass]="{'has-error':(!complexForm.controls['dob'].valid && complexForm.controls['dob'].touched)||(!complexForm.controls['dob'].valid && submitted)}">
-										<label for="exampleInputName2">Birth Date</label>
-										<input  type="text" class="form-control" id="exampleInputName2" placeholder="Birth Date" [formControl]="complexForm.controls['dob']" name="birthDate" [(ngModel)]="data.birthDate">
-								    <div *ngIf="(complexForm.controls['dob'].hasError('required') && complexForm.controls['dob'].touched)||(complexForm.controls['dob'].hasError('required') && submitted)" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Enter Date of Birth</div>
-									</div>-->
-									<div class="form-group col-md-3">
-										<label for="exampleInputName2">Birth Date</label>
-										<input  type="text" class="form-control" id="exampleInputName2" placeholder="Birth Date"  name="birthDate" [(ngModel)]="data.birthDate">
-								    
-									</div>
-									<div class="form-group col-md-3">
-										<label for="exampleInputName2">Martial Status</label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="Martial Status" name="maritalStatus" [(ngModel)]="data.maritalStatus">
-									</div>	
-									<div class="form-group col-md-3" [ngClass]="{'has-error':(!complexForm2.controls['gender'].valid && complexForm2.controls['gender'].touched)||(!complexForm2.controls['gender'].valid && submitted)}">
-										<label for="exampleInputName2">Gender</label>
-										<select class="form-control" [formControl]="complexForm2.controls['gender']" name="gender" [(ngModel)]="data.gender">
-										  <option>Male</option>
-										  <option>Female</option>										  
-										</select>	
-										<div *ngIf="(complexForm2.controls['gender'].hasError('required') && complexForm2.controls['gender'].touched)||(complexForm2.controls['gender'].hasError('required') && submitted)" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include Gender.</div>
-									</div>	
-							<div class="row bg-form" >
-								</div>
-									<div class="form-group col-md-6" [ngClass]="{'has-error':(!complexForm2.controls['personAddr'].valid && complexForm2.controls['personAddr'].touched)||(!complexForm2.controls['personAddr'].valid && submitted)}">
-										<label for="exampleInputName2">Address 1</label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="Address 1" [formControl]="complexForm2.controls['personAddr']" name="personAddrLine1" [(ngModel)]="data.personAddrLine1">
-									<div *ngIf="(complexForm2.controls['personAddr'].hasError('required') && complexForm2.controls['personAddr'].touched)||(complexForm2.controls['personAddr'].hasError('required') && submitted)" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include Address.</div>
-									</div>
-									<div class="form-group col-md-6">
-										<label for="exampleInputName2">Address 2</label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="Address 2" name="personAddrLine2" [(ngModel)]="data.personAddrLine2">
-									</div>
-																
-										
-									<div class="form-group col-md-3" [ngClass]="{'has-error':(!complexForm2.controls['personCity'].valid && complexForm2.controls['personCity'].touched)||(!complexForm2.controls['personCity'].valid && submitted)}">
-										<label for="exampleInputName2">City</label>
-									 	<input type="text" class="form-control" id="exampleInputName2" placeholder="City" name="personCity" [(ngModel)]="data.personCity" [formControl]="complexForm2.controls['personCity']">
-										<div *ngIf="(complexForm2.controls['personCity'].hasError('required') && complexForm2.controls['personCity'].touched)||(complexForm2.controls['personCity'].hasError('required') && submitted)" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include City.</div>
-                    <div *ngIf="complexForm2.controls['personCity'].hasError('pattern') && complexForm2.controls['personCity'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Enter Alphabets only</div>						
-									</div>
-									<div class="form-group col-md-3" [ngClass]="{'has-error':(!complexForm2.controls['personState'].valid && complexForm2.controls['personState'].touched)||(!complexForm2.controls['personState'].valid && submitted)}">
-										<label for="exampleInputName2">State</label>
-										<select class="form-control" [formControl]="complexForm2.controls['personState']"  name="personState" [(ngModel)]="data.personState">
-										  <option>--SELECT--</option>
-											<option>1</option>
-										  <option>2</option>
-										  <option>3</option>
-										  <option>4</option>
-										  <option>5</option>
-										</select>	
-										<div *ngIf="(complexForm2.controls['personState'].hasError('required') && complexForm2.controls['personState'].touched)||(complexForm2.controls['personState'].hasError('required') && submitted)" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include State.</div>								
-									</div>									
-									<div class="form-group col-md-3" [ngClass]="{'has-error':(!complexForm2.controls['personPin'].valid && complexForm2.controls['personPin'].touched)||(!complexForm2.controls['personPin'].valid && submitted)}">
-										<label for="exampleInputName2">PIN Code </label>
-										<input type="text" class="form-control" id="exampleInputName2" placeholder="PIN Code" [formControl]="complexForm2.controls['personPin']" name="personPinCode" [(ngModel)]="data.personPinCode">
-								    <div *ngIf="(complexForm2.controls['personPin'].hasError('required') && complexForm2.controls['personPin'].touched)||(complexForm2.controls['personPin'].hasError('required') && submitted)" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include Pin Code.</div>
-                    <div *ngIf="complexForm2.controls['personPin'].hasError('pattern') && complexForm2.controls['personPin'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Enter 6 digit Number only</div>						
-									</div>
-																	
-								</div>
-						
-								<div class="row">
-									<div class="form-group col-md-3">										
-										<button type="button" class="btn btn-primary abp">Add more <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
-									</div>
-									<div class="form-group col-md-6">										
-										
-									</div>
-									<div class="form-group col-md-3">										
-										<button type="button" class="btn btn-primary abp pull-right" onclick="removeThis();" >Remove <span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
-									</div>
-								</div>								
-						</form>
-					</div>
-					</div>
-				</div>				
-          </div>
+										<option>--Select--</option>
+										  <option *ngFor="let state of stateList" [ngValue]="state">{{state.stateCodeDescription}}</option>
 
-        </div>
+										</select>
+							<div *ngIf="(cirForm.controls['state'].hasError('required') && cirForm.controls['state'].touched)||(cirForm.controls['state'].hasError('required') && submitted)"
+							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include State.</div>
+						</div>
+						<div class="form-group col-md-3" [ngClass]="{'has-error':(!cirForm.controls['pincode'].valid && cirForm.controls['pincode'].touched)||(!cirForm.controls['pincode'].valid && submitted)}">
+							<label for="exampleInputName2">PIN Code </label>
+							<input type="text" class="form-control" id="exampleInputName2" placeholder="PIN Code" name="pinCode" [(ngModel)]="commonArray.cir.pinCode"
+							 [formControl]="cirForm.controls['pincode']">
+							<div *ngIf="(cirForm.controls['pincode'].hasError('required') && cirForm.controls['pincode'].touched)||(cirForm.controls['pincode'].hasError('required') && submitted)"
+							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include pincode.</div>
+							<div *ngIf="cirForm.controls['pincode'].hasError('pattern') && cirForm.controls['pincode'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Your Pincode must be a Number With 6 digits.</div>
+						</div>
+						<div class="form-group col-md-3">
+							<label for="exampleInputName2">Telephone</label>
+							<input type="text" class="form-control" id="exampleInputName2" placeholder="Telephone" name="telephoneNo" [(ngModel)]="commonArray.cir.telephoneNo">
+						</div>
+					</div>
 
-    <div class="row" >
-			<div class="back-btn pull-left"><button (click)="back()" type="submit" class="btn btn-primary">Back</button></div>
-			<div class="next-btn pull-right"><input (click)="validate()" type="submit" class="btn btn-primary form-control"  name="Submit" value="Submit"></div>
-		 
-			</div>  
-			
-        
-	<script>
-		function companySelectList(nameSelect)
-		{			
-			if(nameSelect){
-				conpanyValue = document.getElementById("currectName").value;
-				if(conpanyValue == nameSelect.value){
-					document.getElementById("comapnyDetails").style.display = "block";
-					$(".blank-form").hide();
-				}
-				else{
-					document.getElementById("comapnyDetails").style.display = "none";
-					$(".blank-form").show();
-				}
-			}
-			else{
-				document.getElementById("comapnyDetails").style.display = "none";
+					<div class="row">
+						<div class="form-group col-md-3" [ngClass]="{'has-error':(!cirForm.controls['pan'].valid && cirForm.controls['pan'].touched)||(!cirForm.controls['pan'].valid && submitted)}">
+							<label for="exampleInputName2">PAN</label>
+							<input type="text" class="form-control" id="exampleInputName2" placeholder="PAN" [formControl]="cirForm.controls['pan']"
+							 name="pan" [(ngModel)]="commonArray.cir.pan">
+							<div *ngIf="(cirForm.controls['pan'].hasError('required') && cirForm.controls['pan'].touched)||(cirForm.controls['pan'].hasError('required') && submitted)"
+							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include PAN.</div>
+							<div *ngIf="cirForm.controls['pan'].hasError('pattern') && cirForm.controls['pan'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Enter valid PAN.</div>
+						</div>
+						<div class="form-group col-md-3">
+							<label for="exampleInputName2">CIN</label>
+							<input type="text" class="form-control" id="exampleInputName2" placeholder="CIN" name="cin" [(ngModel)]="commonArray.cir.cin">
+						</div>
+						<div class="form-group col-md-3">
+							<label for="exampleInputName2">TIN</label>
+							<input type="text" class="form-control" id="exampleInputName2" placeholder="TIN" name="tin" [(ngModel)]="commonArray.cir.tin">
+						</div>
+						<div class="form-group col-md-3" [ngClass]="{'has-error':(!cirForm.controls['email'].valid && cirForm.controls['email'].touched)||(!cirForm.controls['email'].valid && submitted)}">
+							<label for="exampleInputName2">Email ID</label>
+							<input type="email" class="form-control" id="exampleInputName2" placeholder="Email ID" [formControl]="cirForm.controls['email']"
+							 name="emailId" [(ngModel)]="commonArray.cir.emailId">
+							<div *ngIf="(cirForm.controls['email'].hasError('required') && cirForm.controls['email'].touched)||(cirForm.controls['email'].hasError('required') && submitted)"
+							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include email.</div>
+							<div *ngIf="cirForm.controls['email'].hasError('pattern') && cirForm.controls['email'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Enter Valid EmailId.</div>
+						</div>
+					</div>
+				</form>
+				<div *ngIf="isCombo">
+					<consumerComponent [consumerData]='commonArray.consumer'></consumerComponent>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="row">
+	<div class="back-btn pull-left"><button (click)="back()" type="submit" class="btn btn-primary">Back</button></div>
+	<div class="next-btn pull-right"><input (click)="validate()" type="submit" class="btn btn-primary form-control" name="Submit" value="Submit"></div>
+
+</div>
+
+
+<script>
+	$(document).ready(function () {
+		var date_input = $('input[name="date"]'); //our date input has the name "date" 
+		date_input.datepicker({
+			format: 'mm/dd/yyyy',
+			todayHighlight: true,
+			autoclose: true,
+		})
+	})
+
+	function companySelectList(nameSelect) {
+		if (nameSelect) {
+			conpanyValue = document.getElementById("currectName").value;
+			if (conpanyValue == nameSelect.value) {
+				document.getElementById("comapnyDetails").style.display = "block";
 				$(".blank-form").hide();
 			}
+			else {
+				document.getElementById("comapnyDetails").style.display = "none";
+				$(".blank-form").show();
+			}
 		}
-		function addMore(){ $("form.user-form.abpDetails").show();}
-		function removeThis(){ $("form.user-form.abpDetails").hide();}
-	</script>
-	
+		else {
+			document.getElementById("comapnyDetails").style.display = "none";
+			$(".blank-form").hide();
+		}
+	}
+	function addMore() { $("form.user-form.abpDetails").show(); }
+	function removeThis() { $("form.user-form.abpDetails").hide(); }
+
+</script>

@@ -14,5 +14,12 @@ public class Constant {
 	public static final String OPEN = "OPEN";
 	public static final String CLOSED = "CLOSED";
 	
+	// upload settings
+	public static final int MEMORY_THRESHOLD = 1024 * 1024 * 3; // 3MB
+	public static final int MAX_FILE_SIZE = 1024 * 1024 * 2000; // 2GB
+	public static final int MAX_REQUEST_SIZE = 1024 * 1024 * 2500; // 2.5GB
+	
+	public static final int BUFFER_SIZE = 4096;
+	
 
 }

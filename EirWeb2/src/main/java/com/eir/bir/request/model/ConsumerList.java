@@ -5,7 +5,11 @@ public class ConsumerList {
 	String ernNumber;
 	String score;
 	String status;
-	String cirRequetcol;
+	String relationType;
+	String firstName;
+	String middleName;
+	String lastName;
+	String personPan;
 	
 	public String getErnNumber() {
 		return ernNumber;
@@ -25,15 +29,39 @@ public class ConsumerList {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public String getCirRequetcol() {
-		return cirRequetcol;
-	}
-	public void setCirRequetcol(String cirRequetcol) {
-		this.cirRequetcol = cirRequetcol;
-	}
+
 	@Override
 	public String toString() {
-		return "ConsumerList [ernNumber=" + ernNumber + ", score=" + score + ", status=" + status + ", cirRequetcol="
-				+ cirRequetcol + "]";
+		return "ConsumerList [ernNumber=" + ernNumber + ", score=" + score + ", status=" + status + "]";
+	}
+	public String getRelationType() {
+		return relationType;
+	}
+	public void setRelationType(String relationType) {
+		this.relationType = relationType;
+	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getMiddleName() {
+		return middleName;
+	}
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	public String getPersonPan() {
+		return personPan;
+	}
+	public void setPersonPan(String personPan) {
+		this.personPan = personPan;
 	}
 }

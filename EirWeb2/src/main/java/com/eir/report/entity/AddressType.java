@@ -27,32 +27,31 @@ import org.springframework.stereotype.Component;
 @Component
 @Entity
 
-@Table(name = "STATE_CODE")
+@Table(name = "address_type")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = "eir/com/eir/report/entity", name = "State")
+@XmlType(namespace = "eir/com/eir/report/entity", name = "AddressType")
 
 @EntityListeners(AuditingEntityListener.class)
-public class State {
+public class AddressType {
 	
-	@Column(name = "code", nullable = false)
+	@Column(name = "address_type_id", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="state_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="addrType_seq")
 	@SequenceGenerator(
-		name="state_seq",
-		sequenceName="state_sequence",
+		name="addrType_seq",
+		sequenceName="addressType_sequence",
 		allocationSize=1
 	)
 	@XmlElement
-	Integer stateCode;
+	String addressTypeId;
 	
-	@Column(name = "code_description", length = 45)
+	@Column(name = "address_type_description", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String stateCodeDescription;
-	
+	String addressTypeDescription;
 	@Column(name = "create_user_id", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
@@ -75,61 +74,52 @@ public class State {
 
 	@LastModifiedBy
 	String updateUserId;
-	
+	/**
+	 */
+	//@Temporal(TemporalType.DATE)
 	@Column(name = "update_user_date")
 	@Basic(fetch = FetchType.EAGER)
 
 	@LastModifiedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	DateTime updateUserDate ;
-	
-	
+	public String getAddressTypeId() {
+		return addressTypeId;
+	}
+	public void setAddressTypeId(String addressTypeId) {
+		this.addressTypeId = addressTypeId;
+	}
+	public String getAddressTypeDescription() {
+		return addressTypeDescription;
+	}
+	public void setAddressTypeDescription(String addressTypeDescription) {
+		this.addressTypeDescription = addressTypeDescription;
+	}
 	public String getCreateUserId() {
 		return createUserId;
 	}
-
 	public void setCreateUserId(String createUserId) {
 		this.createUserId = createUserId;
 	}
-
 	public DateTime getCreateUserDate() {
 		return createUserDate;
 	}
-
 	public void setCreateUserDate(DateTime createUserDate) {
 		this.createUserDate = createUserDate;
 	}
-
 	public String getUpdateUserId() {
 		return updateUserId;
 	}
-
 	public void setUpdateUserId(String updateUserId) {
 		this.updateUserId = updateUserId;
 	}
-
 	public DateTime getUpdateUserDate() {
 		return updateUserDate;
 	}
-
 	public void setUpdateUserDate(DateTime updateUserDate) {
 		this.updateUserDate = updateUserDate;
 	}
-
-	public Integer getStateCode() {
-		return stateCode;
-	}
-
-	public void setStateCode(Integer stateCode) {
-		this.stateCode = stateCode;
-	}
-
-	public String getStateCodeDescription() {
-		return stateCodeDescription;
-	}
-
-	public void setStateCodeDescription(String stateCodeDescription) {
-		this.stateCodeDescription = stateCodeDescription;
-	}
+	
+	
 
 }

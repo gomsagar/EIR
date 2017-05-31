@@ -1,19 +1,25 @@
 package com.eir.report.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.eir.report.entity.Address;
 import com.eir.report.entity.BirRequest;
+import com.eir.report.entity.AddressType;
 import com.eir.report.entity.Request;
 import com.eir.report.entity.State;
 import com.eir.report.service.EirService;
@@ -133,13 +139,36 @@ public class EirController {
 		logger.debug("EirController - getStateList(): Start");
 		
 		List<State> stateList = eirService.getStateList();
-		
-		for (State state : stateList) {
-			System.out.println("State Code - "+state.getCode());
-			System.out.println("State description - "+state.getCodeDescription());
-		}
+				
 		logger.debug("EirController - getStateList(): State list"+ stateList );
 		
 		return stateList;		
+	}
+	
+	@RequestMapping(value="/getAddressTypeList", method = RequestMethod.GET)
+	public @ResponseBody List<AddressType> getAddressTypeList(){
+		List<AddressType> addrsTypeList =new ArrayList<AddressType>();
+		logger.debug("EirController - getAddressTypeList(): Start");
+		
+		addrsTypeList = eirService.getAddressTypeList();
+				
+		logger.debug("EirController - getAddressTypeList(): State list"+ addrsTypeList );
+		
+		return addrsTypeList;		
+	}
+	
+	/**
+	 * Upload multiple file using Spring Controller
+	 */
+	@RequestMapping(value = "/uploadKYCDocuments", method = RequestMethod.POST)
+	public @ResponseBody void uploadKYCDocuments(HttpServletRequest request, HttpServletResponse response) 
+	{
+		eirService.uploadKYCDocuments(request,response);
+	}
+	
+	@RequestMapping(value = "/downloadKYCDocuments" , method = RequestMethod.GET)
+	public void downloadKYCDocuments(HttpServletRequest request , HttpServletResponse response)
+	{
+		eirService.downloadKYCDocuments(request,response);
 	}
 }

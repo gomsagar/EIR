@@ -37,6 +37,7 @@ import com.eir.model.EligibleReport;
 import com.eir.model.bir.CompanyReportType;
 import com.eir.model.bir.report.CalculateScore;
 import com.eir.report.constant.Constant;
+import com.eir.report.entity.Address;
 import com.eir.report.entity.BIRZaubaRequest;
 import com.eir.report.entity.BirRequest;
 import com.eir.report.entity.CirRequest;
@@ -47,6 +48,7 @@ import com.eir.bir.request.model.ConsumerList;
 import com.eir.bir.request.model.MultipleRequest;
 import com.eir.report.entity.ReportSelection;
 import com.eir.report.entity.Response;
+import com.eir.report.repository.AddressRepository;
 import com.eir.report.repository.BirRequestRepository;
 import com.eir.report.repository.CirRequestRepository;
 import com.eir.report.repository.ConsumerRequetRepository;
@@ -114,6 +116,9 @@ public class BirReportServiceImpl implements BirReportService {
 	
 	@Autowired
 	ConsumerRequetRepository consumerListRepository;
+	
+	@Autowired
+	AddressRepository addressRepository;
 		
 	CloseableHttpResponse httpResponse = null;
 	HttpEntity entity = null;
@@ -510,12 +515,23 @@ public class BirReportServiceImpl implements BirReportService {
 		 		
 		birReqRepository.save(setBIRData(input , request));
 		cirReqRepository.save(setCIRData(input , request));	
+		addressRepository.save(setAddress(input));
 		setConsumerListData(input , request);
+	}
+
+	private Address setAddress(MultipleRequest input) {
+		Address addrsEntity = new Address();
+			addrsEntity.setAddressLine1(input.getCir().getAddrLinen1());
+			addrsEntity.setAddressLine2(input.getCir().getAddrline2());
+			addrsEntity.setCity(input.getCir().getCity());
+			addrsEntity.setState(input.getCir().getState());
+			addrsEntity.setPincode(input.getCir().getPinCode());
+		return addrsEntity;
 	}
 
 	private ConsumerRequet setConsumerListData(MultipleRequest input, HttpServletRequest request) {
 		
-		for (ConsumerList consumer_element : input.getCirRequest().getConsumerList()) {
+		for (ConsumerList consumer_element : input.getConsumer()) {
 			ConsumerRequet consumerEntity = new ConsumerRequet();
 				consumerEntity.setErnNumber(consumer_element.getErnNumber());
 				consumerEntity.setScore(consumer_element.getScore());
@@ -529,17 +545,17 @@ public class BirReportServiceImpl implements BirReportService {
 	private CirRequest setCIRData(MultipleRequest input, HttpServletRequest request) {
 		CirRequest saveCir = new CirRequest();		
 				
-		saveCir.setErnNumber(input.getCirRequest().getErnNumber());
-		saveCir.setStatus(input.getCirRequest().getStatus());
+		saveCir.setErnNumber(input.getCir().getErnNumber());
+		saveCir.setStatus(input.getCir().getStatus());
 		
 		return saveCir;
 	}
 
 	private BirRequest setBIRData(MultipleRequest input, HttpServletRequest request) {
 		BirRequest saveBir = new BirRequest();
-		saveBir.setCompanyName(input.getBirRequest().getCompanyName());
-		saveBir.setEntityName(input.getBirRequest().getEntityName());
-		saveBir.setCinNumber(input.getBirRequest().getCinNumber());
+		saveBir.setCompanyName(input.getBir().getCompanyName());
+		saveBir.setEntityName(input.getBir().getEntityName());
+		saveBir.setCinNumber(input.getBir().getCinNumber());
 		
 		return saveBir;
 	}

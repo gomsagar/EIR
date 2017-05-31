@@ -1,60 +1,39 @@
 package com.eir.bir.request.model;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-"birRequest",
-"cirRequest"
-})
 
 public class MultipleRequest {
 	
 
-@JsonProperty("birRequest")
-private BirRequest birRequest;
-@JsonProperty("cirRequest")
-private CirRequest cirRequest;
-@JsonIgnore
-private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+private BirRequest bir;
+private CirRequest cir;
 
-@JsonProperty("birRequest")
-public BirRequest getBirRequest() {
-return birRequest;
+List<ConsumerList> consumer = null;
+
+
+public List<ConsumerList> getConsumer() {
+	return consumer;
 }
 
-@JsonProperty("birRequest")
-public void setBirRequest(BirRequest birRequest) {
-this.birRequest = birRequest;
+public void setConsumer(List<ConsumerList> consumer) {
+	this.consumer = consumer;
 }
 
-@JsonProperty("cirRequest")
-public CirRequest getCirRequest() {
-return cirRequest;
+public BirRequest getBir() {
+	return bir;
 }
 
-@JsonProperty("cirRequest")
-public void setCirRequest(CirRequest cirRequest) {
-this.cirRequest = cirRequest;
+public void setBir(BirRequest bir) {
+	this.bir = bir;
 }
 
-@JsonAnyGetter
-public Map<String, Object> getAdditionalProperties() {
-return this.additionalProperties;
+public CirRequest getCir() {
+	return cir;
 }
 
-@JsonAnySetter
-public void setAdditionalProperty(String name, Object value) {
-this.additionalProperties.put(name, value);
+public void setCir(CirRequest cir) {
+	this.cir = cir;
 }
-
 
 }

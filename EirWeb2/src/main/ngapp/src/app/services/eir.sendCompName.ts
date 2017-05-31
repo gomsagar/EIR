@@ -10,8 +10,7 @@ export class CompanyNameService {
     }
 
     validateName(cmpName) {
-        console.log(cmpName);
-       
+        console.log('Company Name ------------------------------------ '+cmpName);
         var headr = new Headers();
         headr.append('Content-Type', 'application/json');
          

@@ -2,16 +2,15 @@ package com.eir.report.entity;
 
 public class BIRCmpnySrchRequest {
 	
-	String cmpName;
+	String companyName;
 
-	public String getCmpName() {
-		return cmpName;
+	public String getCompanyName() {
+		return companyName;
 	}
 
-	public void setCmpName(String cmpName) {
-		this.cmpName = cmpName;
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
-	
-	
 
+	
 }

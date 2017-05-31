@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.eir.model.EIRDataConstant;
 import com.eir.model.EligibleReport;
 import com.eir.model.ResponseObject;
 import com.eir.report.entity.BIRCmpnySrchRequest;
@@ -33,19 +30,11 @@ public class BirController {
 	
 	Logger logger = LoggerFactory.getLogger(BirController.class);
 
-	@RequestMapping("/welcome2")
-	public ModelAndView helloWorld() {
-
-		String message = "<br><div style='text-align:center;'>"
-				+ "<h3>********** Hello World, Spring MVC Tutorial</h3>This message is coming from CrunchifyHelloWorld.java **********</div><br><br>";
-		return new ModelAndView("welcome", "message", message);
-	}
-	@CrossOrigin("*")
 	@RequestMapping(value = "/getCompanyList", method = RequestMethod.POST)
 	public @ResponseBody List<Response> getCompanyList(@RequestBody BIRCmpnySrchRequest request) {
 		logger.debug("ZaubaIntegrationController getCompanyList() ");
 		
-		String companyName=request.getCmpName();
+		String companyName=request.getCompanyName();
 				
 		System.out.println("Sending Company Search Request");
 		List<Response> listOfCompany = birService.companySearch(companyName);//Later on pass one more parameter as company name
@@ -81,15 +70,7 @@ public class BirController {
 	@CrossOrigin("*")
 	@RequestMapping(value = "/getEligibleReport", method = RequestMethod.GET,produces="application/json")
 	public @ResponseBody EligibleReport getEligibleReport() {
-		//EligibleReport selectedProduct = birService.getEligibleReport();
-		
-			EligibleReport selectedProduct = new EligibleReport();
-					selectedProduct.setBir(true);
-					selectedProduct.setCommWithoutScore(true);
-					selectedProduct.setComboWithScore(true);
-					selectedProduct.setComboWithoutScore(true);
-					selectedProduct.setCommWithScore(true);
-
+		EligibleReport selectedProduct = birService.getEligibleReport();
 		return selectedProduct;
 	}
 	@CrossOrigin("*")
@@ -112,7 +93,7 @@ public class BirController {
 		request.getSession().setAttribute("userId", "EIR");
 		System.out.println("session id - : "+request.getSession().getAttribute("userId"));
 		System.out.println("session id - : "+request.getRequestedSessionId());
-		System.out.println("Inside getInfo method" + input.getBirRequest().getCinNumber());
+		System.out.println("Inside getInfo method" + input.getBir().getCinNumber());
 		
 		birService.saveRequestedData(input , request);
 		
