@@ -104,7 +104,7 @@ private _subscription;
               this.isCir = true;
               console.log("Only Cir:"+this.isCir);
           }
-          //this._appService.submit(this.data).subscribe(this.data);
+          this._appService.submit(this.data).subscribe(this.data);
           if(this.isOnlyBir && this.isCombo)
           {
             this.router.navigate(['inputForEnquiry'],{ queryParams: { isOnlyBir: true, isCombo: true, isCir: false} });
