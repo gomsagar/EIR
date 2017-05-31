@@ -1,7 +1,6 @@
 package com.eir.report.service.impl;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +8,6 @@ import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,16 +16,17 @@ import org.springframework.stereotype.Service;
 import com.eir.report.exception.NextGenCallException;
 import com.eir.report.nextgen.service.client.ExperianHttpDirectClient;
 import com.eir.report.nextgen.service.client.NextGenResponseWrapper;
+import com.eir.report.nextgen.service.model.consumer.AddlProd;
 import com.eir.report.nextgen.service.model.consumer.EnqHeader;
 import com.eir.report.nextgen.service.model.consumer.GetConsumerProductRequest;
 import com.eir.report.nextgen.service.model.consumer.PersAddr;
 import com.eir.report.nextgen.service.model.consumer.PersonId;
 import com.eir.report.nextgen.service.model.consumer.PrsnSrch;
+import com.eir.report.nextgen.service.model.consumer.UserPref;
 import com.eir.report.nextgen.service.model.product.BusAddr;
 import com.eir.report.nextgen.service.model.product.GetBusinessProductRequest;
 import com.eir.report.nextgen.service.model.product.ObjectFactory;
 import com.eir.report.service.NextGenWebService;
-import com.experian.nextgen.ind.model.commercial.uofpojo.ResponseInfo;
 
 @Service
 public class NextGenWebServiceImpl implements NextGenWebService{
@@ -237,6 +236,16 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		enqHeader.setFrequency("99");
 		consumerProductRequest.setENQHEADER(enqHeader);
 		
+		UserPref userPref = new UserPref();
+		userPref.setLanguage("");
+		consumerProductRequest.setUSERPREF(userPref);
+		
+		AddlProd addlProd = new AddlProd();
+		addlProd.setEnquiryAddOnProduct("");
+		consumerProductRequest.getADDLPROD().add(addlProd);
+		
+		
+		
 		List<PrsnSrch> prsnsrchList = new ArrayList<>();
 		PrsnSrch srch = new PrsnSrch();
 		srch.setFirstGivenName("NISHITH");
@@ -249,7 +258,13 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		srch.setGender("3");
 		srch.getIndiaMiddleName3();
 		srch.setIndiaNameTitle("");
+		prsnsrchList.add(srch);
 		consumerProductRequest.setPRSNSRCH(prsnsrchList);
+		
+		com.eir.report.nextgen.service.model.consumer.PersAlias persAlias = new com.eir.report.nextgen.service.model.consumer.PersAlias();
+		persAlias.setAliasName("");
+		persAlias.setAliasType("");
+		consumerProductRequest.setPERSALIAS(persAlias);
 		
 		List<PersonId> personidList = new ArrayList<>();
 		PersonId personId = new PersonId();
@@ -257,6 +272,10 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		personId.setIdNumber("BUQPT2355G");
 		personidList.add(personId);
 		consumerProductRequest.setPERSONID(personidList);
+
+		com.eir.report.nextgen.service.model.consumer.PersonBnk personBnk = new com.eir.report.nextgen.service.model.consumer.PersonBnk();
+		personBnk.setBankAccountNumber("");
+		consumerProductRequest.setPERSONBNK(personBnk);
 		
 		List<PersAddr> persaddrList = new ArrayList<>();
 		PersAddr persAddr = new PersAddr();
@@ -265,7 +284,44 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		persAddr.setPostalCode("401009");
 		persAddr.setAddressLine1("LTMARG60");
 		persAddr.setAddressLine2("MALAD");
+		persaddrList.add(persAddr);
 		consumerProductRequest.setPERSADDR(persaddrList);
+
+		com.eir.report.nextgen.service.model.consumer.PersPhone persPhone = new com.eir.report.nextgen.service.model.consumer.PersPhone();
+		persPhone.setPhoneNumber("");
+		persPhone.setPhoneType("");
+		List<com.eir.report.nextgen.service.model.consumer.PersPhone> phoneList = new ArrayList<>();
+		phoneList.add(persPhone);
+		consumerProductRequest.setPERSPHONE(phoneList);
+		
+		com.eir.report.nextgen.service.model.consumer.PersEmail persemail = new com.eir.report.nextgen.service.model.consumer.PersEmail();
+		persemail.setWebAddr("");
+		persemail.setWebAddrType("");
+		List<com.eir.report.nextgen.service.model.consumer.PersEmail> persemailList = new ArrayList<>();
+		persemailList.add(persemail);
+		consumerProductRequest.setPERSEMAIL(persemailList);
+		
+		com.eir.report.nextgen.service.model.consumer.Employer employer = new com.eir.report.nextgen.service.model.consumer.Employer();
+		employer.setOccupationCode("");
+		employer.setNetMontlyIncome("");
+		employer.setOccYearsEmployed("");
+		employer.setOccMonthsEmployed("");
+		consumerProductRequest.setEMPLOYER(employer);
+		
+		com.eir.report.nextgen.service.model.consumer.PersDetail persDetail = new com.eir.report.nextgen.service.model.consumer.PersDetail();
+		persDetail.setAssetOwnershipIndicator("");
+		persDetail.setMaritalStatus("");
+		persDetail.setMonthlyFamilyExpenseAmt("");
+		persDetail.setNumberDependents("");
+		persDetail.setNumberOfCreditCardHeld("");
+		persDetail.setPovertyIndex("");
+		consumerProductRequest.setPERSDETAIL(persDetail);
+		
+		com.eir.report.nextgen.service.model.consumer.PinId pinId = new com.eir.report.nextgen.service.model.consumer.PinId();
+		pinId.setEperianEncryptedPIN("");
+		List<com.eir.report.nextgen.service.model.consumer.PinId> pinIdList = new ArrayList<>();
+		pinIdList .add(pinId);
+		consumerProductRequest.setPINID(pinIdList);
 		
 		return consumerProductRequest;
 	}
