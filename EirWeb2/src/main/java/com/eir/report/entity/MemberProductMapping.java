@@ -2,6 +2,9 @@
 package com.eir.report.entity;
 
 import java.io.Serializable;
+
+import java.lang.StringBuilder;
+
 import java.util.Calendar;
 
 import javax.persistence.Basic;
@@ -112,7 +115,15 @@ public class MemberProductMapping implements Serializable {
 	/**
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumns({ @JoinColumn(name = "product_id", referencedColumnName = "product_id") })
+	@JoinColumns({
+			@JoinColumn(name = "member_id", referencedColumnName = "memberid", nullable = false, insertable = false, updatable = false) })
+	@XmlTransient
+	Member member;
+	/**
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumns({
+			@JoinColumn(name = "product_code", referencedColumnName = "product_code", nullable = false, insertable = false, updatable = false) })
 	@XmlTransient
 	ProductMaster productMaster;
 
@@ -270,5 +281,13 @@ public class MemberProductMapping implements Serializable {
 		if (memberId != null && !memberId.equals(equalCheck.memberId))
 			return false;
 		return true;
+	}
+
+	public Member getMember() {
+		return member;
+	}
+
+	public void setMember(Member member) {
+		this.member = member;
 	}
 }

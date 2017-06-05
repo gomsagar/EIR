@@ -65,6 +65,14 @@ public class UserAccess implements Serializable {
 	/**
 	 */
 
+	@Column(name = "category_id")
+	@Basic(fetch = FetchType.EAGER)
+
+	@XmlElement
+	Integer categoryId;
+	/**
+	 */
+
 	@Column(name = "role_1", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
@@ -140,7 +148,7 @@ public class UserAccess implements Serializable {
 	/**
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumns({ @JoinColumn(name = "category_id", referencedColumnName = "user_category_id") })
+	@JoinColumns({ @JoinColumn(name = "category_id", referencedColumnName = "user_category_id" , insertable = false, updatable = false) })
 	@XmlTransient
 	UserCategory userCategory;
 
@@ -154,6 +162,18 @@ public class UserAccess implements Serializable {
 	 */
 	public Integer getUserId() {
 		return this.userId;
+	}
+
+	/**
+	 */
+	public void setCategoryId(Integer categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	/**
+	 */
+	public Integer getCategoryId() {
+		return this.categoryId;
 	}
 
 	/**
@@ -282,24 +302,6 @@ public class UserAccess implements Serializable {
 	}
 
 	/**
-	 * Copies the contents of the specified bean into this bean.
-	 *
-	 */
-	public void copy(UserAccess that) {
-		setUserId(that.getUserId());
-		setRole1(that.getRole1());
-		setRole2(that.getRole2());
-		setRole3(that.getRole3());
-		setRole4(that.getRole4());
-		setRole5(that.getRole5());
-		setCreateUserId(that.getCreateUserId());
-		setCreateUserDate(that.getCreateUserDate());
-		setUpdateUserId(that.getUpdateUserId());
-		setUpdateUserDate(that.getUpdateUserDate());
-		setUserCategory(that.getUserCategory());
-	}
-
-	/**
 	 * Returns a textual representation of a bean.
 	 *
 	 */
@@ -319,30 +321,5 @@ public class UserAccess implements Serializable {
 		buffer.append("updateUserDate=[").append(updateUserDate).append("] ");
 
 		return buffer.toString();
-	}
-
-	/**
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = (int) (prime * result + ((userId == null) ? 0 : userId.hashCode()));
-		return result;
-	}
-
-	/**
-	 */
-	public boolean equals(Object obj) {
-		if (obj == this)
-			return true;
-		if (!(obj instanceof UserAccess))
-			return false;
-		UserAccess equalCheck = (UserAccess) obj;
-		if ((userId == null && equalCheck.userId != null) || (userId != null && equalCheck.userId == null))
-			return false;
-		if (userId != null && !userId.equals(equalCheck.userId))
-			return false;
-		return true;
 	}
 }

@@ -71,6 +71,35 @@ public class ConsumerRequet implements Serializable {
 	String ernNumber;
 	/**
 	 */
+	
+	@Column(name = "first_name", length = 45)
+	@Basic(fetch = FetchType.EAGER)
+
+	@XmlElement
+	String firstName;
+	
+
+	@Column(name = "middle_name", length = 45)
+	@Basic(fetch = FetchType.EAGER)
+
+	@XmlElement
+	String middleName;
+	/**
+	 */
+	@Column(name = "last_name", length = 45)
+	@Basic(fetch = FetchType.EAGER)
+
+	@XmlElement
+	String lastName;
+	/**
+	 */
+	@Column(name = "relation_Type", length = 45)
+	@Basic(fetch = FetchType.EAGER)
+
+	@XmlElement
+	String relationType;
+	/**
+	 */
 
 	@Column(name = "xml_output", columnDefinition = "BLOB")
 	@Basic(fetch = FetchType.EAGER)
@@ -105,109 +134,136 @@ public class ConsumerRequet implements Serializable {
 	/**
 	 */
 
-	@Column(name = "cir_requetcol1", length = 45)
+	@Column(name = "person_pan", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String cirRequetcol1;
+	String personPan;
 	/**
 	 */
 
-	@Column(name = "cir_requetcol2", length = 45)
+	@Column(name = "driving_lic", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String cirRequetcol2;
+	String drivingLic;
 	/**
 	 */
 
-	@Column(name = "cir_requetcol3", length = 45)
+	@Column(name = "aadhar_card", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String cirRequetcol3;
+	String aadharCard;
 	/**
 	 */
 
-	@Column(name = "cir_requetcol4", length = 45)
+	@Column(name = "voter_id", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String cirRequetcol4;
+	String voterId;
 	/**
 	 */
 
-	@Column(name = "cir_requetcol5", length = 45)
+	@Column(name = "ration_card", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String cirRequetcol5;
+	String rationCard;
 	/**
 	 */
 
-	@Column(name = "cir_requetcol6", length = 45)
+	@Column(name = "passport_no", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String cirRequetcol6;
+	String passportNo;
 	/**
 	 */
 
-	@Column(name = "cir_requetcol7", length = 45)
+	@Column(name = "homeTelephone_no", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String cirRequetcol7;
+	String homeTelephoneNo;
 	/**
 	 */
 
-	@Column(name = "cir_requetcol8", length = 45)
+	@Column(name = "officeTelephone_no", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String cirRequetcol8;
+	String officeTelephoneNo;
 	/**
 	 */
 
-	@Column(name = "cir_requetcol9", length = 45)
+	@Column(name = "mobile_no", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String cirRequetcol9;
+	String mobileNo;
 	/**
 	 */
 
-	@Column(name = "cir_requetcol10", length = 45)
+	@Column(name = "birth_Date", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String cirRequetcol10;
+	String birthDate;
 	/**
 	 */
 
-	@Column(name = "cir_requetcol11", length = 45)
+	@Column(name = "marital_status", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String cirRequetcol11;
+	String maritalStatus;
 	/**
 	 */
 
-	@Column(name = "cir_requetcol12", length = 45)
+	@Column(name = "gender", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String cirRequetcol12;
+	String gender;
 	/**
 	 */
 
-	@Column(name = "cir_requetcol13", length = 45)
+	@Column(name = "personAddr_line1", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String cirRequetcol13;
+	String personAddrLine1;
 	/**
 	 */
+	@Column(name = "personAddr_line2", length = 45)
+	@Basic(fetch = FetchType.EAGER)
+
+	@XmlElement
+	String personAddrLine2;
+	/**
+	 */
+	@Column(name = "person_city", length = 45)
+	@Basic(fetch = FetchType.EAGER)
+
+	@XmlElement
+	String personCity;
+	/**
+	 */
+	@Column(name = "person_state", length = 45)
+	@Basic(fetch = FetchType.EAGER)
+
+	@XmlElement
+	String personState;
+	/**
+	 */
+	@Column(name = "person_pincode", length = 45)
+	@Basic(fetch = FetchType.EAGER)
+
+	@XmlElement
+	String personPincode;
+	
 
 	@Column(name = "create_user_id", length = 45)
 	@Basic(fetch = FetchType.EAGER)
@@ -320,161 +376,7 @@ public class ConsumerRequet implements Serializable {
 		return this.cirRequetcol;
 	}
 
-	/**
-	 */
-	public void setCirRequetcol1(String cirRequetcol1) {
-		this.cirRequetcol1 = cirRequetcol1;
-	}
-
-	/**
-	 */
-	public String getCirRequetcol1() {
-		return this.cirRequetcol1;
-	}
-
-	/**
-	 */
-	public void setCirRequetcol2(String cirRequetcol2) {
-		this.cirRequetcol2 = cirRequetcol2;
-	}
-
-	/**
-	 */
-	public String getCirRequetcol2() {
-		return this.cirRequetcol2;
-	}
-
-	/**
-	 */
-	public void setCirRequetcol3(String cirRequetcol3) {
-		this.cirRequetcol3 = cirRequetcol3;
-	}
-
-	/**
-	 */
-	public String getCirRequetcol3() {
-		return this.cirRequetcol3;
-	}
-
-	/**
-	 */
-	public void setCirRequetcol4(String cirRequetcol4) {
-		this.cirRequetcol4 = cirRequetcol4;
-	}
-
-	/**
-	 */
-	public String getCirRequetcol4() {
-		return this.cirRequetcol4;
-	}
-
-	/**
-	 */
-	public void setCirRequetcol5(String cirRequetcol5) {
-		this.cirRequetcol5 = cirRequetcol5;
-	}
-
-	/**
-	 */
-	public String getCirRequetcol5() {
-		return this.cirRequetcol5;
-	}
-
-	/**
-	 */
-	public void setCirRequetcol6(String cirRequetcol6) {
-		this.cirRequetcol6 = cirRequetcol6;
-	}
-
-	/**
-	 */
-	public String getCirRequetcol6() {
-		return this.cirRequetcol6;
-	}
-
-	/**
-	 */
-	public void setCirRequetcol7(String cirRequetcol7) {
-		this.cirRequetcol7 = cirRequetcol7;
-	}
-
-	/**
-	 */
-	public String getCirRequetcol7() {
-		return this.cirRequetcol7;
-	}
-
-	/**
-	 */
-	public void setCirRequetcol8(String cirRequetcol8) {
-		this.cirRequetcol8 = cirRequetcol8;
-	}
-
-	/**
-	 */
-	public String getCirRequetcol8() {
-		return this.cirRequetcol8;
-	}
-
-	/**
-	 */
-	public void setCirRequetcol9(String cirRequetcol9) {
-		this.cirRequetcol9 = cirRequetcol9;
-	}
-
-	/**
-	 */
-	public String getCirRequetcol9() {
-		return this.cirRequetcol9;
-	}
-
-	/**
-	 */
-	public void setCirRequetcol10(String cirRequetcol10) {
-		this.cirRequetcol10 = cirRequetcol10;
-	}
-
-	/**
-	 */
-	public String getCirRequetcol10() {
-		return this.cirRequetcol10;
-	}
-
-	/**
-	 */
-	public void setCirRequetcol11(String cirRequetcol11) {
-		this.cirRequetcol11 = cirRequetcol11;
-	}
-
-	/**
-	 */
-	public String getCirRequetcol11() {
-		return this.cirRequetcol11;
-	}
-
-	/**
-	 */
-	public void setCirRequetcol12(String cirRequetcol12) {
-		this.cirRequetcol12 = cirRequetcol12;
-	}
-
-	/**
-	 */
-	public String getCirRequetcol12() {
-		return this.cirRequetcol12;
-	}
-
-	/**
-	 */
-	public void setCirRequetcol13(String cirRequetcol13) {
-		this.cirRequetcol13 = cirRequetcol13;
-	}
-
-	/**
-	 */
-	public String getCirRequetcol13() {
-		return this.cirRequetcol13;
-	}
+	
 
 	/**
 	 */
@@ -552,19 +454,6 @@ public class ConsumerRequet implements Serializable {
 		setScore(that.getScore());
 		setStatus(that.getStatus());
 		setCirRequetcol(that.getCirRequetcol());
-		setCirRequetcol1(that.getCirRequetcol1());
-		setCirRequetcol2(that.getCirRequetcol2());
-		setCirRequetcol3(that.getCirRequetcol3());
-		setCirRequetcol4(that.getCirRequetcol4());
-		setCirRequetcol5(that.getCirRequetcol5());
-		setCirRequetcol6(that.getCirRequetcol6());
-		setCirRequetcol7(that.getCirRequetcol7());
-		setCirRequetcol8(that.getCirRequetcol8());
-		setCirRequetcol9(that.getCirRequetcol9());
-		setCirRequetcol10(that.getCirRequetcol10());
-		setCirRequetcol11(that.getCirRequetcol11());
-		setCirRequetcol12(that.getCirRequetcol12());
-		setCirRequetcol13(that.getCirRequetcol13());
 		setCreateUserId(that.getCreateUserId());
 		setCreateUserDate(that.getCreateUserDate());
 		setUpdateUserId(that.getUpdateUserId());
@@ -586,19 +475,6 @@ public class ConsumerRequet implements Serializable {
 		buffer.append("score=[").append(score).append("] ");
 		buffer.append("status=[").append(status).append("] ");
 		buffer.append("cirRequetcol=[").append(cirRequetcol).append("] ");
-		buffer.append("cirRequetcol1=[").append(cirRequetcol1).append("] ");
-		buffer.append("cirRequetcol2=[").append(cirRequetcol2).append("] ");
-		buffer.append("cirRequetcol3=[").append(cirRequetcol3).append("] ");
-		buffer.append("cirRequetcol4=[").append(cirRequetcol4).append("] ");
-		buffer.append("cirRequetcol5=[").append(cirRequetcol5).append("] ");
-		buffer.append("cirRequetcol6=[").append(cirRequetcol6).append("] ");
-		buffer.append("cirRequetcol7=[").append(cirRequetcol7).append("] ");
-		buffer.append("cirRequetcol8=[").append(cirRequetcol8).append("] ");
-		buffer.append("cirRequetcol9=[").append(cirRequetcol9).append("] ");
-		buffer.append("cirRequetcol10=[").append(cirRequetcol10).append("] ");
-		buffer.append("cirRequetcol11=[").append(cirRequetcol11).append("] ");
-		buffer.append("cirRequetcol12=[").append(cirRequetcol12).append("] ");
-		buffer.append("cirRequetcol13=[").append(cirRequetcol13).append("] ");
 		buffer.append("createUserId=[").append(createUserId).append("] ");
 		buffer.append("createUserDate=[").append(createUserDate).append("] ");
 		buffer.append("updateUserId=[").append(updateUserId).append("] ");
@@ -630,5 +506,173 @@ public class ConsumerRequet implements Serializable {
 		if (consumerRequetId != null && !consumerRequetId.equals(equalCheck.consumerRequetId))
 			return false;
 		return true;
+	}
+
+	public String getPersonPan() {
+		return personPan;
+	}
+
+	public void setPersonPan(String personPan) {
+		this.personPan = personPan;
+	}
+
+	public String getDrivingLic() {
+		return drivingLic;
+	}
+
+	public void setDrivingLic(String drivingLic) {
+		this.drivingLic = drivingLic;
+	}
+
+	public String getAadharCard() {
+		return aadharCard;
+	}
+
+	public void setAadharCard(String aadharCard) {
+		this.aadharCard = aadharCard;
+	}
+
+	public String getVoterId() {
+		return voterId;
+	}
+
+	public void setVoterId(String voterId) {
+		this.voterId = voterId;
+	}
+
+	public String getRationCard() {
+		return rationCard;
+	}
+
+	public void setRationCard(String rationCard) {
+		this.rationCard = rationCard;
+	}
+
+	public String getPassportNo() {
+		return passportNo;
+	}
+
+	public void setPassportNo(String passportNo) {
+		this.passportNo = passportNo;
+	}
+
+	public String getHomeTelephoneNo() {
+		return homeTelephoneNo;
+	}
+
+	public void setHomeTelephoneNo(String homeTelephoneNo) {
+		this.homeTelephoneNo = homeTelephoneNo;
+	}
+
+	public String getOfficeTelephoneNo() {
+		return officeTelephoneNo;
+	}
+
+	public void setOfficeTelephoneNo(String officeTelephoneNo) {
+		this.officeTelephoneNo = officeTelephoneNo;
+	}
+
+	public String getMobileNo() {
+		return mobileNo;
+	}
+
+	public void setMobileNo(String mobileNo) {
+		this.mobileNo = mobileNo;
+	}
+
+	public String getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(String birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public String getMaritalStatus() {
+		return maritalStatus;
+	}
+
+	public void setMaritalStatus(String maritalStatus) {
+		this.maritalStatus = maritalStatus;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getPersonAddrLine1() {
+		return personAddrLine1;
+	}
+
+	public void setPersonAddrLine1(String personAddrLine1) {
+		this.personAddrLine1 = personAddrLine1;
+	}
+
+	public String getPersonAddrLine2() {
+		return personAddrLine2;
+	}
+
+	public void setPersonAddrLine2(String personAddrLine2) {
+		this.personAddrLine2 = personAddrLine2;
+	}
+
+	public String getPersonCity() {
+		return personCity;
+	}
+
+	public void setPersonCity(String personCity) {
+		this.personCity = personCity;
+	}
+
+	public String getPersonState() {
+		return personState;
+	}
+
+	public void setPersonState(String personState) {
+		this.personState = personState;
+	}
+
+	public String getPersonPincode() {
+		return personPincode;
+	}
+
+	public void setPersonPincode(String personPincode) {
+		this.personPincode = personPincode;
+	}
+
+	public String getRelationType() {
+		return relationType;
+	}
+
+	public void setRelationType(String relationType) {
+		this.relationType = relationType;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getMiddleName() {
+		return middleName;
+	}
+
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 }

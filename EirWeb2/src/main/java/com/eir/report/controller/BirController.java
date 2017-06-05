@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.eir.model.EligibleReport;
 import com.eir.model.ResponseObject;
 import com.eir.report.entity.BIRCmpnySrchRequest;
@@ -72,31 +74,5 @@ public class BirController {
 	public @ResponseBody EligibleReport getEligibleReport() {
 		EligibleReport selectedProduct = birService.getEligibleReport();
 		return selectedProduct;
-	}
-	@CrossOrigin("*")
-	@RequestMapping(value = "/getResponseObject", method = RequestMethod.GET,produces="application/json")
-	public @ResponseBody ResponseObject getResponseObject() {
-		//EligibleReport selectedProduct = birService.getEligibleReport();
-		ResponseObject responseObject = new ResponseObject();
-		responseObject.setInProcessEnquiry(5);
-		responseObject.setPendingDispute(3);
-		responseObject.setTotDispute(5);
-		responseObject.setTotEnquiry(8);
-		
-		return responseObject;
-	}
-	
-	@CrossOrigin("*")
-	@RequestMapping(value="/getInfo", method = RequestMethod.POST,produces="application/json")
-	public String getInfo(@RequestBody MultipleRequest input , HttpServletRequest request ){
-	
-		request.getSession().setAttribute("userId", "EIR");
-		System.out.println("session id - : "+request.getSession().getAttribute("userId"));
-		System.out.println("session id - : "+request.getRequestedSessionId());
-		System.out.println("Inside getInfo method" + input.getBir().getCinNumber());
-		
-		birService.saveRequestedData(input , request);
-		
-	   return "" ;
 	}
 }

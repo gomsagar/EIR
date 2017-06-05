@@ -2,6 +2,9 @@
 package com.eir.report.entity;
 
 import java.io.Serializable;
+
+import java.lang.StringBuilder;
+
 import java.util.Calendar;
 import java.util.Set;
 
@@ -112,6 +115,15 @@ public class ProductMaster implements Serializable {
 
 	/**
 	 */
+	 
+	 
+	@Column(name = "tat_in_hour", length = 45)
+	@Basic(fetch = FetchType.EAGER)
+
+	@XmlElement
+	String tatInHour;
+ 
+ 
 	@OneToMany(mappedBy = "productMaster", fetch = FetchType.LAZY)
 
 	@XmlElement(name = "", namespace = "")
@@ -208,6 +220,18 @@ public class ProductMaster implements Serializable {
 			requests = new java.util.LinkedHashSet<com.eir.report.entity.Request>();
 		}
 		return requests;
+	}
+	
+	/**
+	 */
+	public void setTatInHour(String tatInHour) {
+		this.tatInHour = tatInHour;
+	}
+
+	/**
+	 */
+	public String getTatInHour() {
+		return this.tatInHour;
 	}
 
 	/**

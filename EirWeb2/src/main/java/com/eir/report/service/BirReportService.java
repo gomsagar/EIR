@@ -30,7 +30,6 @@ public interface BirReportService {
 	
 	public void saveSelectedReportData(EligibleReport selection);
 
-	public void saveRequestedData(MultipleRequest input, HttpServletRequest request);
-	
+	public void saveBIRRequestData(MultipleRequest input, HttpServletRequest request);
 
 }

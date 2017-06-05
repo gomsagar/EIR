@@ -2,10 +2,10 @@
 package com.eir.report.entity;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Set;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -68,6 +68,15 @@ public class Request implements Serializable {
 	/**
 	 */
 
+		
+	@Column(name = "type", length = 45)
+	@Basic(fetch = FetchType.EAGER)
+
+	@XmlElement
+	String type;
+	/**
+	 */
+	
 	@Column(name = "ern_number", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
@@ -81,6 +90,14 @@ public class Request implements Serializable {
 
 	@XmlElement
 	String score;
+	/**
+	 */
+	
+	@Column(name = "status", length = 45)
+	@Basic(fetch = FetchType.EAGER)
+
+	@XmlElement
+	String status;
 	/**
 	 */
 
@@ -134,12 +151,24 @@ public class Request implements Serializable {
 
 	/**
 	 */
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumns({ @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false) })
+	@XmlTransient
+	UserDetails userDetails;
+	/**
+	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumns({ @JoinColumn(name = "eir_id", referencedColumnName = "eir_id") })
 	@XmlTransient
 	EntityDetails entityDetails;
 	/**
 	 */
+	/* @ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumns({ @JoinColumn(name = "status_id", referencedColumnName = "id", nullable = false) })
+	@XmlTransient
+	Status status;*/
+	 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumns({ @JoinColumn(name = "product_id", referencedColumnName = "product_id") })
 	@XmlTransient
@@ -300,7 +329,7 @@ public class Request implements Serializable {
 	public ProductMaster getProductMaster() {
 		return productMaster;
 	}
-
+	
 	/**
 	 */
 	public void setBirRequests(Set<BirRequest> birRequests) {
@@ -367,67 +396,28 @@ public class Request implements Serializable {
 	 * Copies the contents of the specified bean into this bean.
 	 *
 	 */
-	public void copy(Request that) {
-		setRequestId(that.getRequestId());
-		setErnNumber(that.getErnNumber());
-		setScore(that.getScore());
-		setUserHit(that.getUserHit());
-		setAdminHit(that.getAdminHit());
-		setCreateUserId(that.getCreateUserId());
-		setCreateUserDate(that.getCreateUserDate());
-		setUpdateUserId(that.getUpdateUserId());
-		setUpdateUserDate(that.getUpdateUserDate());
-		setEntityDetails(that.getEntityDetails());
-		setProductMaster(that.getProductMaster());
-		setBirRequests(new java.util.LinkedHashSet<com.eir.report.entity.BirRequest>(that.getBirRequests()));
-		setKycApproval(that.getKycApproval());
-		setCirRequets(new java.util.LinkedHashSet<com.eir.report.entity.CirRequest>(that.getCirRequets()));
-		setConsumerRequets(new java.util.LinkedHashSet<com.eir.report.entity.ConsumerRequet>(that.getConsumerRequets()));
+		
+	public String getType() {
+		return type;
 	}
 
-	/**
-	 * Returns a textual representation of a bean.
-	 *
-	 */
-	public String toString() {
-
-		StringBuilder buffer = new StringBuilder();
-
-		buffer.append("requestId=[").append(requestId).append("] ");
-		buffer.append("ernNumber=[").append(ernNumber).append("] ");
-		buffer.append("score=[").append(score).append("] ");
-		buffer.append("userHit=[").append(userHit).append("] ");
-		buffer.append("adminHit=[").append(adminHit).append("] ");
-		buffer.append("createUserId=[").append(createUserId).append("] ");
-		buffer.append("createUserDate=[").append(createUserDate).append("] ");
-		buffer.append("updateUserId=[").append(updateUserId).append("] ");
-		buffer.append("updateUserDate=[").append(updateUserDate).append("] ");
-
-		return buffer.toString();
+	public void setType(String type) {
+		this.type = type;
 	}
 
-	/**
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = (int) (prime * result + ((requestId == null) ? 0 : requestId.hashCode()));
-		return result;
+	public String getStatus() {
+		return status;
 	}
 
-	/**
-	 */
-	public boolean equals(Object obj) {
-		if (obj == this)
-			return true;
-		if (!(obj instanceof Request))
-			return false;
-		Request equalCheck = (Request) obj;
-		if ((requestId == null && equalCheck.requestId != null) || (requestId != null && equalCheck.requestId == null))
-			return false;
-		if (requestId != null && !requestId.equals(equalCheck.requestId))
-			return false;
-		return true;
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public UserDetails getUserDetails() {
+		return userDetails;
+	}
+
+	public void setUserDetails(UserDetails userDetails) {
+		this.userDetails = userDetails;
 	}
 }

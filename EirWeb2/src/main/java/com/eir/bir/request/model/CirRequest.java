@@ -15,8 +15,8 @@ public class CirRequest {
 	String accType2;
 	String cmpPan;
 	String addrType;
-	String addrLinen1;
-	String addrline2;
+	String addrLine1;
+	String addrLine2;
 	String city;
 	String state;
 	String pinCode;
@@ -104,18 +104,7 @@ public class CirRequest {
 	public void setAddrType(String addrType) {
 		this.addrType = addrType;
 	}
-	public String getAddrLinen1() {
-		return addrLinen1;
-	}
-	public void setAddrLinen1(String addrLinen1) {
-		this.addrLinen1 = addrLinen1;
-	}
-	public String getAddrline2() {
-		return addrline2;
-	}
-	public void setAddrline2(String addrline2) {
-		this.addrline2 = addrline2;
-	}
+
 	public String getCity() {
 		return city;
 	}
@@ -169,6 +158,18 @@ public class CirRequest {
 	}
 	public void setTriggers(String triggers) {
 		this.triggers = triggers;
+	}
+	public String getAddrLine1() {
+		return addrLine1;
+	}
+	public void setAddrLine1(String addrLine1) {
+		this.addrLine1 = addrLine1;
+	}
+	public String getAddrLine2() {
+		return addrLine2;
+	}
+	public void setAddrLine2(String addrLine2) {
+		this.addrLine2 = addrLine2;
 	}
 
 }

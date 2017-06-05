@@ -32,26 +32,20 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
+import com.eir.bir.request.model.MultipleRequest;
 import com.eir.model.EIRDataConstant;
 import com.eir.model.EligibleReport;
 import com.eir.model.bir.CompanyReportType;
 import com.eir.model.bir.report.CalculateScore;
 import com.eir.report.constant.Constant;
-import com.eir.report.entity.Address;
 import com.eir.report.entity.BIRZaubaRequest;
 import com.eir.report.entity.BirRequest;
-import com.eir.report.entity.CirRequest;
 import com.eir.report.entity.CompanyList;
-import com.eir.report.entity.ConsumerRequet;
 import com.eir.report.entity.MemberProductMapping;
-import com.eir.bir.request.model.ConsumerList;
-import com.eir.bir.request.model.MultipleRequest;
 import com.eir.report.entity.ReportSelection;
 import com.eir.report.entity.Response;
 import com.eir.report.repository.AddressRepository;
 import com.eir.report.repository.BirRequestRepository;
-import com.eir.report.repository.CirRequestRepository;
-import com.eir.report.repository.ConsumerRequetRepository;
 import com.eir.report.repository.MemberProductMappingRepository;
 import com.eir.report.repository.ProductRepository;
 import com.eir.report.repository.ReportSelectionRepository;
@@ -103,9 +97,6 @@ public class BirReportServiceImpl implements BirReportService {
 	BirRequestRepository birReqRepository;
 	
 	@Autowired
-	CirRequestRepository cirReqRepository;
-	
-	@Autowired
 	MemberProductMappingRepository memberProductMappingRepo;
 	
 	@Autowired
@@ -113,9 +104,6 @@ public class BirReportServiceImpl implements BirReportService {
 	
 	@Autowired
 	ReportSelectionRepository reportSelectionRepository;
-	
-	@Autowired
-	ConsumerRequetRepository consumerListRepository;
 	
 	@Autowired
 	AddressRepository addressRepository;
@@ -511,48 +499,15 @@ public class BirReportServiceImpl implements BirReportService {
 	}
 
 	@Override
-	public void saveRequestedData(MultipleRequest input , HttpServletRequest request) {
-		 		
+	public void saveBIRRequestData(MultipleRequest input, HttpServletRequest request) 
+	{
 		birReqRepository.save(setBIRData(input , request));
-		cirReqRepository.save(setCIRData(input , request));	
-		addressRepository.save(setAddress(input));
-		setConsumerListData(input , request);
-	}
-
-	private Address setAddress(MultipleRequest input) {
-		Address addrsEntity = new Address();
-			addrsEntity.setAddressLine1(input.getCir().getAddrLinen1());
-			addrsEntity.setAddressLine2(input.getCir().getAddrline2());
-			addrsEntity.setCity(input.getCir().getCity());
-			addrsEntity.setState(input.getCir().getState());
-			addrsEntity.setPincode(input.getCir().getPinCode());
-		return addrsEntity;
-	}
-
-	private ConsumerRequet setConsumerListData(MultipleRequest input, HttpServletRequest request) {
 		
-		for (ConsumerList consumer_element : input.getConsumer()) {
-			ConsumerRequet consumerEntity = new ConsumerRequet();
-				consumerEntity.setErnNumber(consumer_element.getErnNumber());
-				consumerEntity.setScore(consumer_element.getScore());
-				consumerEntity.setStatus(consumer_element.getStatus());
-				
-			consumerListRepository.save(consumerEntity);
-		}
-		return null;
 	}
-
-	private CirRequest setCIRData(MultipleRequest input, HttpServletRequest request) {
-		CirRequest saveCir = new CirRequest();		
-				
-		saveCir.setErnNumber(input.getCir().getErnNumber());
-		saveCir.setStatus(input.getCir().getStatus());
-		
-		return saveCir;
-	}
-
+	
 	private BirRequest setBIRData(MultipleRequest input, HttpServletRequest request) {
 		BirRequest saveBir = new BirRequest();
+		saveBir.setRequest(input.getRequestObj());
 		saveBir.setCompanyName(input.getBir().getCompanyName());
 		saveBir.setEntityName(input.getBir().getEntityName());
 		saveBir.setCinNumber(input.getBir().getCinNumber());

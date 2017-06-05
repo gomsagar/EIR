@@ -100,118 +100,159 @@ public class CirRequest implements Serializable {
 	/**
 	 */
 
-	@Column(name = "cir_requetcol", length = 45)
+	@Column(name = "bank_Account_No", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String cirRequetcol;
+	Integer bankAccNo;
 	/**
 	 */
 
-	@Column(name = "cir_requetcol1", length = 45)
+	@Column(name = "product_field", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String cirRequetcol1;
+	String productField;
 	/**
 	 */
 
-	@Column(name = "cir_requetcol2", length = 45)
+	@Column(name = "purpose", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String cirRequetcol2;
+	String purpose;
 	/**
 	 */
 
-	@Column(name = "cir_requetcol3", length = 45)
+	@Column(name = "amount", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String cirRequetcol3;
+	float amount;
 	/**
 	 */
 
-	@Column(name = "cir_requetcol4", length = 45)
+	@Column(name = "account_type1", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String cirRequetcol4;
+	String accType1;
 	/**
 	 */
 
-	@Column(name = "cir_requetcol5", length = 45)
+	@Column(name = "client_ref_no", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String cirRequetcol5;
+	String clientRefNo;
 	/**
 	 */
 
-	@Column(name = "cir_requetcol6", length = 45)
+	@Column(name = "account_type2", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String cirRequetcol6;
+	String accType2;
 	/**
 	 */
 
-	@Column(name = "cir_requetcol7", length = 45)
+	@Column(name = "company_pan", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String cirRequetcol7;
+	String companyPan;
 	/**
 	 */
 
-	@Column(name = "cir_requetcol8", length = 45)
+	
+	@Column(name = "address_type", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String cirRequetcol8;
+	String addrType;
 	/**
 	 */
 
-	@Column(name = "cir_requetcol9", length = 45)
+	@Column(name = "address_lsine1", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String cirRequetcol9;
+	String addrLine1;
 	/**
 	 */
 
-	@Column(name = "cir_requetcol10", length = 45)
+	@Column(name = "address_line2", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String cirRequetcol10;
+	String addrLine2;
 	/**
 	 */
 
-	@Column(name = "cir_requetcol11", length = 45)
+	@Column(name = "city", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String cirRequetcol11;
+	String city;
 	/**
 	 */
 
-	@Column(name = "cir_requetcol12", length = 45)
+	@Column(name = "state", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String cirRequetcol12;
+	String state;
 	/**
 	 */
-
-	@Column(name = "cir_requetcol13", length = 45)
+	@Column(name = "pincode", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String cirRequetcol13;
+	String pinCode;
 	/**
 	 */
+	@Column(name = "telephone_no", length = 45)
+	@Basic(fetch = FetchType.EAGER)
 
+	@XmlElement
+	String telephoneNo;
+	/**
+	 */
+	@Column(name = "pan", length = 45)
+	@Basic(fetch = FetchType.EAGER)
+
+	@XmlElement
+	String pan;
+	/**
+	 */
+	@Column(name = "cin", length = 45)
+	@Basic(fetch = FetchType.EAGER)
+
+	@XmlElement
+	String cin;
+	/**
+	 */
+	@Column(name = "tin", length = 45)
+	@Basic(fetch = FetchType.EAGER)
+
+	@XmlElement
+	String tin;
+	/**
+	 */
+	@Column(name = "email_id", length = 45)
+	@Basic(fetch = FetchType.EAGER)
+
+	@XmlElement
+	String emailId;
+	/**
+	 */
+	@Column(name = "triggers", length = 45)
+	@Basic(fetch = FetchType.EAGER)
+
+	@XmlElement
+	String triggers;
+	/**
+	 */
 
 	@Column(name = "create_user_id", length = 45)
 	@Basic(fetch = FetchType.EAGER)
@@ -314,174 +355,8 @@ public class CirRequest implements Serializable {
 
 	/**
 	 */
-	public void setCirRequetcol(String cirRequetcol) {
-		this.cirRequetcol = cirRequetcol;
-	}
-
-	/**
-	 */
-	public String getCirRequetcol() {
-		return this.cirRequetcol;
-	}
-
-	/**
-	 */
-	public void setCirRequetcol1(String cirRequetcol1) {
-		this.cirRequetcol1 = cirRequetcol1;
-	}
-
-	/**
-	 */
-	public String getCirRequetcol1() {
-		return this.cirRequetcol1;
-	}
-
-	/**
-	 */
-	public void setCirRequetcol2(String cirRequetcol2) {
-		this.cirRequetcol2 = cirRequetcol2;
-	}
-
-	/**
-	 */
-	public String getCirRequetcol2() {
-		return this.cirRequetcol2;
-	}
-
-	/**
-	 */
-	public void setCirRequetcol3(String cirRequetcol3) {
-		this.cirRequetcol3 = cirRequetcol3;
-	}
-
-	/**
-	 */
-	public String getCirRequetcol3() {
-		return this.cirRequetcol3;
-	}
-
-	/**
-	 */
-	public void setCirRequetcol4(String cirRequetcol4) {
-		this.cirRequetcol4 = cirRequetcol4;
-	}
-
-	/**
-	 */
-	public String getCirRequetcol4() {
-		return this.cirRequetcol4;
-	}
-
-	/**
-	 */
-	public void setCirRequetcol5(String cirRequetcol5) {
-		this.cirRequetcol5 = cirRequetcol5;
-	}
-
-	/**
-	 */
-	public String getCirRequetcol5() {
-		return this.cirRequetcol5;
-	}
-
-	/**
-	 */
-	public void setCirRequetcol6(String cirRequetcol6) {
-		this.cirRequetcol6 = cirRequetcol6;
-	}
-
-	/**
-	 */
-	public String getCirRequetcol6() {
-		return this.cirRequetcol6;
-	}
-
-	/**
-	 */
-	public void setCirRequetcol7(String cirRequetcol7) {
-		this.cirRequetcol7 = cirRequetcol7;
-	}
-
-	/**
-	 */
-	public String getCirRequetcol7() {
-		return this.cirRequetcol7;
-	}
-
-	/**
-	 */
-	public void setCirRequetcol8(String cirRequetcol8) {
-		this.cirRequetcol8 = cirRequetcol8;
-	}
-
-	/**
-	 */
-	public String getCirRequetcol8() {
-		return this.cirRequetcol8;
-	}
-
-	/**
-	 */
-	public void setCirRequetcol9(String cirRequetcol9) {
-		this.cirRequetcol9 = cirRequetcol9;
-	}
-
-	/**
-	 */
-	public String getCirRequetcol9() {
-		return this.cirRequetcol9;
-	}
-
-	/**
-	 */
-	public void setCirRequetcol10(String cirRequetcol10) {
-		this.cirRequetcol10 = cirRequetcol10;
-	}
-
-	/**
-	 */
-	public String getCirRequetcol10() {
-		return this.cirRequetcol10;
-	}
-
-	/**
-	 */
-	public void setCirRequetcol11(String cirRequetcol11) {
-		this.cirRequetcol11 = cirRequetcol11;
-	}
-
-	/**
-	 */
-	public String getCirRequetcol11() {
-		return this.cirRequetcol11;
-	}
-
-	/**
-	 */
-	public void setCirRequetcol12(String cirRequetcol12) {
-		this.cirRequetcol12 = cirRequetcol12;
-	}
-
-	/**
-	 */
-	public String getCirRequetcol12() {
-		return this.cirRequetcol12;
-	}
-
-	/**
-	 */
-	public void setCirRequetcol13(String cirRequetcol13) {
-		this.cirRequetcol13 = cirRequetcol13;
-	}
-
-	/**
-	 */
-	public String getCirRequetcol13() {
-		return this.cirRequetcol13;
-	}
-
-	/**
-	 */
+	
+	
 	public void setCreateUserId(String createUserId) {
 		this.createUserId = createUserId;
 	}
@@ -555,20 +430,6 @@ public class CirRequest implements Serializable {
 		setXmlOutput(that.getXmlOutput());
 		setScore(that.getScore());
 		setStatus(that.getStatus());
-		setCirRequetcol(that.getCirRequetcol());
-		setCirRequetcol1(that.getCirRequetcol1());
-		setCirRequetcol2(that.getCirRequetcol2());
-		setCirRequetcol3(that.getCirRequetcol3());
-		setCirRequetcol4(that.getCirRequetcol4());
-		setCirRequetcol5(that.getCirRequetcol5());
-		setCirRequetcol6(that.getCirRequetcol6());
-		setCirRequetcol7(that.getCirRequetcol7());
-		setCirRequetcol8(that.getCirRequetcol8());
-		setCirRequetcol9(that.getCirRequetcol9());
-		setCirRequetcol10(that.getCirRequetcol10());
-		setCirRequetcol11(that.getCirRequetcol11());
-		setCirRequetcol12(that.getCirRequetcol12());
-		setCirRequetcol13(that.getCirRequetcol13());
 		setCreateUserId(that.getCreateUserId());
 		setCreateUserDate(that.getCreateUserDate());
 		setUpdateUserId(that.getUpdateUserId());
@@ -589,20 +450,6 @@ public class CirRequest implements Serializable {
 		buffer.append("xmlOutput=[").append(xmlOutput).append("] ");
 		buffer.append("score=[").append(score).append("] ");
 		buffer.append("status=[").append(status).append("] ");
-		buffer.append("cirRequetcol=[").append(cirRequetcol).append("] ");
-		buffer.append("cirRequetcol1=[").append(cirRequetcol1).append("] ");
-		buffer.append("cirRequetcol2=[").append(cirRequetcol2).append("] ");
-		buffer.append("cirRequetcol3=[").append(cirRequetcol3).append("] ");
-		buffer.append("cirRequetcol4=[").append(cirRequetcol4).append("] ");
-		buffer.append("cirRequetcol5=[").append(cirRequetcol5).append("] ");
-		buffer.append("cirRequetcol6=[").append(cirRequetcol6).append("] ");
-		buffer.append("cirRequetcol7=[").append(cirRequetcol7).append("] ");
-		buffer.append("cirRequetcol8=[").append(cirRequetcol8).append("] ");
-		buffer.append("cirRequetcol9=[").append(cirRequetcol9).append("] ");
-		buffer.append("cirRequetcol10=[").append(cirRequetcol10).append("] ");
-		buffer.append("cirRequetcol11=[").append(cirRequetcol11).append("] ");
-		buffer.append("cirRequetcol12=[").append(cirRequetcol12).append("] ");
-		buffer.append("cirRequetcol13=[").append(cirRequetcol13).append("] ");
 		buffer.append("createUserId=[").append(createUserId).append("] ");
 		buffer.append("createUserDate=[").append(createUserDate).append("] ");
 		buffer.append("updateUserId=[").append(updateUserId).append("] ");
@@ -636,5 +483,169 @@ public class CirRequest implements Serializable {
 		if (cirRequetId != null && !cirRequetId.equals(equalCheck.cirRequetId))
 			return false;
 		return true;
+	}
+
+	public Integer getBankAccNo() {
+		return bankAccNo;
+	}
+
+	public void setBankAccNo(Integer bankAccNo) {
+		this.bankAccNo = bankAccNo;
+	}
+
+	public String getProductField() {
+		return productField;
+	}
+
+	public void setProductField(String productField) {
+		this.productField = productField;
+	}
+
+	public String getPurpose() {
+		return purpose;
+	}
+
+	public void setPurpose(String purpose) {
+		this.purpose = purpose;
+	}
+
+	public float getAmount() {
+		return amount;
+	}
+
+	public void setAmount(float amount) {
+		this.amount = amount;
+	}
+
+	public String getAccType1() {
+		return accType1;
+	}
+
+	public void setAccType1(String accType1) {
+		this.accType1 = accType1;
+	}
+
+	public String getClientRefNo() {
+		return clientRefNo;
+	}
+
+	public void setClientRefNo(String clientRefNo) {
+		this.clientRefNo = clientRefNo;
+	}
+
+	public String getAccType2() {
+		return accType2;
+	}
+
+	public void setAccType2(String accType2) {
+		this.accType2 = accType2;
+	}
+
+	public String getCompanyPan() {
+		return companyPan;
+	}
+
+	public void setCompanyPan(String companyPan) {
+		this.companyPan = companyPan;
+	}
+
+	public String getAddrType() {
+		return addrType;
+	}
+
+	public void setAddrType(String addrType) {
+		this.addrType = addrType;
+	}
+
+	public String getAddrLine1() {
+		return addrLine1;
+	}
+
+	public void setAddrLine1(String addrLine1) {
+		this.addrLine1 = addrLine1;
+	}
+
+	public String getAddrLine2() {
+		return addrLine2;
+	}
+
+	public void setAddrLine2(String addrLine2) {
+		this.addrLine2 = addrLine2;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getPinCode() {
+		return pinCode;
+	}
+
+	public void setPinCode(String pinCode) {
+		this.pinCode = pinCode;
+	}
+
+	public String getTelephoneNo() {
+		return telephoneNo;
+	}
+
+	public void setTelephoneNo(String telephoneNo) {
+		this.telephoneNo = telephoneNo;
+	}
+
+	public String getPan() {
+		return pan;
+	}
+
+	public void setPan(String pan) {
+		this.pan = pan;
+	}
+
+	public String getCin() {
+		return cin;
+	}
+
+	public void setCin(String cin) {
+		this.cin = cin;
+	}
+
+	public String getTin() {
+		return tin;
+	}
+
+	public void setTin(String tin) {
+		this.tin = tin;
+	}
+
+	public String getEmailId() {
+		return emailId;
+	}
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+
+	public String getTriggers() {
+		return triggers;
+	}
+
+	public void setTriggers(String triggers) {
+		this.triggers = triggers;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 }

@@ -12,6 +12,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -117,6 +120,12 @@ public class MemberUserMapping implements Serializable {
 
 	/**
 	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumns({ @JoinColumn(name = "member_id", referencedColumnName = "memberid" , insertable = false, updatable = false) })
+	Member member;
+
+	/**
+	 */
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
@@ -209,6 +218,18 @@ public class MemberUserMapping implements Serializable {
 	 */
 	public DateTime getUpdateUserDate() {
 		return this.updateUserDate;
+	}
+
+	/**
+	 */
+	public void setMember(Member member) {
+		this.member = member;
+	}
+
+	/**
+	 */
+	public Member getMember() {
+		return member;
 	}
 
 	/**

@@ -204,20 +204,6 @@ public class UserCategory implements Serializable {
 	}
 
 	/**
-	 * Copies the contents of the specified bean into this bean.
-	 *
-	 */
-	public void copy(UserCategory that) {
-		setUserCategoryId(that.getUserCategoryId());
-		setDiscription(that.getDiscription());
-		setCreateUserId(that.getCreateUserId());
-		setCreateUserDate(that.getCreateUserDate());
-		setUpdateUserId(that.getUpdateUserId());
-		setUpdateUserDate(that.getUpdateUserDate());
-		setUserAccesses(new java.util.LinkedHashSet<com.eir.report.entity.UserAccess>(that.getUserAccesses()));
-	}
-
-	/**
 	 * Returns a textual representation of a bean.
 	 *
 	 */
@@ -237,26 +223,4 @@ public class UserCategory implements Serializable {
 
 	/**
 	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = (int) (prime * result + ((userCategoryId == null) ? 0 : userCategoryId.hashCode()));
-		return result;
-	}
-
-	/**
-	 */
-	public boolean equals(Object obj) {
-		if (obj == this)
-			return true;
-		if (!(obj instanceof UserCategory))
-			return false;
-		UserCategory equalCheck = (UserCategory) obj;
-		if ((userCategoryId == null && equalCheck.userCategoryId != null) || (userCategoryId != null && equalCheck.userCategoryId == null))
-			return false;
-		if (userCategoryId != null && !userCategoryId.equals(equalCheck.userCategoryId))
-			return false;
-		return true;
-	}
 }

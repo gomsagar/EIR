@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,11 +19,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.eir.bir.request.model.MultipleRequest;
 import com.eir.report.entity.Address;
-import com.eir.report.entity.BirRequest;
 import com.eir.report.entity.AddressType;
 import com.eir.report.entity.Request;
 import com.eir.report.entity.State;
+import com.eir.report.service.BirReportService;
 import com.eir.report.service.EirService;
 
 @Controller
@@ -30,7 +33,10 @@ public class EirController {
 
 	@Autowired
 	EirService eirService;
-
+	
+	@Autowired
+	BirReportService birService;
+	
 	Logger logger = LoggerFactory.getLogger(EirController.class);
 
 	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
@@ -170,5 +176,31 @@ public class EirController {
 	public void downloadKYCDocuments(HttpServletRequest request , HttpServletResponse response)
 	{
 		eirService.downloadKYCDocuments(request,response);
+	}
+	
+	@CrossOrigin("*")
+	@RequestMapping(value="/getInfo", method = RequestMethod.POST,produces="application/json")
+	public String getInfo(@RequestBody MultipleRequest input , HttpServletRequest request ){
+	
+		request.getSession().setAttribute("userId", "EIR");
+		System.out.println("session id - : "+request.getSession().getAttribute("userId"));
+		System.out.println("session id - : "+request.getRequestedSessionId());
+		System.out.println("Inside getInfo method" + input.getBir().getCinNumber());
+		
+		Request requestObj = eirService.createRequest(input , request);
+		
+		input.setRequestObj(requestObj);
+		
+		if (input.getIsBIRActive()) 
+		{
+			birService.saveBIRRequestData(input , request);					
+		}
+		
+		if (input.getIsCIRActive() || input.getIsComboActive()) 
+		{
+			eirService.saveRequestedData(input , request);
+		}
+		
+	   return "" ;
 	}
 }
