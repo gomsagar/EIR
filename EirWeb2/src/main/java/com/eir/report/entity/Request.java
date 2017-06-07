@@ -5,7 +5,6 @@ import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -20,8 +19,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -54,7 +51,7 @@ public class Request implements Serializable {
 	 */
 
 	@Column(name = "request_id", nullable = false)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="request_seq")
@@ -70,7 +67,7 @@ public class Request implements Serializable {
 
 		
 	@Column(name = "type", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String type;
@@ -78,7 +75,7 @@ public class Request implements Serializable {
 	 */
 	
 	@Column(name = "ern_number", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String ernNumber;
@@ -86,7 +83,7 @@ public class Request implements Serializable {
 	 */
 
 	@Column(name = "score", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String score;
@@ -94,7 +91,7 @@ public class Request implements Serializable {
 	 */
 	
 	@Column(name = "status", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String status;
@@ -102,7 +99,7 @@ public class Request implements Serializable {
 	 */
 
 	@Column(name = "user_hit")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	Integer userHit;
@@ -110,7 +107,7 @@ public class Request implements Serializable {
 	 */
 
 	@Column(name = "admin_hit")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	Integer adminHit;
@@ -118,7 +115,7 @@ public class Request implements Serializable {
 	 */
 
 	@Column(name = "create_user_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@CreatedBy
 	String createUserId;
@@ -126,7 +123,7 @@ public class Request implements Serializable {
 	 */
 	//@Temporal(TemporalType.DATE)
 	@Column(name = "create_user_date")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@CreatedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
@@ -135,7 +132,7 @@ public class Request implements Serializable {
 	 */
 
 	@Column(name = "update_user_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@LastModifiedBy
 	String updateUserId;
@@ -143,7 +140,7 @@ public class Request implements Serializable {
 	 */
 	//@Temporal(TemporalType.DATE)
 	@Column(name = "update_user_date")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@LastModifiedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")

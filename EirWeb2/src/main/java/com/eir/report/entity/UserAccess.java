@@ -2,7 +2,6 @@
 package com.eir.report.entity;
 
 import java.io.Serializable;
-import java.util.Calendar;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -15,12 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -51,7 +46,7 @@ public class UserAccess implements Serializable {
 	 */
 
 	@Column(name = "user_id", nullable = false)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="user_seq")
@@ -66,7 +61,7 @@ public class UserAccess implements Serializable {
 	 */
 
 	@Column(name = "category_id")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	Integer categoryId;
@@ -74,7 +69,7 @@ public class UserAccess implements Serializable {
 	 */
 
 	@Column(name = "role_1", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String role1;
@@ -82,7 +77,7 @@ public class UserAccess implements Serializable {
 	 */
 
 	@Column(name = "role_2", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String role2;
@@ -90,7 +85,7 @@ public class UserAccess implements Serializable {
 	 */
 
 	@Column(name = "role_3", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String role3;
@@ -98,7 +93,7 @@ public class UserAccess implements Serializable {
 	 */
 
 	@Column(name = "role_4", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String role4;
@@ -106,7 +101,7 @@ public class UserAccess implements Serializable {
 	 */
 
 	@Column(name = "role_5", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String role5;
@@ -114,7 +109,7 @@ public class UserAccess implements Serializable {
 	 */
 
 	@Column(name = "create_user_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@CreatedBy
 	String createUserId;
@@ -122,7 +117,7 @@ public class UserAccess implements Serializable {
 	 */
 	//@Temporal(TemporalType.DATE)
 	@Column(name = "create_user_date")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@CreatedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
@@ -131,7 +126,7 @@ public class UserAccess implements Serializable {
 	 */
 
 	@Column(name = "update_user_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@LastModifiedBy
 	String updateUserId;
@@ -139,7 +134,7 @@ public class UserAccess implements Serializable {
 	 */
 	//@Temporal(TemporalType.DATE)
 	@Column(name = "update_user_date")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@LastModifiedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")

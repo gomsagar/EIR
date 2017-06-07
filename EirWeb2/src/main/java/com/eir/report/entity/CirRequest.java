@@ -2,13 +2,9 @@
 package com.eir.report.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
@@ -21,8 +17,6 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -53,7 +47,7 @@ public class CirRequest implements Serializable {
 	 */
 
 	@Column(name = "cir_requet_id", nullable = false)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="cir_seq")
@@ -68,7 +62,7 @@ public class CirRequest implements Serializable {
 	 */
 
 	@Column(name = "ern_number", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String ernNumber;
@@ -76,7 +70,7 @@ public class CirRequest implements Serializable {
 	 */
 
 	@Column(name = "xml_output", columnDefinition = "BLOB")
-	@Basic(fetch = FetchType.EAGER)
+	
 	@Lob
 
 	@XmlElement
@@ -85,7 +79,7 @@ public class CirRequest implements Serializable {
 	 */
 
 	@Column(name = "score", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String score;
@@ -93,7 +87,7 @@ public class CirRequest implements Serializable {
 	 */
 
 	@Column(name = "status", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String status;
@@ -101,7 +95,7 @@ public class CirRequest implements Serializable {
 	 */
 
 	@Column(name = "bank_Account_No", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	Integer bankAccNo;
@@ -109,7 +103,7 @@ public class CirRequest implements Serializable {
 	 */
 
 	@Column(name = "product_field", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String productField;
@@ -117,7 +111,7 @@ public class CirRequest implements Serializable {
 	 */
 
 	@Column(name = "purpose", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String purpose;
@@ -125,7 +119,7 @@ public class CirRequest implements Serializable {
 	 */
 
 	@Column(name = "amount", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	float amount;
@@ -133,7 +127,7 @@ public class CirRequest implements Serializable {
 	 */
 
 	@Column(name = "account_type1", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String accType1;
@@ -141,7 +135,7 @@ public class CirRequest implements Serializable {
 	 */
 
 	@Column(name = "client_ref_no", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String clientRefNo;
@@ -149,7 +143,7 @@ public class CirRequest implements Serializable {
 	 */
 
 	@Column(name = "account_type2", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String accType2;
@@ -157,7 +151,7 @@ public class CirRequest implements Serializable {
 	 */
 
 	@Column(name = "company_pan", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String companyPan;
@@ -166,7 +160,7 @@ public class CirRequest implements Serializable {
 
 	
 	@Column(name = "address_type", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String addrType;
@@ -174,7 +168,7 @@ public class CirRequest implements Serializable {
 	 */
 
 	@Column(name = "address_lsine1", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String addrLine1;
@@ -182,7 +176,7 @@ public class CirRequest implements Serializable {
 	 */
 
 	@Column(name = "address_line2", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String addrLine2;
@@ -190,7 +184,7 @@ public class CirRequest implements Serializable {
 	 */
 
 	@Column(name = "city", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String city;
@@ -198,56 +192,56 @@ public class CirRequest implements Serializable {
 	 */
 
 	@Column(name = "state", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String state;
 	/**
 	 */
 	@Column(name = "pincode", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String pinCode;
 	/**
 	 */
 	@Column(name = "telephone_no", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String telephoneNo;
 	/**
 	 */
 	@Column(name = "pan", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String pan;
 	/**
 	 */
 	@Column(name = "cin", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String cin;
 	/**
 	 */
 	@Column(name = "tin", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String tin;
 	/**
 	 */
 	@Column(name = "email_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String emailId;
 	/**
 	 */
 	@Column(name = "triggers", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String triggers;
@@ -255,7 +249,7 @@ public class CirRequest implements Serializable {
 	 */
 
 	@Column(name = "create_user_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@CreatedBy
 	String createUserId;
@@ -263,7 +257,7 @@ public class CirRequest implements Serializable {
 	 */
 	//@Temporal(TemporalType.DATE)
 	@Column(name = "create_user_date")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@CreatedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
@@ -272,7 +266,7 @@ public class CirRequest implements Serializable {
 	 */
 
 	@Column(name = "update_user_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@LastModifiedBy
 	String updateUserId;
@@ -280,7 +274,7 @@ public class CirRequest implements Serializable {
 	 */
 	//@Temporal(TemporalType.DATE)
 	@Column(name = "update_user_date")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@LastModifiedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")

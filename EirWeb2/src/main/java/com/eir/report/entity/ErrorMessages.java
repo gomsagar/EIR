@@ -3,21 +3,18 @@ package com.eir.report.entity;
 
 import java.io.Serializable;
 
-import java.lang.StringBuilder;
-
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-
-import javax.xml.bind.annotation.*;
-
-import javax.persistence.*;
+import javax.persistence.Table;
 
 /**
  */
 
 @Entity
-@Table(catalog = "eir", name = "error_messages")
+@Table(name = "error_messages")
 
 public class ErrorMessages implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -26,7 +23,7 @@ public class ErrorMessages implements Serializable {
 	 */
 
 	@Column(name = "id", nullable = false)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@Id
 	Integer id;
@@ -34,14 +31,14 @@ public class ErrorMessages implements Serializable {
 	 */
 
 	@Column(name = "error_code", length = 45, nullable = false)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	String errorCode;
 	/**
 	 */
 
 	@Column(name = "error_messages", length = 200, nullable = false)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	String errorMessagesField;
 

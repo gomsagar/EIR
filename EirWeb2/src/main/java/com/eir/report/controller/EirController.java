@@ -20,10 +20,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.eir.bir.request.model.MultipleRequest;
+import com.eir.report.constant.Constant;
 import com.eir.report.entity.Address;
 import com.eir.report.entity.AddressType;
 import com.eir.report.entity.Request;
 import com.eir.report.entity.State;
+import com.eir.report.entity.UserDetails;
 import com.eir.report.service.BirReportService;
 import com.eir.report.service.EirService;
 
@@ -50,16 +52,31 @@ public class EirController {
 		return new ModelAndView("welcome", "message", message );
 	}
 	
-	/*@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView hello() {
-		logger.debug("EirController - helloWorld: Start");
-		List<BirRequest> retrieveRequest = eirService.retrieveRequest();
-
-		String message = "<br><div style='text-align:center;'>"
-				+ "<h3>********** Hello World, Spring MVC Tutorial</h3>This message is coming from CrunchifyHelloWorld.java **********</div><br><br>";
-		logger.debug("EirController - helloWorld: End");
-		return new ModelAndView("welcome", "message", message + retrieveRequest);
-	}*/
+	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+	public String callDashboard(@RequestParam("userId") String userID, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+		logger.debug("EirController - callDashboard: Start");
+		
+		try
+		{
+			if(userID != null && !userID.isEmpty())
+			{
+				UserDetails userDetails = eirService.getUserById(userID);
+				if(userDetails != null)
+				{
+					httpServletRequest.getSession().setAttribute(Constant.USER_ID, userID);
+					httpServletResponse.sendRedirect("ng/index.html");
+					return "ng/index.html";
+				}
+			}
+			logger.debug("EirController - callDashboard: Invalid User");
+			httpServletResponse.sendRedirect("ng/error.html");
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return "ng/error.html";
+	}
 	
 	@RequestMapping(value = "/newuser", method = RequestMethod.GET)
 	public ModelAndView addUser() {

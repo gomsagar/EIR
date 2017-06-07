@@ -3,10 +3,6 @@ package com.eir.report.entity;
 
 import java.io.Serializable;
 
-import java.lang.StringBuilder;
-
-import java.util.Calendar;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,13 +11,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -38,7 +33,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
  */
-
+@IdClass(com.eir.report.entity.MemberProductMappingPK.class)
 @Entity
 @Table(name = "member_product_mapping")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -52,36 +47,33 @@ public class MemberProductMapping implements Serializable {
 	 */
 
 	@Column(name = "member_id", nullable = false)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="memberProdMap_seq")
+	/*@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="memberProdMap_seq")
 	@SequenceGenerator(
 		name="memberProdMap_seq",
 		sequenceName="MemberProductMapping_sequence",
 		allocationSize=1
-	)
+	)*/
 	@XmlElement
 	Integer memberId;
 	
-	@Column(name = "product_code", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	@Column(name = "product_id", nullable = false)
+	
+	@Id
+	public Integer productId;
 
+	
+	@Column(name = "product_code", length = 45)
+	
 	@XmlElement
 	String productCode;
 	/**
 	 */
 
-	@Column(name = "mail_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
-
-	@XmlElement
-	String mailId;
-	/**
-	 */
-
 	@Column(name = "create_user_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@CreatedBy
 	String createUserId;
@@ -89,7 +81,7 @@ public class MemberProductMapping implements Serializable {
 	 */
 	//@Temporal(TemporalType.DATE)
 	@Column(name = "create_user_date")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@CreatedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
@@ -98,7 +90,7 @@ public class MemberProductMapping implements Serializable {
 	 */
 
 	@Column(name = "update_user_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@LastModifiedBy
 	String updateUserId;
@@ -106,7 +98,7 @@ public class MemberProductMapping implements Serializable {
 	 */
 	//@Temporal(TemporalType.DATE)
 	@Column(name = "update_user_date")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@LastModifiedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
@@ -137,18 +129,6 @@ public class MemberProductMapping implements Serializable {
 	 */
 	public Integer getMemberId() {
 		return this.memberId;
-	}
-
-	/**
-	 */
-	public void setMailId(String mailId) {
-		this.mailId = mailId;
-	}
-
-	/**
-	 */
-	public String getMailId() {
-		return this.mailId;
 	}
 
 	/**
@@ -232,7 +212,6 @@ public class MemberProductMapping implements Serializable {
 	public void copy(MemberProductMapping that) {
 		setMemberId(that.getMemberId());
 		setProductCode(that.getProductCode());
-		setMailId(that.getMailId());
 		setCreateUserId(that.getCreateUserId());
 		setCreateUserDate(that.getCreateUserDate());
 		setUpdateUserId(that.getUpdateUserId());
@@ -249,7 +228,6 @@ public class MemberProductMapping implements Serializable {
 		StringBuilder buffer = new StringBuilder();
 
 		buffer.append("memberId=[").append(memberId).append("] ");
-		buffer.append("mailId=[").append(mailId).append("] ");
 		buffer.append("createUserId=[").append(createUserId).append("] ");
 		buffer.append("createUserDate=[").append(createUserDate).append("] ");
 		buffer.append("updateUserId=[").append(updateUserId).append("] ");

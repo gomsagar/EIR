@@ -2,25 +2,27 @@
 package com.eir.report.entity;
 
 import java.io.Serializable;
-
-import java.lang.StringBuilder;
-
-import java.util.LinkedHashSet;
 import java.util.Set;
 
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-
-import javax.xml.bind.annotation.*;
-
-import javax.persistence.*;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  */
 
 @Entity
-@Table(catalog = "eir", name = "user_role")
+@Table(name = "user_role")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "entity2/com/eir/report/domain", name = "UserRole")
 @XmlRootElement(namespace = "entity2/com/eir/report/domain")
@@ -31,7 +33,7 @@ public class UserRole implements Serializable {
 	 */
 
 	@Column(name = "role_id", nullable = false)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@Id
 	@XmlElement
@@ -40,7 +42,7 @@ public class UserRole implements Serializable {
 	 */
 
 	@Column(name = "discription", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String discription;

@@ -346,7 +346,7 @@ public class BirReportServiceImpl implements BirReportService {
 				logger.debug("Expired Access token.Getting Fresh Access Token And Sending request again. : "+respoceObj);
 				System.out.println("Expired Access token.Getting Fresh Access Token And Sending request again.");//
 				String fresh_access_token = getAccessToken();
-				birRequest.setAccessToken(fresh_access_token);
+				//birRequest.setAccessToken(fresh_access_token);
 				getZaubaResponseAndProcess(birRequest);
 			} else if (respoceObj.contains("xml version")) {
 				logger.info("Got xml. Writing it to file.....");

@@ -1,7 +1,5 @@
 package com.eir.report.entity;
 
-import java.util.Calendar;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,8 +13,6 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -40,7 +36,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class ReportSelection {
 	
 	@Column(name = "request_id", nullable = false)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="reportSel_seq")
@@ -58,19 +54,19 @@ public class ReportSelection {
 	ProductMaster productMaster;
 	
 	@Column(name = "product_request_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String productRequestId;
 	
 	@Column(name = "product_code", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String productCode;
 	
 	@Column(name = "create_user_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@CreatedBy
 	String createUserId;
@@ -78,7 +74,7 @@ public class ReportSelection {
 	 */
 	//@Temporal(TemporalType.DATE)
 	@Column(name = "create_user_date")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@CreatedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
@@ -87,7 +83,7 @@ public class ReportSelection {
 	 */
 
 	@Column(name = "update_user_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@LastModifiedBy
 	String updateUserId;
@@ -95,7 +91,7 @@ public class ReportSelection {
 	 */
 	//@Temporal(TemporalType.DATE)
 	@Column(name = "update_user_date")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@LastModifiedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")

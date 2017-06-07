@@ -20,25 +20,7 @@ import javax.persistence.*;
  */
 @IdClass(com.eir.report.entity.UserRoleAccessPK.class)
 @Entity
-@NamedQueries({
-		@NamedQuery(name = "findAllUserRoleAccesss", query = "select myUserRoleAccess from UserRoleAccess myUserRoleAccess"),
-		@NamedQuery(name = "findUserRoleAccessByAccess", query = "select myUserRoleAccess from UserRoleAccess myUserRoleAccess where myUserRoleAccess.access = ?1"),
-		@NamedQuery(name = "findUserRoleAccessByAccessContaining", query = "select myUserRoleAccess from UserRoleAccess myUserRoleAccess where myUserRoleAccess.access like ?1"),
-		@NamedQuery(name = "findUserRoleAccessByCreateUserDate", query = "select myUserRoleAccess from UserRoleAccess myUserRoleAccess where myUserRoleAccess.createUserDate = ?1"),
-		@NamedQuery(name = "findUserRoleAccessByCreateUserDateAfter", query = "select myUserRoleAccess from UserRoleAccess myUserRoleAccess where myUserRoleAccess.createUserDate > ?1"),
-		@NamedQuery(name = "findUserRoleAccessByCreateUserDateBefore", query = "select myUserRoleAccess from UserRoleAccess myUserRoleAccess where myUserRoleAccess.createUserDate < ?1"),
-		@NamedQuery(name = "findUserRoleAccessByCreateUserId", query = "select myUserRoleAccess from UserRoleAccess myUserRoleAccess where myUserRoleAccess.createUserId = ?1"),
-		@NamedQuery(name = "findUserRoleAccessByCreateUserIdContaining", query = "select myUserRoleAccess from UserRoleAccess myUserRoleAccess where myUserRoleAccess.createUserId like ?1"),
-		@NamedQuery(name = "findUserRoleAccessByOperationId", query = "select myUserRoleAccess from UserRoleAccess myUserRoleAccess where myUserRoleAccess.operationId = ?1"),
-		@NamedQuery(name = "findUserRoleAccessByPrimaryKey", query = "select myUserRoleAccess from UserRoleAccess myUserRoleAccess where myUserRoleAccess.roleId = ?1 and myUserRoleAccess.operationId = ?2"),
-		@NamedQuery(name = "findUserRoleAccessByRoleId", query = "select myUserRoleAccess from UserRoleAccess myUserRoleAccess where myUserRoleAccess.roleId = ?1"),
-		@NamedQuery(name = "findUserRoleAccessByUpdateUserDate", query = "select myUserRoleAccess from UserRoleAccess myUserRoleAccess where myUserRoleAccess.updateUserDate = ?1"),
-		@NamedQuery(name = "findUserRoleAccessByUpdateUserDateAfter", query = "select myUserRoleAccess from UserRoleAccess myUserRoleAccess where myUserRoleAccess.updateUserDate > ?1"),
-		@NamedQuery(name = "findUserRoleAccessByUpdateUserDateBefore", query = "select myUserRoleAccess from UserRoleAccess myUserRoleAccess where myUserRoleAccess.updateUserDate < ?1"),
-		@NamedQuery(name = "findUserRoleAccessByUpdateUserId", query = "select myUserRoleAccess from UserRoleAccess myUserRoleAccess where myUserRoleAccess.updateUserId = ?1"),
-		@NamedQuery(name = "findUserRoleAccessByUpdateUserIdContaining", query = "select myUserRoleAccess from UserRoleAccess myUserRoleAccess where myUserRoleAccess.updateUserId like ?1") })
-
-@Table(catalog = "eir", name = "user_role_access")
+@Table(name = "user_role_access")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "entity2/com/eir/report/domain", name = "UserRoleAccess")
 
@@ -49,7 +31,7 @@ public class UserRoleAccess implements Serializable {
 	 */
 
 	@Column(name = "role_id", nullable = false)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@Id
 	@XmlElement
@@ -58,7 +40,7 @@ public class UserRoleAccess implements Serializable {
 	 */
 
 	@Column(name = "operation_id", nullable = false)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@Id
 	@XmlElement
@@ -67,7 +49,7 @@ public class UserRoleAccess implements Serializable {
 	 */
 
 	@Column(name = "access", length = 45, nullable = false)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String access;
@@ -75,7 +57,7 @@ public class UserRoleAccess implements Serializable {
 	 */
 
 	@Column(name = "create_user_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String createUserId;
@@ -83,7 +65,7 @@ public class UserRoleAccess implements Serializable {
 	 */
 	@Temporal(TemporalType.DATE)
 	@Column(name = "create_user_date")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	Calendar createUserDate;
@@ -91,7 +73,7 @@ public class UserRoleAccess implements Serializable {
 	 */
 
 	@Column(name = "update_user_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String updateUserId;
@@ -99,7 +81,7 @@ public class UserRoleAccess implements Serializable {
 	 */
 	@Temporal(TemporalType.DATE)
 	@Column(name = "update_user_date")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	Calendar updateUserDate;

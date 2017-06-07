@@ -35,11 +35,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Entity
-
 @Table(name = "address")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "eir/com/eir/report/entity", name = "Address")
-
 @EntityListeners(AuditingEntityListener.class)
 public class Address implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -48,7 +46,7 @@ public class Address implements Serializable {
 	 */
 
 	@Column(name = "address_id", nullable = false)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="addr_seq")
@@ -63,7 +61,7 @@ public class Address implements Serializable {
 	 */
 
 	@Column(name = "address_type", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String addressType;
@@ -71,7 +69,7 @@ public class Address implements Serializable {
 	 */
 
 	@Column(name = "address_line_1", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String addressLine1;
@@ -79,7 +77,7 @@ public class Address implements Serializable {
 	 */
 
 	@Column(name = "address_line_2", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String addressLine2;
@@ -87,7 +85,7 @@ public class Address implements Serializable {
 	 */
 
 	@Column(name = "address_line_3", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String addressLine3;
@@ -95,7 +93,7 @@ public class Address implements Serializable {
 	 */
 
 	@Column(name = "city", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String city;
@@ -103,7 +101,7 @@ public class Address implements Serializable {
 	 */
 
 	@Column(name = "pincode", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String pincode;
@@ -111,7 +109,7 @@ public class Address implements Serializable {
 	 */
 
 	@Column(name = "state", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String state;
@@ -119,7 +117,7 @@ public class Address implements Serializable {
 	 */
 
 	@Column(name = "create_user_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@CreatedBy
 	String createUserId;
@@ -127,7 +125,7 @@ public class Address implements Serializable {
 	 */
 	//@Temporal(TemporalType.DATE)
 	@Column(name = "create_user_date")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@CreatedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
@@ -136,7 +134,7 @@ public class Address implements Serializable {
 	 */
 
 	@Column(name = "update_user_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@LastModifiedBy
 	String updateUserId;
@@ -144,7 +142,7 @@ public class Address implements Serializable {
 	 */
 	//@Temporal(TemporalType.DATE)
 	@Column(name = "update_user_date")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@LastModifiedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")

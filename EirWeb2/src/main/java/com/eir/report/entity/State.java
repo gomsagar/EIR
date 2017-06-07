@@ -26,16 +26,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Entity
-
 @Table(name = "STATE_CODE")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "eir/com/eir/report/entity", name = "State")
-
 @EntityListeners(AuditingEntityListener.class)
 public class State {
 	
 	@Column(name = "code", nullable = false)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="state_seq")
@@ -47,37 +45,37 @@ public class State {
 	@XmlElement
 	Integer stateCode;
 	
-	@Column(name = "code_description", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	@Column(name = "description", length = 45)
+	
 
 	@XmlElement
-	String stateCodeDescription;
+	String stateDescription;
 	
-	@Column(name = "create_user_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	/*@Column(name = "create_user_id", length = 45)
+	
 
 	@CreatedBy
 	String createUserId;
-	/**
-	 */
+	*//**
+	 *//*
 	//@Temporal(TemporalType.DATE)
 	@Column(name = "create_user_date")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@CreatedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	DateTime createUserDate ;
-	/**
-	 */
+	*//**
+	 *//*
 
 	@Column(name = "update_user_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@LastModifiedBy
 	String updateUserId;
 	
 	@Column(name = "update_user_date")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@LastModifiedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
@@ -115,7 +113,7 @@ public class State {
 	public void setUpdateUserDate(DateTime updateUserDate) {
 		this.updateUserDate = updateUserDate;
 	}
-
+*/
 	public Integer getStateCode() {
 		return stateCode;
 	}
@@ -124,12 +122,12 @@ public class State {
 		this.stateCode = stateCode;
 	}
 
-	public String getStateCodeDescription() {
-		return stateCodeDescription;
+	public String getStateDescription() {
+		return stateDescription;
 	}
 
-	public void setStateCodeDescription(String stateCodeDescription) {
-		this.stateCodeDescription = stateCodeDescription;
+	public void setStateDescription(String stateCodeDescription) {
+		this.stateDescription = stateCodeDescription;
 	}
 
 }

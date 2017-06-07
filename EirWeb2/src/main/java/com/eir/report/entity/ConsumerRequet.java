@@ -2,7 +2,6 @@
 package com.eir.report.entity;
 
 import java.io.Serializable;
-import java.util.Calendar;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -18,8 +17,6 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -50,7 +47,7 @@ public class ConsumerRequet implements Serializable {
 	 */
 
 	@Column(name = "consumer_requet_id", nullable = false)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="consumer_seq")
@@ -65,7 +62,7 @@ public class ConsumerRequet implements Serializable {
 	 */
 
 	@Column(name = "ern_number", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String ernNumber;
@@ -73,28 +70,28 @@ public class ConsumerRequet implements Serializable {
 	 */
 	
 	@Column(name = "first_name", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String firstName;
 	
 
 	@Column(name = "middle_name", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String middleName;
 	/**
 	 */
 	@Column(name = "last_name", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String lastName;
 	/**
 	 */
 	@Column(name = "relation_Type", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String relationType;
@@ -102,7 +99,7 @@ public class ConsumerRequet implements Serializable {
 	 */
 
 	@Column(name = "xml_output", columnDefinition = "BLOB")
-	@Basic(fetch = FetchType.EAGER)
+	
 	@Lob
 
 	@XmlElement
@@ -111,7 +108,7 @@ public class ConsumerRequet implements Serializable {
 	 */
 
 	@Column(name = "score", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String score;
@@ -119,7 +116,7 @@ public class ConsumerRequet implements Serializable {
 	 */
 
 	@Column(name = "status", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String status;
@@ -127,7 +124,7 @@ public class ConsumerRequet implements Serializable {
 	 */
 
 	@Column(name = "cir_requetcol", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String cirRequetcol;
@@ -135,7 +132,7 @@ public class ConsumerRequet implements Serializable {
 	 */
 
 	@Column(name = "person_pan", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String personPan;
@@ -143,7 +140,7 @@ public class ConsumerRequet implements Serializable {
 	 */
 
 	@Column(name = "driving_lic", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String drivingLic;
@@ -151,7 +148,7 @@ public class ConsumerRequet implements Serializable {
 	 */
 
 	@Column(name = "aadhar_card", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String aadharCard;
@@ -159,7 +156,7 @@ public class ConsumerRequet implements Serializable {
 	 */
 
 	@Column(name = "voter_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String voterId;
@@ -167,7 +164,7 @@ public class ConsumerRequet implements Serializable {
 	 */
 
 	@Column(name = "ration_card", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String rationCard;
@@ -175,7 +172,7 @@ public class ConsumerRequet implements Serializable {
 	 */
 
 	@Column(name = "passport_no", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String passportNo;
@@ -183,7 +180,7 @@ public class ConsumerRequet implements Serializable {
 	 */
 
 	@Column(name = "homeTelephone_no", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String homeTelephoneNo;
@@ -191,7 +188,7 @@ public class ConsumerRequet implements Serializable {
 	 */
 
 	@Column(name = "officeTelephone_no", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String officeTelephoneNo;
@@ -199,7 +196,7 @@ public class ConsumerRequet implements Serializable {
 	 */
 
 	@Column(name = "mobile_no", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String mobileNo;
@@ -207,7 +204,7 @@ public class ConsumerRequet implements Serializable {
 	 */
 
 	@Column(name = "birth_Date", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String birthDate;
@@ -215,7 +212,7 @@ public class ConsumerRequet implements Serializable {
 	 */
 
 	@Column(name = "marital_status", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String maritalStatus;
@@ -223,7 +220,7 @@ public class ConsumerRequet implements Serializable {
 	 */
 
 	@Column(name = "gender", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String gender;
@@ -231,42 +228,42 @@ public class ConsumerRequet implements Serializable {
 	 */
 
 	@Column(name = "personAddr_line1", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String personAddrLine1;
 	/**
 	 */
 	@Column(name = "personAddr_line2", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String personAddrLine2;
 	/**
 	 */
 	@Column(name = "person_city", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String personCity;
 	/**
 	 */
 	@Column(name = "person_state", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String personState;
 	/**
 	 */
 	@Column(name = "person_pincode", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String personPincode;
 	
 
 	@Column(name = "create_user_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@CreatedBy
 	String createUserId;
@@ -274,7 +271,7 @@ public class ConsumerRequet implements Serializable {
 	 */
 	//@Temporal(TemporalType.DATE)
 	@Column(name = "create_user_date")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@CreatedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
@@ -283,7 +280,7 @@ public class ConsumerRequet implements Serializable {
 	 */
 
 	@Column(name = "update_user_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@LastModifiedBy
 	String updateUserId;
@@ -291,7 +288,7 @@ public class ConsumerRequet implements Serializable {
 	 */
 	//@Temporal(TemporalType.DATE)
 	@Column(name = "update_user_date")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@LastModifiedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")

@@ -352,7 +352,7 @@ public class EirServiceImpl implements EirService{
 		userSet.setFirstName("dev1");
 		userSet.setLastName("dev1");*/
 		
-		UserDetails userSet = userDetailsRepository.findByUserId(11);
+		UserDetails userSet = userDetailsRepository.findByUserId("user1");
 		
 		System.out.println("userSet");
 		
@@ -413,4 +413,11 @@ public class EirServiceImpl implements EirService{
 		}
 	}
 	*/
+	
+	@Override
+	public UserDetails getUserById(String userId)
+	{
+		UserDetails userDetails = userDetailsRepository.findByUserId(userId);
+		return userDetails;
+	}
 }

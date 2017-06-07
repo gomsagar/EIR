@@ -23,16 +23,16 @@ public class UserDetails implements Serializable {
 	 */
 
 	@Column(name = "user_id", nullable = false)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@Id
 	@XmlElement
-	Integer userId;
+	String userId;
 	/**
 	 */
 
 	@Column(name = "first_name", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String firstName;
@@ -40,7 +40,7 @@ public class UserDetails implements Serializable {
 	 */
 
 	@Column(name = "last_name", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String lastName;
@@ -48,7 +48,7 @@ public class UserDetails implements Serializable {
 	 */
 
 	@Column(name = "mail_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String mailId;
@@ -56,7 +56,7 @@ public class UserDetails implements Serializable {
 	 */
 
 	@Column(name = "address")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	Integer address;
@@ -69,20 +69,20 @@ public class UserDetails implements Serializable {
 	UserRole userRole;
 	/**
 	 */
-	@OneToMany(mappedBy = "userDetails", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	/*@OneToMany(mappedBy = "userDetails", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 
 	@XmlElement(name = "", namespace = "")
 	java.util.Set<com.eir.report.entity.Request> requests;
-
+*/
 	/**
 	 */
-	public void setUserId(Integer userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
 	/**
 	 */
-	public Integer getUserId() {
+	public String getUserId() {
 		return this.userId;
 	}
 
@@ -147,20 +147,20 @@ public class UserDetails implements Serializable {
 	}
 
 	/**
-	 */
+	 *//*
 	public void setRequests(Set<Request> requests) {
 		this.requests = requests;
 	}
 
-	/**
-	 */
+	*//**
+	 *//*
 	public Set<Request> getRequests() {
 		if (requests == null) {
 			requests = new java.util.LinkedHashSet<com.eir.report.entity.Request>();
 		}
 		return requests;
 	}
-
+*/
 	/**
 	 */
 	public UserDetails() {
@@ -177,7 +177,7 @@ public class UserDetails implements Serializable {
 		setMailId(that.getMailId());
 		setAddress(that.getAddress());
 		setUserRole(that.getUserRole());
-		setRequests(new java.util.LinkedHashSet<com.eir.report.entity.Request>(that.getRequests()));
+		//setRequests(new java.util.LinkedHashSet<com.eir.report.entity.Request>(that.getRequests()));
 	}
 
 	/**

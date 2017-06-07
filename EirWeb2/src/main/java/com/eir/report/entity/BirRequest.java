@@ -43,7 +43,7 @@ public class BirRequest implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Column(name = "bir_request_id", nullable = false)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="bir_seq")
@@ -58,7 +58,7 @@ public class BirRequest implements Serializable {
 	 */
 
 	@Column(name = "entity_name", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String entityName;
@@ -82,7 +82,7 @@ public class BirRequest implements Serializable {
 	 */
 
 	@Column(name = "score", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String score;
@@ -90,7 +90,7 @@ public class BirRequest implements Serializable {
 	 */
 
 	@Column(name = "ern_number", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String ernNumber;
@@ -98,7 +98,7 @@ public class BirRequest implements Serializable {
 	 */
 
 	@Column(name = "status", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	Integer status;
@@ -106,7 +106,7 @@ public class BirRequest implements Serializable {
 	 */
 
 	@Column(name = "create_user_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@CreatedBy
 	String createUserId;
@@ -114,7 +114,7 @@ public class BirRequest implements Serializable {
 	 */
 	//@Temporal(TemporalType.DATE)
 	@Column(name = "create_user_date")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@CreatedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
@@ -123,7 +123,7 @@ public class BirRequest implements Serializable {
 	 */
 
 	@Column(name = "update_user_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@LastModifiedBy
 	String updateUserId;
@@ -131,7 +131,7 @@ public class BirRequest implements Serializable {
 	 */
 	//@Temporal(TemporalType.DATE)
 	@Column(name = "update_user_date")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@LastModifiedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
@@ -145,22 +145,17 @@ public class BirRequest implements Serializable {
 	Request request;
 	
 	@Column(name = "cin_number", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 	@XmlElement
 	String cinNumber;
 	
 	@Column(name = "report_token", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 	@XmlElement
 	String reportToken;
 	
-	@Column(name = "access_token", length = 45)
-	@Basic(fetch = FetchType.EAGER)
-	@XmlElement
-	String accessToken;
-	
 	@Column(name = "company_name", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 	@XmlElement
 	String companyName;
 
@@ -381,14 +376,6 @@ public class BirRequest implements Serializable {
 
 	public void setReportToken(String reportToken) {
 		this.reportToken = reportToken;
-	}
-
-	public String getAccessToken() {
-		return accessToken;
-	}
-
-	public void setAccessToken(String accessToken) {
-		this.accessToken = accessToken;
 	}
 
 	public String getCompanyName() {

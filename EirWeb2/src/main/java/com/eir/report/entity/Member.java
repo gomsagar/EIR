@@ -2,19 +2,23 @@
 package com.eir.report.entity;
 
 import java.io.Serializable;
-
-import java.lang.StringBuilder;
-
-import java.util.LinkedHashSet;
 import java.util.Set;
 
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-
-import javax.xml.bind.annotation.*;
-
-import javax.persistence.*;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  */
@@ -29,7 +33,7 @@ import javax.persistence.*;
 		@NamedQuery(name = "findMemberByNameContaining", query = "select myMember from Member myMember where myMember.name like ?1"),
 		@NamedQuery(name = "findMemberByPrimaryKey", query = "select myMember from Member myMember where myMember.memberid = ?1") })
 
-@Table(catalog = "eir", name = "member")
+@Table(name = "member")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "entity2/com/eir/report/domain", name = "Member")
 @XmlRootElement(namespace = "entity2/com/eir/report/domain")
@@ -40,7 +44,7 @@ public class Member implements Serializable {
 	 */
 
 	@Column(name = "memberid", nullable = false)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@Id
 	@XmlElement
@@ -49,7 +53,7 @@ public class Member implements Serializable {
 	 */
 
 	@Column(name = "name", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String name;
@@ -57,7 +61,7 @@ public class Member implements Serializable {
 	 */
 
 	@Column(name = "mailid", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String mailid;

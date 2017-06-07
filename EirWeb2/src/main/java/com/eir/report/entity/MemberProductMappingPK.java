@@ -21,7 +21,7 @@ public class MemberProductMappingPK implements Serializable {
 	 */
 
 	@Column(name = "member_id", nullable = false)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@Id
 	public Integer memberId;
@@ -29,7 +29,7 @@ public class MemberProductMappingPK implements Serializable {
 	 */
 
 	@Column(name = "product_id", nullable = false)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@Id
 	public Integer productId;

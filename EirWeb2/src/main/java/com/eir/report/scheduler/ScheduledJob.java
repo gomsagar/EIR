@@ -22,7 +22,7 @@ public class ScheduledJob {
 	{
 		logger.info("ScheduledJob callServiceMethod()");
 		//execute above query and get required details for the request getXMLResponse(report_token, cin,entityName)	
-		List<BirRequest> pendingRequestlist = birSchedulerService.getPendingRecord();
+		/*List<BirRequest> pendingRequestlist = birSchedulerService.getPendingRecord();
 		
 		logger.debug("getPendingRecord() : "+pendingRequestlist);
 		
@@ -31,7 +31,7 @@ public class ScheduledJob {
 			boolean isProcessed = birSchedulerService.getAndProcessBirReport(pendingRequestlist);
 			
 			logger.debug("getAndProcessBirReport() : "+isProcessed);
-		}
+		}*/
 	
 	}
 }

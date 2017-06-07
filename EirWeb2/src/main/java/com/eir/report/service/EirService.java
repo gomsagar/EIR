@@ -11,6 +11,7 @@ import com.eir.report.entity.AddressType;
 import com.eir.report.entity.BirRequest;
 import com.eir.report.entity.Request;
 import com.eir.report.entity.State;
+import com.eir.report.entity.UserDetails;
 
 public interface EirService {
 
@@ -31,4 +32,6 @@ public interface EirService {
 	void saveRequestedData(MultipleRequest input, HttpServletRequest request);
 
 	Request createRequest(MultipleRequest input, HttpServletRequest request);
+	
+	UserDetails getUserById(String userId);
 }

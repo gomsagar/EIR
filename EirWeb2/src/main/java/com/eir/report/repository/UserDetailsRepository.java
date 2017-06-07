@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.eir.report.entity.UserDetails;
 
-public interface UserDetailsRepository extends JpaRepository<UserDetails, Integer> {
+public interface UserDetailsRepository extends JpaRepository<UserDetails, String> {
 
-	UserDetails findByUserId(Integer id);
+	UserDetails findByUserId(String id);
 }

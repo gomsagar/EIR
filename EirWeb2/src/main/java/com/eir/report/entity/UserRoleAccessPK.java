@@ -21,7 +21,7 @@ public class UserRoleAccessPK implements Serializable {
 	 */
 
 	@Column(name = "role_id", nullable = false)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@Id
 	public Integer roleId;
@@ -29,7 +29,7 @@ public class UserRoleAccessPK implements Serializable {
 	 */
 
 	@Column(name = "operation_id", nullable = false)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@Id
 	public Integer operationId;

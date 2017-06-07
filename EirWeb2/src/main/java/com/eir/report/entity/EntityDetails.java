@@ -2,11 +2,9 @@
 package com.eir.report.entity;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Set;
 
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -17,8 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -49,7 +45,7 @@ public class EntityDetails implements Serializable {
 	 */
 
 	@Column(name = "eir_id", nullable = false)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="entity_seq")
@@ -64,7 +60,7 @@ public class EntityDetails implements Serializable {
 	 */
 
 	@Column(name = "member_id")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	Integer memberId;
@@ -72,7 +68,7 @@ public class EntityDetails implements Serializable {
 	 */
 
 	@Column(name = "user_id")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	Integer userId;
@@ -80,7 +76,7 @@ public class EntityDetails implements Serializable {
 	 */
 
 	@Column(name = "entity_name", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String entityName;
@@ -88,7 +84,7 @@ public class EntityDetails implements Serializable {
 	 */
 
 	@Column(name = "entity_pan", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String entityPan;
@@ -96,7 +92,7 @@ public class EntityDetails implements Serializable {
 	 */
 
 	@Column(name = "entity_tan", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String entityTan;
@@ -104,7 +100,7 @@ public class EntityDetails implements Serializable {
 	 */
 
 	@Column(name = "entity_cin", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String entityCin;
@@ -112,7 +108,7 @@ public class EntityDetails implements Serializable {
 	 */
 
 	@Column(name = "entity_tin", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@XmlElement
 	String entityTin;
@@ -120,7 +116,7 @@ public class EntityDetails implements Serializable {
 	 */
 
 	@Column(name = "create_user_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@CreatedBy
 	String createUserId;
@@ -128,7 +124,7 @@ public class EntityDetails implements Serializable {
 	 */
 	//@Temporal(TemporalType.DATE)
 	@Column(name = "create_user_date")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@CreatedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
@@ -137,7 +133,7 @@ public class EntityDetails implements Serializable {
 	 */
 
 	@Column(name = "update_user_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@LastModifiedBy
 	String updateUserId;
@@ -145,7 +141,7 @@ public class EntityDetails implements Serializable {
 	 */
 	//@Temporal(TemporalType.DATE)
 	@Column(name = "update_user_date")
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@LastModifiedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
