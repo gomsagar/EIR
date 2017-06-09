@@ -15,8 +15,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -35,7 +39,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
  */
 
 @Entity
-@Table(name = "cir_requet")
+@Table(name = "cir_request")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "eir/com/eir/report/entity", name = "CirRequet")
 
@@ -46,7 +50,7 @@ public class CirRequest implements Serializable {
 	/**
 	 */
 
-	@Column(name = "cir_requet_id", nullable = false)
+	@Column(name = "cir_request_id", nullable = false)
 	
 
 	@Id
@@ -56,194 +60,141 @@ public class CirRequest implements Serializable {
 		sequenceName="cir_sequence",
 		allocationSize=1
 	)
-	@XmlElement
-	Integer cirRequetId;
-	/**
-	 */
+	Integer cirRequestId;
 
-	@Column(name = "ern_number", length = 45)
-	
-
-	@XmlElement
-	String ernNumber;
 	/**
 	 */
 
 	@Column(name = "xml_output", columnDefinition = "BLOB")
 	
 	@Lob
-
-	@XmlElement
 	byte[] xmlOutput;
 	/**
 	 */
 
 	@Column(name = "score", length = 45)
-	
-
-	@XmlElement
 	String score;
 	/**
 	 */
 
-	@Column(name = "status", length = 45)
-	
-
-	@XmlElement
-	String status;
+	/*@Column(name = "status", length = 45)
+	String status;*/
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumns({ @JoinColumn(name = "status_id", referencedColumnName = "status_id") })
+	Status status;
 	/**
 	 */
 
-	@Column(name = "bank_Account_No", length = 45)
+	/*@Column(name = "bank_Account_No", length = 45)
 	
 
 	@XmlElement
-	Integer bankAccNo;
+	Integer bankAccNo;*/
 	/**
 	 */
 
 	@Column(name = "product_field", length = 45)
-	
-
-	@XmlElement
 	String productField;
-	/**
-	 */
-
-	@Column(name = "purpose", length = 45)
 	
-
-	@XmlElement
-	String purpose;
-	/**
-	 */
-
-	@Column(name = "amount", length = 45)
 	
-
-	@XmlElement
-	float amount;
-	/**
+	/*@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumns({ @JoinColumn(name = "product_field_id", referencedColumnName = "report_type_id") })
+	ReportType productField;
 	 */
 
-	@Column(name = "account_type1", length = 45)
+	@Column(name = "cir_purpose_id")
+	Integer purposeId;
 	
-
-	@XmlElement
-	String accType1;
-	/**
-	 */
-
-	@Column(name = "client_ref_no", length = 45)
 	
-
-	@XmlElement
-	String clientRefNo;
-	/**
+	/*@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumns({ @JoinColumn(name = "cir_purpose_id", referencedColumnName = "cir_purpose_id") })
+	CirPurpose purpose;
 	 */
 
-	@Column(name = "account_type2", length = 45)
+	@Column(name = "enquiry_amount")
+	String enquiryAmount;
+		
 	
-
-	@XmlElement
-	String accType2;
-	/**
-	 */
-
 	@Column(name = "company_pan", length = 45)
-	
-
-	@XmlElement
 	String companyPan;
 	/**
 	 */
-
+	@Column(name = "user_hit", length = 45)
+	String userHit;
 	
-	@Column(name = "address_type", length = 45)
+	@Column(name = "admin_hit", length = 45)
+	String adminHit;
 	
-
-	@XmlElement
-	String addrType;
-	/**
+	@Column(name = "enquiry_amt_monetary_type", length = 45)
+	String enquiryAmntMomentaryType;
+	
+	@Column(name = "enquiry_application_type", length = 45)
+	String enquiryApplctnType;
+	
+	@Column(name = "enquiry_account_type", length = 45)
+	String enquiryAccntType;
+	
+	@Column(name = "search_type", length = 45)
+	String searchType;
+	
+	@Column(name = "frequency", length = 45)
+	String frequency;
+	
+	@Column(name = "durationof_agrement", length = 45)
+	String durationOfAgrement;
+	
+	@Column(name = "language", length = 45)
+	String language;
+	
+	@Column(name = "enquiry_add_on_product", length = 45)
+	String enquiryAddProduct;
+	
+	@Column(name = "bus_name", length = 45)
+	String busName;
+	
+	@Column(name = "phone_number", length = 45)
+	String phoneNumber;
+	
+	@Column(name = "phone_type", length = 45)
+	String phoneType;
+	
+	@Column(name = "phone_number_extension", length = 45)
+	String phoneNumberExtn;
+	
+	@Column(name = "experian_encrypted_bin", length = 45)
+	String experianEncrypted;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumns({ @JoinColumn(name = "address_id", referencedColumnName = "address_id") })
+	Address addressId;
+	
+	/*@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumns({ @JoinColumn(name = "address_type_id", referencedColumnName = "address_type_id") })
+	AddressType addrType;
 	 */
-
-	@Column(name = "address_lsine1", length = 45)
-	
-
-	@XmlElement
-	String addrLine1;
-	/**
-	 */
-
-	@Column(name = "address_line2", length = 45)
-	
-
-	@XmlElement
-	String addrLine2;
-	/**
-	 */
-
-	@Column(name = "city", length = 45)
-	
-
-	@XmlElement
-	String city;
-	/**
-	 */
-
-	@Column(name = "state", length = 45)
-	
-
-	@XmlElement
-	String state;
-	/**
-	 */
-	@Column(name = "pincode", length = 45)
-	
-
-	@XmlElement
-	String pinCode;
 	/**
 	 */
 	@Column(name = "telephone_no", length = 45)
-	
-
-	@XmlElement
 	String telephoneNo;
 	/**
 	 */
 	@Column(name = "pan", length = 45)
-	
-
-	@XmlElement
 	String pan;
 	/**
 	 */
 	@Column(name = "cin", length = 45)
-	
-
-	@XmlElement
 	String cin;
 	/**
 	 */
 	@Column(name = "tin", length = 45)
-	
-
-	@XmlElement
 	String tin;
 	/**
 	 */
 	@Column(name = "email_id", length = 45)
-	
-
-	@XmlElement
 	String emailId;
 	/**
 	 */
 	@Column(name = "triggers", length = 45)
-	
-
-	@XmlElement
 	String triggers;
 	/**
 	 */
@@ -283,32 +234,20 @@ public class CirRequest implements Serializable {
 	/**
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumns({ @JoinColumn(name = "requet_id", referencedColumnName = "request_id") })
+	@JoinColumns({ @JoinColumn(name = "request_id", referencedColumnName = "request_id") })
 	@XmlTransient
 	Request request;
 
 	/**
 	 */
 	public void setCirRequetId(Integer cirRequetId) {
-		this.cirRequetId = cirRequetId;
+		this.cirRequestId = cirRequetId;
 	}
 
 	/**
 	 */
 	public Integer getCirRequetId() {
-		return this.cirRequetId;
-	}
-
-	/**
-	 */
-	public void setErnNumber(String ernNumber) {
-		this.ernNumber = ernNumber;
-	}
-
-	/**
-	 */
-	public String getErnNumber() {
-		return this.ernNumber;
+		return this.cirRequestId;
 	}
 
 	/**
@@ -337,13 +276,13 @@ public class CirRequest implements Serializable {
 
 	/**
 	 */
-	public void setStatus(String status) {
+	public void setStatus(Status status) {
 		this.status = status;
 	}
 
 	/**
 	 */
-	public String getStatus() {
+	public Status getStatus() {
 		return this.status;
 	}
 
@@ -415,23 +354,6 @@ public class CirRequest implements Serializable {
 	}
 
 	/**
-	 * Copies the contents of the specified bean into this bean.
-	 *
-	 */
-	public void copy(CirRequest that) {
-		setCirRequetId(that.getCirRequetId());
-		setErnNumber(that.getErnNumber());
-		setXmlOutput(that.getXmlOutput());
-		setScore(that.getScore());
-		setStatus(that.getStatus());
-		setCreateUserId(that.getCreateUserId());
-		setCreateUserDate(that.getCreateUserDate());
-		setUpdateUserId(that.getUpdateUserId());
-		setUpdateUserDate(that.getUpdateUserDate());
-		setRequest(that.getRequest());
-	}
-
-	/**
 	 * Returns a textual representation of a bean.
 	 *
 	 */
@@ -439,8 +361,7 @@ public class CirRequest implements Serializable {
 
 		StringBuilder buffer = new StringBuilder();
 
-		buffer.append("cirRequetId=[").append(cirRequetId).append("] ");
-		buffer.append("ernNumber=[").append(ernNumber).append("] ");
+		buffer.append("cirRequetId=[").append(cirRequestId).append("] ");
 		buffer.append("xmlOutput=[").append(xmlOutput).append("] ");
 		buffer.append("score=[").append(score).append("] ");
 		buffer.append("status=[").append(status).append("] ");
@@ -452,41 +373,7 @@ public class CirRequest implements Serializable {
 		return buffer.toString();
 	}
 
-	/**
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = (int) (prime * result + ((cirRequetId == null) ? 0 : cirRequetId.hashCode()));
-		return result;
-	}
 	
-	
-
-	/**
-	 */
-	public boolean equals(Object obj) {
-		if (obj == this)
-			return true;
-		if (!(obj instanceof CirRequest))
-			return false;
-		CirRequest equalCheck = (CirRequest) obj;
-		if ((cirRequetId == null && equalCheck.cirRequetId != null) || (cirRequetId != null && equalCheck.cirRequetId == null))
-			return false;
-		if (cirRequetId != null && !cirRequetId.equals(equalCheck.cirRequetId))
-			return false;
-		return true;
-	}
-
-	public Integer getBankAccNo() {
-		return bankAccNo;
-	}
-
-	public void setBankAccNo(Integer bankAccNo) {
-		this.bankAccNo = bankAccNo;
-	}
-
 	public String getProductField() {
 		return productField;
 	}
@@ -495,44 +382,140 @@ public class CirRequest implements Serializable {
 		this.productField = productField;
 	}
 
-	public String getPurpose() {
-		return purpose;
+	public Integer getPurposeId() {
+		return purposeId;
 	}
 
-	public void setPurpose(String purpose) {
-		this.purpose = purpose;
+	public void setPurposeId(Integer purpose) {
+		this.purposeId = purpose;
 	}
 
-	public float getAmount() {
-		return amount;
+	public String getEnquiryAmount() {
+		return enquiryAmount;
 	}
 
-	public void setAmount(float amount) {
-		this.amount = amount;
+	public void setEnquiryAmount(String enquiryAmount) {
+		this.enquiryAmount = enquiryAmount;
 	}
 
-	public String getAccType1() {
-		return accType1;
+	public String getUserHit() {
+		return userHit;
 	}
 
-	public void setAccType1(String accType1) {
-		this.accType1 = accType1;
+	public void setUserHit(String userHit) {
+		this.userHit = userHit;
 	}
 
-	public String getClientRefNo() {
-		return clientRefNo;
+	public String getAdminHit() {
+		return adminHit;
 	}
 
-	public void setClientRefNo(String clientRefNo) {
-		this.clientRefNo = clientRefNo;
+	public void setAdminHit(String adminHit) {
+		this.adminHit = adminHit;
 	}
 
-	public String getAccType2() {
-		return accType2;
+	public String getEnquiryAmntMomentaryType() {
+		return enquiryAmntMomentaryType;
 	}
 
-	public void setAccType2(String accType2) {
-		this.accType2 = accType2;
+	public void setEnquiryAmntMomentaryType(String enquiryAmntMomentaryType) {
+		this.enquiryAmntMomentaryType = enquiryAmntMomentaryType;
+	}
+
+	public String getEnquiryApplctnType() {
+		return enquiryApplctnType;
+	}
+
+	public void setEnquiryApplctnType(String enquiryApplctnType) {
+		this.enquiryApplctnType = enquiryApplctnType;
+	}
+
+	public String getEnquiryAccntType() {
+		return enquiryAccntType;
+	}
+
+	public void setEnquiryAccntType(String enquiryAccntType) {
+		this.enquiryAccntType = enquiryAccntType;
+	}
+
+	public String getSearchType() {
+		return searchType;
+	}
+
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
+	}
+
+	public String getFrequency() {
+		return frequency;
+	}
+
+	public void setFrequency(String frequency) {
+		this.frequency = frequency;
+	}
+
+	public String getDurationOfAgrement() {
+		return durationOfAgrement;
+	}
+
+	public void setDurationOfAgrement(String durationOfAgrement) {
+		this.durationOfAgrement = durationOfAgrement;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
+	public String getEnquiryAddProduct() {
+		return enquiryAddProduct;
+	}
+
+	public void setEnquiryAddProduct(String enquiryAddProduct) {
+		this.enquiryAddProduct = enquiryAddProduct;
+	}
+
+	public String getBusName() {
+		return busName;
+	}
+
+	public void setBusName(String busName) {
+		this.busName = busName;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getPhoneType() {
+		return phoneType;
+	}
+
+	public void setPhoneType(String phoneType) {
+		this.phoneType = phoneType;
+	}
+
+	public String getPhoneNumberExtn() {
+		return phoneNumberExtn;
+	}
+
+	public void setPhoneNumberExtn(String phoneNumberExtn) {
+		this.phoneNumberExtn = phoneNumberExtn;
+	}
+
+	public String getExperianEncrypted() {
+		return experianEncrypted;
+	}
+
+	public void setExperianEncrypted(String experianEncrypted) {
+		this.experianEncrypted = experianEncrypted;
 	}
 
 	public String getCompanyPan() {
@@ -541,54 +524,6 @@ public class CirRequest implements Serializable {
 
 	public void setCompanyPan(String companyPan) {
 		this.companyPan = companyPan;
-	}
-
-	public String getAddrType() {
-		return addrType;
-	}
-
-	public void setAddrType(String addrType) {
-		this.addrType = addrType;
-	}
-
-	public String getAddrLine1() {
-		return addrLine1;
-	}
-
-	public void setAddrLine1(String addrLine1) {
-		this.addrLine1 = addrLine1;
-	}
-
-	public String getAddrLine2() {
-		return addrLine2;
-	}
-
-	public void setAddrLine2(String addrLine2) {
-		this.addrLine2 = addrLine2;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
-	}
-
-	public String getPinCode() {
-		return pinCode;
-	}
-
-	public void setPinCode(String pinCode) {
-		this.pinCode = pinCode;
 	}
 
 	public String getTelephoneNo() {
@@ -641,5 +576,21 @@ public class CirRequest implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	
+	public Integer getCirRequestId() {
+		return cirRequestId;
+	}
+
+	public void setCirRequestId(Integer cirRequestId) {
+		this.cirRequestId = cirRequestId;
+	}
+
+	public Address getAddressId() {
+		return addressId;
+	}
+
+	public void setAddressId(Address addressId) {
+		this.addressId = addressId;
 	}
 }

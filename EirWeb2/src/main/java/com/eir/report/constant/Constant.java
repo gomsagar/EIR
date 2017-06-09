@@ -22,6 +22,6 @@ public class Constant {
 	public static final int BUFFER_SIZE = 4096;
 	
 	public static final String USER_ID = "USER_ID";
-	
-
+	public static final String SPECIFIED = "SPECIFIED";
+	public static final String ACCESS_TOKEN = "AccessToken"; 
 }

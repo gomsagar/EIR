@@ -12,6 +12,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -35,9 +38,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Entity
+
 @Table(name = "address")
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = "eir/com/eir/report/entity", name = "Address")
 @EntityListeners(AuditingEntityListener.class)
 public class Address implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -55,16 +57,13 @@ public class Address implements Serializable {
 		sequenceName="address_sequence",
 		allocationSize=1
 	)
-	@XmlElement
 	Integer addressId;
 	/**
 	 */
 
-	@Column(name = "address_type", length = 45)
-	
-
-	@XmlElement
-	String addressType;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumns({ @JoinColumn(name = "address_type_id", referencedColumnName = "address_type_id") })
+	AddressType addressType;
 	/**
 	 */
 
@@ -79,7 +78,6 @@ public class Address implements Serializable {
 	@Column(name = "address_line_2", length = 45)
 	
 
-	@XmlElement
 	String addressLine2;
 	/**
 	 */
@@ -87,7 +85,6 @@ public class Address implements Serializable {
 	@Column(name = "address_line_3", length = 45)
 	
 
-	@XmlElement
 	String addressLine3;
 	/**
 	 */
@@ -95,7 +92,6 @@ public class Address implements Serializable {
 	@Column(name = "city", length = 45)
 	
 
-	@XmlElement
 	String city;
 	/**
 	 */
@@ -103,7 +99,6 @@ public class Address implements Serializable {
 	@Column(name = "pincode", length = 45)
 	
 
-	@XmlElement
 	String pincode;
 	/**
 	 */
@@ -111,7 +106,6 @@ public class Address implements Serializable {
 	@Column(name = "state", length = 45)
 	
 
-	@XmlElement
 	String state;
 	/**
 	 */
@@ -162,13 +156,13 @@ public class Address implements Serializable {
 
 	/**
 	 */
-	public void setAddressType(String addressType) {
+	public void setAddressType(AddressType addressType) {
 		this.addressType = addressType;
 	}
 
 	/**
 	 */
-	public String getAddressType() {
+	public AddressType getAddressType() {
 		return this.addressType;
 	}
 
@@ -298,24 +292,7 @@ public class Address implements Serializable {
 		System.out.println("Address constructor");
 	}
 
-	/**
-	 * Copies the contents of the specified bean into this bean.
-	 *
-	 */
-	public void copy(Address that) {
-		setAddressId(that.getAddressId());
-		setAddressType(that.getAddressType());
-		setAddressLine1(that.getAddressLine1());
-		setAddressLine2(that.getAddressLine2());
-		setAddressLine3(that.getAddressLine3());
-		setCity(that.getCity());
-		setPincode(that.getPincode());
-		setState(that.getState());
-		setCreateUserId(that.getCreateUserId());
-		setCreateUserDate(that.getCreateUserDate());
-		setUpdateUserId(that.getUpdateUserId());
-		setUpdateUserDate(that.getUpdateUserDate());
-	}
+	
 
 	/**
 	 * Returns a textual representation of a bean.
@@ -341,28 +318,5 @@ public class Address implements Serializable {
 		return buffer.toString();
 	}
 
-	/**
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = (int) (prime * result + ((addressId == null) ? 0 : addressId.hashCode()));
-		return result;
-	}
 
-	/**
-	 */
-	public boolean equals(Object obj) {
-		if (obj == this)
-			return true;
-		if (!(obj instanceof Address))
-			return false;
-		Address equalCheck = (Address) obj;
-		if ((addressId == null && equalCheck.addressId != null) || (addressId != null && equalCheck.addressId == null))
-			return false;
-		if (addressId != null && !addressId.equals(equalCheck.addressId))
-			return false;
-		return true;
-	}
 }

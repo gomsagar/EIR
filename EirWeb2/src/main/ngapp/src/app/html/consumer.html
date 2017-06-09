@@ -4,16 +4,19 @@
 			<div class="form-group col-md-6">
 				<label for="exampleInputName2">Relation Type</label> <select class="form-control" name="relationType" [(ngModel)]="consumerData[i].relationType">
 					<option>--SELECT--</option>
-					<option>1</option>
-					<option>2</option>
-					<option>3</option>
-					<option>4</option>
-					<option>5</option>
+					<option *ngFor="let relationType of relationTypeList" [ngValue]="relationType">{{relationType.relationTypeDescription}}</option>
+				</select>
+			</div>
+			<div class="form-group col-md-6">
+				<label for="exampleInputName2">Account Type</label> <select class="form-control" name="accountType" [(ngModel)]="consumerData[i].accountType">
+					<option>--SELECT--</option>
+					<option *ngFor="let accntType of accntTypeList" [ngValue]="accntType">{{accntType.accntTypeDescription}}</option>
 				</select>
 			</div>
 		</div>
 
-		<div class="row bg-form">
+		<div class="bg-form">
+			<div class="row">
 			<div class="form-group col-md-4" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['firstName'+i].valid && requisitionForm.controls['firstName'+i].touched)||(!requisitionForm.controls['firstName'+i].valid && submitted))}">
 				<label for="exampleInputName2">Individual First Name *</label>
 				<input type="text" class="form-control" id="exampleInputName2" placeholder="Individual First Name" [(ngModel)]="consumerData[i].firstName"
@@ -32,7 +35,60 @@
 				 placeholder="Individual Last Name" name="lastName{{i}}" formControlName="lastName{{i}}" [(ngModel)]="consumerData[i].lastName">
 				<control-messages [control]="requisitionForm.controls['lastName'+i]" [label]="'Last Name'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
 			</div>
-
+			</div>
+			<div class="row">
+			<div class="form-group col-md-6">
+				<label for="exampleInputName2">Purpose</label> 
+				<select class="form-control" name="">
+					<option>--SELECT--</option>
+					<option *ngFor="let consumerPurpose of consumerPurposeList" [ngValue]="consumerPurpose">{{consumerPurpose.description}}</option>
+				</select>
+			</div>
+			<div class="form-group col-md-6">
+				<label for="exampleInputName2">Financial Purpose Type</label> 
+				<select class="form-control" name="">
+					<option>--SELECT--</option>
+					<option>1</option>
+					<option>2</option>
+					<option>3</option>
+					<option>4</option>
+					<option>5</option>
+				</select>
+			</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label for="exampleInputName2">Terms</label>
+						<div class="input-group">	
+						
+								<input size="50" maxlength="50" class="form-control" name="q" type="text" style=" width: 70%; float: left;">          
+							
+						
+								<select class="form-control" name="category" style=" width: 30%;"> 
+									<option value=""></option>
+									<option value="0">INR</option>
+									<option value="1">DOL</option>									
+								</select>           
+							
+						</div>
+				</div>
+				<div class="form-group col-md-6">
+				<label for="exampleInputName2">Amount</label>
+				<div class="input-group">	
+					
+							<input size="50" maxlength="50" class="form-control" name="q" type="text" style=" width: 70%; float: left;" [(ngModel)]="consumerData[i].amount"
+				 name="amount{{i}}">          
+											
+							<select class="form-control" name="category" style=" width: 30%;"> 
+								<option value=""></option>
+								<option value="0">INR</option>
+								<option value="1">DOL</option>	
+							</select>           
+							
+						</div>
+			</div>
+			</div>
+			<div class="row">
 			<div class="form-group col-md-3">
 				<label for="exampleInputName2">PAN</label> <input type="text" class="form-control" id="exampleInputName2" placeholder="PAN"
 				 name="personPan" [(ngModel)]="consumerData[i].personPan">
@@ -49,6 +105,8 @@
 				<label for="exampleInputName2">Voter ID</label> <input type="text" class="form-control" id="exampleInputName2" placeholder="Voter ID"
 				 name="voterId" [(ngModel)]="consumerData[i].voterId">
 			</div>
+			</div>
+			<div class="row">
 			<div class="form-group col-md-3">
 				<label for="exampleInputName2">Ration Card</label> <input type="text" class="form-control" id="exampleInputName2" placeholder="Ration Card"
 				 name="rationCard" [(ngModel)]="consumerData[i].rationCard">
@@ -66,6 +124,8 @@
 				<label for="exampleInputName2">Office Tele. No.</label> <input type="text" class="form-control" id="exampleInputName2"
 				 placeholder="Office Tele. No." name="officeTelephoneNo" [(ngModel)]="consumerData[i].officeTelephoneNo">
 			</div>
+			</div>
+			<div class="row">
 			<div class="form-group col-md-3" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['mobileNo'+i].valid && requisitionForm.controls['mobileNo'+i].touched)||(!requisitionForm.controls['mobileNo'+i].valid && submitted))}">
 				<label for="exampleInputName2">Mobile</label> <input type="text" class="form-control" id="exampleInputName2" placeholder="Mobile"
 				 name="mobileNo{{i}}" [(ngModel)]="consumerData[i].mobileNo" formControlName="mobileNo{{i}}">
@@ -73,12 +133,16 @@
 			</div>
 			<div class="form-group col-md-3 bootstrap-iso">
 				<label for="exampleInputName2">Birth Date</label>
+				
 				<div  class="input-group">
 					<div  class="input-group-addon">
-						<i  class="fa fa-calendar"></i>
+						
 					</div>
-					<input  class="form-control"  id="date"  name="date"  placeholder="MM/DD/YYYY"  type="text" [(ngModel)]="consumerData[i].birthDate"
-					/>
+					<!--
+						<i  class="fa fa-calendar"></i>
+						<input  class="form-control"  id="date"   placeholder="MM/DD/YYYY"  type="text" 
+					/>-->
+					<ng2-datepicker [(options)]="options" [(ngModel)]="consumerData[i].birthDate" name="date" ></ng2-datepicker>
 				</div>
 			</div>
 			<div class="form-group col-md-3">
@@ -89,22 +153,24 @@
 				<label for="exampleInputName2">Gender</label> <select class="form-control" name="gender{{i}}" formControlName="gender{{i}}"
 				 [(ngModel)]="consumerData[i].gender">
 				<control-messages [control]="requisitionForm.controls['gender'+i]" [label]="'Gender'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
-								<option>Male</option>
-								<option>Female</option>
+								<option >Male</option>
+								<option >Female</option>
 							</select>
 			</div>
-			<div class="row bg-form" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['personAddrLine1'+i].valid && requisitionForm.controls['personAddrLine1'+i].touched)||(!requisitionForm.controls['personAddrLine1'+i].valid && submitted))}">
-				<div class="form-group col-md-6">
+			</div>
+			<div class="row" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['personAddrLine1'+i].valid && requisitionForm.controls['personAddrLine1'+i].touched)||(!requisitionForm.controls['personAddrLine1'+i].valid && submitted))}">
+				<div class="form-group col-xs-6">
 					<label for="exampleInputName2">Address 1</label> <input type="text" class="form-control" id="exampleInputName2" placeholder="Address 1"
 					 name="personAddrLine1{{i}}" formControlName="personAddrLine1{{i}}" [(ngModel)]="consumerData[i].personAddrLine1">
 					<control-messages [control]="requisitionForm.controls['personAddrLine1'+i]" [label]="'Person Addr Line1'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
 				</div>
-				<div class="form-group col-md-6">
+				<div class="form-group col-xs-6">
 					<label for="exampleInputName2">Address 2</label> <input type="text" class="form-control" id="exampleInputName2" placeholder="Address 2"
 					 name="personAddrLine2{{i}}" formControlName="personAddrLine2{{i}}" [(ngModel)]="consumerData[i].personAddrLine2">
 					<control-messages [control]="requisitionForm.controls['personAddrLine2'+i]" [label]="'Person Addr Line2'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
 				</div>
 			</div>
+			<div class="row">
 			<div class="form-group col-md-3" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['personCity'+i].valid && requisitionForm.controls['personCity'+i].touched)||(!requisitionForm.controls['personCity'+i].valid && submitted))}">
 				<label for="exampleInputName2">City</label> <input type="text" class="form-control" id="exampleInputName2" placeholder="City"
 				 name="personCity{{i}}" formControlName="personCity{{i}}" [(ngModel)]="consumerData[i].personCity">
@@ -116,6 +182,8 @@
 											<control-messages [control]="requisitionForm.controls['personState'+i]" [label]="'State'"
 											style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
 											<option>--SELECT--</option>
+											<option>1</option>
+											<option>2</option>
 										<option *ngFor="let state of stateList">{{state.stateCodeDescription}}</option>
 										</select>
 			</div>
@@ -124,11 +192,12 @@
 				 name="personPinCode{{i}}" formControlName="personPinCode{{i}}" [(ngModel)]="consumerData[i].personPinCode">
 				<control-messages [control]="requisitionForm.controls['personPinCode'+i]" [label]="'PinCode'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
 			</div>
+			</div>
 		</div>
 	</form>
 </div>
 
-<div class="row">
+<div class="">
 	<div class="form-group col-md-3">
 		<button type="button" (click)="addMore()" class="btn btn-primary abp">
 			Add more <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>

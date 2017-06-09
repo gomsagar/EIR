@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -39,10 +40,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "request")
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = "eir/com/eir/report/entity", name = "Request")
-@XmlRootElement(namespace = "eir/com/eir/report/entity")
-
 @EntityListeners(AuditingEntityListener.class)
 public class Request implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -60,16 +57,12 @@ public class Request implements Serializable {
 		sequenceName="request_sequence",
 		allocationSize=1
 	)
-	@XmlElement
 	Integer requestId;
 	/**
 	 */
 
 		
 	@Column(name = "type", length = 45)
-	
-
-	@XmlElement
 	String type;
 	/**
 	 */
@@ -87,14 +80,6 @@ public class Request implements Serializable {
 
 	@XmlElement
 	String score;
-	/**
-	 */
-	
-	@Column(name = "status", length = 45)
-	
-
-	@XmlElement
-	String status;
 	/**
 	 */
 
@@ -121,10 +106,7 @@ public class Request implements Serializable {
 	String createUserId;
 	/**
 	 */
-	//@Temporal(TemporalType.DATE)
 	@Column(name = "create_user_date")
-	
-
 	@CreatedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	DateTime createUserDate ;
@@ -138,10 +120,7 @@ public class Request implements Serializable {
 	String updateUserId;
 	/**
 	 */
-	//@Temporal(TemporalType.DATE)
 	@Column(name = "update_user_date")
-	
-
 	@LastModifiedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	DateTime updateUserDate ;
@@ -161,39 +140,28 @@ public class Request implements Serializable {
 	EntityDetails entityDetails;
 	/**
 	 */
-	/* @ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumns({ @JoinColumn(name = "status_id", referencedColumnName = "id", nullable = false) })
+	 @ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumns({ @JoinColumn(name = "status_id", referencedColumnName = "status_id", nullable = false) })
 	@XmlTransient
-	Status status;*/
+	Status status;
 	 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumns({ @JoinColumn(name = "product_id", referencedColumnName = "product_id") })
-	@XmlTransient
-	ProductMaster productMaster;
+	
 	/**
 	 */
 	@OneToMany(mappedBy = "request", fetch = FetchType.LAZY)
-
-	@XmlElement(name = "", namespace = "")
 	java.util.Set<com.eir.report.entity.BirRequest> birRequests;
 	/**
 	 */
 	@OneToOne(mappedBy = "request", fetch = FetchType.LAZY)
-
-	@XmlElement(name = "", namespace = "")
 	KycApproval kycApproval;
 	/**
 	 */
 	@OneToMany(mappedBy = "request", fetch = FetchType.LAZY)
-
-	@XmlElement(name = "", namespace = "")
 	java.util.Set<com.eir.report.entity.CirRequest> cirRequets;
 	/**
 	 */
 	@OneToMany(mappedBy = "request", fetch = FetchType.LAZY)
-
-	@XmlElement(name = "", namespace = "")
-	java.util.Set<com.eir.report.entity.ConsumerRequet> consumerRequets;
+	java.util.Set<com.eir.report.entity.ConsumerRequest> consumerRequets;
 
 	/**
 	 */
@@ -317,18 +285,6 @@ public class Request implements Serializable {
 
 	/**
 	 */
-	public void setProductMaster(ProductMaster productMaster) {
-		this.productMaster = productMaster;
-	}
-
-	/**
-	 */
-	public ProductMaster getProductMaster() {
-		return productMaster;
-	}
-	
-	/**
-	 */
 	public void setBirRequests(Set<BirRequest> birRequests) {
 		this.birRequests = birRequests;
 	}
@@ -371,15 +327,15 @@ public class Request implements Serializable {
 
 	/**
 	 */
-	public void setConsumerRequets(Set<ConsumerRequet> consumerRequets) {
+	public void setConsumerRequets(Set<ConsumerRequest> consumerRequets) {
 		this.consumerRequets = consumerRequets;
 	}
 
 	/**
 	 */
-	public Set<ConsumerRequet> getConsumerRequets() {
+	public Set<ConsumerRequest> getConsumerRequets() {
 		if (consumerRequets == null) {
-			consumerRequets = new java.util.LinkedHashSet<com.eir.report.entity.ConsumerRequet>();
+			consumerRequets = new java.util.LinkedHashSet<com.eir.report.entity.ConsumerRequest>();
 		}
 		return consumerRequets;
 	}
@@ -402,11 +358,11 @@ public class Request implements Serializable {
 		this.type = type;
 	}
 
-	public String getStatus() {
+	public Status getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(Status status) {
 		this.status = status;
 	}
 

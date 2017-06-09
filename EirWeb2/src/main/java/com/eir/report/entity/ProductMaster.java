@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -61,7 +62,7 @@ public class ProductMaster implements Serializable {
 	 */
 
 	@Column(name = "product_code", length = 45)
-	
+
 	@XmlElement
 	String productCode;
 	
@@ -112,15 +113,11 @@ public class ProductMaster implements Serializable {
 	String tatInHour;
  
  
-	@OneToMany(mappedBy = "productMaster", fetch = FetchType.LAZY)
-
-	@XmlElement(name = "", namespace = "")
-	java.util.Set<com.eir.report.entity.Request> requests;
+	/*@OneToMany(mappedBy = "productMaster", fetch = FetchType.LAZY)
+	java.util.Set<com.eir.report.entity.Request> requests;*/
 	/**
 	 */
 	@OneToMany(mappedBy = "productMaster", fetch = FetchType.LAZY)
-
-	@XmlElement(name = "", namespace = "")
 	java.util.Set<com.eir.report.entity.MemberProductMapping> memberProductMappings;
 
 	/**
@@ -197,18 +194,18 @@ public class ProductMaster implements Serializable {
 
 	/**
 	 */
-	public void setRequests(Set<Request> requests) {
+	/*public void setRequests(Set<Request> requests) {
 		this.requests = requests;
-	}
+	}*/
 
 	/**
 	 */
-	public Set<Request> getRequests() {
+	/*public Set<Request> getRequests() {
 		if (requests == null) {
 			requests = new java.util.LinkedHashSet<com.eir.report.entity.Request>();
 		}
 		return requests;
-	}
+	}*/
 	
 	/**
 	 */
@@ -250,22 +247,6 @@ public class ProductMaster implements Serializable {
 	}
 
 	/**
-	 * Copies the contents of the specified bean into this bean.
-	 *
-	 */
-	public void copy(ProductMaster that) {
-		setProductId(that.getProductId());
-		setDescription(that.getDescription());
-		setProductCode(that.getProductCode());
-		setCreateUserId(that.getCreateUserId());
-		setCreateUserDate(that.getCreateUserDate());
-		setUpdateUserId(that.getUpdateUserId());
-		setUpdateUserDate(that.getUpdateUserDate());
-		setRequests(new java.util.LinkedHashSet<com.eir.report.entity.Request>(that.getRequests()));
-		setMemberProductMappings(new java.util.LinkedHashSet<com.eir.report.entity.MemberProductMapping>(that.getMemberProductMappings()));
-	}
-
-	/**
 	 * Returns a textual representation of a bean.
 	 *
 	 */
@@ -281,32 +262,5 @@ public class ProductMaster implements Serializable {
 		buffer.append("updateUserDate=[").append(updateUserDate).append("] ");
 
 		return buffer.toString();
-	}
-
-	/**
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = (int) (prime * result + ((productId == null) ? 0 : productId.hashCode()));
-		return result;
-	}
-
-	/**
-	 */
-	public boolean equals(Object obj) {
-		if (obj == this)
-			return true;
-		if (!(obj instanceof ProductMaster))
-			return false;
-		ProductMaster equalCheck = (ProductMaster) obj;
-		if ((productId == null && equalCheck.productId != null) || (productId != null && equalCheck.productId == null))
-			return false;
-		if (productId != null && !productId.equals(equalCheck.productId))
-			return false;
-		return true;
-	}
-
-	
+	}	
 }

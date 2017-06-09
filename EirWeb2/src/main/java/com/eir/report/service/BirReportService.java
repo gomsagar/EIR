@@ -7,29 +7,33 @@ import javax.servlet.http.HttpServletRequest;
 import com.eir.model.EligibleReport;
 import com.eir.report.entity.BIRZaubaRequest;
 import com.eir.report.entity.BirRequest;
+import com.eir.report.entity.Request;
 import com.eir.bir.request.model.MultipleRequest;
 import com.eir.report.entity.Response;
 
 public interface BirReportService {
 	
-	public String getAccessToken() ;
+	String getAccessToken() ;
 
-	public List<Response> companySearch(String companyName);
+	List<Response> companySearch(String companyName);
 	
-	public String reportRequest(String cin);
+	String reportRequest(String cin);
 	
-	public void saveCompanyDetails(BIRZaubaRequest birZaubaRequest);
+	void saveCompanyDetails(BIRZaubaRequest birZaubaRequest);
 
-	public void getZaubaResponseAndProcess(BirRequest birRequest);
+	void getZaubaResponseAndProcess(BirRequest birRequest);
 	
-	public List<BirRequest> getPendingRecord() ;
+	List<BirRequest> getPendingRecord() ;
 
-	public boolean getAndProcessBirReport(List<BirRequest> list);
+	boolean getAndProcessBirReport(List<BirRequest> list);
 	
-    public EligibleReport getEligibleReport();
+    EligibleReport getEligibleReport();
 	
-	public void saveSelectedReportData(EligibleReport selection);
+	void saveSelectedReportData(EligibleReport selection);
 
-	public void saveBIRRequestData(MultipleRequest input, HttpServletRequest request);
+	//void saveBIRRequestData(MultipleRequest input, Request request);
+	
+	//void createZaubaRequest(com.eir.bir.request.model.BirRequest birZaubaRequest);
 
+	BirRequest createBIRrequest(com.eir.bir.request.model.BirRequest birInputRequest, Request request);
 }

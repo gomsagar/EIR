@@ -26,9 +26,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Entity
+
 @Table(name = "STATE_CODE")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "eir/com/eir/report/entity", name = "State")
+
 @EntityListeners(AuditingEntityListener.class)
 public class State {
 	
@@ -45,37 +47,32 @@ public class State {
 	@XmlElement
 	Integer stateCode;
 	
-	@Column(name = "description", length = 45)
-	
+	@Column(name = "code_description", length = 45)
 
 	@XmlElement
-	String stateDescription;
+	String stateCodeDescription;
 	
-	/*@Column(name = "create_user_id", length = 45)
-	
+	@Column(name = "create_user_id", length = 45)
 
 	@CreatedBy
 	String createUserId;
-	*//**
-	 *//*
+	/**
+	 */
 	//@Temporal(TemporalType.DATE)
 	@Column(name = "create_user_date")
-	
 
 	@CreatedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	DateTime createUserDate ;
-	*//**
-	 *//*
+	/**
+	 */
 
 	@Column(name = "update_user_id", length = 45)
-	
 
 	@LastModifiedBy
 	String updateUserId;
 	
 	@Column(name = "update_user_date")
-	
 
 	@LastModifiedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
@@ -113,7 +110,7 @@ public class State {
 	public void setUpdateUserDate(DateTime updateUserDate) {
 		this.updateUserDate = updateUserDate;
 	}
-*/
+
 	public Integer getStateCode() {
 		return stateCode;
 	}
@@ -122,12 +119,12 @@ public class State {
 		this.stateCode = stateCode;
 	}
 
-	public String getStateDescription() {
-		return stateDescription;
+	public String getStateCodeDescription() {
+		return stateCodeDescription;
 	}
 
-	public void setStateDescription(String stateCodeDescription) {
-		this.stateDescription = stateCodeDescription;
+	public void setStateCodeDescription(String stateCodeDescription) {
+		this.stateCodeDescription = stateCodeDescription;
 	}
 
 }

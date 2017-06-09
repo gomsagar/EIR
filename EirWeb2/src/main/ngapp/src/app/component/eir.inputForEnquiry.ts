@@ -5,6 +5,8 @@ import{CompanyListService} from '../services/eir.companyList';
 import{CompanyNameService} from '../services/eir.sendCompName';
 import{StateListService} from '../services/eir.stateList';
 import{AddressTypeList} from '../services/eir.getAddressTypeList';
+import{CirPurposeList} from '../services/eir.getCirPurposeList';
+import{ReportTypeList} from '../services/dropdown/eir.getReportTypeList';
 import{FormGroup,FormBuilder,FormControl, Validators} from '@angular/forms';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import{AppService} from '../services/eir.callController';
@@ -13,6 +15,7 @@ import { DatePickerOptions, DateModel } from 'ng2-datepicker';
 import {ConsumerComponent} from './eir.consumer';
 import{NewService} from '../services/eir.newService';
 import { ControlMessages } from '../services/control.message.component';
+
 //import{}
 
 interface MessageJson {
@@ -29,7 +32,7 @@ interface MessageJson {
                '../css/bootstrap-theme.min.css',
                '../css/carousel.css',
                '../css/dashboard.css'],
- providers: [HttpModule,CompanyListService,AppService,CompanyNameService,StateListService,AddressTypeList,FormsModule,ReactiveFormsModule,NewService,ControlMessages]
+ providers: [HttpModule,CompanyListService,AppService,CompanyNameService,StateListService,AddressTypeList,CirPurposeList,FormsModule,ReactiveFormsModule,NewService,ControlMessages,ReportTypeList]
 })
 export class InputForEnquiryComponent implements OnInit
 {
@@ -51,6 +54,8 @@ export class InputForEnquiryComponent implements OnInit
     compList=<any>[];
     stateList=<any>[];
     addressTypeList=<any>[];
+    cirPurposeList = <any>[];
+    reportTypeList = <any>[];
     cinNumber=<any>[]; 
     temp = <any>[];
     private hasList:boolean=false;
@@ -62,19 +67,22 @@ export class InputForEnquiryComponent implements OnInit
     consumerValid : boolean;
 
     commonArray: any = {
+        isBIRActive:'',
+        isCIRActive:'',
+        isComboActive:'',
          bir: {companyName:'',cmpList:''},
         cir: {companyName:'',productField:'',purpose:'',amt:'',accType1:'',clientRefNo:'',accType2:'',cmpPan:'',addrType:'',addrLinen1:'',
               addrline2:'',city:'',state:'',pinCode:'',telephoneNo:'',pan:'',cin:'',tin:'',emailId:'',triggers:''},
-        consumer: [ 
-                {relationType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
+        consumerList: [ 
+                {relationType:'',accountType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
                 rationCard:'',passportNo:'',homeTelephoneNo:'',officeTelephoneNo:'',mobileNo:'',birthDate:'',maritalStatus:'',gender:'',
-                personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:''}                
+                personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:'',amount:''}                
             ]
 };
 
-consumerData : any= [{relationType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
+consumerData : any= [{relationType:'',accountType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
                 rationCard:'',passportNo:'',homeTelephoneNo:'',officeTelephoneNo:'',mobileNo:'',birthDate:'',maritalStatus:'',gender:'',
-                personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:''}]  ;
+                personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:'',amount:''}]  ;
 
   ngOnInit(){
     this._stateListService.getStateList().subscribe((stateListSubs) => {
@@ -92,7 +100,6 @@ consumerData : any= [{relationType:'',firstName:'',middleName:'',lastName:'',per
         });  
         
     this._addressTypeList.getAddressTypeList().subscribe((addressType) => {
-        debugger;
         this.addressTypeList=addressType;
         this.jsonResponse = JSON.stringify(addressType);
         if(addressType!=null)
@@ -100,10 +107,26 @@ consumerData : any= [{relationType:'',firstName:'',middleName:'',lastName:'',per
             this.hasList=true;
             }
     });
+    this._reportTypeList.getReportTypeList().subscribe((reportType) => {
+        this.reportTypeList=reportType;
+        this.jsonResponse = JSON.stringify(reportType);
+        if(reportType!=null)
+            {
+            this.hasList=true;
+            }
+    });
+    this._cirPurposeList.getCirPurposeList().subscribe((cirPurpose) => {
+        this.cirPurposeList=cirPurpose;
+        this.jsonResponse = JSON.stringify(cirPurpose);
+        if(cirPurpose!=null)
+            {
+            this.hasList=true;
+            }
+    });
   }
       
     constructor(private _cmpservice:CompanyListService,private _cmpname:CompanyNameService,private _newService :NewService,private controlMessage:ControlMessages,private _stateListService:StateListService,private _addressTypeList:AddressTypeList,
-    private _appService:AppService,private router: Router,fb: FormBuilder,fb1: FormBuilder,private _routeParams: ActivatedRoute)
+    private _cirPurposeList:CirPurposeList, private _reportTypeList:ReportTypeList,private _appService:AppService,private router: Router,fb: FormBuilder,fb1: FormBuilder,private _routeParams: ActivatedRoute)
     {
 
          _newService.consumerCompVar$.subscribe(
@@ -164,8 +187,6 @@ consumerData : any= [{relationType:'',firstName:'',middleName:'',lastName:'',per
           'product'     : [null,  Validators.required],
           'address'     : [null,  Validators.required],         
           'purpose'     : [null,  Validators.required],
-          'accType'     : [null,  Validators.required],
-          'accType1'    : [null,  Validators.required],
           'state'       : [null,  Validators.required]
          });
          this.birForm =fb.group(
@@ -199,7 +220,7 @@ consumerData : any= [{relationType:'',firstName:'',middleName:'',lastName:'',per
     onChange(newValue) {
              console.log("Inside Onchange method........"+newValue);
              this.commonArray.cir.companyName = newValue;
-             console.log("Inside Onchange method commonArray.bir.compName........"+this.commonArray.cir.companyName);
+             console.log("Inside Onchange method commonArray.bir.companyName........"+this.commonArray.cir.companyName);
     }
   
     validate()
@@ -222,10 +243,14 @@ consumerData : any= [{relationType:'',firstName:'',middleName:'',lastName:'',per
          console.log("BIR:"+this.commonArray.bir);
          console.log("Consumer:"+this.commonArray.consumer);
          
-        // debugger;
+         debugger;
          if(this.issOnlyBIR){
                 if(this.birForm.valid )
                 {
+                    debugger;
+                    this.commonArray.isBIRActive = this.birVal;
+                    this.commonArray.isCIRActive = this.cirVal;
+                    this.commonArray.isComboActive = this.comboVal;
                     this._appService.submitInfo(this.commonArray).subscribe(this.data);
                     alert("Data Submitted Successfully!!!");
                     //this.router.navigate(['inputForEnquiry']);
@@ -238,7 +263,12 @@ consumerData : any= [{relationType:'',firstName:'',middleName:'',lastName:'',per
 
           if(this.isCir || this.isCombo){
                 if(this.cirForm.valid && this.consumerValid)
-                {
+                { 
+                    debugger;
+                    this.commonArray.isBIRActive = this.birVal;
+                    this.commonArray.isCIRActive = this.cirVal;
+                    this.commonArray.isComboActive = this.comboVal;
+                    console.log('this.birVal ========= '+this.birVal +'  this.cirVal ============ '+this.cirVal+'   this.comboVal ======'+this.comboVal);
                     this._appService.submitInfo(this.commonArray).subscribe(this.data);
                     alert("Data Submitted Successfully!!!");
                     //this.router.navigate(['inputForEnquiry']);
@@ -253,9 +283,9 @@ consumerData : any= [{relationType:'',firstName:'',middleName:'',lastName:'',per
     }
 
     getCompanyList()
-    {
-        console.log("this.commonArray.cir.cmpName---------"+this.commonArray.cir.cmpName)
-            this._cmpname.validateName(this.commonArray.cir ).subscribe((temp) => {
+    {   debugger;
+        console.log("commonArray.bir.companyName---------"+this.commonArray.bir.companyName)
+            this._cmpname.validateName(this.commonArray.bir ).subscribe((temp) => {
             
             this.compList=temp;
             //console.log("responce   -  - "+ temp);

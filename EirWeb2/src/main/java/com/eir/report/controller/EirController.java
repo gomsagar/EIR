@@ -16,13 +16,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.eir.bir.request.model.MultipleRequest;
 import com.eir.report.constant.Constant;
+import com.eir.report.entity.AccountType;
 import com.eir.report.entity.Address;
 import com.eir.report.entity.AddressType;
+import com.eir.report.entity.CirPurpose;
+import com.eir.report.entity.ConsumerPurpose;
+import com.eir.report.entity.RelationType;
+import com.eir.report.entity.ReportType;
 import com.eir.report.entity.Request;
 import com.eir.report.entity.State;
 import com.eir.report.entity.UserDetails;
@@ -41,17 +45,6 @@ public class EirController {
 	
 	Logger logger = LoggerFactory.getLogger(EirController.class);
 
-	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
-	public ModelAndView helloWorld() {
-		logger.debug("EirController - helloWorld: Start");
-		//List<BirRequest> retrieveRequest = eirService.retrieveRequest();
-
-		String message = "<br><div style='text-align:center;'>"
-				+ "<h3>********** Hello World, Spring MVC Tutorial</h3>This message is coming from CrunchifyHelloWorld.java **********</div><br><br>";
-		logger.debug("EirController - helloWorld: End");
-		return new ModelAndView("welcome", "message", message );
-	}
-	
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
 	public String callDashboard(@RequestParam("userId") String userID, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
 		logger.debug("EirController - callDashboard: Start");
@@ -76,73 +69,6 @@ public class EirController {
 			e.printStackTrace();
 		}
 		return "ng/error.html";
-	}
-	
-	@RequestMapping(value = "/newuser", method = RequestMethod.GET)
-	public ModelAndView addUser() {
-		
-		logger.debug("EirController - addUser(): Start");
-		
-		Address adr = new Address();
-		
-		adr.setAddressId(4);
-		adr.setAddressLine1("kothrud");
-		adr.setAddressLine2("depo");
-		adr.setAddressLine3("pune akot");
-		adr.setAddressType("temp");
-		adr.setCity("Pune 5");
-		adr.setPincode("411333");
-		
-		eirService.saveUser(adr);
-		System.out.println("inside new user");
-		String message ="Saved";
-		return new ModelAndView("NewUser","message", message);// "NewUser";	
-	}
-	
-	/*@CrossOrigin(origins = "http://localhost:4200")
-	@RequestMapping(value = "/getAddress", method = RequestMethod.GET, produces="application/json")
-	public @ResponseBody JSONArray getAddress() throws JSONException {
-		Gson gson = new Gson();
-		JSONObject obj = new JSONObject();
-		JSONArray jar = new JSONArray();
-		Address adr = new Address();
-		List<Address> allAddrs = eirService.getAddress();
-		adr.setAddressId(3);
-		adr.setAddressLine1("pimple");
-		adr.setAddressLine2("saudagar");
-		adr.setAddressLine3("pune");
-		adr.setAddressType("perm");
-		adr.setCity("Pune 2");
-		adr.setPincode("411000");
-		
-		allAddrs.add(adr);
-		
-		String jsonCartList = gson.toJson(allAddrs);
-		System.out.println("jsonCartList: " + jsonCartList);
-		//ModelAndView view = new ModelAndView("NewUser", "addrsList", allAddrs);
-		obj.put("", jsonCartList);
-		jar.put(obj);
-		System.out.println(obj);
-		System.out.println("here == "+jar);
-		
-		String[] data = {"stringone", "stringtwo"};
-		JSONArray json = new JSONArray(Arrays.asList(data));
-		
-		return json;		
-	}*/
-	
-	@RequestMapping(value = "/returnString", method = RequestMethod.GET, produces = "application/json")
-	@ResponseBody
-	public String returnString() {
-		Address adr = new Address();
-		adr.setAddressId(3);
-		adr.setAddressLine1("pimple");
-		adr.setAddressLine2("saudagar");
-		adr.setAddressLine3("pune");
-		adr.setAddressType("perm");
-		adr.setCity("Pune 2");
-		adr.setPincode("411000");
-		return "hi kishor";
 	}
 	
 	@RequestMapping(value = "/getRequest", method = RequestMethod.POST)
@@ -180,6 +106,62 @@ public class EirController {
 		return addrsTypeList;		
 	}
 	
+	@RequestMapping(value="/getCirPurposeList", method = RequestMethod.GET)
+	public @ResponseBody List<CirPurpose> getCirPurposeList(){
+		List<CirPurpose> cirPurposeList =new ArrayList<CirPurpose>();
+		logger.debug("EirController - getCirPurposeList(): Start");
+		
+		cirPurposeList = eirService.getCirPurposeList();
+				
+		logger.debug("EirController - getAddressTypeList(): State list"+ cirPurposeList );
+		
+		return cirPurposeList;		
+	}
+	
+	@RequestMapping(value="/getAccountTypeList", method = RequestMethod.GET)
+	public @ResponseBody List<AccountType> getAccountTypeList(){
+		logger.debug("EirController - getAccountTypeList(): Start");
+		
+		List<AccountType> accntTypeList = eirService.getAccountTypeList();
+				
+		logger.debug("EirController - getAccountTypeList(): State list"+ accntTypeList );
+		
+		return accntTypeList;		
+	}
+	
+	@RequestMapping(value="/getReportTypeList", method = RequestMethod.GET)
+	public @ResponseBody List<ReportType> getReportTypeList(){
+		logger.debug("EirController - getReportTypeList(): Start");
+		
+		List<ReportType> reportTypeList = eirService.getReportTypeList();
+				
+		logger.debug("EirController - getReportTypeList(): State list"+ reportTypeList );
+		
+		return reportTypeList;		
+	}
+	
+	@RequestMapping(value="/getRelationTypeList", method = RequestMethod.GET)
+	public @ResponseBody List<RelationType> getRelationTypeList(){
+		logger.debug("EirController - getRelationTypeList(): Start");
+		
+		List<RelationType> relationTypeList = eirService.getRelationTypeList();
+				
+		logger.debug("EirController - getRelationTypeList(): State list"+ relationTypeList );
+		
+		return relationTypeList;		
+	}
+	
+	@RequestMapping(value="/getConsumerPurposeList", method = RequestMethod.GET)
+	public @ResponseBody List<ConsumerPurpose> getConsumerPurposeList(){
+		logger.debug("EirController - getConsumerPurposeList(): Start");
+		
+		List<ConsumerPurpose> consumerPurposeList = eirService.getConsumerPurposeList();
+				
+		logger.debug("EirController - getConsumerPurposeList(): State list"+ consumerPurposeList );
+		
+		return consumerPurposeList;		
+	}
+	
 	/**
 	 * Upload multiple file using Spring Controller
 	 */
@@ -206,7 +188,7 @@ public class EirController {
 		
 		Request requestObj = eirService.createRequest(input , request);
 		
-		input.setRequestObj(requestObj);
+		/*input.setRequestObj(requestObj);
 		
 		if (input.getIsBIRActive()) 
 		{
@@ -216,7 +198,7 @@ public class EirController {
 		if (input.getIsCIRActive() || input.getIsComboActive()) 
 		{
 			eirService.saveRequestedData(input , request);
-		}
+		}*/
 		
 	   return "" ;
 	}

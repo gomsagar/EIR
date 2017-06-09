@@ -13,6 +13,7 @@ import{ViewEarlierRequestComponent} from './component/eir.viewEarlierRequest';
 import{TrackDisputeComponent} from  './component/eit.trackDispute';
 import{ConsumerComponent} from './component/eir.consumer';
 import {ControlMessages} from './services/control.message.component';
+import { DatePickerModule } from 'ng2-datepicker';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -33,7 +34,8 @@ const appRoutes: Routes = [
     BrowserModule,
     FormsModule,
     HttpModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+     DatePickerModule
   ],
   providers: [RouterModule,ReactiveFormsModule],
     bootstrap: [AppComponent]

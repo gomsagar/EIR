@@ -7,14 +7,14 @@ public class CirRequest {
 	String status;
 	String cirRequetcol;
 	Integer bankAccNo;
-	String productField;
-	String purpose;
+	ReportType productField;
+	CirPurpose purpose;
 	Float amt;
 	String accType1;
 	String clientRefNo;
 	String accType2;
 	String cmpPan;
-	String addrType;
+	AddressType addrType;
 	String addrLine1;
 	String addrLine2;
 	String city;
@@ -56,16 +56,16 @@ public class CirRequest {
 	public void setBankAccNo(Integer bankAccNo) {
 		this.bankAccNo = bankAccNo;
 	}
-	public String getProductField() {
+	public ReportType getProductField() {
 		return productField;
 	}
-	public void setProductField(String productField) {
+	public void setProductField(ReportType productField) {
 		this.productField = productField;
 	}
-	public String getPurpose() {
+	public CirPurpose getPurpose() {
 		return purpose;
 	}
-	public void setPurpose(String purpose) {
+	public void setPurpose(CirPurpose purpose) {
 		this.purpose = purpose;
 	}
 	public Float getAmt() {
@@ -98,10 +98,10 @@ public class CirRequest {
 	public void setCmpPan(String cmpPan) {
 		this.cmpPan = cmpPan;
 	}
-	public String getAddrType() {
+	public AddressType getAddrType() {
 		return addrType;
 	}
-	public void setAddrType(String addrType) {
+	public void setAddrType(AddressType addrType) {
 		this.addrType = addrType;
 	}
 

@@ -13,6 +13,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.stereotype.Component;
 
@@ -26,28 +32,55 @@ import org.springframework.stereotype.Component;
 @EntityListeners(AuditingEntityListener.class)
 public class AddressType {
 	
-	@Column(name = "id", nullable = false)
+	@Column(name = "address_type_id", nullable = false)
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="addrType_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="addrType_seq")
 	@SequenceGenerator(
 		name="addrType_seq",
 		sequenceName="addressType_sequence",
 		allocationSize=1
 	)
 	@XmlElement
-	String addressTypeId;
+	Integer addressTypeId;
 	
-	@Column(name = "description", length = 45)
-	
+	@Column(name = "address_type_description", length = 45)
 
 	@XmlElement
 	String addressTypeDescription;
+	@Column(name = "create_user_id", length = 45)
+
+	@CreatedBy
+	String createUserId;
+	/**
+	 */
+	//@Temporal(TemporalType.DATE)
+	@Column(name = "create_user_date")
+
+	@CreatedDate
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	DateTime createUserDate ;
+	/**
+	 */
+
+	@Column(name = "update_user_id", length = 45)
+
+	@LastModifiedBy
+	String updateUserId;
+	/**
+	 */
+	//@Temporal(TemporalType.DATE)
+	@Column(name = "update_user_date")
+
+	@LastModifiedDate
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	DateTime updateUserDate ;
 	
 	
-	public String getAddressTypeId() {
+	public Integer getAddressTypeId() {
 		return addressTypeId;
 	}
-	public void setAddressTypeId(String addressTypeId) {
+	public void setAddressTypeId(Integer addressTypeId) {
 		this.addressTypeId = addressTypeId;
 	}
 	public String getAddressTypeDescription() {
@@ -56,4 +89,31 @@ public class AddressType {
 	public void setAddressTypeDescription(String addressTypeDescription) {
 		this.addressTypeDescription = addressTypeDescription;
 	}
+	public String getCreateUserId() {
+		return createUserId;
+	}
+	public void setCreateUserId(String createUserId) {
+		this.createUserId = createUserId;
+	}
+	public DateTime getCreateUserDate() {
+		return createUserDate;
+	}
+	public void setCreateUserDate(DateTime createUserDate) {
+		this.createUserDate = createUserDate;
+	}
+	public String getUpdateUserId() {
+		return updateUserId;
+	}
+	public void setUpdateUserId(String updateUserId) {
+		this.updateUserId = updateUserId;
+	}
+	public DateTime getUpdateUserDate() {
+		return updateUserDate;
+	}
+	public void setUpdateUserDate(DateTime updateUserDate) {
+		this.updateUserDate = updateUserDate;
+	}
+	
+	
+
 }

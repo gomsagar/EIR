@@ -7,8 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,30 +21,46 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.eir.bir.request.model.ConsumerList;
+import com.eir.bir.request.model.Consumer;
 import com.eir.bir.request.model.MultipleRequest;
 import com.eir.report.constant.Constant;
+import com.eir.report.entity.AccountType;
 import com.eir.report.entity.Address;
 import com.eir.report.entity.AddressType;
 import com.eir.report.entity.BirRequest;
+import com.eir.report.entity.CirPurpose;
 import com.eir.report.entity.CirRequest;
-import com.eir.report.entity.ConsumerRequet;
+import com.eir.report.entity.ConsumerPurpose;
+import com.eir.report.entity.ConsumerRequest;
 import com.eir.report.entity.EntityDetails;
 import com.eir.report.entity.ProductMaster;
+import com.eir.report.entity.RelationType;
+import com.eir.report.entity.ReportType;
 import com.eir.report.entity.Request;
 import com.eir.report.entity.State;
+import com.eir.report.entity.Status;
 import com.eir.report.entity.UserDetails;
 import com.eir.report.entity.UserRole;
+import com.eir.report.repository.AccountTypeRepository;
 import com.eir.report.repository.AddressRepository;
 import com.eir.report.repository.AddressTypeRepository;
 import com.eir.report.repository.BirRequestRepository;
+import com.eir.report.repository.CirPurposeRepository;
 import com.eir.report.repository.CirRequestRepository;
+import com.eir.report.repository.ConsumerPurposeRepository;
 import com.eir.report.repository.ConsumerRequetRepository;
 import com.eir.report.repository.EntityDetailsRepository;
+import com.eir.report.repository.ProductRepository;
+import com.eir.report.repository.RelationTypeRepository;
+import com.eir.report.repository.ReportTypeRepository;
 import com.eir.report.repository.RequestRepository;
 import com.eir.report.repository.StateRepository;
+import com.eir.report.repository.StatusRepository;
 import com.eir.report.repository.UserDetailsRepository;
+import com.eir.report.service.BirReportService;
 import com.eir.report.service.EirService;
+import com.eir.report.service.NextGenWebService;
+import com.eir.report.util.GetStatus;
 
 @Service
 public class EirServiceImpl implements EirService{
@@ -81,6 +97,36 @@ public class EirServiceImpl implements EirService{
 	@Autowired
 	UserDetailsRepository userDetailsRepository;
 	
+	@Autowired
+	CirPurposeRepository cirPurposeRepository;
+	
+	@Autowired
+	AccountTypeRepository accntTypeRepository;
+	
+	@Autowired
+	ReportTypeRepository reportTypeRepository;
+	
+	@Autowired
+	RelationTypeRepository relationTypeRepository;
+	
+	@Autowired
+	ConsumerPurposeRepository consumerPurposeRepository;
+	
+	@Autowired
+	StatusRepository statusRepository;
+	
+	@Autowired
+	ProductRepository productMasterRepository;
+	
+	@Autowired
+	EirService eirService;
+	
+	@Autowired
+	BirReportService birService;
+	
+	@Autowired
+	NextGenWebService nextGenWebService; 
+	
 	@Override
 	public List<BirRequest> retrieveRequest() {
 		return birRequestRepository.findAll();
@@ -109,6 +155,286 @@ public class EirServiceImpl implements EirService{
 		return addressTypeRepository.findAll();
 	}
 
+	
+	
+	/*@Override
+	public void saveRequestedData(MultipleRequest input , HttpServletRequest request) {
+		 		
+		//cirReqRepository.save(setCIRData(input , request));
+		addressRepository.save(createAddress(input.getCir()));
+		setConsumerListData(input , request);
+	}*/
+	
+	private Address createAddress(com.eir.bir.request.model.CirRequest cirReq) {
+		Address addrsEntity = new Address();
+			addrsEntity.setAddressLine1(cirReq.getAddrLine1());
+			addrsEntity.setAddressLine2(cirReq.getAddrLine2());
+			addrsEntity.setCity(cirReq.getCity());
+			addrsEntity.setState(cirReq.getState());
+			addrsEntity.setPincode(cirReq.getPinCode());
+			AddressType addressType = addressTypeRepository.findByAddressTypeId(cirReq.getAddrType().getAddressTypeId());
+			addrsEntity.setAddressType(addressType);
+			addressRepository.save(addrsEntity);
+		return addrsEntity;
+	}
+
+	/*private ConsumerRequest setConsumerListData(MultipleRequest input, HttpServletRequest request) {
+		
+		for (Consumer consumer_element : input.getConsumer()) {
+			ConsumerRequest consumerEntity = new ConsumerRequest();
+			
+				consumerEntity.setRequest(input.getRequestObj());
+				//consumerEntity.setErnNumber(consumer_element.getErnNumber());
+				consumerEntity.setScore(consumer_element.getScore());
+				consumerEntity.setStatus(consumer_element.getStatus());
+				consumerEntity.setRelationType(setRelationType(consumer_element));
+				consumerEntity.setAccountType(setAccntType(consumer_element));
+				consumerEntity.setFirstName(consumer_element.getFirstName());
+				consumerEntity.setMiddleName(consumer_element.getMiddleName());
+				consumerEntity.setLastName(consumer_element.getLastName());
+				consumerEntity.setPersonPan(consumer_element.getPersonPan());
+				consumerEntity.setDrivingLic(consumer_element.getDrivingLic());
+				consumerEntity.setAadharCard(consumer_element.getAadharhCard());
+				consumerEntity.setVoterId(consumer_element.getVoterId());
+				consumerEntity.setRationCard(consumer_element.getRationCard());
+				consumerEntity.setPassportNo(consumer_element.getPassportNo());
+				consumerEntity.setHomeTelephoneNo(consumer_element.getHomeTelephoneNo());
+				consumerEntity.setOfficeTelephoneNo(consumer_element.getOfficeTelephoneNo());
+				consumerEntity.setMobileNo(consumer_element.getMobileNo());
+				//consumerEntity.setBirthDate(consumer_element.getBirthDate());
+				consumerEntity.setMaritalStatus(consumer_element.getMaritalStatus());
+				consumerEntity.setGender(consumer_element.getGender());
+				consumerEntity.setPersonAddrLine1(consumer_element.getPersonAddrLine1());
+				consumerEntity.setPersonAddrLine2(consumer_element.getPersonAddrLine2());
+				consumerEntity.setPersonCity(consumer_element.getPersonCity());
+				consumerEntity.setPersonState(consumer_element.getPersonPincode());
+				consumerEntity.setPersonPincode(consumer_element.getPersonPincode());
+				consumerEntity.setAmount(consumer_element.getAmount());
+				
+			consumerListRepository.save(consumerEntity);
+		}
+		return null;
+	}*/
+
+	private AccountType setAccntType(Consumer consumer_element) {
+		AccountType setAccntType = new AccountType();
+		setAccntType.setAccntTypeId(consumer_element.getAccountType().getAccntTypeId());
+		setAccntType.setAccntTypeDescription(consumer_element.getAccountType().getAccntTypeDescription());
+		return setAccntType;
+	}
+
+	private RelationType setRelationType(Consumer consumer_element) {
+		RelationType setRelstnType = new RelationType();
+		
+		setRelstnType.setRelationTypeId(consumer_element.getRelationType().getRelationTypeId());
+		setRelstnType.setRelationTypeDescription(consumer_element.getRelationType().getRelationTypeDescription());
+		
+		return setRelstnType;
+	}
+
+	
+	
+	private CirRequest mapCirInputToCIRRequest(com.eir.bir.request.model.CirRequest cirRequest, Request request) {
+		CirRequest cirRequestEntity = new CirRequest();		
+				
+		cirRequestEntity.setRequest(request);
+		cirRequestEntity.setStatus(GetStatus.getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.toString()));
+		
+		cirRequestEntity.setProductField(cirRequest.getProductField().getReportTypeId());
+		cirRequestEntity.setPurposeId(cirRequest.getPurpose().getCirPurposeId());
+		cirRequestEntity.setCompanyPan(cirRequest.getCmpPan());
+		cirRequestEntity.setAddressId(createAddress(cirRequest));
+		
+		cirRequestEntity.setTelephoneNo(cirRequest.getTelephoneNo());
+		cirRequestEntity.setPan(cirRequest.getPan());
+		cirRequestEntity.setCin(cirRequest.getCin());
+		cirRequestEntity.setTin(cirRequest.getTin());
+		cirRequestEntity.setEmailId(cirRequest.getEmailId());
+		cirRequestEntity.setTriggers(cirRequest.getTriggers());
+		
+		cirReqRepository.save(cirRequestEntity);
+		return cirRequestEntity;
+	}
+	
+	
+	private List<ConsumerRequest> mapConsumerInputToConsumerRequest(List<Consumer>  consumerInputList, Request requestEntity, CirRequest cirRequestEntity) 
+	{
+		List<ConsumerRequest> consumerEntityRequestList = null;
+		
+		if(consumerInputList != null && !consumerInputList.isEmpty())
+		{
+			consumerEntityRequestList = new ArrayList<>();
+			for(Consumer consumerInput: consumerInputList)
+			{
+				ConsumerRequest consumerEntity = new ConsumerRequest();
+				consumerEntity.setRequest(requestEntity);
+				consumerEntity.setCirRequest(cirRequestEntity);
+				//consumerEntity.setErnNumber(consumerInput.getErnNumber());
+				consumerEntity.setScore(consumerInput.getScore());
+				consumerEntity.setStatusId(GetStatus.getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.toString()));
+				consumerEntity.setRelationType(consumerInput.getRelationType().getRelationTypeId());
+				//consumerEntity.setAccountType(consumerInput.getAccountType().getAccntTypeId());
+				consumerEntity.setFirstName(consumerInput.getFirstName());
+				consumerEntity.setMiddleName(consumerInput.getMiddleName());
+				consumerEntity.setLastName(consumerInput.getLastName());
+				consumerEntity.setPersonPan(consumerInput.getPersonPan());
+				consumerEntity.setDrivingLic(consumerInput.getDrivingLic());
+				consumerEntity.setAadharCard(consumerInput.getAadharhCard());
+				consumerEntity.setVoterId(consumerInput.getVoterId());
+				consumerEntity.setRationCard(consumerInput.getRationCard());
+				consumerEntity.setPassportNo(consumerInput.getPassportNo());
+				consumerEntity.setHomeTelephoneNo(consumerInput.getHomeTelephoneNo());
+				consumerEntity.setOfficeTelephoneNo(consumerInput.getOfficeTelephoneNo());
+				consumerEntity.setMobileNo(consumerInput.getMobileNo());
+				//consumerEntity.setBirthDate(consumerInput.getBirthDate());
+				consumerEntity.setMaritalStatus(consumerInput.getMaritalStatus());
+				consumerEntity.setGender(consumerInput.getGender());
+				
+				consumerEntity.setAddressId(createAddressForConsumerList(consumerInput));
+								
+				consumerEntity.setAmount(consumerInput.getAmount());
+				consumerListRepository.save(consumerEntity);
+				consumerEntityRequestList.add(consumerEntity);
+			}
+		}
+		return consumerEntityRequestList;
+	}
+	
+	private Address createAddressForConsumerList(Consumer consumerReq) {
+		Address addrsEntity = new Address();
+			addrsEntity.setAddressLine1(consumerReq.getPersonAddrLine1());
+			addrsEntity.setAddressLine2(consumerReq.getPersonAddrLine2());
+			addrsEntity.setCity(consumerReq.getPersonCity());
+			addrsEntity.setState(consumerReq.getPersonState());
+			addrsEntity.setPincode(consumerReq.getPersonPincode());
+			AddressType addressType = addressTypeRepository.findByAddressTypeId(consumerReq.getAddressType().getAddressTypeId());
+			addrsEntity.setAddressType(addressType);
+			addressRepository.save(addrsEntity);
+		return addrsEntity;
+	}
+	
+	@Override
+	public Request createRequest(MultipleRequest input, HttpServletRequest request) 
+	{
+		Request reqEntity = new Request();
+		reqEntity.setUserDetails(getUserDetails());
+		reqEntity.setUserHit(1);//TODO temporarily harcode values saved
+		reqEntity.setEntityDetails(getEntityObject(input,request));
+		reqEntity.setStatus(GetStatus.getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.toString()));
+		reqEntity.setAdminHit(1);//TODO save according to admin hit
+		reqEntity.setType(Constant.SPECIFIED);//TODO change according to FE flag
+		
+ 		requestRepository.save(reqEntity);
+ 		
+ 		if (input.getIsBIRActive()) 
+		{
+			birService.createBIRrequest(input.getBir(), reqEntity);					
+		}
+		
+		if (input.getIsCIRActive() || input.getIsComboActive()) 
+		{
+			
+			CirRequest cirInputRequest = mapCirInputToCIRRequest(input.getCir(), reqEntity);
+			
+			CirRequest cirRequestEntity = nextGenWebService.createCIRReport(cirInputRequest );
+			
+			
+			if (input.getIsComboActive()) 
+			{
+				List<ConsumerRequest> consumerEntityRequest = mapConsumerInputToConsumerRequest(input.getConsumerList(), reqEntity, cirRequestEntity);
+				nextGenWebService.createConsumerReport(consumerEntityRequest);
+			}
+		}
+		
+ 		return reqEntity;
+	}
+
+	/*private Request setRequestData(MultipleRequest input, HttpServletRequest request) {
+		Request reqEntity = new Request();
+		
+		reqEntity.setUserDetails(getUserDetails());
+		reqEntity.setUserHit(1);//TODO temporarily harcode values saved
+		reqEntity.setEntityDetails(getEntityObject(input,request));
+		reqEntity.setStatus(getStatus(com.eir.report.constant.Status.IN_PROCCESS.toString()));//TODO it should be integer
+		reqEntity.setAdminHit(1);//TODO save according to admin hit
+		reqEntity.setType(Constant.SPECIFIED);//TODO change according to FE flag
+		//reqEntity.setScore("200");//TODO calculate total score and push in to DB
+		return reqEntity;
+	}*/
+	
+	private ProductMaster setProductMaster() {
+		return productMasterRepository.findByproductId(101);
+	}
+
+
+	private UserDetails getUserDetails() 
+	{
+		UserDetails userSet = userDetailsRepository.findByUserId("11");
+		System.out.println("userSet");
+		return userSet;
+	}
+
+	private UserRole setUserRole() {
+		UserRole setUserRole = new UserRole();
+		
+		setUserRole.setRoleId(1);
+		setUserRole.setDiscription("normal");		
+		
+		return setUserRole;
+	}
+
+	private EntityDetails getEntityObject(MultipleRequest input, HttpServletRequest request) 
+	{
+		 EntityDetails getEntity = null;
+			if(input.getBir() != null && input.getBir().getCinNumber() != null && !input.getBir().getCinNumber().isEmpty())  
+			{
+				getEntity = entityDetailsRepository.findByEntityCin(input.getBir().getCinNumber());
+				if(getEntity == null)
+				{
+					getEntity =  createEntityDetails(input.getBir());
+				}
+			}
+		
+		return getEntity;
+	}
+
+	private EntityDetails createEntityDetails(com.eir.bir.request.model.BirRequest birInput) 
+	{
+		EntityDetails entityObj = new EntityDetails();
+		entityObj.setEntityName(birInput.getEntityName());
+		entityObj.setEntityCin(birInput.getCinNumber());
+		return entityDetailsRepository.save(entityObj);
+	}
+
+	@Override
+	public List<CirPurpose> getCirPurposeList() {
+		return cirPurposeRepository.findAll();
+	}
+
+	@Override
+	public List<AccountType> getAccountTypeList() {
+		return accntTypeRepository.findAll();
+	}
+
+	@Override
+	public List<ReportType> getReportTypeList() {
+		return reportTypeRepository.findAll();
+	}
+	public UserDetails getUserById(String userId)
+	{
+		UserDetails userDetails = userDetailsRepository.findByUserId(userId);
+		return userDetails;
+	}
+	@Override
+	public List<RelationType> getRelationTypeList() {
+		return relationTypeRepository.findAll();
+	}
+
+	@Override
+	public List<ConsumerPurpose> getConsumerPurposeList() {
+		return consumerPurposeRepository.findAll();
+	}
+	
 	@Override
 	public void uploadKYCDocuments(HttpServletRequest request, HttpServletResponse response) {
 		
@@ -235,189 +561,5 @@ public class EirServiceImpl implements EirService{
 					e.printStackTrace();
 				}
 			}
-	}
-	
-	@Override
-	public void saveRequestedData(MultipleRequest input , HttpServletRequest request) {
-		 		
-		cirReqRepository.save(setCIRData(input , request));	
-		addressRepository.save(setAddress(input));
-		setConsumerListData(input , request);
-	}
-	
-	private Address setAddress(MultipleRequest input) {
-		Address addrsEntity = new Address();
-			addrsEntity.setAddressLine1(input.getCir().getAddrLine1());
-			addrsEntity.setAddressLine2(input.getCir().getAddrLine2());
-			addrsEntity.setCity(input.getCir().getCity());
-			addrsEntity.setState(input.getCir().getState());
-			addrsEntity.setPincode(input.getCir().getPinCode());
-		return addrsEntity;
-	}
-
-	private ConsumerRequet setConsumerListData(MultipleRequest input, HttpServletRequest request) {
-		
-		for (ConsumerList consumer_element : input.getConsumer()) {
-			ConsumerRequet consumerEntity = new ConsumerRequet();
-			
-				consumerEntity.setRequest(input.getRequestObj());
-				consumerEntity.setErnNumber(consumer_element.getErnNumber());
-				consumerEntity.setScore(consumer_element.getScore());
-				consumerEntity.setStatus(consumer_element.getStatus());
-				consumerEntity.setRelationType(consumer_element.getRelationType());
-				consumerEntity.setFirstName(consumer_element.getFirstName());
-				consumerEntity.setMiddleName(consumer_element.getMiddleName());
-				consumerEntity.setLastName(consumer_element.getLastName());
-				consumerEntity.setPersonPan(consumer_element.getPersonPan());
-				consumerEntity.setDrivingLic(consumer_element.getDrivingLic());
-				consumerEntity.setAadharCard(consumer_element.getAadharhCard());
-				consumerEntity.setVoterId(consumer_element.getVoterId());
-				consumerEntity.setRationCard(consumer_element.getRationCard());
-				consumerEntity.setPassportNo(consumer_element.getPassportNo());
-				consumerEntity.setHomeTelephoneNo(consumer_element.getHomeTelephoneNo());
-				consumerEntity.setOfficeTelephoneNo(consumer_element.getOfficeTelephoneNo());
-				consumerEntity.setMobileNo(consumer_element.getMobileNo());
-				consumerEntity.setBirthDate(consumer_element.getBirthDate());
-				consumerEntity.setMaritalStatus(consumer_element.getMaritalStatus());
-				consumerEntity.setGender(consumer_element.getGender());
-				consumerEntity.setPersonAddrLine1(consumer_element.getPersonAddrLine1());
-				consumerEntity.setPersonAddrLine2(consumer_element.getPersonAddrLine2());
-				consumerEntity.setPersonCity(consumer_element.getPersonCity());
-				consumerEntity.setPersonState(consumer_element.getPersonPincode());
-				consumerEntity.setPersonPincode(consumer_element.getPersonPincode());
-				
-			consumerListRepository.save(consumerEntity);
-		}
-		return null;
-	}
-
-	private CirRequest setCIRData(MultipleRequest input, HttpServletRequest request) {
-		CirRequest saveCir = new CirRequest();		
-				
-		saveCir.setRequest(input.getRequestObj());
-		saveCir.setErnNumber(input.getCir().getErnNumber());
-		saveCir.setStatus(input.getCir().getStatus());
-		saveCir.setBankAccNo(input.getCir().getBankAccNo());
-		saveCir.setProductField(input.getCir().getProductField());
-		saveCir.setPurpose(input.getCir().getPurpose());
-		saveCir.setAmount(input.getCir().getAmt());
-		saveCir.setAccType1(input.getCir().getAccType1());
-		saveCir.setAccType2(input.getCir().getAccType2());
-		saveCir.setClientRefNo(input.getCir().getClientRefNo());
-		saveCir.setCompanyPan(input.getCir().getCmpPan());
-		saveCir.setAddrType(input.getCir().getAddrType());
-		saveCir.setAddrLine1(input.getCir().getAddrLine1());
-		saveCir.setAddrLine2(input.getCir().getAddrLine2());
-		saveCir.setCity(input.getCir().getCity());   
-		saveCir.setState(input.getCir().getState());
-		saveCir.setPinCode(input.getCir().getPinCode());
-		saveCir.setTelephoneNo(input.getCir().getTelephoneNo());
-		saveCir.setPan(input.getCir().getPan());
-		saveCir.setCin(input.getCir().getCin());
-		saveCir.setTin(input.getCir().getTin());
-		saveCir.setEmailId(input.getCir().getEmailId());
-		saveCir.setTriggers(input.getCir().getTriggers());
-		
-		return saveCir;
-	}
-
-	@Override
-	public Request createRequest(MultipleRequest input, HttpServletRequest request) {
-		Request setRequestData = setRequestData(input,request);
- 		requestRepository.save(setRequestData);
- 		return setRequestData;
-	}
-
-	private Request setRequestData(MultipleRequest input, HttpServletRequest request) {
-		Request reqEntity = new Request();
-		
-		reqEntity.setUserDetails(setUserDetails());
-		reqEntity.setUserHit(1);//TODO temporarily harcode values saved
-		if (input.getBir().getCinNumber() != null) 
-		{
-			reqEntity.setEntityDetails(getEntityObject(input,request));
-		}
-		reqEntity.setStatus("102");//TODO it should be integer
-		reqEntity.setAdminHit(1);//TODO save according to admin hit
-		reqEntity.setType("SPECIFIED");//TODO change according to FE flag
-		reqEntity.setScore("200");//TODO calculate total score and push in to DB
-		
-		return reqEntity;
-	}
-	
-	private UserDetails setUserDetails() {
-	/*	UserDetails userSet = new UserDetails();
-		userSet.setUserId(11);
-		userSet.setUserRole(setUserRole());
-		userSet.setFirstName("dev1");
-		userSet.setLastName("dev1");*/
-		
-		UserDetails userSet = userDetailsRepository.findByUserId("user1");
-		
-		System.out.println("userSet");
-		
-		return userSet;
-	}
-
-	private UserRole setUserRole() {
-		UserRole setUserRole = new UserRole();
-		
-		setUserRole.setRoleId(1);
-		setUserRole.setDiscription("normal");		
-		
-		return setUserRole;
-	}
-
-	private EntityDetails getEntityObject(MultipleRequest input, HttpServletRequest request) {
-		 EntityDetails getEntity = new EntityDetails();
-			if ((input.getBir() == null) && (input.getBir().equals(null))) 
-			{
-				return getEntity;
-			}
-			else 
-			{
-				getEntity = entityDetailsRepository.findByEntityCin(input.getBir().getCinNumber());
-				if (getEntity == null) {
-					entityDetailsRepository.save(setEntityDetails(input,request));					
-				}
-			}
-		
-		return getEntity;
-	}
-
-	private EntityDetails setEntityDetails(MultipleRequest input, HttpServletRequest request) {
-		
-			EntityDetails entityObj = new EntityDetails();
-			
-			entityObj.setEntityName(input.getBir().getEntityName());
-			entityObj.setEntityCin(input.getBir().getCinNumber());
-		
-		return entityObj;
-	}
-	
-	/*private entityObj getEntityObj(bir inpur)
-	{
-		if(bir input is null)
-		{
-			return null;
-		}
-		
-		
-		getEntity form db by cin
-		if exists then return\
-		else
-		{
-			new entity obj
-			set name and cin 
-			save entity obj in db and return
-		}
-	}
-	*/
-	
-	@Override
-	public UserDetails getUserById(String userId)
-	{
-		UserDetails userDetails = userDetailsRepository.findByUserId(userId);
-		return userDetails;
 	}
 }

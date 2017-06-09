@@ -11,8 +11,14 @@ import javax.xml.bind.Marshaller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.eir.bir.request.model.CirRequest;
+import com.eir.bir.request.model.Consumer;
+import com.eir.report.entity.ConsumerRequest;
+import com.eir.report.entity.Request;
+import com.eir.report.entity.Status;
 import com.eir.report.exception.NextGenCallException;
 import com.eir.report.nextgen.service.client.ExperianHttpDirectClient;
 import com.eir.report.nextgen.service.client.NextGenResponseWrapper;
@@ -26,7 +32,11 @@ import com.eir.report.nextgen.service.model.consumer.UserPref;
 import com.eir.report.nextgen.service.model.product.BusAddr;
 import com.eir.report.nextgen.service.model.product.GetBusinessProductRequest;
 import com.eir.report.nextgen.service.model.product.ObjectFactory;
+import com.eir.report.repository.CirPurposeRepository;
+import com.eir.report.repository.CirRequestRepository;
+import com.eir.report.repository.ConsumerRequetRepository;
 import com.eir.report.service.NextGenWebService;
+import com.eir.report.util.GetStatus;
 
 @Service
 public class NextGenWebServiceImpl implements NextGenWebService{
@@ -40,6 +50,11 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		experianHttDirectClient = new ExperianHttpDirectClient();
 	}
 	
+	@Autowired
+	CirRequestRepository cirRequestRepository;
+	
+	@Autowired
+	ConsumerRequetRepository consumerRequetRepository; 
 	
 	@Override
 	public void getCIRReport()
@@ -47,7 +62,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		logger.info("NextGenWebServiceImpl: - getCIRReport()");
 		
 		try {
-			NextGenResponseWrapper nextGenResponseWrapper = experianHttDirectClient.getNextgenReport(getCIRRequestXML());
+			//NextGenResponseWrapper nextGenResponseWrapper = experianHttDirectClient.getNextgenReport(getCIRRequestXML());
 			
 			//Save nextGenResponseWrapper to db
 			
@@ -56,11 +71,11 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		}
 	}
 	
-	private String getCIRRequestXML()
+	private String getCIRRequestXML(com.eir.report.entity.CirRequest cirRequest)
 	{
 		try 
 		{
-			GetBusinessProductRequest productRequest = getCIRrequestObj();
+			GetBusinessProductRequest productRequest = getCIRrequestObj(cirRequest);
 			
 			StringBuilder xmlString = new StringBuilder();
 			xmlString.append("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:sch=\"http://experian.com/nextgen/schemas\">   "
@@ -73,7 +88,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 			StringWriter sw = new StringWriter();
 			m.marshal(productRequest, sw);
 			String reqString = sw.toString();
-			reqString = reqString.replaceAll("\\<\\?xml(.+?)\\?\\>", "").trim();	
+			reqString = reqString.replaceAll("\\<\\?xml(.+?)\\?\\>", "").trim();
 			
 			xmlString.append(reqString);
 			xmlString.append("</soapenv:Body>			 </soapenv:Envelope>");
@@ -109,7 +124,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 	}*/
 	
 	
-	private GetBusinessProductRequest getCIRrequestObj()
+	private GetBusinessProductRequest getCIRrequestObj(com.eir.report.entity.CirRequest cirRequest)
 	{
 		ObjectFactory objectFactory = new ObjectFactory();
 		GetBusinessProductRequest businessProductRequest = objectFactory.createGetProductRequest();
@@ -117,16 +132,16 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		businessProductRequest.setSTARTENQ("START");
 		com.eir.report.nextgen.service.model.product.EnqHeadr param = new com.eir.report.nextgen.service.model.product.EnqHeadr();
 		param.setBureauMemberId("3388");
-		param.setPurpose("1");
-		param.setProduct("INBCIR001");
-		param.setSearchType("1");
+		param.setPurpose(cirRequest.getPurposeId().toString());
+		param.setProduct(cirRequest.getProductField());
+		param.setSearchType(cirRequest.getSearchType());
 		//param.setEnquiryApplicationType("1");
-		param.setEnquiryAccountType("999");
-		param.setEnquiryAmount("10");
-		param.setFrequency("99");
+		param.setEnquiryAccountType(cirRequest.getEnquiryAccntType());
+		param.setEnquiryAmount(cirRequest.getEnquiryAmount());
+		param.setFrequency(cirRequest.getFrequency());
 		param.setClientEnquiryRefNumber("");
-		param.setEnquiryAmtMonetaryType("INR");
-		param.setDurationofAgrement("365");
+		param.setEnquiryAmtMonetaryType(cirRequest.getEnquiryAmntMomentaryType());
+		param.setDurationofAgrement(cirRequest.getDurationOfAgrement());
 		businessProductRequest.setENQHEADR(param);
 		com.eir.report.nextgen.service.model.product.UserPref userPref = new com.eir.report.nextgen.service.model.product.UserPref();
 		businessProductRequest.setUSERPREF(userPref);
@@ -135,7 +150,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		e.setBankAccountNumber("");
 		businessProductRequest.getBUSNESACCT().add(e);
 		com.eir.report.nextgen.service.model.product.AddlProd addlProd = new com.eir.report.nextgen.service.model.product.AddlProd();
-		addlProd.setEnquiryAddOnProduct("1");
+		addlProd.setEnquiryAddOnProduct(cirRequest.getEnquiryAddProduct());
 		businessProductRequest.getADDLPROD().add(addlProd);
 		
 		com.eir.report.nextgen.service.model.product.BinId binId = new com.eir.report.nextgen.service.model.product.BinId();
@@ -143,22 +158,22 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		
 		List<com.eir.report.nextgen.service.model.product.BusSrch> busSrchArr = new ArrayList<com.eir.report.nextgen.service.model.product.BusSrch>();
 		com.eir.report.nextgen.service.model.product.BusSrch busSrch = new com.eir.report.nextgen.service.model.product.BusSrch();
-		busSrch.setBusName("Amex INCORPORATED");
-		busSrch.setCompanyPan("ASBCP1234A");
+		busSrch.setBusName(cirRequest.getBusName());
+		busSrch.setCompanyPan(cirRequest.getCompanyPan());
 		busSrchArr .add(busSrch);
 		businessProductRequest.getBUSNSRCH().add(busSrch);
 		
 		List<BusAddr> busAddrArr = new ArrayList<>();
 		BusAddr busAddr = new BusAddr();
-		busAddr.setAddrType("14");
+		busAddr.setAddrType(cirRequest.getAddressId().getAddressType().getAddressTypeId().toString());
 		busAddr.setCountryCode("IND");
-		busAddr.setCity("BANGALORE");
-		busAddr.setState("31");
+		busAddr.setCity(cirRequest.getAddressId().getCity());
+		busAddr.setState(cirRequest.getAddressId().getState());
 		busAddr.setDistrict("");
-		busAddr.setPINCode("560031");
-		busAddr.setAddressLine1("TEST_YASHODHAR MAHADIK");
-		busAddr.setAddressLine2("TEST_CHS LTD");
-		busAddr.setAddressLine3("TEST_YASHODHAR MAHADIK");
+		busAddr.setPINCode(cirRequest.getAddressId().getPincode());
+		busAddr.setAddressLine1(cirRequest.getAddressId().getAddressLine1());
+		busAddr.setAddressLine2(cirRequest.getAddressId().getAddressLine2());
+		busAddr.setAddressLine3(cirRequest.getAddressId().getAddressLine3());
 		busAddrArr.add(busAddr);
 		businessProductRequest.getBUSNADDR().add(busAddr);
 
@@ -173,7 +188,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 	{
 		logger.info("NextGenWebServiceImpl: - getCIRReport()");
 		
-		try {
+		/*try {
 			NextGenResponseWrapper nextGenResponseWrapper = experianHttDirectClient.getNextgenReport(getConsumerRequestXML());
 			
 			//Save nextGenResponseWrapper to db
@@ -182,14 +197,14 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 			logger.error("NextGenWebServiceImpl:getCIRReport(), Nextgen service call fail:  ", e);
 		} catch (NextGenCallException e) {
 			logger.error("NextGenWebServiceImpl:getCIRReport(), Nextgen service call fail:  ", e);
-		}
+		}*/
 	}
 	
-	private String getConsumerRequestXML()
+	private String getConsumerRequestXML(ConsumerRequest consumerRequestXml)
 	{
 		try 
 		{
-			GetConsumerProductRequest consumerProductRequest = getConsumerRequestObj();
+			GetConsumerProductRequest consumerProductRequest = getConsumerRequestObj(consumerRequestXml);
 			
 			StringBuilder xmlString = new StringBuilder();
 			xmlString.append("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:sch=\"http://experian.com/nextgen/schemas\">   "
@@ -215,115 +230,199 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		return null;
 	}
 	
-	private GetConsumerProductRequest getConsumerRequestObj()
+	private GetConsumerProductRequest getConsumerRequestObj(ConsumerRequest consumerRequest)
 	{
 		com.eir.report.nextgen.service.model.consumer.ObjectFactory objectFactory = new com.eir.report.nextgen.service.model.consumer.ObjectFactory();
 		GetConsumerProductRequest consumerProductRequest = objectFactory.createGetConsumerProductRequest();
 		consumerProductRequest.setSTARTENQ("START");
 		EnqHeader enqHeader = new EnqHeader();
-		enqHeader.setClientEnquiryRefNumber("");
-		enqHeader.setBureauMemberId("3388");
-		enqHeader.setPurposeOfInquiry("1");
-		enqHeader.setPurpose("1");
-		enqHeader.setProduct("INCCIR002");
-		enqHeader.setSearchType("1");
-		enqHeader.setEnquiryApplicationType("");
-		enqHeader.setEnquiryAccountType("999");
-		enqHeader.setEnquiryAmtMonetaryType("");
-		enqHeader.setEnquiryAmount("11000");
-		enqHeader.setEnquiryCreditPurpose("1");
-		enqHeader.setDurationofAgreement("1");
-		enqHeader.setFrequency("99");
+		enqHeader.setClientEnquiryRefNumber(consumerRequest.getClientEnquiryRefNumber());
+		enqHeader.setBureauMemberId(consumerRequest.getBureauMemberId().toString());
+		enqHeader.setPurposeOfInquiry(consumerRequest.getPurposeOfInquiry().toString());
+		enqHeader.setPurpose(consumerRequest.getPurposeId().toString());
+		enqHeader.setProduct(consumerRequest.getProductField());
+		enqHeader.setSearchType(consumerRequest.getSearchType());
+		enqHeader.setEnquiryApplicationType(consumerRequest.getEnquiryApplicationType());
+		enqHeader.setEnquiryAccountType(consumerRequest.getEnquiryAccountType());
+		enqHeader.setEnquiryAmtMonetaryType(consumerRequest.getEnquiryAmtMonetaryType());
+		enqHeader.setEnquiryAmount(consumerRequest.getEnquiryAmount());
+		enqHeader.setEnquiryCreditPurpose(consumerRequest.getEnquiryCreditPurpose());
+		enqHeader.setDurationofAgreement(consumerRequest.getDurationOfAgreement());
+		enqHeader.setFrequency(consumerRequest.getFrequencyId());
 		consumerProductRequest.setENQHEADER(enqHeader);
 		
 		UserPref userPref = new UserPref();
-		userPref.setLanguage("");
+		userPref.setLanguage(consumerRequest.getLanguage());
 		consumerProductRequest.setUSERPREF(userPref);
 		
 		AddlProd addlProd = new AddlProd();
-		addlProd.setEnquiryAddOnProduct("");
+		addlProd.setEnquiryAddOnProduct(consumerRequest.getEnquiryAddOnProduct());
 		consumerProductRequest.getADDLPROD().add(addlProd);
 		
 		
 		
 		List<PrsnSrch> prsnsrchList = new ArrayList<>();
 		PrsnSrch srch = new PrsnSrch();
-		srch.setFirstGivenName("NISHITH");
-		srch.setMiddleName("");
-		srch.setOtherMiddleNames("");
-		srch.setFamilyName("GAJJAR");
-		srch.setSuffix("");
-		srch.setApplicationRole("");
-		srch.setDateOfBirth("25071994");
-		srch.setGender("3");
+		srch.setFirstGivenName(consumerRequest.getFirstName());
+		srch.setMiddleName(consumerRequest.getMiddleName());
+		srch.setOtherMiddleNames(consumerRequest.getOtherMiddleNames());
+		srch.setFamilyName(consumerRequest.getFamilyName());
+		srch.setSuffix(consumerRequest.getSuffix());
+		srch.setApplicationRole(consumerRequest.getApplicationRole());
+		srch.setDateOfBirth(consumerRequest.getDateOfBirth().toString());
+		srch.setGender(consumerRequest.getGender().toString());
 		srch.getIndiaMiddleName3();
-		srch.setIndiaNameTitle("");
+		srch.setIndiaNameTitle(consumerRequest.getIndiaNameTitle());
 		prsnsrchList.add(srch);
 		consumerProductRequest.setPRSNSRCH(prsnsrchList);
 		
 		com.eir.report.nextgen.service.model.consumer.PersAlias persAlias = new com.eir.report.nextgen.service.model.consumer.PersAlias();
-		persAlias.setAliasName("");
-		persAlias.setAliasType("");
+		persAlias.setAliasName(consumerRequest.getAliasName());
+		persAlias.setAliasType(consumerRequest.getAliasType());
 		consumerProductRequest.setPERSALIAS(persAlias);
 		
 		List<PersonId> personidList = new ArrayList<>();
 		PersonId personId = new PersonId();
-		personId.setIdNumberType("10");
-		personId.setIdNumber("BUQPT2355G");
+		personId.setIdNumberType(consumerRequest.getIdNumberType());
+		personId.setIdNumber(consumerRequest.getIdNumber());
 		personidList.add(personId);
 		consumerProductRequest.setPERSONID(personidList);
 
 		com.eir.report.nextgen.service.model.consumer.PersonBnk personBnk = new com.eir.report.nextgen.service.model.consumer.PersonBnk();
-		personBnk.setBankAccountNumber("");
+		personBnk.setBankAccountNumber(consumerRequest.getBankAccountNumber());
 		consumerProductRequest.setPERSONBNK(personBnk);
 		
 		List<PersAddr> persaddrList = new ArrayList<>();
 		PersAddr persAddr = new PersAddr();
 		persAddr.setLocalityName("MUMBAI");
 		persAddr.setRegionCode("27");
-		persAddr.setPostalCode("401009");
-		persAddr.setAddressLine1("LTMARG60");
-		persAddr.setAddressLine2("MALAD");
+		persAddr.setPostalCode(consumerRequest.getAddressId().getPincode());
+		persAddr.setAddressLine1(consumerRequest.getAddressId().getAddressLine1());
+		persAddr.setAddressLine2(consumerRequest.getAddressId().getAddressLine2());
 		persaddrList.add(persAddr);
 		consumerProductRequest.setPERSADDR(persaddrList);
 
 		com.eir.report.nextgen.service.model.consumer.PersPhone persPhone = new com.eir.report.nextgen.service.model.consumer.PersPhone();
-		persPhone.setPhoneNumber("");
-		persPhone.setPhoneType("");
+		persPhone.setPhoneNumber(consumerRequest.getPhoneNumber());
+		persPhone.setPhoneType(consumerRequest.getPhoneType().toString());
 		List<com.eir.report.nextgen.service.model.consumer.PersPhone> phoneList = new ArrayList<>();
 		phoneList.add(persPhone);
 		consumerProductRequest.setPERSPHONE(phoneList);
 		
 		com.eir.report.nextgen.service.model.consumer.PersEmail persemail = new com.eir.report.nextgen.service.model.consumer.PersEmail();
-		persemail.setWebAddr("");
-		persemail.setWebAddrType("");
+		persemail.setWebAddr(consumerRequest.getWebAddr());
+		persemail.setWebAddrType("");//TODO
 		List<com.eir.report.nextgen.service.model.consumer.PersEmail> persemailList = new ArrayList<>();
 		persemailList.add(persemail);
 		consumerProductRequest.setPERSEMAIL(persemailList);
 		
 		com.eir.report.nextgen.service.model.consumer.Employer employer = new com.eir.report.nextgen.service.model.consumer.Employer();
-		employer.setOccupationCode("");
-		employer.setNetMontlyIncome("");
-		employer.setOccYearsEmployed("");
-		employer.setOccMonthsEmployed("");
+		employer.setOccupationCode(consumerRequest.getOccupationCode());
+		employer.setNetMontlyIncome(consumerRequest.getNetMontlyIncome());
+		employer.setOccYearsEmployed(consumerRequest.getOccYearsEmployed());
+		employer.setOccMonthsEmployed(consumerRequest.getOccMonthsEmployed());
 		consumerProductRequest.setEMPLOYER(employer);
 		
 		com.eir.report.nextgen.service.model.consumer.PersDetail persDetail = new com.eir.report.nextgen.service.model.consumer.PersDetail();
-		persDetail.setAssetOwnershipIndicator("");
-		persDetail.setMaritalStatus("");
-		persDetail.setMonthlyFamilyExpenseAmt("");
-		persDetail.setNumberDependents("");
-		persDetail.setNumberOfCreditCardHeld("");
-		persDetail.setPovertyIndex("");
+		persDetail.setAssetOwnershipIndicator(consumerRequest.getAssetOwnershipIndicator());
+		persDetail.setMaritalStatus(consumerRequest.getMaritalStatus());
+		persDetail.setMonthlyFamilyExpenseAmt(consumerRequest.getMonthlyFamilyExpenseAmt());
+		persDetail.setNumberDependents(consumerRequest.getNumberDependents());
+		persDetail.setNumberOfCreditCardHeld(consumerRequest.getNumberOfCreditCardHeld());
+		persDetail.setPovertyIndex(consumerRequest.getPovertyIndex().toString());
 		consumerProductRequest.setPERSDETAIL(persDetail);
 		
 		com.eir.report.nextgen.service.model.consumer.PinId pinId = new com.eir.report.nextgen.service.model.consumer.PinId();
-		pinId.setEperianEncryptedPIN("");
+		pinId.setEperianEncryptedPIN(consumerRequest.getMonthlyFamilyExpenseAmt());
 		List<com.eir.report.nextgen.service.model.consumer.PinId> pinIdList = new ArrayList<>();
 		pinIdList .add(pinId);
 		consumerProductRequest.setPINID(pinIdList);
 		
 		return consumerProductRequest;
 	}
-	
+
+	@Override
+	public com.eir.report.entity.CirRequest createCIRReport(com.eir.report.entity.CirRequest cirRequest) 
+	{
+		logger.info("NextGenWebServiceImpl: - createCIRReport() Start");
+		try 
+		{
+			String cirRequestXML = getCIRRequestXML(cirRequest);
+			NextGenResponseWrapper nextGenResponseWrapper = experianHttDirectClient.getNextgenReport(cirRequestXML);
+			
+			Status cirReqStatus = GetStatus.getStatusByDescription(com.eir.report.constant.Status.ERROR.toString());
+			
+			if(nextGenResponseWrapper != null)
+			{
+				if(nextGenResponseWrapper.getResponseCode() == 200)
+				{
+					//unmarshling code to get the response, whether it is business exception of connection error
+					boolean isFailed = true;
+					
+					if(!isFailed)
+					{
+						cirReqStatus = GetStatus.getStatusByDescription(com.eir.report.constant.Status.COMPLETED.toString());
+					}
+					
+				}
+				cirRequest.setXmlOutput(nextGenResponseWrapper.getResponse().getBytes());
+			}
+			else
+			{
+				cirRequest.setXmlOutput("NextGen response is null".getBytes());
+			}
+			
+			cirRequest.setStatus(cirReqStatus);
+			logger.info("NextGenWebServiceImpl:createCIRReport() success End");
+			return cirRequestRepository.save(cirRequest);
+		} catch (Exception e) {
+			logger.error("NextGenWebServiceImpl:createCIRReport(), Nextgen service call fail: ", e);
+		}
+		return null;
+	}
+
+
+	@Override
+	public void createConsumerReport(List<ConsumerRequest> consumerEntityRequestList) 
+	{
+		logger.info("NextGenWebServiceImpl: - createConsumerReport() Start");
+		try 
+		{
+			if(consumerEntityRequestList != null && !consumerEntityRequestList.isEmpty())
+			{
+				Status consumerReqStatusSuccess = GetStatus.getStatusByDescription(com.eir.report.constant.Status.COMPLETED.toString());
+				Status consumerReqStatusFailure = GetStatus.getStatusByDescription(com.eir.report.constant.Status.ERROR.toString());
+				
+				for(ConsumerRequest consumerEntityRequest: consumerEntityRequestList )
+				{
+					String consumerRequestXML = getConsumerRequestXML(consumerEntityRequest);
+					NextGenResponseWrapper nextGenResponseWrapper = experianHttDirectClient.getNextgenReport(consumerRequestXML);
+					consumerEntityRequest.setStatusId(consumerReqStatusFailure);
+					if(nextGenResponseWrapper != null)
+					{
+						if(nextGenResponseWrapper.getResponseCode() == 200)
+						{
+							//unmarshling code to get the response, whether it is business exception of connection error
+							boolean isFailed = true;
+							
+							if(!isFailed)
+							{
+								consumerEntityRequest.setStatusId(consumerReqStatusSuccess);
+							}
+						}
+						consumerEntityRequest.setXmlOutput(nextGenResponseWrapper.getResponse().getBytes());
+					}
+					else
+					{
+						consumerEntityRequest.setXmlOutput("NextGen response is null".getBytes());
+					}
+					
+					consumerRequetRepository.save(consumerEntityRequest);
+				}
+				logger.info("NextGenWebServiceImpl:createCIRReport() success End");
+			}
+		} catch (Exception e) {
+			logger.error("NextGenWebServiceImpl:createCIRReport(), Nextgen service call fail: ", e);
+		}
+	}
 }

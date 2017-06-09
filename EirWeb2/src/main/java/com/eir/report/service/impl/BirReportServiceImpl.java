@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
@@ -32,7 +31,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
-import com.eir.bir.request.model.MultipleRequest;
 import com.eir.model.EIRDataConstant;
 import com.eir.model.EligibleReport;
 import com.eir.model.bir.CompanyReportType;
@@ -43,6 +41,7 @@ import com.eir.report.entity.BirRequest;
 import com.eir.report.entity.CompanyList;
 import com.eir.report.entity.MemberProductMapping;
 import com.eir.report.entity.ReportSelection;
+import com.eir.report.entity.Request;
 import com.eir.report.entity.Response;
 import com.eir.report.repository.AddressRepository;
 import com.eir.report.repository.BirRequestRepository;
@@ -51,6 +50,7 @@ import com.eir.report.repository.ProductRepository;
 import com.eir.report.repository.ReportSelectionRepository;
 import com.eir.report.repository.StatusRepository;
 import com.eir.report.service.BirReportService;
+import com.eir.report.util.GetStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
@@ -107,6 +107,9 @@ public class BirReportServiceImpl implements BirReportService {
 	
 	@Autowired
 	AddressRepository addressRepository;
+	
+	@Autowired
+	StatusRepository statusRepository;
 		
 	CloseableHttpResponse httpResponse = null;
 	HttpEntity entity = null;
@@ -124,64 +127,98 @@ public class BirReportServiceImpl implements BirReportService {
 
 	public String callZaubaApplication(String url, List<BasicNameValuePair> params) 
 	{
-		logger.debug("BirReportServiceImpl callZaubaApplication()");
+		logger.debug("BirReportServiceImpl callZaubaApplication() start");
 		
 		System.setProperty(trustStore, jksPath);
 		HttpPost httpost = new HttpPost(url);
 		String responseString = null;
-		try {
+		try
+		{
+			httpost.setEntity(new UrlEncodedFormEntity(params));
+			// ------ Execute URL with encoded form -------//
+			httpResponse = httpclient.execute(httpost);
+			entity = httpResponse.getEntity();
+			if (entity == null) 
+			{
+				logger.debug("BirReportServiceImpl: callZaubaApplication()  - Empty Response Received");
+			} 
+			else 
+			{
+				responseString = EntityUtils.toString(entity, "UTF-8");
+
+				if (responseString.contains("Invalid")) 
+				{
+					logger.debug("Invalid Access Token Used. Sending Request for new Access Token Again...");
+					System.out.println("Invalid Access Token Used. Sending Request for new Access Token Again...");
+					removeAccessToken(params);
+					params.add(new BasicNameValuePair(Constant.ACCESS_TOKEN, getAccessToken())); // added post parameter in url
+					callZaubaApplication(url, params);
+				}
+			}
+		} catch (Exception e) {
+			logger.error("BirReportServiceImpl: callZaubaApplication() - call to zauba fail", e.getMessage());
+		} finally {
+			try {
+				httpResponse.close();
+				httpost.releaseConnection();
+			} catch (IOException e) {
+				logger.error("BirReportServiceImpl: callZaubaApplication() finally " + e);
+			}
+		}
+		return responseString;
+	}
+	
+	private void removeAccessToken(List<BasicNameValuePair> params)
+	{
+		if(params != null && !params.isEmpty())
+		{
+			for(BasicNameValuePair nameValuePair: params)
+			{
+				if(nameValuePair.getName().equals(Constant.ACCESS_TOKEN))
+				{
+					params.remove(nameValuePair);
+					break;
+				}
+			}
+		}
+	}
+
+	@Override
+	public String getAccessToken() 
+	{
+		logger.debug("BirReportServiceImpl getAccessToken() Start");
+		
+		String access_token = null;
+		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>(); // List created for adding post parameters to url
+		params.add(new BasicNameValuePair("ClientKey", key)); // added post parameters in url
+		params.add(new BasicNameValuePair("ClientSecret", secretValue));
+
+		System.setProperty(trustStore, jksPath);
+		HttpPost httpost = new HttpPost(accessTockenURL);
+		try 
+		{
 			httpost.setEntity(new UrlEncodedFormEntity(params));
 			// ------ Execute URL with encoded form -------//
 			httpResponse = httpclient.execute(httpost);
 			entity = httpResponse.getEntity();
 
-			if (entity == null) {
-				logger.debug("Get Case Type - Empty Response Received");
-			} else {
-				responseString = EntityUtils.toString(entity, "UTF-8");
-
-				if (responseString.contains("Invalid")) {
-					logger.debug("Invalid Access Token Used. Sending Request for new Access Token Again...");
-					System.out.println("Invalid Access Token Used. Sending Request for new Access Token Again...");
-					getAccessToken();
+			if (entity == null) 
+			{
+				logger.debug("BirReportServiceImpl: callZaubaApplication()  - Empty Response Received");
+			}
+			else 
+			{
+				access_token = EntityUtils.toString(entity, "UTF-8");
+				if (access_token.contains("Invalid")) 
+				{
+					logger.debug("BirReportServiceImpl: getAccessToken() accesstoken received is empty");
 				}
 			}
-		} catch (Exception e) {
-			logger.info(e.getMessage());
-			e.printStackTrace();
-		} finally {
-			try {
-				httpResponse.close();
-				httpost.releaseConnection();
-				httpost = null;
-			} catch (IOException e) {
-				logger.info(e.getMessage());
-				e.printStackTrace();
-			}
 		}
-		return responseString;
-	}
-
-	@Override
-	public String getAccessToken() {
-		
-		logger.debug("BirReportServiceImpl getAccessToken()");
-
-		String access_token = null;
-
-		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>(); // List created for adding post parameters to url
-																				
-		params.add(new BasicNameValuePair("ClientKey", key)); // added post parameters in url
-		params.add(new BasicNameValuePair("ClientSecret", secretValue));
-
-		String respoceobj = callZaubaApplication(accessTockenURL, params);
-
-		JSONObject json = new JSONObject(respoceobj);
-		access_token = (String) json.get("AccessToken");
-		
-		logger.debug("Access Token is : "+ access_token);
-		System.out.println("Access Token is " + access_token);
-
+		catch(Exception e)
+		{
+			logger.error("BirReportServiceImpl: getAccessToken() error on getting access token", e);
+		}
 		return access_token;
 	}
 
@@ -293,7 +330,7 @@ public class BirReportServiceImpl implements BirReportService {
 			birReq.setCinNumber(birZaubaRequest.getCin());
 			// setBirReq.setScore("15");
 			birReq.setReportToken(reportToken);
-			birReq.setStatus(statusrepository.findBystatusDescription(Constant.PENDING).getStatusId());
+			birReq.setStatus(statusrepository.findBystatusDescription(Constant.PENDING));
 			birReqRepository.save(birReq);// pass one more parameter as status.
 			logger.debug("saved bir req - "+birReq);
 			logger.info("Sending Request for xml");
@@ -366,7 +403,7 @@ public class BirReportServiceImpl implements BirReportService {
 						birRequest.setScore(score.toString());
 					}
 				}
-				birRequest.setStatus(statusrepository.findBystatusDescription(Constant.DOWNLOADED).getStatusId());
+				birRequest.setStatus(statusrepository.findBystatusDescription(Constant.DOWNLOADED));
 				
 			} else {
 				if (respoceObj.contains("620")) // response:"620":"Report is // // being processed"
@@ -386,7 +423,7 @@ public class BirReportServiceImpl implements BirReportService {
 					logger.debug("Response :"+key);
 					System.out.println("Response :" + key);
 				}
-				birRequest.setStatus(statusrepository.findBystatusDescription(Constant.PENDING).getStatusId());
+				birRequest.setStatus(statusrepository.findBystatusDescription(Constant.PENDING));
 			}
 
 			birReqRepository.save(birRequest);
@@ -498,20 +535,34 @@ public class BirReportServiceImpl implements BirReportService {
 		}
 	}
 
-	@Override
-	public void saveBIRRequestData(MultipleRequest input, HttpServletRequest request) 
+	/*@Override
+	public void saveBIRRequestData(MultipleRequest input, Request request) 
 	{
-		birReqRepository.save(setBIRData(input , request));
+		birReqRepository.save(createBIRrequest(input.getBir() , request));
 		
-	}
+	}*/
 	
-	private BirRequest setBIRData(MultipleRequest input, HttpServletRequest request) {
-		BirRequest saveBir = new BirRequest();
-		saveBir.setRequest(input.getRequestObj());
-		saveBir.setCompanyName(input.getBir().getCompanyName());
-		saveBir.setEntityName(input.getBir().getEntityName());
-		saveBir.setCinNumber(input.getBir().getCinNumber());
+	@Override
+	public BirRequest createBIRrequest(com.eir.bir.request.model.BirRequest birInputRequest, Request request) 
+	{
+		BirRequest birReq = new BirRequest();
 		
-		return saveBir;
+		birReq.setRequest(request);
+		birReq.setCompanyName(birInputRequest.getCompanyName());
+		birReq.setEntityName(birInputRequest.getEntityName());
+		birReq.setCinNumber(birInputRequest.getCinNumber());
+		//birReq.setStatus(GetStatus.getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.toString()));
+		
+		String reportToken = reportRequest(birReq.getCinNumber());
+		logger.info("Report Tocken - " + reportToken);
+
+		if (reportToken != null && !reportToken.isEmpty()) 
+		{
+			birReq.setReportToken(reportToken);
+			birReq.setStatus(GetStatus.getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.toString()));
+			birReqRepository.save(birReq);
+			logger.debug("BirReportServiceImpl createBIRrequestsaved() BirRequest saved to db Id: " + birReq.getBirRequestId());
+		} 
+		return birReq;
 	}
 }

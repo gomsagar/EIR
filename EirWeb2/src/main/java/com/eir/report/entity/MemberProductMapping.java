@@ -50,12 +50,12 @@ public class MemberProductMapping implements Serializable {
 	
 
 	@Id
-	/*@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="memberProdMap_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="memberProdMap_seq")
 	@SequenceGenerator(
 		name="memberProdMap_seq",
 		sequenceName="MemberProductMapping_sequence",
 		allocationSize=1
-	)*/
+	)
 	@XmlElement
 	Integer memberId;
 	
@@ -114,8 +114,7 @@ public class MemberProductMapping implements Serializable {
 	/**
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumns({
-			@JoinColumn(name = "product_code", referencedColumnName = "product_code", nullable = false, insertable = false, updatable = false) })
+	@JoinColumns({@JoinColumn(name = "product_code", referencedColumnName = "product_code", nullable = false, insertable = false, updatable = false) })
 	@XmlTransient
 	ProductMaster productMaster;
 
@@ -206,20 +205,6 @@ public class MemberProductMapping implements Serializable {
 	}
 
 	/**
-	 * Copies the contents of the specified bean into this bean.
-	 *
-	 */
-	public void copy(MemberProductMapping that) {
-		setMemberId(that.getMemberId());
-		setProductCode(that.getProductCode());
-		setCreateUserId(that.getCreateUserId());
-		setCreateUserDate(that.getCreateUserDate());
-		setUpdateUserId(that.getUpdateUserId());
-		setUpdateUserDate(that.getUpdateUserDate());
-		setProductMaster(that.getProductMaster());
-	}
-
-	/**
 	 * Returns a textual representation of a bean.
 	 *
 	 */
@@ -234,31 +219,6 @@ public class MemberProductMapping implements Serializable {
 		buffer.append("updateUserDate=[").append(updateUserDate).append("] ");
 
 		return buffer.toString();
-	}
-
-	/**
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = (int) (prime * result + ((memberId == null) ? 0 : memberId.hashCode()));
-		return result;
-	}
-
-	/**
-	 */
-	public boolean equals(Object obj) {
-		if (obj == this)
-			return true;
-		if (!(obj instanceof MemberProductMapping))
-			return false;
-		MemberProductMapping equalCheck = (MemberProductMapping) obj;
-		if ((memberId == null && equalCheck.memberId != null) || (memberId != null && equalCheck.memberId == null))
-			return false;
-		if (memberId != null && !memberId.equals(equalCheck.memberId))
-			return false;
-		return true;
 	}
 
 	public Member getMember() {

@@ -8,4 +8,6 @@ import com.eir.report.entity.Status;
 public interface StatusRepository extends JpaRepository<Status , Integer> {
 	
 	public Status findBystatusDescription(String statusDescription);
+	
+	public Status findBystatusId(Integer statusId) ;
 }

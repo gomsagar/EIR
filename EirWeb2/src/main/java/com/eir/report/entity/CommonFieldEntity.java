@@ -16,7 +16,8 @@ public class CommonFieldEntity implements AuditorAware<String> {
 		System.out.println("getCurrentAuditor()~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 		HttpSession session = attr.getRequest().getSession();
-		
+		session.setAttribute("userId", "EIR_Session");
+		System.out.println(session.getAttribute("userId").toString());
 		return session.getAttribute("userId").toString();
 	}
 	

@@ -9,19 +9,19 @@ public class MultipleRequest {
 private BirRequest bir;
 private CirRequest cir;
 
-List<ConsumerList> consumer = null;
+List<Consumer> consumerList = null;
 private boolean isBIRActive;
 private boolean isCIRActive;
 private boolean isComboActive;
-private Request requestObj;
+//private Request requestObj;
 
 
-public List<ConsumerList> getConsumer() {
-	return consumer;
+public List<Consumer> getConsumerList() {
+	return consumerList;
 }
 
-public void setConsumer(List<ConsumerList> consumer) {
-	this.consumer = consumer;
+public void setConsumerList(List<Consumer> consumerList) {
+	this.consumerList = consumerList;
 }
 
 public BirRequest getBir() {
@@ -66,14 +66,14 @@ public void setIsBIRActive(boolean isBIRActive) {
 	this.isBIRActive = isBIRActive;
 }
 
-public Request getRequestObj() {
+/*public Request getRequestObj() {
 	return requestObj;
 }
 
 public void setRequestObj(Request requestObj) {
 	this.requestObj = requestObj;
 }
-
+*/
 public void setBIRActive(boolean isBIRActive) {
 	this.isBIRActive = isBIRActive;
 }
