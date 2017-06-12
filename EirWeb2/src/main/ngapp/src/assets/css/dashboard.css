@@ -104,7 +104,7 @@ body{
   border-radius: 50%;
 }
 /* -------------------- Custom CSS ------------------------- */
-@font-face{font-family:'Glyphicons Halflings';src:url(../fonts/glyphicons-halflings-regular.eot);src:url(../fonts/glyphicons-halflings-regular.eot?#iefix) format('embedded-opentype'),url(../fonts/glyphicons-halflings-regular.woff2) format('woff2'),url(../fonts/glyphicons-halflings-regular.woff) format('woff'),url(../fonts/glyphicons-halflings-regular.ttf) format('truetype'),url(../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format('svg')}
+@font-face{font-family:'Glyphicons Halflings';src:url(../../assets/fonts/glyphicons-halflings-regular.eot);src:url(../../assets/fonts/glyphicons-halflings-regular.eot?#iefix) format('embedded-opentype'),url(../../assets/fonts/glyphicons-halflings-regular.woff2) format('woff2'),url(../../assets/fonts/glyphicons-halflings-regular.woff) format('woff'),url(../../assets/fonts/glyphicons-halflings-regular.ttf) format('truetype'),url(../../assets/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format('svg')}
 nav.navbar.navbar-fixed-top {
     min-height: 75px;
 	margin-bottom:0;
@@ -229,14 +229,43 @@ background: #db5877;
 }
 
 /* ---------- Create Enquiry ------------ */
+form#comapnyDetails {
+    padding: 15px;
+}
+
+form#requisition-form h2 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+form#requisition-form h2 span {
+  background: #fff;
+  padding: 0 10px;
+  position: relative;
+  z-index: 1;
+}
+
+form#requisition-form h2:before {
+  background: #ddd;
+  content: "";
+  display: block;
+  height: 1px;
+  position: absolute;
+  top: 49%;
+  width: 100%;
+}
+form#requisition-form h2:before {
+  left: 0;
+}
+
 .create-enquiry {
     margin-top: 15px;
     background: #fff;
-	overflow:hidden;
+	overflow:visible;
 	    border: 1px solid #ccc;
 }
 .row.top-bar {
-    padding: 0 15px 15px;
+    padding: 0 15px;
 }
 .row.top-bar .main-form button{
 	width: 100%;
@@ -260,6 +289,14 @@ background: #db5877;
     display: block;
     line-height: 32px;
 }
+form.user-form.abpDetails {
+    border: 1px solid #ddd;
+    width: 97%;
+    margin-left: 1.5%;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+
 form.main-form {
     overflow: hidden;
     padding-top: 15px;

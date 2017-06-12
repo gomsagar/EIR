@@ -26,12 +26,6 @@ interface MessageJson {
 @Component({
   selector: 'inputForEnquiry',
   templateUrl: '../html/inputForEnquiry.html',
-  styleUrls: ['../css/bootstrap.css',
-               '../css/bootstrap.min.css',
-               '../css/bootstrap-theme.css',
-               '../css/bootstrap-theme.min.css',
-               '../css/carousel.css',
-               '../css/dashboard.css'],
  providers: [HttpModule,CompanyListService,AppService,CompanyNameService,StateListService,AddressTypeList,CirPurposeList,FormsModule,ReactiveFormsModule,NewService,ControlMessages,ReportTypeList]
 })
 export class InputForEnquiryComponent implements OnInit

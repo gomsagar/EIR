@@ -13,12 +13,6 @@ import { DatePickerOptions, DateModel } from 'ng2-datepicker';
 @Component({
   selector: 'consumerComponent',
   templateUrl: '../html/consumer.html',
-  styleUrls: ['../css/bootstrap.css',
-               '../css/bootstrap.min.css',
-               '../css/bootstrap-theme.css',
-               '../css/bootstrap-theme.min.css',
-               '../css/carousel.css',
-               '../css/dashboard.css'],
 providers:[AppService,AccountTyprList,RelationTypeList,ConsumerPurposeList]
 })
 

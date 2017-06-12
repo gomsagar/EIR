@@ -5,12 +5,6 @@ interface MessageJson {}
 @Component({
   selector: 'home',
   templateUrl: '../html/home.html',
-  styleUrls: ['../css/bootstrap.css',
-               '../css/bootstrap.min.css',
-               '../css/bootstrap-theme.css',
-               '../css/bootstrap-theme.min.css',
-               '../css/carousel.css',
-               '../css/dashboard.css'],
   providers: [DataService]
 })
 export class HomeComponent 

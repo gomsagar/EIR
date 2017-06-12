@@ -4,13 +4,7 @@ import { HomeComponent } from './component/eir.home';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./css/bootstrap.css',
-               './css/bootstrap.min.css',
-               './css/bootstrap-theme.css',
-               './css/bootstrap-theme.min.css',
-               './css/carousel.css',
-               './css/dashboard.css'],
+  templateUrl: './app.component.html'
 })
 export class AppComponent {
   constructor(private router: Router) 

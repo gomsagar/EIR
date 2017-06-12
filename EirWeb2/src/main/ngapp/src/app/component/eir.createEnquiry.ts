@@ -13,13 +13,6 @@ interface MessageJson {
 @Component({
  selector: 'createEnquiry',
  templateUrl: '../html/createEnquiry.html',
- styleUrls: ['../css/bootstrap.css',
-               '../css/bootstrap.min.css',
-               '../css/bootstrap-theme.css',
-               '../css/bootstrap-theme.min.css',
-               '../css/carousel.css',
-               '../css/dashboard.css'],
-
   providers: [HttpModule,AppService,DataService]
 })
 
