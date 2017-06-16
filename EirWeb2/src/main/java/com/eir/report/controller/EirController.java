@@ -19,11 +19,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.eir.bir.request.model.MultipleRequest;
+import com.eir.model.EligibleReport;
 import com.eir.report.constant.Constant;
 import com.eir.report.entity.AccountType;
 import com.eir.report.entity.Address;
 import com.eir.report.entity.AddressType;
 import com.eir.report.entity.CirPurpose;
+import com.eir.report.entity.ConsumerFinancialPurpose;
 import com.eir.report.entity.ConsumerPurpose;
 import com.eir.report.entity.RelationType;
 import com.eir.report.entity.ReportType;
@@ -46,12 +48,12 @@ public class EirController {
 	Logger logger = LoggerFactory.getLogger(EirController.class);
 
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-	public String callDashboard(@RequestParam("userId") String userID, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+	public String callDashboard(@RequestParam("userId") Integer userID, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
 		logger.debug("EirController - callDashboard: Start");
 		
 		try
 		{
-			if(userID != null && !userID.isEmpty())
+			if(userID != null )
 			{
 				UserDetails userDetails = eirService.getUserById(userID);
 				if(userDetails != null)
@@ -201,5 +203,20 @@ public class EirController {
 		}*/
 		
 	   return "" ;
+	}
+	
+	@RequestMapping(value="/getConsumerFinancialPurposeList", method = RequestMethod.GET)
+	public @ResponseBody List<ConsumerFinancialPurpose> getConsumerFinancialPurposeList(@RequestParam("purposeId") Integer purposeId){
+		logger.debug("EirController - getConsumerPurposeList(): Start");
+		
+		 List<ConsumerFinancialPurpose> consumerFinancialPurposeList = eirService.findConsumerFinancialPurposeByPurposeId(purposeId);
+		 
+		return consumerFinancialPurposeList;		
+	}
+	
+	@RequestMapping(value="/saveProductSelection", method = RequestMethod.POST,produces="application/json")
+	public void getRequest(@RequestBody EligibleReport selection )
+	{
+		eirService.saveSelectedProduct(selection);
 	}
 }

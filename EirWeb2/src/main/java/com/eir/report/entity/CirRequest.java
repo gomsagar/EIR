@@ -3,7 +3,6 @@ package com.eir.report.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -15,15 +14,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
@@ -54,7 +48,7 @@ public class CirRequest implements Serializable {
 	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="cir_seq")
+	@GeneratedValue(strategy=GenerationType.AUTO, generator="cir_seq")
 	@SequenceGenerator(
 		name="cir_seq",
 		sequenceName="cir_sequence",
@@ -207,7 +201,7 @@ public class CirRequest implements Serializable {
 	/**
 	 */
 	//@Temporal(TemporalType.DATE)
-	@Column(name = "create_user_date")
+	@Column(name = "create_date")
 	
 
 	@CreatedDate
@@ -224,7 +218,7 @@ public class CirRequest implements Serializable {
 	/**
 	 */
 	//@Temporal(TemporalType.DATE)
-	@Column(name = "update_user_date")
+	@Column(name = "update_date")
 	
 
 	@LastModifiedDate

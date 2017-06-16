@@ -7,6 +7,8 @@ import { Subscription }   from 'rxjs/Subscription';
 import{AccountTyprList} from '../services/dropdown/eir.getAccntTypeList';
 import{RelationTypeList} from '../services/dropdown/eir.getRelationTypeList';
 import{ConsumerPurposeList} from '../services/dropdown/eir.getConsumerPurposeList';
+import{StateListService} from '../services/eir.stateList';
+
 //import{ControlGroup} from '@angular/common';
 import{NewService} from '../services/eir.newService';
 import { DatePickerOptions, DateModel } from 'ng2-datepicker';
@@ -30,15 +32,16 @@ static iRow: number = 1;
 isConsumerValid : boolean = false;
 subscription: Subscription;
 submitted : boolean;
+stateList=<any>[];
   options: DatePickerOptions;
   @Input() consumerData = [
     {relationType:'',accountType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
                 rationCard:'',passportNo:'',homeTelephoneNo:'',officeTelephoneNo:'',mobileNo:'',birthDate:'',maritalStatus:'',gender:'',
-                personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:'',amount:''} 
+                personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:'',amount:'',purpose:''} 
  ];
 
  constructor(public fb1: FormBuilder, private _appService:AppService, private _newService:NewService, private _accntTypeList:AccountTyprList, private _relationTypeList:RelationTypeList,
-  private _consumerPurposeList:ConsumerPurposeList) {
+  private _consumerPurposeList:ConsumerPurposeList, private _stateListService:StateListService) {
  /* this.subscription = _newService.missionAnnounced$.subscribe(
       mission => {
           console.log("AstronautComponent missionService.missionAnnounced$.subscribe ");
@@ -69,6 +72,25 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
    }  
 
    ngOnInit(){
+
+     //this.stateList = this._newService.getStateList();
+
+      this._stateListService.getStateList().subscribe((stateListSubs) => {
+
+           this.stateList=stateListSubs;
+            this._newService.setStateList(stateListSubs);
+            console.log("responce   -  - "+ stateListSubs);
+            this.jsonResponse = JSON.stringify(stateListSubs);
+            //console.log('json srijfkd -- '+this.jsonResponse);
+            //console.log('name - '+temp[0].Name);
+            if(stateListSubs!=null)
+            {
+            this.hasList=true;
+            }
+        });  
+
+
+
       this._accntTypeList.getAccnTypeList().subscribe((accntType) => {
         this.accntTypeList=accntType;
         this.jsonResponse = JSON.stringify(accntType);
@@ -95,7 +117,8 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
             this.hasList=true;
             }
     });
-   }
+
+  }
 
  rowValidateForm(i: number, scenario?: string) {
   
@@ -120,7 +143,7 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
    this.consumerData.push({
      relationType:'',accountType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
                 rationCard:'',passportNo:'',homeTelephoneNo:'',officeTelephoneNo:'',mobileNo:'',birthDate:'',maritalStatus:'',gender:'',
-                personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:'',amount:''
+                personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:'',amount:'', purpose:''
    })
    
     this.rowValidateForm(ConsumerComponent.iRow++, 'add');
@@ -163,4 +186,16 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
     this.subscription.unsubscribe();
   }
 
+  getFinancialPurpose(purposeId)
+  {
+    this._consumerPurposeList.getConsumerFinancialPurposeList(purposeId).subscribe((consumerPurpose) => {
+        debugger;
+        this.consumerPurposeList=consumerPurpose;
+        this.jsonResponse = JSON.stringify(consumerPurpose);
+        if(consumerPurpose!=null)
+            {
+            this.hasList=true;
+            }
+    });
+  }
 }

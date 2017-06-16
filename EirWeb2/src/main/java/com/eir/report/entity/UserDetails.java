@@ -6,8 +6,14 @@ import java.io.Serializable;
 import java.lang.StringBuilder;
 import java.util.Set;
 
-import javax.persistence.Id;
 import javax.xml.bind.annotation.*;
+
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 
@@ -23,18 +29,24 @@ public class UserDetails implements Serializable {
 	 */
 
 	@Column(name = "user_id", nullable = false)
-	
-
 	@Id
 	@XmlElement
-	String userId;
+	Integer userId;
+
+	
+	/**
+	 */
+	@Column(name = "user_name", length = 45)
+	@XmlElement
+	String userName;
+
+	
 	/**
 	 */
 	@Column(name = "password", length = 45)
-	
-
 	@XmlElement
 	String password;
+
 	
 	@Column(name = "first_name", length = 45)
 	
@@ -74,20 +86,44 @@ public class UserDetails implements Serializable {
 	UserRole userRole;
 	/**
 	 */
-	/*@OneToMany(mappedBy = "userDetails", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	
+	
+	@Column(name = "create_user_id", length = 45)
+	@CreatedBy
+	String createUserId;
 
-	@XmlElement(name = "", namespace = "")
-	java.util.Set<com.eir.report.entity.Request> requests;
-*/
 	/**
 	 */
-	public void setUserId(String userId) {
+	//@Temporal(TemporalType.DATE)
+	@Column(name = "create_date")
+	@CreatedDate
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	DateTime createDate ;
+
+	
+	/**
+	 */
+	@Column(name = "update_user_id", length = 45)
+	@LastModifiedBy
+	String updateUserId;
+
+	
+	/**
+	 */
+	//@Temporal(TemporalType.DATE)
+	@Column(name = "update_date")
+	@LastModifiedDate
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	DateTime updateDate ;
+	
+	
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 
 	/**
 	 */
-	public String getUserId() {
+	public Integer getUserId() {
 		return this.userId;
 	}
 
@@ -234,5 +270,45 @@ public void setPassword(String password) {
 		if (userId != null && !userId.equals(equalCheck.userId))
 			return false;
 		return true;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getCreateUserId() {
+		return createUserId;
+	}
+
+	public void setCreateUserId(String createUserId) {
+		this.createUserId = createUserId;
+	}
+
+	public DateTime getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(DateTime createDate) {
+		this.createDate = createDate;
+	}
+
+	public String getUpdateUserId() {
+		return updateUserId;
+	}
+
+	public void setUpdateUserId(String updateUserId) {
+		this.updateUserId = updateUserId;
+	}
+
+	public DateTime getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(DateTime updateDate) {
+		this.updateDate = updateDate;
 	}
 }

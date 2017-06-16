@@ -23,6 +23,8 @@ import org.springframework.stereotype.Service;
 
 import com.eir.bir.request.model.Consumer;
 import com.eir.bir.request.model.MultipleRequest;
+import com.eir.model.EIRDataConstant;
+import com.eir.model.EligibleReport;
 import com.eir.report.constant.Constant;
 import com.eir.report.entity.AccountType;
 import com.eir.report.entity.Address;
@@ -30,11 +32,13 @@ import com.eir.report.entity.AddressType;
 import com.eir.report.entity.BirRequest;
 import com.eir.report.entity.CirPurpose;
 import com.eir.report.entity.CirRequest;
+import com.eir.report.entity.ConsumerFinancialPurpose;
 import com.eir.report.entity.ConsumerPurpose;
 import com.eir.report.entity.ConsumerRequest;
 import com.eir.report.entity.EntityDetails;
 import com.eir.report.entity.ProductMaster;
 import com.eir.report.entity.RelationType;
+import com.eir.report.entity.ReportSelection;
 import com.eir.report.entity.ReportType;
 import com.eir.report.entity.Request;
 import com.eir.report.entity.State;
@@ -47,11 +51,13 @@ import com.eir.report.repository.AddressTypeRepository;
 import com.eir.report.repository.BirRequestRepository;
 import com.eir.report.repository.CirPurposeRepository;
 import com.eir.report.repository.CirRequestRepository;
+import com.eir.report.repository.ConsumerFinancialPurposeRepository;
 import com.eir.report.repository.ConsumerPurposeRepository;
 import com.eir.report.repository.ConsumerRequetRepository;
 import com.eir.report.repository.EntityDetailsRepository;
-import com.eir.report.repository.ProductRepository;
+import com.eir.report.repository.ProductMasterRepository;
 import com.eir.report.repository.RelationTypeRepository;
+import com.eir.report.repository.ReportSelectionRepository;
 import com.eir.report.repository.ReportTypeRepository;
 import com.eir.report.repository.RequestRepository;
 import com.eir.report.repository.StateRepository;
@@ -116,7 +122,7 @@ public class EirServiceImpl implements EirService{
 	StatusRepository statusRepository;
 	
 	@Autowired
-	ProductRepository productMasterRepository;
+	ProductMasterRepository productMasterRepository;
 	
 	@Autowired
 	EirService eirService;
@@ -126,6 +132,13 @@ public class EirServiceImpl implements EirService{
 	
 	@Autowired
 	NextGenWebService nextGenWebService; 
+	
+	@Autowired
+	ConsumerFinancialPurposeRepository consumerFinancialPurposeRepository;
+	
+	@Autowired
+	ReportSelectionRepository reportSelectionRepository;
+	
 	
 	@Override
 	public List<BirRequest> retrieveRequest() {
@@ -317,7 +330,7 @@ public class EirServiceImpl implements EirService{
 	public Request createRequest(MultipleRequest input, HttpServletRequest request) 
 	{
 		Request reqEntity = new Request();
-		reqEntity.setUserDetails(getUserDetails());
+		reqEntity.setUserDetails(getUserDetails(Constant.HARDCOADED_USERID));
 		reqEntity.setUserHit(1);//TODO temporarily harcode values saved
 		reqEntity.setEntityDetails(getEntityObject(input,request));
 		reqEntity.setStatus(GetStatus.getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.toString()));
@@ -367,9 +380,9 @@ public class EirServiceImpl implements EirService{
 	}
 
 
-	private UserDetails getUserDetails() 
+	private UserDetails getUserDetails(Integer userID) 
 	{
-		UserDetails userSet = userDetailsRepository.findByUserId("11");
+		UserDetails userSet = userDetailsRepository.findByUserId(userID);
 		System.out.println("userSet");
 		return userSet;
 	}
@@ -420,7 +433,8 @@ public class EirServiceImpl implements EirService{
 	public List<ReportType> getReportTypeList() {
 		return reportTypeRepository.findAll();
 	}
-	public UserDetails getUserById(String userId)
+	
+	public UserDetails getUserById(Integer userId)
 	{
 		UserDetails userDetails = userDetailsRepository.findByUserId(userId);
 		return userDetails;
@@ -433,6 +447,11 @@ public class EirServiceImpl implements EirService{
 	@Override
 	public List<ConsumerPurpose> getConsumerPurposeList() {
 		return consumerPurposeRepository.findAll();
+	}
+	
+	@Override
+	public List<ConsumerFinancialPurpose> findConsumerFinancialPurposeByPurposeId(Integer purposeId) {
+		return consumerFinancialPurposeRepository.findBypurposeId(purposeId);
 	}
 	
 	@Override
@@ -562,4 +581,95 @@ public class EirServiceImpl implements EirService{
 				}
 			}
 	}
+
+	@Override
+	public void saveSelectedProduct(EligibleReport selection) 
+	{
+		Request reqEntity = new Request();
+		reqEntity.setUserDetails(getUserDetails(Constant.HARDCOADED_USERID));
+		reqEntity.setUserHit(1);//TODO temporarily harcode values saved
+		//reqEntity.setEntityDetails(getEntityObject(input,request));
+		reqEntity.setStatus(GetStatus.getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.toString()));
+		reqEntity.setAdminHit(1);//TODO save according to admin hit
+		reqEntity.setType(Constant.SPECIFIED);//TODO change according to FE flag
+		
+ 		requestRepository.save(reqEntity);
+ 		
+			List<ReportSelection> addintoList = new ArrayList<ReportSelection>();
+							
+			if (selection.getComboWithScore()) {	
+				ReportSelection cws = new ReportSelection();
+				cws.setProductCode(EIRDataConstant.COMBOWITHSCORE);
+				ProductMaster comboWithScore = productMasterRepository.findByproductCode(EIRDataConstant.COMBOWITHSCORE);
+				cws.setProductMaster(comboWithScore);
+				cws.setRequestId(reqEntity.getRequestId());
+				addintoList.add(cws);
+			}
+			if(selection.getComboWithoutScore())
+			{
+				ReportSelection cwos = new ReportSelection();
+				cwos.setProductCode(EIRDataConstant.COMBOWITHOUTSCORE);
+				ProductMaster comboWithScore = productMasterRepository.findByproductCode(EIRDataConstant.COMBOWITHOUTSCORE);
+				cwos.setProductMaster(comboWithScore);
+				cwos.setRequestId(reqEntity.getRequestId());
+				addintoList.add(cwos);
+			}
+			if(selection.getCommWithScore())
+			{
+				ReportSelection cirws = new ReportSelection();
+				cirws.setProductCode(EIRDataConstant.CIRWITHSCORE);
+				ProductMaster comboWithScore = productMasterRepository.findByproductCode(EIRDataConstant.CIRWITHSCORE);
+				cirws.setProductMaster(comboWithScore);
+				cirws.setRequestId(reqEntity.getRequestId());
+				addintoList.add(cirws);
+			}
+			if(selection.getCommWithoutScore())
+			{
+				ReportSelection cirwos = new ReportSelection();
+				cirwos.setProductCode(EIRDataConstant.CIRWITHOUTSCORE);
+				ProductMaster comboWithScore = productMasterRepository.findByproductCode(EIRDataConstant.CIRWITHOUTSCORE);
+				cirwos.setProductMaster(comboWithScore);
+				cirwos.setRequestId(reqEntity.getRequestId());
+				addintoList.add(cirwos);
+			}
+			if(selection.getLitigation())
+			{
+				ReportSelection let = new ReportSelection();
+				let.setProductCode(EIRDataConstant.LETIGATION);
+				ProductMaster comboWithScore = productMasterRepository.findByproductCode(EIRDataConstant.LETIGATION);
+				let.setProductMaster(comboWithScore);
+				let.setRequestId(reqEntity.getRequestId());
+				addintoList.add(let);
+			}
+			if(selection.getNewsFeed())
+			{
+				ReportSelection newsfeed = new ReportSelection();
+				newsfeed.setProductCode(EIRDataConstant.NEWSFEED);
+				ProductMaster comboWithScore = productMasterRepository.findByproductCode(EIRDataConstant.NEWSFEED);
+				newsfeed.setProductMaster(comboWithScore);
+				newsfeed.setRequestId(reqEntity.getRequestId());
+				addintoList.add(newsfeed);
+			}
+			if(selection.getSme())
+			{
+				ReportSelection sme = new ReportSelection();
+				sme.setProductCode(EIRDataConstant.SME);
+				ProductMaster comboWithScore = productMasterRepository.findByproductCode(EIRDataConstant.SME);
+				sme.setProductMaster(comboWithScore);
+				sme.setRequestId(reqEntity.getRequestId());
+				addintoList.add(sme);
+			}
+			if(selection.getBir())
+			{
+				ReportSelection bir = new ReportSelection();
+				bir.setProductCode(EIRDataConstant.BIR);
+				ProductMaster comboWithScore = productMasterRepository.findByproductCode(EIRDataConstant.BIR);
+				bir.setProductMaster(comboWithScore);
+				bir.setRequestId(reqEntity.getRequestId());
+				addintoList.add(bir);
+			}
+			
+			reportSelectionRepository.save(addintoList);
+	}
+	
 }

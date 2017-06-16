@@ -57,22 +57,19 @@ public class BirController {
 		return null;
 	}
 	
-	@CrossOrigin("*")
-	@RequestMapping(value="/getReport", method = RequestMethod.POST,produces="application/json")
-	public void getRequest(@RequestBody EligibleReport selection ){
-		
-		System.out.println("CWOS:"+selection.getComboWithScore());
-		System.out.println("CWS:"+selection.getComboWithoutScore());
-		
+	/*@CrossOrigin("*")
+	@RequestMapping(value="/saveProductSelection", method = RequestMethod.POST,produces="application/json")
+	public void getRequest(@RequestBody EligibleReport selection )
+	{
 		birService.saveSelectedReportData(selection);
-		
-	
-	}
+	}*/
 	
 	@CrossOrigin("*")
-	@RequestMapping(value = "/getEligibleReport", method = RequestMethod.GET,produces="application/json")
-	public @ResponseBody EligibleReport getEligibleReport() {
-		EligibleReport selectedProduct = birService.getEligibleReport();
+	@RequestMapping(value = "/getEligibleProduct", method = RequestMethod.GET,produces="application/json")
+	public @ResponseBody EligibleReport getEligibleReport(Integer userID) 
+	{
+		userID = 1002;
+		EligibleReport selectedProduct = birService.getEligibleProduct(userID);
 		return selectedProduct;
 	}
 }

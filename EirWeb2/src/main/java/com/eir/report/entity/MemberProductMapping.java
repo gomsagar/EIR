@@ -3,7 +3,6 @@ package com.eir.report.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -15,6 +14,7 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -36,6 +36,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @IdClass(com.eir.report.entity.MemberProductMappingPK.class)
 @Entity
 @Table(name = "member_product_mapping")
+/*@NamedNativeQuery(name = "MemberProductMapping.findProductMappingForUserId",
+query="select * from member_product_mapping mpm inner join member_user_mapping mum on mpm.member_id = mum.member_id where mum.user_id =:userID",
+resultClass = MemberProductMapping.class
+)*/
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "eir/com/eir/report/entity", name = "MemberProductMapping")
 
@@ -50,7 +54,7 @@ public class MemberProductMapping implements Serializable {
 	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="memberProdMap_seq")
+	@GeneratedValue(strategy=GenerationType.AUTO, generator="memberProdMap_seq")
 	@SequenceGenerator(
 		name="memberProdMap_seq",
 		sequenceName="MemberProductMapping_sequence",
@@ -80,7 +84,7 @@ public class MemberProductMapping implements Serializable {
 	/**
 	 */
 	//@Temporal(TemporalType.DATE)
-	@Column(name = "create_user_date")
+	@Column(name = "create_date")
 	
 
 	@CreatedDate
@@ -97,7 +101,7 @@ public class MemberProductMapping implements Serializable {
 	/**
 	 */
 	//@Temporal(TemporalType.DATE)
-	@Column(name = "update_user_date")
+	@Column(name = "update_date")
 	
 
 	@LastModifiedDate

@@ -4,8 +4,6 @@ package com.eir.report.entity;
 import java.io.Serializable;
 import java.util.Set;
 
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -20,12 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlType;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
@@ -51,7 +45,7 @@ public class Request implements Serializable {
 	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="request_seq")
+	@GeneratedValue(strategy=GenerationType.AUTO, generator="request_seq")
 	@SequenceGenerator(
 		name="request_seq",
 		sequenceName="request_sequence",
@@ -106,7 +100,7 @@ public class Request implements Serializable {
 	String createUserId;
 	/**
 	 */
-	@Column(name = "create_user_date")
+	@Column(name = "create_date")
 	@CreatedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	DateTime createUserDate ;
@@ -120,7 +114,7 @@ public class Request implements Serializable {
 	String updateUserId;
 	/**
 	 */
-	@Column(name = "update_user_date")
+	@Column(name = "update_date")
 	@LastModifiedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	DateTime updateUserDate ;

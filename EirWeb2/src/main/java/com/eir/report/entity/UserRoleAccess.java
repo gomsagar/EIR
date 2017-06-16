@@ -64,7 +64,7 @@ public class UserRoleAccess implements Serializable {
 	/**
 	 */
 	@Temporal(TemporalType.DATE)
-	@Column(name = "create_user_date")
+	@Column(name = "create_date")
 	
 
 	@XmlElement
@@ -80,7 +80,7 @@ public class UserRoleAccess implements Serializable {
 	/**
 	 */
 	@Temporal(TemporalType.DATE)
-	@Column(name = "update_user_date")
+	@Column(name = "update_date")
 	
 
 	@XmlElement

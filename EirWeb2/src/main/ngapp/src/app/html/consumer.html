@@ -39,9 +39,9 @@
 			<div class="row">
 			<div class="form-group col-md-6">
 				<label for="exampleInputName2">Purpose</label> 
-				<select class="form-control" name="">
+				<select class="form-control" name="purpose" [(ngModel)]="consumerData[i].purpose" (ngModelChange)="getFinancialPurpose($event)">
 					<option>--SELECT--</option>
-					<option *ngFor="let consumerPurpose of consumerPurposeList" [ngValue]="consumerPurpose">{{consumerPurpose.description}}</option>
+					<option *ngFor="let consumerPurpose of consumerPurposeList" [ngValue]="consumerPurpose" id="{{consumerPurpose.purposeId}}">{{consumerPurpose.description}}</option>
 				</select>
 			</div>
 			<div class="form-group col-md-6">
@@ -182,8 +182,6 @@
 											<control-messages [control]="requisitionForm.controls['personState'+i]" [label]="'State'"
 											style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
 											<option>--SELECT--</option>
-											<option>1</option>
-											<option>2</option>
 										<option *ngFor="let state of stateList">{{state.stateCodeDescription}}</option>
 										</select>
 			</div>

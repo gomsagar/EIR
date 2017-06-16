@@ -8,6 +8,8 @@ export class NewService {
    inqueryCompVar = new Subject<boolean>();
    consumerCompVar = new Subject<boolean>();
 
+   stateList=<any>[];
+
   // Observable boolean streams
   inqueryCompVar$ = this.inqueryCompVar.asObservable();
   consumerCompVar$ = this.consumerCompVar.asObservable();
@@ -21,5 +23,16 @@ export class NewService {
   consumerValidateCalled(consumerValidate: boolean) {
        console.log("AppService consumerValidateCalled submit ---> " + consumerValidate);
     this.consumerCompVar.next(consumerValidate);
+  }
+
+
+  getStateList()
+  {
+      return this.stateList;
+  }
+
+  setStateList(stateList)
+  {
+    this.stateList = stateList;
   }
 }

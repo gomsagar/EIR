@@ -9,7 +9,7 @@ export class DataService {
 
     getData() 
     {
-       return this._http.get('http://localhost:8080/EirWeb2/eir/getEligibleReport')
+       return this._http.get('http://localhost:8080/EirWeb2/eir/getEligibleProduct')
             .map((res:Response) => res.json());            
     }
 

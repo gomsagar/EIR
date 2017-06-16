@@ -19,7 +19,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.hibernate.annotations.Type;
@@ -45,7 +44,7 @@ public class BirRequest implements Serializable {
 	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="bir_seq")
+	@GeneratedValue(strategy=GenerationType.AUTO, generator="bir_seq")
 	@SequenceGenerator(
 		name="bir_seq",
 		sequenceName="bir_sequence",
@@ -96,7 +95,7 @@ public class BirRequest implements Serializable {
 	/**
 	 */
 	
-	@Column(name = "create_user_date")
+	@Column(name = "create_date")
 	@CreatedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	DateTime createUserDate ;
@@ -109,7 +108,7 @@ public class BirRequest implements Serializable {
 	/**
 	 */
 	//@Temporal(TemporalType.DATE)
-	@Column(name = "update_user_date")
+	@Column(name = "update_date")
 	
 
 	@LastModifiedDate

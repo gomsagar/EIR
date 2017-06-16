@@ -24,4 +24,6 @@ public class Constant {
 	public static final String USER_ID = "USER_ID";
 	public static final String SPECIFIED = "SPECIFIED";
 	public static final String ACCESS_TOKEN = "AccessToken"; 
+	
+	public static final Integer HARDCOADED_USERID = 1;
 }

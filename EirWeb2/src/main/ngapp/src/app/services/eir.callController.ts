@@ -16,7 +16,7 @@ static count : number=1;
         var head = new Headers();
         head.append('Content-Type', 'application/json');
          
-        return this._http.post('http://localhost:8080/EirWeb2/eir/getReport',
+        return this._http.post('http://localhost:8080/EirWeb2/eir/saveProductSelection',
         JSON.stringify(data), { 
            headers:head
         })

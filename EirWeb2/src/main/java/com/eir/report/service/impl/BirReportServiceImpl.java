@@ -40,13 +40,14 @@ import com.eir.report.entity.BIRZaubaRequest;
 import com.eir.report.entity.BirRequest;
 import com.eir.report.entity.CompanyList;
 import com.eir.report.entity.MemberProductMapping;
+import com.eir.report.entity.ProductMaster;
 import com.eir.report.entity.ReportSelection;
 import com.eir.report.entity.Request;
 import com.eir.report.entity.Response;
 import com.eir.report.repository.AddressRepository;
 import com.eir.report.repository.BirRequestRepository;
 import com.eir.report.repository.MemberProductMappingRepository;
-import com.eir.report.repository.ProductRepository;
+import com.eir.report.repository.ProductMasterRepository;
 import com.eir.report.repository.ReportSelectionRepository;
 import com.eir.report.repository.StatusRepository;
 import com.eir.report.service.BirReportService;
@@ -91,7 +92,7 @@ public class BirReportServiceImpl implements BirReportService {
 	Logger logger = LoggerFactory.getLogger(BirReportServiceImpl.class);
 
 	@Autowired
-	ProductRepository productRepository;
+	ProductMasterRepository productMasterRepository;
 
 	@Autowired
 	BirRequestRepository birReqRepository;
@@ -257,26 +258,6 @@ public class BirReportServiceImpl implements BirReportService {
 		logger.debug(json.toString());
 		System.out.println(json);
 
-		if (respoceobj.contains("Invalid")) {
-			logger.debug("Invalid Access Token Used. Sending Request for new Access Token Again...");
-			System.out.println("Invalid Access Token Used. Sending Request for new Access Token Again...");
-			getAccessToken();
-			companySearch(companyName);
-		} else {// we will have multiple company names in Reponse. So we will
-				// have to search for which company we wants.
-			if (respoceobj.contains("600")) {
-				array = (JSONArray) json.get("Response");
-				logger.debug("ResponseArray  : " + array);
-				System.out.println("ResponseArray " + array);
-			} else {
-				if (respoceobj.contains("611")) {
-					logger.debug("Request Limit exceeded.");
-					System.out.println("Request Limit exceeded.");
-				}
-			}
-		}
-		;
-
 		return list.getResponse();
 	}
 
@@ -441,9 +422,9 @@ public class BirReportServiceImpl implements BirReportService {
 	}
 	
 	@Override
-	public EligibleReport getEligibleReport() {
+	public EligibleReport getEligibleProduct(Integer userID) {
 		EligibleReport selection = new EligibleReport();
-		List<MemberProductMapping> productList = memberProductMappingRepo.findAll();
+		List<MemberProductMapping> productList = memberProductMappingRepo.findProductMappingForUserId(userID);
 		
 		for(MemberProductMapping s : productList){
 			switch (s.getProductCode()) {
@@ -471,68 +452,9 @@ public class BirReportServiceImpl implements BirReportService {
 			case EIRDataConstant.NEWSFEED:
 				selection.setNewsFeed(true);
 				break;
-				
 			}
 		}
 		return selection;
-	}
-
-	@Override
-	public void saveSelectedReportData(EligibleReport selection) {
-		
-		List<ReportSelection> addintoList = new ArrayList<ReportSelection>();
-						
-		if (selection.getComboWithScore()) {	
-			ReportSelection cws = new ReportSelection();
-			cws.setProductCode(EIRDataConstant.COMBOWITHSCORE);
-			
-			addintoList.add(cws);
-		}
-		if(selection.getComboWithoutScore())
-		{
-			ReportSelection cwos = new ReportSelection();
-			cwos.setProductCode(EIRDataConstant.COMBOWITHOUTSCORE);
-			addintoList.add(cwos);
-		}
-		if(selection.getCommWithScore())
-		{
-			ReportSelection cirws = new ReportSelection();
-			cirws.setProductCode(EIRDataConstant.CIRWITHSCORE);
-			addintoList.add(cirws);
-		}
-		if(selection.getCommWithoutScore())
-		{
-			ReportSelection cirwos = new ReportSelection();
-			cirwos.setProductCode(EIRDataConstant.CIRWITHOUTSCORE);
-			addintoList.add(cirwos);
-		}
-		if(selection.getLitigation())
-		{
-			ReportSelection let = new ReportSelection();
-			let.setProductCode(EIRDataConstant.LETIGATION);
-			addintoList.add(let);
-		}
-		if(selection.getNewsFeed())
-		{
-			ReportSelection newsfeed = new ReportSelection();
-			newsfeed.setProductCode(EIRDataConstant.NEWSFEED);
-			addintoList.add(newsfeed);
-		}
-		if(selection.getSme())
-		{
-			ReportSelection sme = new ReportSelection();
-			sme.setProductCode(EIRDataConstant.SME);
-			addintoList.add(sme);
-		}
-		if(selection.getBir())
-		{
-			ReportSelection bir = new ReportSelection();
-			bir.setProductCode(EIRDataConstant.BIR);
-			addintoList.add(bir);
-		}
-		for (ReportSelection reportSelection : addintoList) {
-			reportSelectionRepository.save(reportSelection);
-		}
 	}
 
 	/*@Override

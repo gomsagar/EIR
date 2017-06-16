@@ -1,6 +1,5 @@
 package com.eir.report.entity;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -28,7 +27,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Table(name = "report_selection")
+@Table(name = "product_selection")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "eir/com/eir/report/entity", name = "ReportSelection")
 
@@ -36,10 +35,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class ReportSelection {
 	
 	@Column(name = "request_id", nullable = false)
-	
-
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="reportSel_seq")
+	@GeneratedValue(strategy=GenerationType.AUTO, generator="reportSel_seq")
 	@SequenceGenerator(
 		name="reportSel_seq",
 		sequenceName="reportSelection_sequence",
@@ -53,27 +50,19 @@ public class ReportSelection {
 	@XmlTransient
 	ProductMaster productMaster;
 	
-	@Column(name = "product_request_id", length = 45)
-	
-
-	@XmlElement
-	String productRequestId;
 	
 	@Column(name = "product_code", length = 45)
-	
-
 	@XmlElement
 	String productCode;
 	
-	@Column(name = "create_user_id", length = 45)
 	
-
+	@Column(name = "create_user_id", length = 45)
 	@CreatedBy
 	String createUserId;
 	/**
 	 */
 	//@Temporal(TemporalType.DATE)
-	@Column(name = "create_user_date")
+	@Column(name = "create_date")
 	
 
 	@CreatedDate
@@ -83,16 +72,13 @@ public class ReportSelection {
 	 */
 
 	@Column(name = "update_user_id", length = 45)
-	
-
 	@LastModifiedBy
 	String updateUserId;
 	/**
 	 */
-	//@Temporal(TemporalType.DATE)
-	@Column(name = "update_user_date")
 	
-
+	//@Temporal(TemporalType.DATE)
+	@Column(name = "update_date")
 	@LastModifiedDate
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	DateTime updateUserDate ;
@@ -108,12 +94,6 @@ public class ReportSelection {
 	}
 	public void setProductMaster(ProductMaster productMaster) {
 		this.productMaster = productMaster;
-	}
-	public String getProductRequestId() {
-		return productRequestId;
-	}
-	public void setProductRequestId(String productRequestId) {
-		this.productRequestId = productRequestId;
 	}
 	public String getProductCode() {
 		return productCode;

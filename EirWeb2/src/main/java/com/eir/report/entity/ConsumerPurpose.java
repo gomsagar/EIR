@@ -28,83 +28,32 @@ import org.springframework.stereotype.Component;
 public class ConsumerPurpose {
 	
 	@Column(name = "purpose_id", nullable = false)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="purpose_seq")
+	@GeneratedValue(strategy=GenerationType.AUTO, generator="purpose_seq")
 	@SequenceGenerator(
 		name="purpose_seq",
 		sequenceName="purpose_sequence",
 		allocationSize=1
 	)
-	String relationTypeId;
+	String purposeId;
 	
 	@Column(name = "description", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	String description;
 	
-	@Column(name = "create_user_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
-
-	@CreatedBy
-	String createUserId;
-	/**
-	 */
-	@Column(name = "create_user_date")
-	@Basic(fetch = FetchType.EAGER)
-
-	@CreatedDate
-	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-	DateTime createUserDate ;
-	
-	@Column(name = "update_user_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
-
-	@LastModifiedBy
-	String updateUserId;
-	/**
-	 */
-	@Column(name = "update_user_date")
-	@Basic(fetch = FetchType.EAGER)
-
-	@LastModifiedDate
-	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-	DateTime updateUserDate ;
-	public String getRelationTypeId() {
-		return relationTypeId;
+	public String getPurposeId() {
+		return purposeId;
 	}
-	public void setRelationTypeId(String relationTypeId) {
-		this.relationTypeId = relationTypeId;
+	public void setPurposeId(String purposeId) {
+		this.purposeId = purposeId;
 	}
 	public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
-	}
-	public String getCreateUserId() {
-		return createUserId;
-	}
-	public void setCreateUserId(String createUserId) {
-		this.createUserId = createUserId;
-	}
-	public DateTime getCreateUserDate() {
-		return createUserDate;
-	}
-	public void setCreateUserDate(DateTime createUserDate) {
-		this.createUserDate = createUserDate;
-	}
-	public String getUpdateUserId() {
-		return updateUserId;
-	}
-	public void setUpdateUserId(String updateUserId) {
-		this.updateUserId = updateUserId;
-	}
-	public DateTime getUpdateUserDate() {
-		return updateUserDate;
-	}
-	public void setUpdateUserDate(DateTime updateUserDate) {
-		this.updateUserDate = updateUserDate;
 	}
 }

@@ -27,10 +27,8 @@ public interface BirReportService {
 
 	boolean getAndProcessBirReport(List<BirRequest> list);
 	
-    EligibleReport getEligibleReport();
+    EligibleReport getEligibleProduct(Integer userID);
 	
-	void saveSelectedReportData(EligibleReport selection);
-
 	//void saveBIRRequestData(MultipleRequest input, Request request);
 	
 	//void createZaubaRequest(com.eir.bir.request.model.BirRequest birZaubaRequest);

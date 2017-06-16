@@ -82,7 +82,7 @@ consumerData : any= [{relationType:'',accountType:'',firstName:'',middleName:'',
     this._stateListService.getStateList().subscribe((stateListSubs) => {
 
            this.stateList=stateListSubs;
-
+            this._newService.setStateList(stateListSubs);
             console.log("responce   -  - "+ stateListSubs);
             this.jsonResponse = JSON.stringify(stateListSubs);
             //console.log('json srijfkd -- '+this.jsonResponse);
@@ -175,14 +175,17 @@ consumerData : any= [{relationType:'',accountType:'',firstName:'',middleName:'',
          {          
           'pincode'     : [null,  Validators.compose([Validators.required,Validators.pattern('[0-9]{6}')])],
           'email'       : [null,  Validators.compose([Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$'),Validators.required])],
-          'pan'         : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})([PFCAHBLJRpfcahbljr]{1})([0-9]{4})([A-Za-z]{1})'),Validators.required])],
-          'cmppan'      : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})([PFCAHBLJRpfcahbljr]{1})([0-9]{4})([A-Za-z]{1})'),Validators.required])],
+          //'pan'         : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})([PFCAHBLJRpfcahbljr]{1})([0-9]{4})([A-Za-z]{1})'),Validators.required])],
+          //'cmppan'      : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})([PFCAHBLJRpfcahbljr]{1})([0-9]{4})([A-Za-z]{1})'),Validators.required])],
+          'pan'         : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})([ABCFGHLJPTKabcfghljptk]{2})([0-9]{4})([A-Za-z]{1})'),Validators.required])],
+          'cmppan'      : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})([ABCFGHLJPTKabcfghljptk]{2})([0-9]{4})([A-Za-z]{1})'),Validators.required])],
           'city'        : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z]*')])],
           'product'     : [null,  Validators.required],
           'address'     : [null,  Validators.required],         
           'purpose'     : [null,  Validators.required],
           'state'       : [null,  Validators.required]
          });
+         
          this.birForm =fb.group(
          {
           'compName'    :[null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z0-9&]*')])],          

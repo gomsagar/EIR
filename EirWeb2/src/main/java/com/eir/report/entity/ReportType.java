@@ -27,10 +27,10 @@ import org.springframework.stereotype.Component;
 @EntityListeners(AuditingEntityListener.class)
 public class ReportType {
 	@Column(name = "report_type_id", nullable = false)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="reportType_seq")
+	@GeneratedValue(strategy=GenerationType.AUTO, generator="reportType_seq")
 	@SequenceGenerator(
 		name="reportType_seq",
 		sequenceName="reportType_sequence",
@@ -39,39 +39,11 @@ public class ReportType {
 	String reportTypeId;
 	
 	@Column(name = "report_type_description", length = 45)
-	@Basic(fetch = FetchType.EAGER)
+	
 
 	String reportTypeDescription;
 	
-	@Column(name = "create_user_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
-
-	@CreatedBy
-	String createUserId;
-	/**
-	 */
-	@Column(name = "create_user_date")
-	@Basic(fetch = FetchType.EAGER)
-
-	@CreatedDate
-	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-	DateTime createUserDate ;
 	
-	@Column(name = "update_user_id", length = 45)
-	@Basic(fetch = FetchType.EAGER)
-
-	@LastModifiedBy
-	String updateUserId;
-	/**
-	 */
-	@Column(name = "update_user_date")
-	@Basic(fetch = FetchType.EAGER)
-
-	@LastModifiedDate
-	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-	DateTime updateUserDate ;
-
-
 	public String getReportTypeId() {
 		return reportTypeId;
 	}
@@ -84,29 +56,4 @@ public class ReportType {
 	public void setReportTypeDescription(String reportTypeDescription) {
 		this.reportTypeDescription = reportTypeDescription;
 	}
-	public String getCreateUserId() {
-		return createUserId;
-	}
-	public void setCreateUserId(String createUserId) {
-		this.createUserId = createUserId;
-	}
-	public DateTime getCreateUserDate() {
-		return createUserDate;
-	}
-	public void setCreateUserDate(DateTime createUserDate) {
-		this.createUserDate = createUserDate;
-	}
-	public String getUpdateUserId() {
-		return updateUserId;
-	}
-	public void setUpdateUserId(String updateUserId) {
-		this.updateUserId = updateUserId;
-	}
-	public DateTime getUpdateUserDate() {
-		return updateUserDate;
-	}
-	public void setUpdateUserDate(DateTime updateUserDate) {
-		this.updateUserDate = updateUserDate;
-	}
-	
 }

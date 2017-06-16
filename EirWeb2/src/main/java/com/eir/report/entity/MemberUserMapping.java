@@ -3,7 +3,6 @@ package com.eir.report.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -48,7 +47,7 @@ public class MemberUserMapping implements Serializable {
 	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="user_seq")
+	@GeneratedValue(strategy=GenerationType.AUTO, generator="user_seq")
 	@SequenceGenerator(
 		name="user_seq",
 		sequenceName="user_sequence",
@@ -91,7 +90,7 @@ public class MemberUserMapping implements Serializable {
 	/**
 	 */
 	//@Temporal(TemporalType.DATE)
-	@Column(name = "create_user_date")
+	@Column(name = "create_date")
 	
 
 	@CreatedDate
@@ -108,7 +107,7 @@ public class MemberUserMapping implements Serializable {
 	/**
 	 */
 	//@Temporal(TemporalType.DATE)
-	@Column(name = "update_user_date")
+	@Column(name = "update_date")
 	
 
 	@LastModifiedDate

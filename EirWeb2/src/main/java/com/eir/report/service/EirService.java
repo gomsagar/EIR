@@ -6,11 +6,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.eir.bir.request.model.MultipleRequest;
+import com.eir.model.EligibleReport;
 import com.eir.report.entity.AccountType;
 import com.eir.report.entity.Address;
 import com.eir.report.entity.AddressType;
 import com.eir.report.entity.BirRequest;
 import com.eir.report.entity.CirPurpose;
+import com.eir.report.entity.ConsumerFinancialPurpose;
 import com.eir.report.entity.ConsumerPurpose;
 import com.eir.report.entity.RelationType;
 import com.eir.report.entity.ReportType;
@@ -38,7 +40,7 @@ public interface EirService {
 
 	Request createRequest(MultipleRequest input, HttpServletRequest request);
 
-	UserDetails getUserById(String userId);
+	UserDetails getUserById(Integer userId);
 	
 	List<CirPurpose> getCirPurposeList();
 
@@ -51,4 +53,8 @@ public interface EirService {
 	List<ConsumerPurpose> getConsumerPurposeList();
 
 	//void createCIRAndConsumersRequest(MultipleRequest input, Request reqEntity);
+	
+	List<ConsumerFinancialPurpose> findConsumerFinancialPurposeByPurposeId(Integer purposeId);
+
+	void saveSelectedProduct(EligibleReport selection);
 }

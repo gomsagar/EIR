@@ -4,7 +4,6 @@ package com.eir.report.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -21,7 +20,6 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import org.hibernate.annotations.Type;
@@ -51,7 +49,7 @@ public class ConsumerRequest implements Serializable {
 	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="consumer_seq")
+	@GeneratedValue(strategy=GenerationType.AUTO, generator="consumer_seq")
 	@SequenceGenerator(
 		name="consumer_seq",
 		sequenceName="consumerReq_seq",
@@ -323,7 +321,7 @@ public class ConsumerRequest implements Serializable {
 	String createUserId;
 	/**
 	 */
-	@Column(name = "create_user_date")
+	@Column(name = "create_date")
 	
 
 	@CreatedDate
@@ -337,7 +335,7 @@ public class ConsumerRequest implements Serializable {
 	String updateUserId;
 	/**
 	 */
-	@Column(name = "update_user_date")
+	@Column(name = "update_date")
 	
 
 	@LastModifiedDate
