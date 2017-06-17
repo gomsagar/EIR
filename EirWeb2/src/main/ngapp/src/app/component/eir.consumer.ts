@@ -28,11 +28,13 @@ export class ConsumerComponent implements OnDestroy, OnInit {
 form:FormControl; 
 requisitionForm: FormGroup; 
 consumerPurposeList=<any>[];
+consumerFinancialPurposeList=<any>[];
 static iRow: number = 1;
 isConsumerValid : boolean = false;
 subscription: Subscription;
 submitted : boolean;
 stateList=<any>[];
+genderList=<any>[];
   options: DatePickerOptions;
   @Input() consumerData = [
     {relationType:'',accountType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
@@ -118,6 +120,11 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
             }
     });
 
+    this._consumerPurposeList.getGender().subscribe((genders) => {
+        debugger;
+        this.genderList=genders;
+    });
+
   }
 
  rowValidateForm(i: number, scenario?: string) {
@@ -131,7 +138,7 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
       this.requisitionForm[action]('middleName' + i, new FormControl('', [Validators.required,Validators.pattern('[A-Za-z]*')]));
       this.requisitionForm[action]('lastName' + i, new FormControl('', [Validators.required,Validators.pattern('[A-Za-z]*')]));
       this.requisitionForm[action]('mobileNo' + i, new FormControl('', [Validators.required,Validators.pattern('[0-9]{10}')]));
-      this.requisitionForm[action]('gender' + i, new FormControl('', [Validators.required,Validators.pattern('[A-Za-z]*')]));
+      this.requisitionForm[action]('gender' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('personAddrLine1' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('personAddrLine2' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('personCity' + i, new FormControl('', [Validators.required,Validators.pattern('[A-Za-z]*')]));
@@ -186,16 +193,16 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
     this.subscription.unsubscribe();
   }
 
-  getFinancialPurpose(purposeId)
+  getFinancialPurpose(purposeIdObj)
   {
-    this._consumerPurposeList.getConsumerFinancialPurposeList(purposeId).subscribe((consumerPurpose) => {
+    this._consumerPurposeList.getConsumerFinancialPurposeList(purposeIdObj.purposeId).subscribe((financialPurposeListResponse) => {
         debugger;
-        this.consumerPurposeList=consumerPurpose;
-        this.jsonResponse = JSON.stringify(consumerPurpose);
-        if(consumerPurpose!=null)
-            {
-            this.hasList=true;
-            }
+        this.consumerFinancialPurposeList = financialPurposeListResponse;
+       // this.jsonResponse = JSON.stringify(financialPurposeListResponse);
+        if(financialPurposeListResponse!=null)
+        {
+        this.hasList=true;
+        }
     });
   }
 }

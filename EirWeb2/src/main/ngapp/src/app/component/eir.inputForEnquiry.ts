@@ -45,7 +45,7 @@ export class InputForEnquiryComponent implements OnInit
     data = <any>{};
     value = <any>{};
     info= <any>{};
-    compList=<any>[];
+    company=<any>[];
     stateList=<any>[];
     addressTypeList=<any>[];
     cirPurposeList = <any>[];
@@ -64,7 +64,7 @@ export class InputForEnquiryComponent implements OnInit
         isBIRActive:'',
         isCIRActive:'',
         isComboActive:'',
-         bir: {companyName:'',cmpList:''},
+         bir: {companyName:'',company:''},
         cir: {companyName:'',productField:'',purpose:'',amt:'',accType1:'',clientRefNo:'',accType2:'',cmpPan:'',addrType:'',addrLinen1:'',
               addrline2:'',city:'',state:'',pinCode:'',telephoneNo:'',pan:'',cin:'',tin:'',emailId:'',triggers:''},
         consumerList: [ 
@@ -188,7 +188,7 @@ consumerData : any= [{relationType:'',accountType:'',firstName:'',middleName:'',
          
          this.birForm =fb.group(
          {
-          'compName'    :[null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z0-9&]*')])],          
+          'companyName'    :[null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z0-9&]*')])],          
           'cmplist'     :[null,  Validators.required]
         });
         this.cirForm2 =fb1.group(
@@ -216,7 +216,7 @@ consumerData : any= [{relationType:'',accountType:'',firstName:'',middleName:'',
 
     onChange(newValue) {
              console.log("Inside Onchange method........"+newValue);
-             this.commonArray.cir.companyName = newValue;
+             this.commonArray.cir.companyName = newValue.entityName;
              console.log("Inside Onchange method commonArray.bir.companyName........"+this.commonArray.cir.companyName);
     }
   
@@ -284,7 +284,7 @@ consumerData : any= [{relationType:'',accountType:'',firstName:'',middleName:'',
         console.log("commonArray.bir.companyName---------"+this.commonArray.bir.companyName)
             this._cmpname.validateName(this.commonArray.bir ).subscribe((temp) => {
             
-            this.compList=temp;
+            this.company=temp;
             //console.log("responce   -  - "+ temp);
             this.jsonResponse = JSON.stringify(temp);
             //console.log('json srijfkd -- '+this.jsonResponse);

@@ -18,13 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.eir.bir.request.model.CirPurpose;
+import com.eir.bir.request.model.Gender;
 import com.eir.bir.request.model.MultipleRequest;
 import com.eir.model.EligibleReport;
 import com.eir.report.constant.Constant;
 import com.eir.report.entity.AccountType;
 import com.eir.report.entity.Address;
 import com.eir.report.entity.AddressType;
-import com.eir.report.entity.CirPurpose;
 import com.eir.report.entity.ConsumerFinancialPurpose;
 import com.eir.report.entity.ConsumerPurpose;
 import com.eir.report.entity.RelationType;
@@ -110,7 +111,7 @@ public class EirController {
 	
 	@RequestMapping(value="/getCirPurposeList", method = RequestMethod.GET)
 	public @ResponseBody List<CirPurpose> getCirPurposeList(){
-		List<CirPurpose> cirPurposeList =new ArrayList<CirPurpose>();
+		List<com.eir.bir.request.model.CirPurpose> cirPurposeList =new ArrayList<com.eir.bir.request.model.CirPurpose>();
 		logger.debug("EirController - getCirPurposeList(): Start");
 		
 		cirPurposeList = eirService.getCirPurposeList();
@@ -186,7 +187,7 @@ public class EirController {
 		request.getSession().setAttribute("userId", "EIR");
 		System.out.println("session id - : "+request.getSession().getAttribute("userId"));
 		System.out.println("session id - : "+request.getRequestedSessionId());
-		System.out.println("Inside getInfo method" + input.getBir().getCinNumber());
+		System.out.println("Inside getInfo method" + input.getBir().getCompany().getCinNumber());
 		
 		Request requestObj = eirService.createRequest(input , request);
 		
@@ -206,17 +207,23 @@ public class EirController {
 	}
 	
 	@RequestMapping(value="/getConsumerFinancialPurposeList", method = RequestMethod.GET)
-	public @ResponseBody List<ConsumerFinancialPurpose> getConsumerFinancialPurposeList(@RequestParam("purposeId") Integer purposeId){
+	public @ResponseBody List<com.eir.bir.request.model.ConsumerFinancialPurpose> getConsumerFinancialPurposeList(@RequestParam("purposeId") Integer purposeId){
 		logger.debug("EirController - getConsumerPurposeList(): Start");
 		
-		 List<ConsumerFinancialPurpose> consumerFinancialPurposeList = eirService.findConsumerFinancialPurposeByPurposeId(purposeId);
+		 List<com.eir.bir.request.model.ConsumerFinancialPurpose> consumerFinancialPurposeList = eirService.findConsumerFinancialPurposeByPurposeId(purposeId);
 		 
 		return consumerFinancialPurposeList;		
 	}
 	
 	@RequestMapping(value="/saveProductSelection", method = RequestMethod.POST,produces="application/json")
-	public void getRequest(@RequestBody EligibleReport selection )
+	public Boolean saveProductSelection(@RequestBody EligibleReport selection )
 	{
-		eirService.saveSelectedProduct(selection);
+		return eirService.saveSelectedProduct(selection);
+	}
+	
+	@RequestMapping(value="/getGender", method = RequestMethod.GET,produces="application/json")
+	public @ResponseBody List<Gender> getRequest()
+	{
+		return eirService.getGender();
 	}
 }

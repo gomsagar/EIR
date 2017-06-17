@@ -22,7 +22,7 @@ public class Consumer {
 	String mobileNo;
 	/*Date birthDate;*/
 	String maritalStatus;
-	Integer gender;
+	Gender gender;
 	String personAddrLine1;
 	String personAddrLine2;
 	String personCity;
@@ -152,10 +152,10 @@ public String getErnNumber() {
 	public void setMaritalStatus(String maritalStatus) {
 		this.maritalStatus = maritalStatus;
 	}
-	public Integer getGender() {
+	public Gender getGender() {
 		return gender;
 	}
-	public void setGender(Integer gender) {
+	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
 	public String getPersonAddrLine1() {

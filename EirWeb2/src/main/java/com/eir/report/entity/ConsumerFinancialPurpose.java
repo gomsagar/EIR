@@ -32,31 +32,31 @@ public class ConsumerFinancialPurpose {
 	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="financial_purpose_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="financial_purpose_seq")
 	@SequenceGenerator(
 		name="financial_purpose_seq",
 		sequenceName="financial_purpose_sequence",
 		allocationSize=1
 	)
-	String financialPurposeId;
+	Integer financialPurposeId;
 
 	
 	@Column(name = "purpose_id", nullable = false)
-	String purposeId;
+	Integer purposeId;
 	
 	@Column(name = "description", length = 45)
 	String description;
 	
-	public String getFinancialPurposeId() {
+	public Integer getFinancialPurposeId() {
 		return financialPurposeId;
 	}
-	public void setFinancialPurposeId(String financialPurposeId) {
+	public void setFinancialPurposeId(Integer financialPurposeId) {
 		this.financialPurposeId = financialPurposeId;
 	}
-	public String getPurposeId() {
+	public Integer getPurposeId() {
 		return purposeId;
 	}
-	public void setPurposeId(String purposeId) {
+	public void setPurposeId(Integer purposeId) {
 		this.purposeId = purposeId;
 	}
 	

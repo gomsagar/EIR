@@ -44,7 +44,7 @@ public class Address implements Serializable {
 	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="addr_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="addr_seq")
 	@SequenceGenerator(
 		name="addr_seq",
 		sequenceName="address_sequence",

@@ -35,7 +35,7 @@ public class Status {
 	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="status_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="status_seq")
 	@SequenceGenerator(
 		name="status_seq",
 		sequenceName="status_sequence",
@@ -50,38 +50,7 @@ public class Status {
 	@XmlElement
 	String statusDescription;
 	
-	@Column(name = "create_user_id", length = 45)
 	
-
-	@CreatedBy
-	String createUserId;
-	/**
-	 */
-	//@OneToMany(mappedBy = "status", cascade = { CascadeType.REMOVE }, fetch = FetchType.LAZY)
-	//@Temporal(TemporalType.DATE)
-	@Column(name = "create_date")
-	
-
-	@CreatedDate
-	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-	DateTime createUserDate ;
-	/**
-	 */
-
-	@Column(name = "update_user_id", length = 45)
-	
-
-	@LastModifiedBy
-	String updateUserId;
-	/**
-	 */
-	//@Temporal(TemporalType.DATE)
-	@Column(name = "update_date")
-	
-
-	@LastModifiedDate
-	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-	DateTime updateUserDate ;
 
 	public Integer getStatusId() {
 		return statusId;
@@ -98,37 +67,5 @@ public class Status {
 	public void setStatusDescription(String statusDescription) {
 		this.statusDescription = statusDescription;
 	}
-
-	public String getCreateUserId() {
-		return createUserId;
-	}
-
-	public void setCreateUserId(String createUserId) {
-		this.createUserId = createUserId;
-	}
-
-	public String getUpdateUserId() {
-		return updateUserId;
-	}
-
-	public void setUpdateUserId(String updateUserId) {
-		this.updateUserId = updateUserId;
-	}
-
-	public DateTime getCreateUserDate() {
-		return createUserDate;
-	}
-
-	public void setCreateUserDate(DateTime createUserDate) {
-		this.createUserDate = createUserDate;
-	}
-
-	public DateTime getUpdateUserDate() {
-		return updateUserDate;
-	}
-
-	public void setUpdateUserDate(DateTime updateUserDate) {
-		this.updateUserDate = updateUserDate;
-	}	
 
 }

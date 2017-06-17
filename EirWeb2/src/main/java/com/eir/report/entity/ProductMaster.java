@@ -48,7 +48,7 @@ public class ProductMaster implements Serializable {
 	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="prodMaster_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="prodMaster_seq")
 	@SequenceGenerator(
 		name="prodMaster_seq",
 		sequenceName="productMaster_sequence",

@@ -36,7 +36,7 @@ public class ReportSelection {
 	
 	@Column(name = "request_id", nullable = false)
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="reportSel_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="reportSel_seq")
 	@SequenceGenerator(
 		name="reportSel_seq",
 		sequenceName="reportSelection_sequence",

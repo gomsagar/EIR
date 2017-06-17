@@ -48,7 +48,7 @@ public class CirRequest implements Serializable {
 	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="cir_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="cir_seq")
 	@SequenceGenerator(
 		name="cir_seq",
 		sequenceName="cir_sequence",
@@ -87,7 +87,7 @@ public class CirRequest implements Serializable {
 	/**
 	 */
 
-	@Column(name = "product_field", length = 45)
+	@Column(name = "product_field_id", length = 45)
 	String productField;
 	
 	
@@ -172,10 +172,7 @@ public class CirRequest implements Serializable {
 	String telephoneNo;
 	/**
 	 */
-	@Column(name = "pan", length = 45)
-	String pan;
-	/**
-	 */
+	
 	@Column(name = "cin", length = 45)
 	String cin;
 	/**
@@ -188,14 +185,8 @@ public class CirRequest implements Serializable {
 	String emailId;
 	/**
 	 */
-	@Column(name = "triggers", length = 45)
-	String triggers;
-	/**
-	 */
-
-	@Column(name = "create_user_id", length = 45)
 	
-
+	@Column(name = "create_user_id", length = 45)
 	@CreatedBy
 	String createUserId;
 	/**
@@ -528,14 +519,6 @@ public class CirRequest implements Serializable {
 		this.telephoneNo = telephoneNo;
 	}
 
-	public String getPan() {
-		return pan;
-	}
-
-	public void setPan(String pan) {
-		this.pan = pan;
-	}
-
 	public String getCin() {
 		return cin;
 	}
@@ -558,14 +541,6 @@ public class CirRequest implements Serializable {
 
 	public void setEmailId(String emailId) {
 		this.emailId = emailId;
-	}
-
-	public String getTriggers() {
-		return triggers;
-	}
-
-	public void setTriggers(String triggers) {
-		this.triggers = triggers;
 	}
 
 	public static long getSerialversionuid() {

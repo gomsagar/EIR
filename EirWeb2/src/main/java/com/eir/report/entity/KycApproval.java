@@ -48,10 +48,10 @@ public class KycApproval implements Serializable {
 	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="request_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="request_seq")
 	@SequenceGenerator(
 		name="request_seq",
-		sequenceName="request_sequence",
+		sequenceName="kyc_sequence",
 		allocationSize=1
 	)
 	@XmlElement

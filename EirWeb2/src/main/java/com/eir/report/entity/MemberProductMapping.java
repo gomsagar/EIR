@@ -54,7 +54,7 @@ public class MemberProductMapping implements Serializable {
 	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="memberProdMap_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="memberProdMap_seq")
 	@SequenceGenerator(
 		name="memberProdMap_seq",
 		sequenceName="MemberProductMapping_sequence",

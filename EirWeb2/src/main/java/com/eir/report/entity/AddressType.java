@@ -35,7 +35,7 @@ public class AddressType {
 	@Column(name = "address_type_id", nullable = false)
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="addrType_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="addrType_seq")
 	@SequenceGenerator(
 		name="addrType_seq",
 		sequenceName="addressType_sequence",

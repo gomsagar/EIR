@@ -31,7 +31,7 @@ public class ConsumerPurpose {
 	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="purpose_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="purpose_seq")
 	@SequenceGenerator(
 		name="purpose_seq",
 		sequenceName="purpose_sequence",

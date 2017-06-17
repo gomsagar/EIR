@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
+import com.eir.bir.request.model.Company;
 import com.eir.model.EIRDataConstant;
 import com.eir.model.EligibleReport;
 import com.eir.model.bir.CompanyReportType;
@@ -44,6 +45,7 @@ import com.eir.report.entity.ProductMaster;
 import com.eir.report.entity.ReportSelection;
 import com.eir.report.entity.Request;
 import com.eir.report.entity.Response;
+import com.eir.report.entity.Status;
 import com.eir.report.repository.AddressRepository;
 import com.eir.report.repository.BirRequestRepository;
 import com.eir.report.repository.MemberProductMappingRepository;
@@ -209,7 +211,11 @@ public class BirReportServiceImpl implements BirReportService {
 			}
 			else 
 			{
-				access_token = EntityUtils.toString(entity, "UTF-8");
+				String respoceobj = EntityUtils.toString(entity, "UTF-8");
+				
+				JSONObject json = new JSONObject(respoceobj);
+				access_token = (String) json.get("AccessToken");
+				
 				if (access_token.contains("Invalid")) 
 				{
 					logger.debug("BirReportServiceImpl: getAccessToken() accesstoken received is empty");
@@ -224,41 +230,45 @@ public class BirReportServiceImpl implements BirReportService {
 	}
 
 	@Override
-	public List<Response> companySearch(String companyName) {
+	public List<Company> companySearch(String companyName) {
 		
 		logger.debug("BirReportServiceImpl companySearch()");
-
-		// one more parameter will come here from jsp which is company name.
-		String cinNew = null;
-		JSONArray array = new JSONArray();
-		CompanyList list = null;
-		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
-		params.add(new BasicNameValuePair("AccessToken", getAccessToken())); // added post parameters in url
-																				
-		params.add(new BasicNameValuePair("Name", companyName));
-		params.add(new BasicNameValuePair("StrictSearch", strictSearch));
-
-		String respoceobj = callZaubaApplication(companySearchURL, params);
-
-		JSONObject json = new JSONObject(respoceobj);
-
-		ObjectMapper mapper = new ObjectMapper();
-
 		try {
+			// one more parameter will come here from jsp which is company name.
+			CompanyList list = null;
+			List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
+			params.add(new BasicNameValuePair("AccessToken", getAccessToken())); // added post parameters in url
+			params.add(new BasicNameValuePair("Name", companyName));
+			params.add(new BasicNameValuePair("StrictSearch", strictSearch));
+	
+			String respoceobj = callZaubaApplication(companySearchURL, params);
+			JSONObject json = new JSONObject(respoceobj);
+			logger.debug("BirReportServiceImpl companySearch() response json " + json.toString());
+			System.out.println(json);
+			ObjectMapper mapper = new ObjectMapper();
 			list = mapper.readValue(respoceobj, CompanyList.class);
-			// list =
-			// mapper.readValue(respoceobj,TypeFactory.defaultInstance().constructCollectionType(List.class,
-			// BIRZaubaRequest.class));
-
+			return companyMapper(list.getResponse());
 		} catch (IOException e) {
-			logger.info(e.getMessage());
-			e.printStackTrace();
+			logger.error("BirReportServiceImpl companySearch() error -" +  e);
 		}
-
-		logger.debug(json.toString());
-		System.out.println(json);
-
-		return list.getResponse();
+		return null;
+	}
+	
+	private List<Company> companyMapper(List<Response> companyResponselist)
+	{
+		if(companyResponselist != null && !companyResponselist.isEmpty())
+		{
+			List<Company> companies = new ArrayList<>();
+			for(Response response: companyResponselist)
+			{
+				Company company = new Company();
+				company.setCinNumber(response.getCin());
+				company.setEntityName(response.getName());
+				companies.add(company); 
+			}
+			return companies;
+		}
+		return null;
 	}
 
 	@Override
@@ -471,8 +481,8 @@ public class BirReportServiceImpl implements BirReportService {
 		
 		birReq.setRequest(request);
 		birReq.setCompanyName(birInputRequest.getCompanyName());
-		birReq.setEntityName(birInputRequest.getEntityName());
-		birReq.setCinNumber(birInputRequest.getCinNumber());
+		birReq.setEntityName(birInputRequest.getCompany().getEntityName());
+		birReq.setCinNumber(birInputRequest.getCompany().getCinNumber());
 		//birReq.setStatus(GetStatus.getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.toString()));
 		
 		String reportToken = reportRequest(birReq.getCinNumber());
@@ -481,10 +491,18 @@ public class BirReportServiceImpl implements BirReportService {
 		if (reportToken != null && !reportToken.isEmpty()) 
 		{
 			birReq.setReportToken(reportToken);
-			birReq.setStatus(GetStatus.getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.toString()));
+			birReq.setStatus(getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.toString()));
 			birReqRepository.save(birReq);
 			logger.debug("BirReportServiceImpl createBIRrequestsaved() BirRequest saved to db Id: " + birReq.getBirRequestId());
 		} 
 		return birReq;
+	}
+	public Status getStatusByDescription(String statusDesc)
+	{
+		if(statusDesc != null && !statusDesc.isEmpty())
+		{
+			return statusRepository.findBystatusDescription(statusDesc);	
+		}
+		return null;
 	}
 }

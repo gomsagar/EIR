@@ -49,7 +49,7 @@ public class ConsumerRequest implements Serializable {
 	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="consumer_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="consumer_seq")
 	@SequenceGenerator(
 		name="consumer_seq",
 		sequenceName="consumerReq_seq",

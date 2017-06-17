@@ -32,7 +32,7 @@ public class CirPurpose {
 	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="cirPurpose_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="cirPurpose_seq")
 	@SequenceGenerator(
 		name="cirPurpose_seq",
 		sequenceName="cirPurpose_sequence",

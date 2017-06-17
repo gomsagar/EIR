@@ -30,8 +30,11 @@
 
 					</div>
 					<div class="form-group  col-md-4" [ngClass]="{'has-error':(!birForm.controls['cmplist'].valid && birForm.controls['cmplist'].touched)||(!birForm.controls['cmplist'].valid && submitted)}">
-					<label for="exampleInputEmail2">Company List</label> <select class="form-control" [formControl]="birForm.controls['cmplist']"
-						 name="cmpList" [(ngModel)]="commonArray.bir.cmpList" (ngModelChange)="onChange($event)">										  <option>--SELECT--</option>											<option *ngFor="let comp of compList">{{comp.Name}}</option> 	 
+					<label for="exampleInputEmail2">Company List</label> 
+						<select class="form-control" [formControl]="birForm.controls['cmplist']"
+						 name="company" [(ngModel)]="commonArray.bir.company" (ngModelChange)="onChange($event)">										  
+						 <option>--SELECT--</option>											
+						 <option *ngFor="let comp of company" [ngValue]="comp">{{comp.entityName}}</option> 	 
 								</select>
 						<div *ngIf="(birForm.controls['cmplist'].hasError('required') && birForm.controls['cmplist'].touched)||(birForm.controls['cmplist'].hasError('required') && submitted)"
 						 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must select Product.</div>

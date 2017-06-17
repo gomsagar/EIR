@@ -31,7 +31,7 @@ public class RelationType {
 	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="relationType_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="relationType_seq")
 	@SequenceGenerator(
 		name="relationType_seq",
 		sequenceName="relationType_sequence",

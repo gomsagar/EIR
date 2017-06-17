@@ -18,7 +18,7 @@ public class GetStatus {
 	@Autowired
 	static StatusRepository statusRepository;
 	
-	public static Status getStatusByDescription(String statusDesc)
+	public Status getStatusByDescription(String statusDesc)
 	{
 		if(statusDesc != null && !statusDesc.isEmpty())
 		{

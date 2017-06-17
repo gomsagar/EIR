@@ -31,7 +31,7 @@ public class AccountType {
 	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="accntType_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="accntType_seq")
 	@SequenceGenerator(
 		name="accntType_seq",
 		sequenceName="accntType_sequence",

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.eir.bir.request.model.Gender;
 import com.eir.bir.request.model.MultipleRequest;
 import com.eir.model.EligibleReport;
 import com.eir.report.entity.AccountType;
@@ -42,7 +43,7 @@ public interface EirService {
 
 	UserDetails getUserById(Integer userId);
 	
-	List<CirPurpose> getCirPurposeList();
+	List<com.eir.bir.request.model.CirPurpose> getCirPurposeList();
 
 	List<AccountType> getAccountTypeList();
 
@@ -54,7 +55,9 @@ public interface EirService {
 
 	//void createCIRAndConsumersRequest(MultipleRequest input, Request reqEntity);
 	
-	List<ConsumerFinancialPurpose> findConsumerFinancialPurposeByPurposeId(Integer purposeId);
+	List<com.eir.bir.request.model.ConsumerFinancialPurpose> findConsumerFinancialPurposeByPurposeId(Integer purposeId);
 
-	void saveSelectedProduct(EligibleReport selection);
+	boolean saveSelectedProduct(EligibleReport selection);
+	
+	List<Gender> getGender();
 }

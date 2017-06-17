@@ -24,4 +24,11 @@ export class ConsumerPurposeList {
          
         return this._http.get('http://localhost:8080/EirWeb2/eir/getConsumerFinancialPurposeList?purposeId=' + purposeId).map(res=>res.json());
     }
+
+    getGender() {
+        var headr = new Headers();
+        headr.append('Content-Type', 'application/json');
+        return this._http.get('http://localhost:8080/EirWeb2/eir/getGender').map(res=>res.json());
+    }
+
 }

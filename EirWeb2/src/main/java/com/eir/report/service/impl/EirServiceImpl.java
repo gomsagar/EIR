@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.eir.bir.request.model.Consumer;
+import com.eir.bir.request.model.Gender;
 import com.eir.bir.request.model.MultipleRequest;
 import com.eir.model.EIRDataConstant;
 import com.eir.model.EligibleReport;
@@ -55,6 +56,7 @@ import com.eir.report.repository.ConsumerFinancialPurposeRepository;
 import com.eir.report.repository.ConsumerPurposeRepository;
 import com.eir.report.repository.ConsumerRequetRepository;
 import com.eir.report.repository.EntityDetailsRepository;
+import com.eir.report.repository.GenderRepository;
 import com.eir.report.repository.ProductMasterRepository;
 import com.eir.report.repository.RelationTypeRepository;
 import com.eir.report.repository.ReportSelectionRepository;
@@ -139,6 +141,8 @@ public class EirServiceImpl implements EirService{
 	@Autowired
 	ReportSelectionRepository reportSelectionRepository;
 	
+	@Autowired
+	GenderRepository genderRepository; 
 	
 	@Override
 	public List<BirRequest> retrieveRequest() {
@@ -251,7 +255,7 @@ public class EirServiceImpl implements EirService{
 		CirRequest cirRequestEntity = new CirRequest();		
 				
 		cirRequestEntity.setRequest(request);
-		cirRequestEntity.setStatus(GetStatus.getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.toString()));
+		cirRequestEntity.setStatus(getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.toString()));
 		
 		cirRequestEntity.setProductField(cirRequest.getProductField().getReportTypeId());
 		cirRequestEntity.setPurposeId(cirRequest.getPurpose().getCirPurposeId());
@@ -259,11 +263,11 @@ public class EirServiceImpl implements EirService{
 		cirRequestEntity.setAddressId(createAddress(cirRequest));
 		
 		cirRequestEntity.setTelephoneNo(cirRequest.getTelephoneNo());
-		cirRequestEntity.setPan(cirRequest.getPan());
+		//cirRequestEntity.setPan(cirRequest.getPan());
 		cirRequestEntity.setCin(cirRequest.getCin());
 		cirRequestEntity.setTin(cirRequest.getTin());
 		cirRequestEntity.setEmailId(cirRequest.getEmailId());
-		cirRequestEntity.setTriggers(cirRequest.getTriggers());
+		//cirRequestEntity.setTriggers(cirRequest.getTriggers());
 		
 		cirReqRepository.save(cirRequestEntity);
 		return cirRequestEntity;
@@ -284,7 +288,7 @@ public class EirServiceImpl implements EirService{
 				consumerEntity.setCirRequest(cirRequestEntity);
 				//consumerEntity.setErnNumber(consumerInput.getErnNumber());
 				consumerEntity.setScore(consumerInput.getScore());
-				consumerEntity.setStatusId(GetStatus.getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.toString()));
+				consumerEntity.setStatusId(getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.toString()));
 				consumerEntity.setRelationType(consumerInput.getRelationType().getRelationTypeId());
 				//consumerEntity.setAccountType(consumerInput.getAccountType().getAccntTypeId());
 				consumerEntity.setFirstName(consumerInput.getFirstName());
@@ -301,7 +305,7 @@ public class EirServiceImpl implements EirService{
 				consumerEntity.setMobileNo(consumerInput.getMobileNo());
 				//consumerEntity.setBirthDate(consumerInput.getBirthDate());
 				consumerEntity.setMaritalStatus(consumerInput.getMaritalStatus());
-				consumerEntity.setGender(consumerInput.getGender());
+				consumerEntity.setGender(consumerInput.getGender().getId());
 				
 				consumerEntity.setAddressId(createAddressForConsumerList(consumerInput));
 								
@@ -333,7 +337,7 @@ public class EirServiceImpl implements EirService{
 		reqEntity.setUserDetails(getUserDetails(Constant.HARDCOADED_USERID));
 		reqEntity.setUserHit(1);//TODO temporarily harcode values saved
 		reqEntity.setEntityDetails(getEntityObject(input,request));
-		reqEntity.setStatus(GetStatus.getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.toString()));
+		reqEntity.setStatus(getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.toString()));
 		reqEntity.setAdminHit(1);//TODO save according to admin hit
 		reqEntity.setType(Constant.SPECIFIED);//TODO change according to FE flag
 		
@@ -399,9 +403,9 @@ public class EirServiceImpl implements EirService{
 	private EntityDetails getEntityObject(MultipleRequest input, HttpServletRequest request) 
 	{
 		 EntityDetails getEntity = null;
-			if(input.getBir() != null && input.getBir().getCinNumber() != null && !input.getBir().getCinNumber().isEmpty())  
+			if(input.getBir() != null && input.getBir().getCompany().getCinNumber() != null && !input.getBir().getCompany().getCinNumber().isEmpty())  
 			{
-				getEntity = entityDetailsRepository.findByEntityCin(input.getBir().getCinNumber());
+				getEntity = entityDetailsRepository.findByEntityCin(input.getBir().getCompany().getCinNumber());
 				if(getEntity == null)
 				{
 					getEntity =  createEntityDetails(input.getBir());
@@ -414,14 +418,14 @@ public class EirServiceImpl implements EirService{
 	private EntityDetails createEntityDetails(com.eir.bir.request.model.BirRequest birInput) 
 	{
 		EntityDetails entityObj = new EntityDetails();
-		entityObj.setEntityName(birInput.getEntityName());
-		entityObj.setEntityCin(birInput.getCinNumber());
+		entityObj.setEntityName(birInput.getCompany().getEntityName());
+		entityObj.setEntityCin(birInput.getCompany().getCinNumber());
 		return entityDetailsRepository.save(entityObj);
 	}
 
 	@Override
-	public List<CirPurpose> getCirPurposeList() {
-		return cirPurposeRepository.findAll();
+	public List<com.eir.bir.request.model.CirPurpose> getCirPurposeList() {
+		return cirPurposeMapper(cirPurposeRepository.findAll());
 	}
 
 	@Override
@@ -450,8 +454,9 @@ public class EirServiceImpl implements EirService{
 	}
 	
 	@Override
-	public List<ConsumerFinancialPurpose> findConsumerFinancialPurposeByPurposeId(Integer purposeId) {
-		return consumerFinancialPurposeRepository.findBypurposeId(purposeId);
+	public List<com.eir.bir.request.model.ConsumerFinancialPurpose> findConsumerFinancialPurposeByPurposeId(Integer purposeId) 
+	{
+		return consumerFinancialPurposeMapper(consumerFinancialPurposeRepository.findBypurposeId(purposeId));
 	}
 	
 	@Override
@@ -583,13 +588,13 @@ public class EirServiceImpl implements EirService{
 	}
 
 	@Override
-	public void saveSelectedProduct(EligibleReport selection) 
+	public boolean saveSelectedProduct(EligibleReport selection) 
 	{
 		Request reqEntity = new Request();
 		reqEntity.setUserDetails(getUserDetails(Constant.HARDCOADED_USERID));
 		reqEntity.setUserHit(1);//TODO temporarily harcode values saved
 		//reqEntity.setEntityDetails(getEntityObject(input,request));
-		reqEntity.setStatus(GetStatus.getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.toString()));
+		reqEntity.setStatus(getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.toString()));
 		reqEntity.setAdminHit(1);//TODO save according to admin hit
 		reqEntity.setType(Constant.SPECIFIED);//TODO change according to FE flag
 		
@@ -670,6 +675,71 @@ public class EirServiceImpl implements EirService{
 			}
 			
 			reportSelectionRepository.save(addintoList);
+			return true;
 	}
+	
+	public Status getStatusByDescription(String statusDesc)
+	{
+		if(statusDesc != null && !statusDesc.isEmpty())
+		{
+			return statusRepository.findBystatusDescription(statusDesc);	
+		}
+		return null;
+	}
+	
+	private List<com.eir.bir.request.model.CirPurpose> cirPurposeMapper(List<CirPurpose> cirPurposeEntityList)
+	{
+		if(cirPurposeEntityList != null && !cirPurposeEntityList.isEmpty())
+		{
+			List<com.eir.bir.request.model.CirPurpose> cirPurposeList = new ArrayList<>();
+			for(CirPurpose entity: cirPurposeEntityList)
+			{
+				com.eir.bir.request.model.CirPurpose cirPurposeResponseObj = new com.eir.bir.request.model.CirPurpose();
+				cirPurposeResponseObj.setCirPurposeId(entity.getCirPurposeId());
+				cirPurposeResponseObj.setCirPurposeDescription(entity.getCirPurposeDescription());
+				cirPurposeList.add(cirPurposeResponseObj);
+			}
+			return cirPurposeList;
+		}
+		return null;
+	}
+	
+	private List<com.eir.bir.request.model.ConsumerFinancialPurpose> consumerFinancialPurposeMapper(List<ConsumerFinancialPurpose> consumerFinancialPurposeEntityList)
+	{
+		if(consumerFinancialPurposeEntityList != null && !consumerFinancialPurposeEntityList.isEmpty())
+		{
+			List<com.eir.bir.request.model.ConsumerFinancialPurpose> consumerFinancialPurposeList = new ArrayList<>();
+			for(ConsumerFinancialPurpose entity: consumerFinancialPurposeEntityList)
+			{
+				com.eir.bir.request.model.ConsumerFinancialPurpose consumerFinancialPurpose = new com.eir.bir.request.model.ConsumerFinancialPurpose();
+				consumerFinancialPurpose.setFinancialPurposeId(entity.getFinancialPurposeId());
+				consumerFinancialPurpose.setPurposeId(entity.getPurposeId());
+				consumerFinancialPurpose.setFinancialDescription(entity.getDescription());
+				consumerFinancialPurposeList.add(consumerFinancialPurpose);
+			}
+			return consumerFinancialPurposeList;
+		}
+		return null;
+	}
+
+	@Override
+	public List<Gender> getGender() 
+	{
+		List<com.eir.report.entity.Gender> genderList = genderRepository.findAll();
+		if(genderList != null && !genderList.isEmpty())
+		{
+			List<Gender> genderModelList = new ArrayList<>();
+			for(com.eir.report.entity.Gender entity: genderList)
+			{
+				Gender gender = new Gender();
+				gender.setId(entity.getId());
+				gender.setDescription(entity.getDescription());
+				genderModelList.add(gender);
+			}
+			return genderModelList;
+		}
+		return null;
+	}
+	
 	
 }

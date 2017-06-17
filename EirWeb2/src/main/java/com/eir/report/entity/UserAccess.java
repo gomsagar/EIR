@@ -48,7 +48,7 @@ public class UserAccess implements Serializable {
 	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="user_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="user_seq")
 	@SequenceGenerator(
 		name="user_seq",
 		sequenceName="userId_sequence",

@@ -32,11 +32,10 @@ import com.eir.report.nextgen.service.model.consumer.UserPref;
 import com.eir.report.nextgen.service.model.product.BusAddr;
 import com.eir.report.nextgen.service.model.product.GetBusinessProductRequest;
 import com.eir.report.nextgen.service.model.product.ObjectFactory;
-import com.eir.report.repository.CirPurposeRepository;
 import com.eir.report.repository.CirRequestRepository;
 import com.eir.report.repository.ConsumerRequetRepository;
+import com.eir.report.repository.StatusRepository;
 import com.eir.report.service.NextGenWebService;
-import com.eir.report.util.GetStatus;
 
 @Service
 public class NextGenWebServiceImpl implements NextGenWebService{
@@ -55,6 +54,9 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 	
 	@Autowired
 	ConsumerRequetRepository consumerRequetRepository; 
+	
+	@Autowired
+	StatusRepository statusRepository;
 	
 	@Override
 	public void getCIRReport()
@@ -350,7 +352,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 			String cirRequestXML = getCIRRequestXML(cirRequest);
 			NextGenResponseWrapper nextGenResponseWrapper = experianHttDirectClient.getNextgenReport(cirRequestXML);
 			
-			Status cirReqStatus = GetStatus.getStatusByDescription(com.eir.report.constant.Status.ERROR.toString());
+			Status cirReqStatus = getStatusByDescription(com.eir.report.constant.Status.ERROR.toString());
 			
 			if(nextGenResponseWrapper != null)
 			{
@@ -361,7 +363,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 					
 					if(!isFailed)
 					{
-						cirReqStatus = GetStatus.getStatusByDescription(com.eir.report.constant.Status.COMPLETED.toString());
+						cirReqStatus = getStatusByDescription(com.eir.report.constant.Status.COMPLETED.toString());
 					}
 					
 				}
@@ -390,8 +392,8 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		{
 			if(consumerEntityRequestList != null && !consumerEntityRequestList.isEmpty())
 			{
-				Status consumerReqStatusSuccess = GetStatus.getStatusByDescription(com.eir.report.constant.Status.COMPLETED.toString());
-				Status consumerReqStatusFailure = GetStatus.getStatusByDescription(com.eir.report.constant.Status.ERROR.toString());
+				Status consumerReqStatusSuccess = getStatusByDescription(com.eir.report.constant.Status.COMPLETED.toString());
+				Status consumerReqStatusFailure = getStatusByDescription(com.eir.report.constant.Status.ERROR.toString());
 				
 				for(ConsumerRequest consumerEntityRequest: consumerEntityRequestList )
 				{
@@ -424,5 +426,13 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		} catch (Exception e) {
 			logger.error("NextGenWebServiceImpl:createCIRReport(), Nextgen service call fail: ", e);
 		}
+	}
+	public Status getStatusByDescription(String statusDesc)
+	{
+		if(statusDesc != null && !statusDesc.isEmpty())
+		{
+			return statusRepository.findBystatusDescription(statusDesc);	
+		}
+		return null;
 	}
 }

@@ -30,7 +30,7 @@ public class ReportType {
 	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="reportType_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="reportType_seq")
 	@SequenceGenerator(
 		name="reportType_seq",
 		sequenceName="reportType_sequence",

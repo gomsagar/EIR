@@ -47,7 +47,7 @@ public class EntityDetails implements Serializable {
 	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="entity_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="entity_seq")
 	@SequenceGenerator(
 		name="entity_seq",
 		sequenceName="entity_sequence",

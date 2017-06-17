@@ -36,7 +36,7 @@ public class State {
 	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="state_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="state_seq")
 	@SequenceGenerator(
 		name="state_seq",
 		sequenceName="state_sequence",

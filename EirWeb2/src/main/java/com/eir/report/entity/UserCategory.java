@@ -48,7 +48,7 @@ public class UserCategory implements Serializable {
 	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="userCat_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="userCat_seq")
 	@SequenceGenerator(
 		name="userCat_seq",
 		sequenceName="userCategory_sequence",

@@ -1,8 +1,5 @@
 package com.eir.report.constant;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.eir.report.repository.StatusRepository;
 
 public enum Status {
 

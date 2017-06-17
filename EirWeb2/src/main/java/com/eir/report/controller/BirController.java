@@ -20,6 +20,7 @@ import com.eir.model.EligibleReport;
 import com.eir.model.ResponseObject;
 import com.eir.report.entity.BIRCmpnySrchRequest;
 import com.eir.report.entity.BIRZaubaRequest;
+import com.eir.bir.request.model.Company;
 import com.eir.bir.request.model.MultipleRequest;
 import com.eir.report.entity.Response;
 import com.eir.report.service.BirReportService;
@@ -33,13 +34,13 @@ public class BirController {
 	Logger logger = LoggerFactory.getLogger(BirController.class);
 
 	@RequestMapping(value = "/getCompanyList", method = RequestMethod.POST)
-	public @ResponseBody List<Response> getCompanyList(@RequestBody BIRCmpnySrchRequest request) {
+	public @ResponseBody List<Company> getCompanyList(@RequestBody BIRCmpnySrchRequest request) {
 		logger.debug("ZaubaIntegrationController getCompanyList() ");
 		
 		String companyName=request.getCompanyName();
 				
 		System.out.println("Sending Company Search Request");
-		List<Response> listOfCompany = birService.companySearch(companyName);//Later on pass one more parameter as company name
+		List<Company> listOfCompany = birService.companySearch(companyName);//Later on pass one more parameter as company name
         		
 		logger.debug("ZaubaIntegrationController - :getCompanyList End");
 		return listOfCompany;

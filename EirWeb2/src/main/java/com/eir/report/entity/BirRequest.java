@@ -44,7 +44,7 @@ public class BirRequest implements Serializable {
 	
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="bir_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="bir_seq")
 	@SequenceGenerator(
 		name="bir_seq",
 		sequenceName="bir_sequence",

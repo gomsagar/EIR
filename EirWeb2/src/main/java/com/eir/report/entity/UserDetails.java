@@ -72,7 +72,7 @@ public class UserDetails implements Serializable {
 	/**
 	 */
 
-	@Column(name = "address")
+	@Column(name = "address_id")
 	
 
 	@XmlElement

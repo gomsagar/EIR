@@ -1,36 +1,24 @@
 package com.eir.bir.request.model;
 
 public class BirRequest {
-	
-	String entityName;
-	String cinNumber;
-	String companyName;
 
-	
-	
+	String companyName;
+	Company company;
+
 	public String getCompanyName() {
 		return companyName;
 	}
+
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
 	}
-	
-	@Override
-	public String toString() {
-		return "BirRequest [Name=" + entityName + ", cinNumber=" + cinNumber + ", companyName=" + companyName
-				+ "]";
+
+	public Company getCompany() {
+		return company;
 	}
-	public String getEntityName() {
-		return entityName;
+
+	public void setCompany(Company company) {
+		this.company = company;
 	}
-	public void setEntityName(String entityName) {
-		this.entityName = entityName;
-	}
-	public String getCinNumber() {
-		return cinNumber;
-	}
-	public void setCinNumber(String cinNumber) {
-		this.cinNumber = cinNumber;
-	}
-	
+
 }
