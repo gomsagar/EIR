@@ -187,7 +187,7 @@ public class EirServiceImpl implements EirService{
 			addrsEntity.setAddressLine1(cirReq.getAddrLine1());
 			addrsEntity.setAddressLine2(cirReq.getAddrLine2());
 			addrsEntity.setCity(cirReq.getCity());
-			addrsEntity.setState(cirReq.getState());
+			addrsEntity.setStateId(cirReq.getCirState().getStateId());
 			addrsEntity.setPincode(cirReq.getPinCode());
 			AddressType addressType = addressTypeRepository.findByAddressTypeId(cirReq.getAddrType().getAddressTypeId());
 			addrsEntity.setAddressType(addressType);
@@ -260,14 +260,12 @@ public class EirServiceImpl implements EirService{
 		cirRequestEntity.setProductField(cirRequest.getProductField().getReportTypeId());
 		cirRequestEntity.setPurposeId(cirRequest.getPurpose().getCirPurposeId());
 		cirRequestEntity.setCompanyPan(cirRequest.getCmpPan());
-		cirRequestEntity.setAddressId(createAddress(cirRequest));
+		cirRequestEntity.setAddress(createAddress(cirRequest));
 		
 		cirRequestEntity.setTelephoneNo(cirRequest.getTelephoneNo());
-		//cirRequestEntity.setPan(cirRequest.getPan());
 		cirRequestEntity.setCin(cirRequest.getCin());
 		cirRequestEntity.setTin(cirRequest.getTin());
 		cirRequestEntity.setEmailId(cirRequest.getEmailId());
-		//cirRequestEntity.setTriggers(cirRequest.getTriggers());
 		
 		cirReqRepository.save(cirRequestEntity);
 		return cirRequestEntity;
@@ -322,7 +320,7 @@ public class EirServiceImpl implements EirService{
 			addrsEntity.setAddressLine1(consumerReq.getPersonAddrLine1());
 			addrsEntity.setAddressLine2(consumerReq.getPersonAddrLine2());
 			addrsEntity.setCity(consumerReq.getPersonCity());
-			addrsEntity.setState(consumerReq.getPersonState());
+			addrsEntity.setStateId(consumerReq.getPersonState().getStateId());
 			addrsEntity.setPincode(consumerReq.getPersonPincode());
 			AddressType addressType = addressTypeRepository.findByAddressTypeId(consumerReq.getAddressType().getAddressTypeId());
 			addrsEntity.setAddressType(addressType);

@@ -131,9 +131,6 @@
 				<label for="exampleInputName2">Birth Date</label>
 				
 				<div  class="input-group">
-					<div  class="input-group-addon">
-						
-					</div>
 					<!--
 						<i  class="fa fa-calendar"></i>
 						<input  class="form-control"  id="date"   placeholder="MM/DD/YYYY"  type="text" 
@@ -155,12 +152,19 @@
 			</div>
 			</div>
 			<div class="row" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['personAddrLine1'+i].valid && requisitionForm.controls['personAddrLine1'+i].touched)||(!requisitionForm.controls['personAddrLine1'+i].valid && submitted))}">
-				<div class="form-group col-xs-6">
+				<div class="form-group col-md-4">
+							<label for="exampleInputName2">Address Type</label>
+								<select class="form-control"  name="addressType{{i}}" formControlName="addressType{{i}}" [(ngModel)]="consumerData[i].addressType">
+											<option>--Select--</option>
+										  <option *ngFor="let addressType of consumerAddrTypeList" [ngValue]="addressType">{{addressType.addressTypeDescription}}</option>
+										</select>
+						</div>
+				<div class="form-group col-xs-4">
 					<label for="exampleInputName2">Address 1</label> <input type="text" class="form-control" id="exampleInputName2" placeholder="Address 1"
 					 name="personAddrLine1{{i}}" formControlName="personAddrLine1{{i}}" [(ngModel)]="consumerData[i].personAddrLine1">
 					<control-messages [control]="requisitionForm.controls['personAddrLine1'+i]" [label]="'Person Addr Line1'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group col-xs-4">
 					<label for="exampleInputName2">Address 2</label> <input type="text" class="form-control" id="exampleInputName2" placeholder="Address 2"
 					 name="personAddrLine2{{i}}" formControlName="personAddrLine2{{i}}" [(ngModel)]="consumerData[i].personAddrLine2">
 					<control-messages [control]="requisitionForm.controls['personAddrLine2'+i]" [label]="'Person Addr Line2'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
@@ -173,13 +177,14 @@
 				<control-messages [control]="requisitionForm.controls['personCity'+i]" [label]="'City'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
 			</div>
 			<div class="form-group col-md-3" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['personState'+i].valid && requisitionForm.controls['personState'+i].touched)||(!requisitionForm.controls['personState'+i].valid && submitted))}">
-				<label for="exampleInputName2">State</label> <select class="form-control" name="personState{{i}}" formControlName="personState{{i}}"
-				 [(ngModel)]="consumerData[i].personState">
-											<control-messages [control]="requisitionForm.controls['personState'+i]" [label]="'State'"
-											style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
-											<option>--SELECT--</option>
-										<option *ngFor="let state of stateList">{{state.stateCodeDescription}}</option>
-										</select>
+				<label for="exampleInputName2">State</label>
+				<select class="form-control" name="personState{{i}}" formControlName="personState{{i}}" [(ngModel)]="consumerData[i].personState">	
+					<control-messages [control]="requisitionForm.controls['personState'+i]" [label]="'State'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">
+						
+					</control-messages>
+							<option>--SELECT--</option>
+							<option *ngFor="let state of stateList" [ngValue]="state">{{state.stateCodeDescription}}</option>
+				</select>
 			</div>
 			<div class="form-group col-md-3" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['personPinCode'+i].valid && requisitionForm.controls['personPinCode'+i].touched)||(!requisitionForm.controls['personPinCode'+i].valid && submitted))}">
 				<label for="exampleInputName2">PIN Code </label> <input type="text" class="form-control" id="exampleInputName2" placeholder="PIN Code"

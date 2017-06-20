@@ -8,6 +8,7 @@ import{AccountTyprList} from '../services/dropdown/eir.getAccntTypeList';
 import{RelationTypeList} from '../services/dropdown/eir.getRelationTypeList';
 import{ConsumerPurposeList} from '../services/dropdown/eir.getConsumerPurposeList';
 import{StateListService} from '../services/eir.stateList';
+import{AddressTypeList} from '../services/eir.getAddressTypeList';
 
 //import{ControlGroup} from '@angular/common';
 import{NewService} from '../services/eir.newService';
@@ -15,7 +16,7 @@ import { DatePickerOptions, DateModel } from 'ng2-datepicker';
 @Component({
   selector: 'consumerComponent',
   templateUrl: '../html/consumer.html',
-providers:[AppService,AccountTyprList,RelationTypeList,ConsumerPurposeList]
+providers:[AppService,AccountTyprList,RelationTypeList,ConsumerPurposeList,AddressTypeList]
 })
 
 export class ConsumerComponent implements OnDestroy, OnInit {
@@ -28,6 +29,7 @@ export class ConsumerComponent implements OnDestroy, OnInit {
 form:FormControl; 
 requisitionForm: FormGroup; 
 consumerPurposeList=<any>[];
+consumerAddrTypeList=<any>[];
 consumerFinancialPurposeList=<any>[];
 static iRow: number = 1;
 isConsumerValid : boolean = false;
@@ -39,11 +41,11 @@ genderList=<any>[];
   @Input() consumerData = [
     {relationType:'',accountType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
                 rationCard:'',passportNo:'',homeTelephoneNo:'',officeTelephoneNo:'',mobileNo:'',birthDate:'',maritalStatus:'',gender:'',
-                personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:'',amount:'',purpose:''} 
+               addressType :'' , personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:'',amount:'',purpose:''} 
  ];
 
  constructor(public fb1: FormBuilder, private _appService:AppService, private _newService:NewService, private _accntTypeList:AccountTyprList, private _relationTypeList:RelationTypeList,
-  private _consumerPurposeList:ConsumerPurposeList, private _stateListService:StateListService) {
+  private _consumerPurposeList:ConsumerPurposeList, private _stateListService:StateListService , private _consumerAddrTypeList:AddressTypeList) {
  /* this.subscription = _newService.missionAnnounced$.subscribe(
       mission => {
           console.log("AstronautComponent missionService.missionAnnounced$.subscribe ");
@@ -102,7 +104,6 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
             }
     });
     this._relationTypeList.getRelationTypeList().subscribe((relationType) => {
-        debugger;
         this.relationTypeList=relationType;
         this.jsonResponse = JSON.stringify(relationType);
         if(relationType!=null)
@@ -111,7 +112,6 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
             }
     });
     this._consumerPurposeList.getConsumerPurposeList().subscribe((consumerPurpose) => {
-        debugger;
         this.consumerPurposeList=consumerPurpose;
         this.jsonResponse = JSON.stringify(consumerPurpose);
         if(consumerPurpose!=null)
@@ -119,9 +119,16 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
             this.hasList=true;
             }
     });
+     this._consumerAddrTypeList.getAddressTypeList().subscribe((addressType) => {
+        this.consumerAddrTypeList=addressType;
+        this.jsonResponse = JSON.stringify(addressType);
+        if(addressType!=null)
+            {
+            this.hasList=true;
+            }
+    });
 
     this._consumerPurposeList.getGender().subscribe((genders) => {
-        debugger;
         this.genderList=genders;
     });
 
@@ -139,6 +146,7 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
       this.requisitionForm[action]('lastName' + i, new FormControl('', [Validators.required,Validators.pattern('[A-Za-z]*')]));
       this.requisitionForm[action]('mobileNo' + i, new FormControl('', [Validators.required,Validators.pattern('[0-9]{10}')]));
       this.requisitionForm[action]('gender' + i, new FormControl('', [Validators.required]));
+      this.requisitionForm[action]('addressType' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('personAddrLine1' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('personAddrLine2' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('personCity' + i, new FormControl('', [Validators.required,Validators.pattern('[A-Za-z]*')]));
@@ -150,7 +158,7 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
    this.consumerData.push({
      relationType:'',accountType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
                 rationCard:'',passportNo:'',homeTelephoneNo:'',officeTelephoneNo:'',mobileNo:'',birthDate:'',maritalStatus:'',gender:'',
-                personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:'',amount:'', purpose:''
+                addressType :'' , personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:'',amount:'', purpose:''
    })
    
     this.rowValidateForm(ConsumerComponent.iRow++, 'add');
@@ -196,7 +204,6 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
   getFinancialPurpose(purposeIdObj)
   {
     this._consumerPurposeList.getConsumerFinancialPurposeList(purposeIdObj.purposeId).subscribe((financialPurposeListResponse) => {
-        debugger;
         this.consumerFinancialPurposeList = financialPurposeListResponse;
        // this.jsonResponse = JSON.stringify(financialPurposeListResponse);
         if(financialPurposeListResponse!=null)

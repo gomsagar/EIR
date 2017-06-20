@@ -18,10 +18,9 @@ public class CirRequest {
 	String addrLine1;
 	String addrLine2;
 	String city;
-	String state;
+	State cirState;
 	String pinCode;
 	String telephoneNo;
-	String pan;
 	String cin;
 	String tin;
 	String emailId;
@@ -111,11 +110,11 @@ public class CirRequest {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	public String getState() {
-		return state;
+	public State getCirState() {
+		return cirState;
 	}
-	public void setState(String state) {
-		this.state = state;
+	public void setCirState(State cirState) {
+		this.cirState = cirState;
 	}
 	public String getPinCode() {
 		return pinCode;
@@ -128,12 +127,6 @@ public class CirRequest {
 	}
 	public void setTelephoneNo(String telephoneNo) {
 		this.telephoneNo = telephoneNo;
-	}
-	public String getPan() {
-		return pan;
-	}
-	public void setPan(String pan) {
-		this.pan = pan;
 	}
 	public String getCin() {
 		return cin;

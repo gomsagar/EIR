@@ -48,6 +48,7 @@ public class EirController {
 	
 	Logger logger = LoggerFactory.getLogger(EirController.class);
 
+	@CrossOrigin("*")
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
 	public String callDashboard(@RequestParam("userId") Integer userID, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
 		logger.debug("EirController - callDashboard: Start");
@@ -74,6 +75,7 @@ public class EirController {
 		return "ng/error.html";
 	}
 	
+	@CrossOrigin("*")
 	@RequestMapping(value = "/getRequest", method = RequestMethod.POST)
 	public @ResponseBody Request update() {
 		Request request = new Request();
@@ -85,6 +87,7 @@ public class EirController {
 		return request;
 	}
 	
+	@CrossOrigin("*")
 	@RequestMapping(value="/getStateList", method = RequestMethod.GET)
 	public @ResponseBody List<State> getStateList(){
 		
@@ -97,6 +100,7 @@ public class EirController {
 		return stateList;		
 	}
 	
+	@CrossOrigin("*")
 	@RequestMapping(value="/getAddressTypeList", method = RequestMethod.GET)
 	public @ResponseBody List<AddressType> getAddressTypeList(){
 		List<AddressType> addrsTypeList =new ArrayList<AddressType>();
@@ -109,6 +113,7 @@ public class EirController {
 		return addrsTypeList;		
 	}
 	
+	@CrossOrigin("*")
 	@RequestMapping(value="/getCirPurposeList", method = RequestMethod.GET)
 	public @ResponseBody List<CirPurpose> getCirPurposeList(){
 		List<com.eir.bir.request.model.CirPurpose> cirPurposeList =new ArrayList<com.eir.bir.request.model.CirPurpose>();
@@ -121,6 +126,7 @@ public class EirController {
 		return cirPurposeList;		
 	}
 	
+	@CrossOrigin("*")
 	@RequestMapping(value="/getAccountTypeList", method = RequestMethod.GET)
 	public @ResponseBody List<AccountType> getAccountTypeList(){
 		logger.debug("EirController - getAccountTypeList(): Start");
@@ -132,6 +138,7 @@ public class EirController {
 		return accntTypeList;		
 	}
 	
+	@CrossOrigin("*")
 	@RequestMapping(value="/getReportTypeList", method = RequestMethod.GET)
 	public @ResponseBody List<ReportType> getReportTypeList(){
 		logger.debug("EirController - getReportTypeList(): Start");
@@ -143,6 +150,7 @@ public class EirController {
 		return reportTypeList;		
 	}
 	
+	@CrossOrigin("*")
 	@RequestMapping(value="/getRelationTypeList", method = RequestMethod.GET)
 	public @ResponseBody List<RelationType> getRelationTypeList(){
 		logger.debug("EirController - getRelationTypeList(): Start");
@@ -154,6 +162,7 @@ public class EirController {
 		return relationTypeList;		
 	}
 	
+	@CrossOrigin("*")
 	@RequestMapping(value="/getConsumerPurposeList", method = RequestMethod.GET)
 	public @ResponseBody List<ConsumerPurpose> getConsumerPurposeList(){
 		logger.debug("EirController - getConsumerPurposeList(): Start");
@@ -168,12 +177,14 @@ public class EirController {
 	/**
 	 * Upload multiple file using Spring Controller
 	 */
+	@CrossOrigin("*")
 	@RequestMapping(value = "/uploadKYCDocuments", method = RequestMethod.POST)
 	public @ResponseBody void uploadKYCDocuments(HttpServletRequest request, HttpServletResponse response) 
 	{
 		eirService.uploadKYCDocuments(request,response);
 	}
 	
+	@CrossOrigin("*")
 	@RequestMapping(value = "/downloadKYCDocuments" , method = RequestMethod.GET)
 	public void downloadKYCDocuments(HttpServletRequest request , HttpServletResponse response)
 	{
@@ -187,25 +198,14 @@ public class EirController {
 		request.getSession().setAttribute("userId", "EIR");
 		System.out.println("session id - : "+request.getSession().getAttribute("userId"));
 		System.out.println("session id - : "+request.getRequestedSessionId());
-		System.out.println("Inside getInfo method" + input.getBir().getCompany().getCinNumber());
+		//System.out.println("Inside getInfo method" + input.getBir().getCompany().getCinNumber());
 		
 		Request requestObj = eirService.createRequest(input , request);
-		
-		/*input.setRequestObj(requestObj);
-		
-		if (input.getIsBIRActive()) 
-		{
-			birService.saveBIRRequestData(input , request);					
-		}
-		
-		if (input.getIsCIRActive() || input.getIsComboActive()) 
-		{
-			eirService.saveRequestedData(input , request);
-		}*/
-		
+				
 	   return "" ;
 	}
 	
+	@CrossOrigin("*")
 	@RequestMapping(value="/getConsumerFinancialPurposeList", method = RequestMethod.GET)
 	public @ResponseBody List<com.eir.bir.request.model.ConsumerFinancialPurpose> getConsumerFinancialPurposeList(@RequestParam("purposeId") Integer purposeId){
 		logger.debug("EirController - getConsumerPurposeList(): Start");
@@ -215,12 +215,14 @@ public class EirController {
 		return consumerFinancialPurposeList;		
 	}
 	
+	@CrossOrigin("*")
 	@RequestMapping(value="/saveProductSelection", method = RequestMethod.POST,produces="application/json")
 	public Boolean saveProductSelection(@RequestBody EligibleReport selection )
 	{
 		return eirService.saveSelectedProduct(selection);
 	}
 	
+	@CrossOrigin("*")
 	@RequestMapping(value="/getGender", method = RequestMethod.GET,produces="application/json")
 	public @ResponseBody List<Gender> getRequest()
 	{

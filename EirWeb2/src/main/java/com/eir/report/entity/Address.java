@@ -96,10 +96,10 @@ public class Address implements Serializable {
 	/**
 	 */
 
-	@Column(name = "state", length = 45)
+	@Column(name = "state_id", length = 45)
 	
 
-	String state;
+	Integer stateId;
 	/**
 	 */
 
@@ -221,14 +221,14 @@ public class Address implements Serializable {
 
 	/**
 	 */
-	public void setState(String state) {
-		this.state = state;
+	public void setStateId(Integer stateId) {
+		this.stateId = stateId;
 	}
 
 	/**
 	 */
-	public String getState() {
-		return this.state;
+	public Integer getState() {
+		return this.stateId;
 	}
 
 	/**
@@ -302,7 +302,7 @@ public class Address implements Serializable {
 		buffer.append("addressLine3=[").append(addressLine3).append("] ");
 		buffer.append("city=[").append(city).append("] ");
 		buffer.append("pincode=[").append(pincode).append("] ");
-		buffer.append("state=[").append(state).append("] ");
+		buffer.append("state=[").append(stateId).append("] ");
 		buffer.append("createUserId=[").append(createUserId).append("] ");
 		buffer.append("createUserDate=[").append(createUserDate).append("] ");
 		buffer.append("updateUserId=[").append(updateUserId).append("] ");

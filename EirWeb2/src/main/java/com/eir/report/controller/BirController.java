@@ -33,6 +33,7 @@ public class BirController {
 	
 	Logger logger = LoggerFactory.getLogger(BirController.class);
 
+	@CrossOrigin("*")
 	@RequestMapping(value = "/getCompanyList", method = RequestMethod.POST)
 	public @ResponseBody List<Company> getCompanyList(@RequestBody BIRCmpnySrchRequest request) {
 		logger.debug("ZaubaIntegrationController getCompanyList() ");
@@ -46,6 +47,7 @@ public class BirController {
 		return listOfCompany;
 	}
 	
+	@CrossOrigin("*")
 	@RequestMapping(value = "/palceOrderForCompany", method = RequestMethod.POST, produces = "application/json",consumes="application/json")
 	public String palceOrderForCompany(@RequestBody BIRZaubaRequest request) throws IOException {
 		

@@ -26,7 +26,7 @@ public class Consumer {
 	String personAddrLine1;
 	String personAddrLine2;
 	String personCity;
-	String personState;
+	State personState;
 	String personPincode;
 	AddressType addressType;
 	Float amount;
@@ -176,10 +176,10 @@ public String getErnNumber() {
 	public void setPersonCity(String personCity) {
 		this.personCity = personCity;
 	}
-	public String getPersonState() {
+	public State getPersonState() {
 		return personState;
 	}
-	public void setPersonState(String personState) {
+	public void setPersonState(State personState) {
 		this.personState = personState;
 	}
 	public String getPersonPincode() {

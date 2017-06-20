@@ -160,7 +160,7 @@ public class CirRequest implements Serializable {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumns({ @JoinColumn(name = "address_id", referencedColumnName = "address_id") })
-	Address addressId;
+	Address address;
 	
 	/*@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumns({ @JoinColumn(name = "address_type_id", referencedColumnName = "address_type_id") })
@@ -555,11 +555,11 @@ public class CirRequest implements Serializable {
 		this.cirRequestId = cirRequestId;
 	}
 
-	public Address getAddressId() {
-		return addressId;
+	public Address getAddress() {
+		return address;
 	}
 
-	public void setAddressId(Address addressId) {
-		this.addressId = addressId;
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 }

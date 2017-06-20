@@ -167,15 +167,15 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		
 		List<BusAddr> busAddrArr = new ArrayList<>();
 		BusAddr busAddr = new BusAddr();
-		busAddr.setAddrType(cirRequest.getAddressId().getAddressType().getAddressTypeId().toString());
+		busAddr.setAddrType(cirRequest.getAddress().getAddressType().getAddressTypeId().toString());
 		busAddr.setCountryCode("IND");
-		busAddr.setCity(cirRequest.getAddressId().getCity());
-		busAddr.setState(cirRequest.getAddressId().getState());
+		busAddr.setCity(cirRequest.getAddress().getCity());
+		busAddr.setState(cirRequest.getAddress().getState().toString());
 		busAddr.setDistrict("");
-		busAddr.setPINCode(cirRequest.getAddressId().getPincode());
-		busAddr.setAddressLine1(cirRequest.getAddressId().getAddressLine1());
-		busAddr.setAddressLine2(cirRequest.getAddressId().getAddressLine2());
-		busAddr.setAddressLine3(cirRequest.getAddressId().getAddressLine3());
+		busAddr.setPINCode(cirRequest.getAddress().getPincode());
+		busAddr.setAddressLine1(cirRequest.getAddress().getAddressLine1());
+		busAddr.setAddressLine2(cirRequest.getAddress().getAddressLine2());
+		busAddr.setAddressLine3(cirRequest.getAddress().getAddressLine3());
 		busAddrArr.add(busAddr);
 		businessProductRequest.getBUSNADDR().add(busAddr);
 

@@ -32,7 +32,7 @@ import org.springframework.stereotype.Component;
 @EntityListeners(AuditingEntityListener.class)
 public class State {
 	
-	@Column(name = "code", nullable = false)
+	@Column(name = "state_id", nullable = false)
 	
 
 	@Id
@@ -43,19 +43,19 @@ public class State {
 		allocationSize=1
 	)
 	@XmlElement
-	Integer stateCode;
+	Integer stateId;
 	
 	@Column(name = "state_description", length = 45)
 
 	@XmlElement
 	String stateDescription;
 	
-	public Integer getStateCode() {
-		return stateCode;
+	public Integer getStateId() {
+		return stateId;
 	}
 
-	public void setStateCode(Integer stateCode) {
-		this.stateCode = stateCode;
+	public void setStateId(Integer stateCode) {
+		this.stateId = stateCode;
 	}
 
 	public String getStateCodeDescription() {

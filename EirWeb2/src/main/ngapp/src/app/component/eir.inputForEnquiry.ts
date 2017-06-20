@@ -66,17 +66,17 @@ export class InputForEnquiryComponent implements OnInit
         isComboActive:'',
          bir: {companyName:'',company:''},
         cir: {companyName:'',productField:'',purpose:'',amt:'',accType1:'',clientRefNo:'',accType2:'',cmpPan:'',addrType:'',addrLinen1:'',
-              addrline2:'',city:'',state:'',pinCode:'',telephoneNo:'',pan:'',cin:'',tin:'',emailId:'',triggers:''},
+              addrline2:'',city:'',cirState:'',pinCode:'',telephoneNo:'',cin:'',tin:'',emailId:'',triggers:''},
         consumerList: [ 
                 {relationType:'',accountType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
                 rationCard:'',passportNo:'',homeTelephoneNo:'',officeTelephoneNo:'',mobileNo:'',birthDate:'',maritalStatus:'',gender:'',
-                personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:'',amount:''}                
+                addressType :'' ,personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:'',amount:''}                
             ]
 };
 
 consumerData : any= [{relationType:'',accountType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
                 rationCard:'',passportNo:'',homeTelephoneNo:'',officeTelephoneNo:'',mobileNo:'',birthDate:'',maritalStatus:'',gender:'',
-                personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:'',amount:''}]  ;
+                addressType :'' ,personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:'',amount:''}]  ;
 
   ngOnInit(){
     this._stateListService.getStateList().subscribe((stateListSubs) => {
@@ -84,9 +84,6 @@ consumerData : any= [{relationType:'',accountType:'',firstName:'',middleName:'',
            this.stateList=stateListSubs;
             this._newService.setStateList(stateListSubs);
             console.log("responce   -  - "+ stateListSubs);
-            this.jsonResponse = JSON.stringify(stateListSubs);
-            //console.log('json srijfkd -- '+this.jsonResponse);
-            //console.log('name - '+temp[0].Name);
             if(stateListSubs!=null)
             {
             this.hasList=true;
@@ -177,13 +174,13 @@ consumerData : any= [{relationType:'',accountType:'',firstName:'',middleName:'',
           'email'       : [null,  Validators.compose([Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$'),Validators.required])],
           //'pan'         : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})([PFCAHBLJRpfcahbljr]{1})([0-9]{4})([A-Za-z]{1})'),Validators.required])],
           //'cmppan'      : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})([PFCAHBLJRpfcahbljr]{1})([0-9]{4})([A-Za-z]{1})'),Validators.required])],
-          'pan'         : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})([ABCFGHLJPTKabcfghljptk]{2})([0-9]{4})([A-Za-z]{1})'),Validators.required])],
+          //'pan'         : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})([ABCFGHLJPTKabcfghljptk]{2})([0-9]{4})([A-Za-z]{1})'),Validators.required])],
           'cmppan'      : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})([ABCFGHLJPTKabcfghljptk]{2})([0-9]{4})([A-Za-z]{1})'),Validators.required])],
           'city'        : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z]*')])],
           'product'     : [null,  Validators.required],
           'address'     : [null,  Validators.required],         
           'purpose'     : [null,  Validators.required],
-          'state'       : [null,  Validators.required]
+          'cirState'       : [null,  Validators.required]
          });
          
          this.birForm =fb.group(
@@ -230,17 +227,14 @@ consumerData : any= [{relationType:'',accountType:'',firstName:'',middleName:'',
             
             this.submitted=true;
             this.controlMessage.getValidator(this.submitted);
-            //this.controlMessage.getValidator(this.submitted);
-           // console.log("Inside validate ConsumerComponent.consumerVal..."+ConsumerComponent.consumerVal);
+            
             console.log("this.cirForm.valid"+this.cirForm.valid);
             console.log("this.cirForm1.valid"+this.birForm.valid);
             console.log("this.cirForm2.valid"+this.cirForm2.valid);
-            //this.validForm=this.cirForm1.valid + "";
          console.log("CIR:"+this.commonArray.cir.cmpName);
          console.log("BIR:"+this.commonArray.bir);
          console.log("Consumer:"+this.commonArray.consumer);
          
-         debugger;
          if(this.issOnlyBIR){
                 if(this.birForm.valid )
                 {
