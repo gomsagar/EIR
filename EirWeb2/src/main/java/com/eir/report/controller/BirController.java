@@ -20,6 +20,7 @@ import com.eir.model.EligibleReport;
 import com.eir.model.ResponseObject;
 import com.eir.report.entity.BIRCmpnySrchRequest;
 import com.eir.report.entity.BIRZaubaRequest;
+import com.eir.report.entity.Request;
 import com.eir.bir.request.model.Company;
 import com.eir.bir.request.model.MultipleRequest;
 import com.eir.report.entity.Response;
@@ -74,5 +75,14 @@ public class BirController {
 		userID = 1002;
 		EligibleReport selectedProduct = birService.getEligibleProduct(userID);
 		return selectedProduct;
+	}
+	
+	@CrossOrigin("*")
+	@RequestMapping(value = "/getEarlierRequest", method = RequestMethod.GET,produces="application/json")
+	public @ResponseBody Request getEarlierRequest(Integer userID) 
+	{
+		userID = 1002;
+		Request request = birService.getEarlierRequest(userID);
+		return request;
 	}
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router} from '@angular/router';
 import { HomeComponent } from './component/eir.home';
+import { FileUploader } from 'ng2-file-upload';
 
 @Component({
   selector: 'app-root',
@@ -16,5 +17,9 @@ export class AppComponent {
   {
     console.log("goToCreateEnquiry()");
     this.router.navigate(['createEnquiry']);
+  }
+
+  goToViewRequest(){
+    this.router.navigate(['viewEarlierRequest']);
   }
 }

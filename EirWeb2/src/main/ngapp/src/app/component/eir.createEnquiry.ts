@@ -1,4 +1,4 @@
-import { Component,Inject,Input} from '@angular/core';
+import { Component,Inject,Input,OnInit} from '@angular/core';
 import {HttpModule, Http} from "@angular/http";
 import{AppService} from '../services/eir.callController';
 import{DataService} from '../services/eir.getData';
@@ -16,11 +16,11 @@ interface MessageJson {
   providers: [HttpModule,AppService,DataService]
 })
 
-
-export class EirCreateComponent {
+export class EirCreateComponent implements OnInit {
 private _subscription;
   private jsonResponse: string;
   private messagess: Array<MessageJson>;
+  public loggedInUserFlagVar: string;
   isCws:boolean; 
   isCwos:boolean;
   isCIRws:boolean;
@@ -70,6 +70,14 @@ private _subscription;
         );    
         this.value = this.data;
   }
+
+  ngOnInit(){
+    this._dataService.getUserFlag().subscribe((loggedInUserFlag) => {            
+            console.log("loggedInUserFlag -  - "+ loggedInUserFlag);
+            this.loggedInUserFlagVar = loggedInUserFlag.userFlag;            
+        });  
+  }
+
   back()
   {
     this.router.navigate(['home']);
@@ -98,26 +106,15 @@ private _subscription;
               console.log("Only Cir:"+this.isCir);
           }
           this._appService.submit(this.data).subscribe(this.data);
-          if(this.isOnlyBir && this.isCombo)
-          {
-            this.router.navigate(['inputForEnquiry'],{ queryParams: { isOnlyBir: true, isCombo: true, isCir: false} });
-          }
-          else if(this.isOnlyBir && this.isCir)
-          {
-            this.router.navigate(['inputForEnquiry'],{ queryParams: { isOnlyBir: true, isCir: true, isCombo: false} });
-          }
-          else if(this.isOnlyBir)
-          {
-            this.router.navigate(['inputForEnquiry'],{ queryParams: { isOnlyBir: true, isCir: false, isCombo: false} });
-          }
-          else if(this.isCir)
-          {
-            this.router.navigate(['inputForEnquiry'],{ queryParams: { isOnlyBir: false, isCir: true, isCombo: false} });
-          }
-          else if(this.isCombo)
-          {
-            this.router.navigate(['inputForEnquiry'],{ queryParams: { isOnlyBir: false, isCir: false, isCombo:true } });
-          }
+
+        //   if(this.loggedInUserFlagVar == 'NonSpecifiedUser')
+        //   {            
+        //     this.router.navigate(['kycComponent'],{ queryParams: { isOnlyBir: this.isOnlyBir, isCombo: this.isCombo, isCir: this.isCir} });
+        //   }else {
+        //       this.router.navigate(['inputForEnquiry'],{queryParams: { isOnlyBir: this.isOnlyBir, isCombo: this.isCombo, isCir: this.isCir}});
+        //   }
+
+         this.router.navigate(['inputForEnquiry'],{queryParams: { isOnlyBir: this.isOnlyBir, isCombo: this.isCombo, isCir: this.isCir}});
     }
     else
     {

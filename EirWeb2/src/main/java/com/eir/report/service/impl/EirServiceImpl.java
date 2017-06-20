@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 import com.eir.bir.request.model.Consumer;
 import com.eir.bir.request.model.Gender;
 import com.eir.bir.request.model.MultipleRequest;
+import com.eir.bir.request.model.SpecifiedUserFlag;
 import com.eir.model.EIRDataConstant;
 import com.eir.model.EligibleReport;
 import com.eir.report.constant.Constant;
@@ -37,6 +39,7 @@ import com.eir.report.entity.ConsumerFinancialPurpose;
 import com.eir.report.entity.ConsumerPurpose;
 import com.eir.report.entity.ConsumerRequest;
 import com.eir.report.entity.EntityDetails;
+import com.eir.report.entity.KycApproval;
 import com.eir.report.entity.ProductMaster;
 import com.eir.report.entity.RelationType;
 import com.eir.report.entity.ReportSelection;
@@ -57,6 +60,7 @@ import com.eir.report.repository.ConsumerPurposeRepository;
 import com.eir.report.repository.ConsumerRequetRepository;
 import com.eir.report.repository.EntityDetailsRepository;
 import com.eir.report.repository.GenderRepository;
+import com.eir.report.repository.KycApprovalRepository;
 import com.eir.report.repository.ProductMasterRepository;
 import com.eir.report.repository.RelationTypeRepository;
 import com.eir.report.repository.ReportSelectionRepository;
@@ -68,7 +72,6 @@ import com.eir.report.repository.UserDetailsRepository;
 import com.eir.report.service.BirReportService;
 import com.eir.report.service.EirService;
 import com.eir.report.service.NextGenWebService;
-import com.eir.report.util.GetStatus;
 
 @Service
 public class EirServiceImpl implements EirService{
@@ -143,6 +146,10 @@ public class EirServiceImpl implements EirService{
 	
 	@Autowired
 	GenderRepository genderRepository; 
+	
+	@Autowired
+	KycApprovalRepository kycApprovalRepository;
+	
 	
 	@Override
 	public List<BirRequest> retrieveRequest() {
@@ -460,6 +467,7 @@ public class EirServiceImpl implements EirService{
 	@Override
 	public void uploadKYCDocuments(HttpServletRequest request, HttpServletResponse response) {
 		
+		StringBuilder fileName = new StringBuilder();
 		if (!ServletFileUpload.isMultipartContent(request)) {
 			// if not, we stop here
 			PrintWriter writer;
@@ -517,9 +525,27 @@ public class EirServiceImpl implements EirService{
 						System.out.println("Server File Location="	+ serverFile.getAbsolutePath());
 						
 						logger.info("Server File Location="	+ serverFile.getAbsolutePath());
-
+						
+						if(fileName.toString().isEmpty())
+						{
+							fileName.append(item.getFieldName());	
+						}else{
+							fileName.append(",");
+							fileName.append(item.getFieldName());	
+						}
 					}
 				}
+				
+				KycApproval kycApprval = new KycApproval();
+				
+				kycApprval.setRequestId(3242);
+				kycApprval.setComment("uploaded completed");
+				//fileName.replace(fileName.length()-1, fileName.length()-1, "");
+				//fileName.replace(fileName.length()-1, fileName.length(), " ");
+				kycApprval.setKycDocument(fileName.toString());
+				kycApprval.setStatus(getStatusByDescription(com.eir.report.constant.Status.PENDING.toString()).getStatusId());
+				
+				kycApprovalRepository.save(kycApprval);
 
 			} catch (Exception e) {
 				logger.debug(e.getMessage());
@@ -529,7 +555,7 @@ public class EirServiceImpl implements EirService{
 	}
 
 	@Override
-	public void downloadKYCDocuments(HttpServletRequest request, HttpServletResponse response) {
+	public void downloadKYCDocuments(int reqId,String fileName, HttpServletRequest request, HttpServletResponse response) {
 
 			// get absolute path of the application
 			ServletContext context = request.getServletContext();
@@ -537,8 +563,12 @@ public class EirServiceImpl implements EirService{
 			System.out.println("appPath = " + appPath);
 			String filePath = "uploaded";
 			// construct the complete absolute path of the file
-			String fullPath = appPath + filePath;		
+			String path = "/"+reqId+"/"+fileName;
+			String path1 = "C:/angulr2";
+			//String fullPath = appPath + filePath + path;	
+			String fullPath = path1 + path;		
 			File downloadFile = new File(fullPath);
+			//File downloadFile = new File("C:/Users/c19221a/Documents/EIR_workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/EirWeb2/uploaded/kk.txt");
 			FileInputStream inputStream = null;
 			OutputStream outStream = null;
 			try {
@@ -736,6 +766,13 @@ public class EirServiceImpl implements EirService{
 			}
 			return genderModelList;
 		}
+		return null;
+	}
+
+	@Override
+	public SpecifiedUserFlag getSpecifiedUserFlag() {
+		//userDetailsRepository.get
+		
 		return null;
 	}
 	

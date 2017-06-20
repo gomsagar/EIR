@@ -10,10 +10,12 @@ import { InputForEnquiryComponent } from './component/eir.inputForEnquiry';
 import{EirCreateComponent} from './component/eir.createEnquiry';
 import{RaiseDisputeComponent} from './component/eir.raiseDispute';
 import{ViewEarlierRequestComponent} from './component/eir.viewEarlierRequest';
+import{ViewEnquiryComponent} from './component/eir.viewEnquiry';
 import{TrackDisputeComponent} from  './component/eit.trackDispute';
 import{ConsumerComponent} from './component/eir.consumer';
 import {ControlMessages} from './services/control.message.component';
 import { DatePickerModule } from 'ng2-datepicker';
+import { KycComponent } from './component/eir.KycComponent';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -23,11 +25,13 @@ const appRoutes: Routes = [
     { path: 'viewEarlierRequest', component: ViewEarlierRequestComponent },
      { path: 'trackDispute', component: TrackDisputeComponent},
      { path: 'consumerComponent', component: ConsumerComponent},
+     { path: 'viewEnquiryComponent', component: ViewEnquiryComponent},
+     { path: 'kycComponent', component: KycComponent},
      
 ];
 @NgModule({
   declarations: [AppComponent,HomeComponent,EirCreateComponent,InputForEnquiryComponent,RaiseDisputeComponent,
-  ViewEarlierRequestComponent,TrackDisputeComponent,ConsumerComponent,ControlMessages],
+  ViewEarlierRequestComponent,TrackDisputeComponent,ConsumerComponent,ControlMessages,KycComponent,ViewEnquiryComponent],
   imports: [
     RouterModule,
     RouterModule.forRoot(appRoutes),

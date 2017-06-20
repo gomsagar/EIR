@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.eir.bir.request.model.CirPurpose;
 import com.eir.bir.request.model.Gender;
 import com.eir.bir.request.model.MultipleRequest;
+import com.eir.bir.request.model.SpecifiedUserFlag;
 import com.eir.model.EligibleReport;
 import com.eir.report.constant.Constant;
 import com.eir.report.entity.AccountType;
@@ -185,10 +186,22 @@ public class EirController {
 	}
 	
 	@CrossOrigin("*")
-	@RequestMapping(value = "/downloadKYCDocuments" , method = RequestMethod.GET)
-	public void downloadKYCDocuments(HttpServletRequest request , HttpServletResponse response)
+	@RequestMapping(value = "/downloadKYCDocuments" , method = RequestMethod.POST)
+	public void downloadKYCDocuments(@RequestParam int reqId, @RequestParam String fileName,HttpServletRequest request , HttpServletResponse response)
 	{
-		eirService.downloadKYCDocuments(request,response);
+		eirService.downloadKYCDocuments(reqId,fileName,request,response);
+	}
+	
+	@CrossOrigin("*")
+	@RequestMapping(value = "/getUserFlag" , method = RequestMethod.GET)
+	public @ResponseBody SpecifiedUserFlag getUserFlag()
+	{
+		SpecifiedUserFlag flag = new SpecifiedUserFlag();
+		flag.setUserFlag("NonSpecifiedUser");
+		//flag.setUserFlag("SpecifiedUser");
+		System.out.println("flag = " + flag.getUserFlag());
+		//SpecifiedUserFlag flag = eirService.getSpecifiedUserFlag();
+		return flag;		
 	}
 	
 	@CrossOrigin("*")

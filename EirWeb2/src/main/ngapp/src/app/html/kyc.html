@@ -1,0 +1,53 @@
+                <div class="row">
+                    <h1 class="page-header">Enter A Details</h1>
+                    <!-- table-responsive -->
+                    <div class="create-enquiry">
+                        <div class="row top-bar">
+                           
+                            <form class="user-form" id="disputeDetails">
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <label for="exampleInputName2">Description</label>
+                                        <textarea class="form-control" rows="5" id="comment" placeholder="Description"></textarea>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="exampleInputName2">Upload a File</label>
+                                        <br>
+                                        <label class="btn btn-default btn-file">
+                                            <!--<input type="file" (change)="upload($event)" [multiple]="true" >-->
+                                            <input #myInput type="file" name="filename" (change)="uploadFile($event)" [multiple]="true" >
+
+                                        </label>
+                                        <button type="button" (click)="upload()" class="btn btn-primary">Upload Files</button>
+                                    </div>
+                                </div>
+                                
+                                <div *ngIf="rowData.length > 0" class="table-responsive kyc">
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <th>File Name</th>
+                                            <th>File Type</th>
+                                            <th>File Size</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                        <tr *ngFor = 'let row of rowData;let i = index'>
+                                            <!--<div *ngIf="i!=0">-->
+                                                <td>{{row.fileNm}}</td>
+                                                <td>{{row.fileType}}</td>
+                                                <td>{{row.fileSize}}</td>                                                
+                                                <td><button type="button" class="btn btn-danger" (click)="deleteFile(i)">Delete</button>
+                                                </td>
+                                            <!--</div>-->
+                                        </tr>
+                                    </table>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="back-btn pull-left"><button (click)="back()" type="submit" class="btn btn-primary">Back</button></div>
+                    <div class="next-btn pull-right"><input (click)="kycSubmit()" type="submit" class="btn btn-primary form-control" name="Submit" value="Submit"></div>
+                    <div class="next-btn pull-right"><button type="button" (click)="resetFile()" class="btn btn-primary reset">Reset</button></div>
+                </div>

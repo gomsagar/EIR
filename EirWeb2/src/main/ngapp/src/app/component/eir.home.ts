@@ -46,7 +46,7 @@ export class HomeComponent
   goToViewRequest()
   {
     console.log("goToViewRequest()");
-    this.router.navigate(['viewEarlierRequest']);
+    this.router.navigate(['viewEnquiryComponent']);
   }
   goToRaiseDispute()
   {

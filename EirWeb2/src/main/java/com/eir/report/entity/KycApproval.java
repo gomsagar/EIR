@@ -59,12 +59,9 @@ public class KycApproval implements Serializable {
 	/**
 	 */
 
-	@Column(name = "kyc_document", columnDefinition = "BLOB")
-	
-	@Lob
+	@Column(name = "kyc_documents",  length = 200)
 
-	@XmlElement
-	byte[] kycDocument;
+	String kycDocument;
 	/**
 	 */
 
@@ -76,11 +73,11 @@ public class KycApproval implements Serializable {
 	/**
 	 */
 
-	@Column(name = "status", length = 45)
+	@Column(name = "status_id", length = 45)
 	
 
 	@XmlElement
-	String status;
+	Integer status;
 	/**
 	 */
 
@@ -138,13 +135,13 @@ public class KycApproval implements Serializable {
 
 	/**
 	 */
-	public void setKycDocument(byte[] kycDocument) {
-		this.kycDocument = kycDocument;
+	public void setKycDocument(String string) {
+		this.kycDocument = string;
 	}
 
 	/**
 	 */
-	public byte[] getKycDocument() {
+	public String getKycDocument() {
 		return this.kycDocument;
 	}
 
@@ -162,13 +159,13 @@ public class KycApproval implements Serializable {
 
 	/**
 	 */
-	public void setStatus(String status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
 	/**
 	 */
-	public String getStatus() {
+	public Integer getStatus() {
 		return this.status;
 	}
 

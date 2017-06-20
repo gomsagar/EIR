@@ -505,4 +505,15 @@ public class BirReportServiceImpl implements BirReportService {
 		}
 		return null;
 	}
+
+	public Request getEarlierRequest(Integer userID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*@Override
+	public Request getEarlierRequest(Integer userID) {
+		
+		return null;
+	}*/
 }

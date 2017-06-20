@@ -7,13 +7,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.eir.bir.request.model.Gender;
 import com.eir.bir.request.model.MultipleRequest;
+import com.eir.bir.request.model.SpecifiedUserFlag;
 import com.eir.model.EligibleReport;
 import com.eir.report.entity.AccountType;
 import com.eir.report.entity.Address;
 import com.eir.report.entity.AddressType;
 import com.eir.report.entity.BirRequest;
-import com.eir.report.entity.CirPurpose;
-import com.eir.report.entity.ConsumerFinancialPurpose;
 import com.eir.report.entity.ConsumerPurpose;
 import com.eir.report.entity.RelationType;
 import com.eir.report.entity.ReportType;
@@ -35,7 +34,7 @@ public interface EirService {
 
 	void uploadKYCDocuments(HttpServletRequest request, HttpServletResponse response);
 
-	void downloadKYCDocuments(HttpServletRequest request, HttpServletResponse response);
+	void downloadKYCDocuments(int reqId,String fileName,HttpServletRequest request, HttpServletResponse response);
 
 	//void saveRequestedData(MultipleRequest input, HttpServletRequest request);
 
@@ -60,4 +59,5 @@ public interface EirService {
 	boolean saveSelectedProduct(EligibleReport selection);
 	
 	List<Gender> getGender();
+	SpecifiedUserFlag getSpecifiedUserFlag();
 }

@@ -244,7 +244,7 @@ consumerData : any= [{relationType:'',accountType:'',firstName:'',middleName:'',
                     this.commonArray.isComboActive = this.comboVal;
                     this._appService.submitInfo(this.commonArray).subscribe(this.data);
                     alert("Data Submitted Successfully!!!");
-                    //this.router.navigate(['inputForEnquiry']);
+                    this.router.navigate(['viewEnquiryComponent']);
                 }
                 else
                 {
@@ -262,7 +262,7 @@ consumerData : any= [{relationType:'',accountType:'',firstName:'',middleName:'',
                     console.log('this.birVal ========= '+this.birVal +'  this.cirVal ============ '+this.cirVal+'   this.comboVal ======'+this.comboVal);
                     this._appService.submitInfo(this.commonArray).subscribe(this.data);
                     alert("Data Submitted Successfully!!!");
-                    //this.router.navigate(['inputForEnquiry']);
+                     this.router.navigate(['viewEnquiryComponent']);
                 }
                 else
                 {
@@ -270,7 +270,7 @@ consumerData : any= [{relationType:'',accountType:'',firstName:'',middleName:'',
                 }
          }
 
-         
+         this.router.navigate(['viewEnquiryComponent']);
     }
 
     getCompanyList()
