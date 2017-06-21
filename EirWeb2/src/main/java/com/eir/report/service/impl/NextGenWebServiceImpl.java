@@ -1,27 +1,43 @@
 package com.eir.report.service.impl;
 
-import java.io.IOException;
+import java.io.FileInputStream;
 import java.io.StringWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.soap.MessageFactory;
+import javax.xml.soap.SOAPMessage;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.eir.bir.request.model.CirRequest;
-import com.eir.bir.request.model.Consumer;
+import com.eir.combo.domains.ComboSummaryDomain;
+import com.eir.combo.domains.RelatedDirectorsDomain;
+import com.eir.commercial.domains.CommercialReportDetails;
+import com.eir.domain.BIRDomain;
+import com.eir.domain.ComboDomain;
+import com.eir.domain.EIRDomain;
+import com.eir.model.EIRDataConstant;
+import com.eir.report.entity.CirRequest;
 import com.eir.report.entity.ConsumerRequest;
 import com.eir.report.entity.Request;
 import com.eir.report.entity.Status;
-import com.eir.report.exception.NextGenCallException;
 import com.eir.report.nextgen.service.client.ExperianHttpDirectClient;
 import com.eir.report.nextgen.service.client.NextGenResponseWrapper;
+import com.eir.report.nextgen.service.mapper.CommercialMapper;
+import com.eir.report.nextgen.service.mapper.CreateReport;
 import com.eir.report.nextgen.service.model.consumer.AddlProd;
 import com.eir.report.nextgen.service.model.consumer.EnqHeader;
 import com.eir.report.nextgen.service.model.consumer.GetConsumerProductRequest;
@@ -34,20 +50,29 @@ import com.eir.report.nextgen.service.model.product.GetBusinessProductRequest;
 import com.eir.report.nextgen.service.model.product.ObjectFactory;
 import com.eir.report.repository.CirRequestRepository;
 import com.eir.report.repository.ConsumerRequetRepository;
+import com.eir.report.repository.RequestRepository;
 import com.eir.report.repository.StatusRepository;
 import com.eir.report.service.NextGenWebService;
+import com.experian.nextgen.ind.model.consumer.uofpojo.Bpaygrid;
+import com.experian.nextgen.ind.model.consumer.uofpojo.Conscred;
+import com.experian.nextgen.ind.model.consumer.uofpojo.ConsumerResponse;
+import com.experian.nextgen.ind.model.consumer.uofpojo.Perinpidc;
+import com.experian.nextgen.ind.model.consumer.uofpojo.ResponseInfo;
 
 @Service
 public class NextGenWebServiceImpl implements NextGenWebService{
 
+
+	
 	Logger logger = LoggerFactory.getLogger(NextGenWebServiceImpl.class);
 
 	ExperianHttpDirectClient experianHttDirectClient;
 	
-	public NextGenWebServiceImpl()
+	/*public NextGenWebServiceImpl()
 	{
+		System.out.println("NextGenWebServiceImpl constructor");
 		experianHttDirectClient = new ExperianHttpDirectClient();
-	}
+	}*/
 	
 	@Autowired
 	CirRequestRepository cirRequestRepository;
@@ -56,21 +81,49 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 	ConsumerRequetRepository consumerRequetRepository; 
 	
 	@Autowired
+	RequestRepository requestRepository; 
+	
+	@Autowired
 	StatusRepository statusRepository;
 	
 	@Override
-	public void getCIRReport()
+	public CommercialReportDetails getCIRReport(CirRequest cirRequest)
 	{
 		logger.info("NextGenWebServiceImpl: - getCIRReport()");
 		
-		try {
-			//NextGenResponseWrapper nextGenResponseWrapper = experianHttDirectClient.getNextgenReport(getCIRRequestXML());
-			
-			//Save nextGenResponseWrapper to db
-			
-		} catch (Exception e) {
-			logger.error("NextGenWebServiceImpl:getCIRReport(), Nextgen service call fail:  ", e);
+		if(cirRequest != null)
+		{
+			try {
+					//NextGenResponseWrapper nextGenResponseWrapper = experianHttDirectClient.getNextgenReport(getCIRRequestXML());
+					 if(cirRequest.getStatus() != null)
+					 {
+						 String reportStatus = cirRequest.getStatus().getStatusDescription();
+						 if(com.eir.report.constant.Status.COMPLETED.equals(reportStatus))
+						 {
+							 byte[] reportXml = cirRequest.getXmlOutput();
+							 FileInputStream  fileInputStream  =  new FileInputStream(reportXml.toString());
+							  
+				             SOAPMessage message = MessageFactory.newInstance().createMessage(null, fileInputStream );
+				             Unmarshaller unmarshaller = JAXBContext.newInstance(com.experian.nextgen.ind.model.commercial.uofpojo.ResponseInfo.class).createUnmarshaller();
+				             com.experian.nextgen.ind.model.commercial.uofpojo.ResponseInfo responseInfo = (com.experian.nextgen.ind.model.commercial.uofpojo.ResponseInfo)unmarshaller.unmarshal(message.getSOAPBody().extractContentAsDocument());
+				             CommercialMapper commercialMapper = new CommercialMapper();
+				             CommercialReportDetails cirReportDetails = commercialMapper.mapData(responseInfo);
+							
+							 return cirReportDetails;
+					     }
+						 else
+						 {
+							 logger.debug("Report is in " + reportStatus + " state.");
+						 }
+					 }
+				} 
+		
+			catch (Exception e)
+			{
+				logger.error("NextGenWebServiceImpl:getCIRReport(), Nextgen service call fail:  ", e);
+			}
 		}
+			return null;
 	}
 	
 	private String getCIRRequestXML(com.eir.report.entity.CirRequest cirRequest)
@@ -185,21 +238,91 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		
 	}
 	
-	@Override
-	public void getConsumerReport()
+	public List<com.experian.nextgen.ind.model.consumer.uofpojo.ResponseInfo> getConsumerReport(List<ConsumerRequest> consumerRequests)
 	{
+		List<com.experian.nextgen.ind.model.consumer.uofpojo.ResponseInfo> responseInfoList = null;
 		logger.info("NextGenWebServiceImpl: - getCIRReport()");
 		
-		/*try {
-			NextGenResponseWrapper nextGenResponseWrapper = experianHttDirectClient.getNextgenReport(getConsumerRequestXML());
+		if(consumerRequests != null && consumerRequests.size() > 0)
+		{
+			try
+			{
+				for(ConsumerRequest consumerRequest : consumerRequests)
+				{
+					//NextGenResponseWrapper nextGenResponseWrapper = experianHttDirectClient.getNextgenReport(getConsumerRequestXML());
+					
+					//Save nextGenResponseWrapper to db  consumerRequest
+					
+					/*File f = new File("C:/Experian/EIR/getConsumerProductRespnse.xml");
+		            FileInputStream  fileInputStream  =  new FileInputStream(f);*/
+					if(consumerRequest.getStatusId() != null)
+					{
+						String xmlStatus = consumerRequest.getStatusId().getStatusDescription();
+						 
+						 if(com.eir.report.constant.Status.COMPLETED.equals(xmlStatus))
+						 {
+							byte[] requestedConsXml = consumerRequest.getXmlOutput();
+							FileInputStream  fileInputStream  =  new FileInputStream(requestedConsXml.toString());
+							
+				            SOAPMessage message = MessageFactory.newInstance().createMessage(null, fileInputStream );
+				            Unmarshaller unmarshaller = JAXBContext.newInstance(com.experian.nextgen.ind.model.consumer.uofpojo.ResponseInfo.class).createUnmarshaller();
+				            com.experian.nextgen.ind.model.consumer.uofpojo.ResponseInfo responseInfoCons = (com.experian.nextgen.ind.model.consumer.uofpojo.ResponseInfo)unmarshaller.unmarshal(message.getSOAPBody().extractContentAsDocument());
+				           
+						    setPaymentHistoryMap(responseInfoCons);
+							
+							responseInfoList.add(responseInfoCons);
+						
+						 }
+						 else
+						 {
+							 logger.debug("Report is in " + xmlStatus + " state.");
+						 }
+					}
+				}
+				return responseInfoList;
+			}
 			
-			//Save nextGenResponseWrapper to db
-			
-		} catch (IOException e) {
-			logger.error("NextGenWebServiceImpl:getCIRReport(), Nextgen service call fail:  ", e);
-		} catch (NextGenCallException e) {
-			logger.error("NextGenWebServiceImpl:getCIRReport(), Nextgen service call fail:  ", e);
-		}*/
+			catch (Exception e) 
+			{
+				logger.error("NextGenWebServiceImpl:getCIRReport(), Nextgen service call fail:  ", e);
+			}
+		}
+		return null;
+	}
+
+	private void setPaymentHistoryMap(com.experian.nextgen.ind.model.consumer.uofpojo.ResponseInfo responseInfoCons) 
+	{
+		if(responseInfoCons.getConsumerResponse() != null && responseInfoCons.getConsumerResponse().getConscred() != null 
+				&& !responseInfoCons.getConsumerResponse().getConscred().isEmpty())
+		{
+			List<Conscred> conscredList = responseInfoCons.getConsumerResponse().getConscred();
+			for(Conscred conscred: conscredList)
+			{
+				List<Bpaygrid> bpaygridList = conscred.getBpaygrid();
+				
+				Map<String, ArrayList<Bpaygrid>> paymentHistMap = new HashMap<String, ArrayList<Bpaygrid>>();
+				
+				ArrayList<Bpaygrid> bpayGridList = null; 
+				
+				for(Bpaygrid bpaygrid: bpaygridList)
+				{
+					if(paymentHistMap.containsKey(bpaygrid.getYear()))
+					{
+						bpayGridList = paymentHistMap.get(bpaygrid.getYear());
+						bpayGridList.add(bpaygrid);
+					}
+					else
+					{
+						bpayGridList = new ArrayList<>();
+						bpayGridList.add(bpaygrid);
+						paymentHistMap.put(bpaygrid.getYear(), bpayGridList);
+					}
+					
+				}
+				conscred.setPaymentHistMap(paymentHistMap);
+			}
+		}
+		
 	}
 	
 	private String getConsumerRequestXML(ConsumerRequest consumerRequestXml)
@@ -245,12 +368,12 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		enqHeader.setProduct(consumerRequest.getProductField());
 		enqHeader.setSearchType(consumerRequest.getSearchType());
 		enqHeader.setEnquiryApplicationType(consumerRequest.getEnquiryApplicationType());
-		enqHeader.setEnquiryAccountType(consumerRequest.getEnquiryAccountType());
+		enqHeader.setEnquiryAccountType(consumerRequest.getEnquiryAccountTypeId().toString());
 		enqHeader.setEnquiryAmtMonetaryType(consumerRequest.getEnquiryAmtMonetaryType());
-		enqHeader.setEnquiryAmount(consumerRequest.getEnquiryAmount());
-		enqHeader.setEnquiryCreditPurpose(consumerRequest.getEnquiryCreditPurpose());
+		enqHeader.setEnquiryAmount(consumerRequest.getEnquiryAmount().toString());
+		enqHeader.setEnquiryCreditPurpose(consumerRequest.getEnquiryCreditPurposeId().toString());
 		enqHeader.setDurationofAgreement(consumerRequest.getDurationOfAgreement());
-		enqHeader.setFrequency(consumerRequest.getFrequencyId());
+		enqHeader.setFrequency(consumerRequest.getFrequencyId().toString());
 		consumerProductRequest.setENQHEADER(enqHeader);
 		
 		UserPref userPref = new UserPref();
@@ -261,7 +384,10 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		addlProd.setEnquiryAddOnProduct(consumerRequest.getEnquiryAddOnProduct());
 		consumerProductRequest.getADDLPROD().add(addlProd);
 		
-		
+		//set Date format in ddMMyyyy form for NExtgen request
+		DateTimeFormatter formatter = DateTimeFormat.forPattern("ddMMyyyy");
+		String dateFormat = formatter.print(consumerRequest.getDateOfBirth());
+		//end dateformat here
 		
 		List<PrsnSrch> prsnsrchList = new ArrayList<>();
 		PrsnSrch srch = new PrsnSrch();
@@ -271,8 +397,8 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		srch.setFamilyName(consumerRequest.getFamilyName());
 		srch.setSuffix(consumerRequest.getSuffix());
 		srch.setApplicationRole(consumerRequest.getApplicationRole());
-		srch.setDateOfBirth(consumerRequest.getDateOfBirth().toString());
-		srch.setGender(consumerRequest.getGender().toString());
+		srch.setDateOfBirth(dateFormat);
+		srch.setGender(consumerRequest.getGenderId().toString());
 		srch.getIndiaMiddleName3();
 		srch.setIndiaNameTitle(consumerRequest.getIndiaNameTitle());
 		prsnsrchList.add(srch);
@@ -285,9 +411,56 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		
 		List<PersonId> personidList = new ArrayList<>();
 		PersonId personId = new PersonId();
-		personId.setIdNumberType(consumerRequest.getIdNumberType());
-		personId.setIdNumber(consumerRequest.getIdNumber());
+		
+		String pan =consumerRequest.getPersonPan();
+		String drivingLic =consumerRequest.getDrivingLic();
+		String aadharCard =consumerRequest.getAadharCard();
+		String voterId =consumerRequest.getVoterId();
+		String rationCard =consumerRequest.getRationCard();
+		String passportNo =consumerRequest.getPassportNo();
+		
+		if(pan != null && !pan.isEmpty())
+		{
+		personId.setIdNumberType("10");
+		personId.setIdNumber(pan);
 		personidList.add(personId);
+		}
+		
+		if(drivingLic != null && !drivingLic.isEmpty())
+		{
+			personId.setIdNumberType("1");
+			personId.setIdNumber(drivingLic);
+			personidList.add(personId);
+		}
+		
+		if(aadharCard != null && !aadharCard.isEmpty())
+		{
+			personId.setIdNumberType("12");
+			personId.setIdNumber(aadharCard);
+			personidList.add(personId);
+		}
+		
+		if(voterId != null && !voterId.isEmpty())
+		{
+			personId.setIdNumberType("7");
+			personId.setIdNumber(voterId);
+			personidList.add(personId);
+		}
+		
+		if(rationCard != null && !rationCard.isEmpty())
+		{
+			personId.setIdNumberType("11");
+			personId.setIdNumber(rationCard);
+			personidList.add(personId);
+		}
+		
+		if(passportNo != null && !passportNo.isEmpty())
+		{
+			personId.setIdNumberType("7");
+			personId.setIdNumber(passportNo);
+			personidList.add(personId);
+		}
+		
 		consumerProductRequest.setPERSONID(personidList);
 
 		com.eir.report.nextgen.service.model.consumer.PersonBnk personBnk = new com.eir.report.nextgen.service.model.consumer.PersonBnk();
@@ -305,10 +478,30 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		consumerProductRequest.setPERSADDR(persaddrList);
 
 		com.eir.report.nextgen.service.model.consumer.PersPhone persPhone = new com.eir.report.nextgen.service.model.consumer.PersPhone();
-		persPhone.setPhoneNumber(consumerRequest.getPhoneNumber());
-		persPhone.setPhoneType(consumerRequest.getPhoneType().toString());
 		List<com.eir.report.nextgen.service.model.consumer.PersPhone> phoneList = new ArrayList<>();
-		phoneList.add(persPhone);
+		String home =consumerRequest.getHomeTelephoneNo();
+		String office =consumerRequest.getOfficeTelephoneNo();
+		String mobileNo =consumerRequest.getMobileNo();
+		
+		if(home != null && !home.isEmpty())
+		{
+			persPhone.setPhoneNumber(home);
+			persPhone.setPhoneType("1");
+			phoneList.add(persPhone);
+		}
+		if(office != null && !office.isEmpty())
+		{
+			persPhone.setPhoneNumber(office);
+			persPhone.setPhoneType("3");
+			phoneList.add(persPhone);
+		}
+		if(mobileNo != null && !mobileNo.isEmpty())
+		{
+			persPhone.setPhoneNumber(mobileNo);
+			persPhone.setPhoneType("6");
+			phoneList.add(persPhone);
+		}
+		
 		consumerProductRequest.setPERSPHONE(phoneList);
 		
 		com.eir.report.nextgen.service.model.consumer.PersEmail persemail = new com.eir.report.nextgen.service.model.consumer.PersEmail();
@@ -435,4 +628,461 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		}
 		return null;
 	}
+	
+	@Override
+	public void getEIRReport(@RequestParam Integer requestId,@RequestParam String reportType)
+	{
+		if(requestId != null && reportType!= null && !reportType.isEmpty())
+		{
+			EIRDomain eirDomain = new EIRDomain();
+			CreateReport  createReport = new CreateReport();
+			
+			if(reportType.equals(EIRDataConstant.EIR) || reportType.equals(EIRDataConstant.BIR))
+			{
+				BIRDomain birDomain = getBirReprot(requestId);
+				eirDomain.setBirDomain(birDomain);
+			}
+			if(reportType.equals(EIRDataConstant.COMBOWITHSCORE) ||reportType.equals(EIRDataConstant.COMBOWITHOUTSCORE)|| 
+					reportType.equals(EIRDataConstant.EIR) || reportType.equals(EIRDataConstant.CIRWITHSCORE) || 
+					reportType.equals(EIRDataConstant.CIRWITHOUTSCORE))
+			{
+				ComboDomain comboDomain = getComboReport(requestId);
+				eirDomain.setComboDomain(comboDomain);
+			}
+			
+			createReport.generatestring(eirDomain, reportType);
+			//return eirDomain;
+		}
+	}
+	
+	public BIRDomain getBirReprot(Integer requestId)
+	{
+		BIRDomain birDomain = null;
+		
+		return birDomain;
+	}
+
+	public ComboDomain getComboReport(Integer requestId)
+	{
+		CommercialReportDetails reportDetails = new CommercialReportDetails();
+		ComboSummaryDomain summaryDetails = new ComboSummaryDomain();
+		List<com.experian.nextgen.ind.model.consumer.uofpojo.ResponseInfo> responseInfoList = null;
+		
+		Request request =null;
+		CirRequest cirRequest = null;
+		List<ConsumerRequest> consumerRequests = null;
+		 
+		if(requestId != null)
+		{
+			 request= requestRepository.findByRequestId(requestId);
+			 cirRequest = request.getCirRequets();
+			 consumerRequests = request.getConsumerRequets();
+			 ComboDomain comboDomain= new ComboDomain();
+			 
+			 if(cirRequest != null)
+			 {
+			    reportDetails = getCIRReport(cirRequest);
+			    comboDomain.setReportDetails(reportDetails);
+			 }
+			 
+			 if(consumerRequests != null)
+			 {
+				responseInfoList = getConsumerReport(consumerRequests);
+				comboDomain.setResponseInfoList(responseInfoList);
+			 }
+			 
+			 if(reportDetails != null && responseInfoList != null)
+			 {
+				summaryDetails = getSummaryDetails(reportDetails,responseInfoList);
+				comboDomain.setSummaryDetails(summaryDetails);
+			 }
+				
+			 return comboDomain;
+		}
+		
+		return null;
+	}
+	
+	public ComboSummaryDomain getSummaryDetails(CommercialReportDetails cirReportDetails,
+			List<com.experian.nextgen.ind.model.consumer.uofpojo.ResponseInfo> consumerReportDetailsList)
+	{
+		String pan = "";
+		String dl = "";
+		String ration = "";
+		String passport = "";
+		String aadhar = "";
+		String voterId = "";
+		String type = "";
+		String account = "";
+		
+		ComboSummaryDomain summaryDetails = new ComboSummaryDomain();
+		List<RelatedDirectorsDomain> relatedDirectorsDomainList = new ArrayList<RelatedDirectorsDomain>();
+		summaryDetails.setCompanyDetails(cirReportDetails.getCompanyDetails());
+		//summaryDetails.setScoreCom(score.getScore());
+		summaryDetails.setScoreCom(735);
+        //Boolean check = piData.isDelphiScoreChk();
+		boolean check = true;
+        if(check)
+        {
+        	summaryDetails.setDelphiChck(1);
+        }
+        else
+        {
+        	summaryDetails.setDelphiChck(0);
+        }
+		for(ResponseInfo responseInfo: consumerReportDetailsList)
+		{
+			RelatedDirectorsDomain relatedDirectorsDomain = getConsumerSummaryDetilas(responseInfo.getConsumerResponse());
+			relatedDirectorsDomain.setName(responseInfo.getConsumerResponse().getNGINQUIRY().getPerinput().getFirstGivenName() + " " +
+											responseInfo.getConsumerResponse().getNGINQUIRY().getPerinput().getFamilyName());
+			List<Perinpidc> perinpidcs = responseInfo.getConsumerResponse().getNGINQUIRY().getPerinput().getPerinpidc();
+			
+			for(Perinpidc perinpidc: perinpidcs)
+			{
+				type = perinpidc.getIdNumberType();
+				switch(type)
+				{
+				case "10":
+							pan = perinpidc.getIndiaIdNumber();
+					break;
+				case "4":
+							passport = perinpidc.getIndiaIdNumber();
+					break;
+				case "7":
+							voterId = perinpidc.getIndiaIdNumber();
+					break;
+				case "1":
+							dl = perinpidc.getIndiaIdNumber();
+					break;
+				case "11":
+							ration = perinpidc.getIndiaIdNumber();
+					break;
+				case "12":
+							aadhar = perinpidc.getIndiaIdNumber();
+							
+					break;
+				case "19":
+							account = perinpidc.getIndiaIdNumber();
+					break;
+				
+				default:
+					break;
+					
+				}
+			}
+			
+			if(!pan.isEmpty())
+			{
+				relatedDirectorsDomain.setIdType("PAN");
+				relatedDirectorsDomain.setIdNum(pan);
+			}
+			else if(!voterId.isEmpty())
+			{
+				relatedDirectorsDomain.setIdType("VOTER ID");
+				relatedDirectorsDomain.setIdNum(voterId);
+			}
+			else if(!aadhar.isEmpty())
+			{
+				relatedDirectorsDomain.setIdType("UID");
+				relatedDirectorsDomain.setIdNum(aadhar);
+			}
+			else if(!dl.isEmpty())
+			{
+				relatedDirectorsDomain.setIdType("D/L");
+				relatedDirectorsDomain.setIdNum(dl);
+			}
+			else if(!ration.isEmpty())
+			{
+				relatedDirectorsDomain.setIdType("RATION CARD");
+				relatedDirectorsDomain.setIdNum(ration);
+			}
+			else if(!account.isEmpty())
+			{
+				relatedDirectorsDomain.setIdType("ACCOUNT NUMBER");
+				relatedDirectorsDomain.setIdNum(account);
+			}
+			
+			relatedDirectorsDomainList.add(relatedDirectorsDomain);
+		}
+		
+		summaryDetails.setDirDomain(relatedDirectorsDomainList);
+		
+		return summaryDetails;
+	}
+	
+	private RelatedDirectorsDomain getConsumerSummaryDetilas(ConsumerResponse consumerResponse)
+	{
+		int modelScore = 0;
+		int modelName = 0;
+		int riskScore = 0;
+		 
+		RelatedDirectorsDomain relatedDirectorsDomain = new RelatedDirectorsDomain();
+		relatedDirectorsDomain.setAllAccts(consumerResponse.getPSUMMARY().getCCATOTACCS().getTotAccnts());
+		relatedDirectorsDomain.setNoOfActAccts(consumerResponse.getPSUMMARY().getCCATOTACCS().getTotActiveAccnts());
+		
+		   if(consumerResponse.getModelscr() != null )
+		   {
+			   String scoreCon = consumerResponse.getModelscr().getModelScoreValue(); 
+			   try 
+			   {
+				   modelScore = Integer.parseInt(scoreCon);
+			   } 
+			   catch (NumberFormatException e) 
+			   {
+				   modelScore = 0;
+			   }
+			   
+			   relatedDirectorsDomain.setScore(modelScore);
+			   relatedDirectorsDomain.setConfScore(consumerResponse.getModelscr().getScoreConfLevel());
+			   
+			   String name = consumerResponse.getModelscr().getModelNameCd();
+			  
+			   if(name.equals("No Hit Scorecard"))
+			   {
+				   modelName = 0;
+				  
+			   }
+			   else if(name.equals("Hit Scorecard"))
+			   {
+				   modelName = 1;
+				   
+			   }
+			   relatedDirectorsDomain.setModelName(modelName);
+			   
+			   String risk = consumerResponse.getModelscr().getRiskGrading();
+			   
+			   if(risk != null)
+			   {
+				   try 
+				   {
+					   riskScore = Integer.parseInt(risk);
+				   } 
+				   catch (NumberFormatException e) 
+				   {
+						riskScore = 0;
+				   }
+			   }
+				   
+			   relatedDirectorsDomain.setRiskScore(riskScore);
+		   }
+		   
+		   ArrayList<String> amount = getTotalAmt(consumerResponse.getConscred());
+		   relatedDirectorsDomain.setTotSanctioned(amount.get(0));
+		   relatedDirectorsDomain.setTotOutstanding(amount.get(1));
+		   
+		   ArrayList<String> delinqAcct = getNoActiveDelinquent(consumerResponse.getConscred());
+		   relatedDirectorsDomain.setNoOfActDelinquent(delinqAcct.get(0));
+		   relatedDirectorsDomain.setTotOutActDelinquent(delinqAcct.get(1));
+		   
+		return relatedDirectorsDomain;
+	}
+	
+	
+	private ArrayList<String> getTotalAmt(List<Conscred> conscredlist) 
+	{
+		long totSancAmt=0;
+		long totOutAmt=0;
+		
+		ArrayList<String> amount = new ArrayList<String>();
+		
+		if (conscredlist.size() > 0)
+		{
+			try 
+			{
+				for (Conscred conscred : conscredlist) 
+				{
+					
+					String closeDate =  conscred.getAccountClosedDate();
+		            if (StringUtils.isBlank(closeDate) ) 
+		            {
+		            	String accType = conscred.getAccountType();
+		            	long highestCredit = Long.parseLong(conscred.getBpaygrid().get(0).getHDETAILS().getHighCreditAmt());
+		            	long creditExtended =  Long.parseLong(conscred.getBpaygrid().get(0).getHDETAILS().getCreditExtendedAmt()); 
+		            	
+		            	if(accType.toLowerCase().contains("credit card") || accType.toLowerCase().contains("fleet"))
+		            	{
+		            		 if(highestCredit > 0 && creditExtended <= 0)
+		            		 {
+		            			 totSancAmt = totSancAmt + highestCredit ;
+		            		 }
+		            		 else if(highestCredit <= 0 && creditExtended > 0)
+		            		 {
+		            			 totSancAmt = totSancAmt + creditExtended ;
+		            		 }
+		            	}
+		            	else
+		            	{
+		            		totSancAmt = totSancAmt + creditExtended ;
+		            	}
+		            	
+						int cur = Integer.parseInt(conscred.getCurrentBalance()); 
+						long curBal = Long.valueOf(cur); 
+						totOutAmt = totOutAmt + curBal;
+					}
+				}
+				amount.add(String.valueOf(totSancAmt));
+				amount.add(String.valueOf(totOutAmt));
+					 
+				return amount ;       
+			} 
+			catch (Exception e) 
+			{
+					e.printStackTrace();
+			}
+		}
+		
+		amount.add("0");
+		amount.add("0");
+		
+		return amount;
+	}
+
+	private ArrayList<String> getNoActiveDelinquent(List<Conscred> conscredlist) {
+		
+		long totalCount=0;
+		long totalDelAmt = 0;
+		
+		ArrayList<String> delinq = new ArrayList<String>();
+		if (conscredlist.size() > 0)
+		{
+			try 
+			{
+				for (Conscred conscred : conscredlist) 
+				{
+					
+					String closeDate =  conscred.getAccountClosedDate();
+		            if (StringUtils.isBlank(closeDate) ) 
+		            {
+		            	long amount= getCount(conscred);
+						if(amount != 0)
+						{
+						totalCount = totalCount + 1 ;
+						totalDelAmt = totalDelAmt + amount;
+						}
+		            } 
+
+				}
+				
+				delinq.add(String.valueOf(totalCount));
+				delinq.add(String.valueOf(totalDelAmt));
+				
+				return delinq;       
+			} 
+			catch (Exception e) 
+			{
+					e.printStackTrace();
+			}
+		}
+		delinq.add("0");
+		delinq.add("0");
+		
+		return delinq;
+	}
+	
+	private long getCount(Conscred conscred)
+ 	{
+ 		long totOutDelAmt = 0;
+
+ 		try
+	 	{
+ 			String dt = convertDate(conscred.getAccountOpenDate());
+ 			Date date=new SimpleDateFormat("dd/MM/yyyy").parse(dt);  
+		 	SimpleDateFormat simpleDateFormat;
+			
+			simpleDateFormat = new SimpleDateFormat("MMM");
+		    String month = simpleDateFormat.format(date).toUpperCase();
+		    
+		    simpleDateFormat = new SimpleDateFormat("yyyy");
+		    String year = simpleDateFormat.format(date).toUpperCase();
+		    
+		    List<Bpaygrid> bpaygridList = (List<Bpaygrid>)conscred.getBpaygrid();
+		    
+			 for (Bpaygrid bpaygrid : bpaygridList)
+			 {
+				 String dpdMonth = bpaygrid.getMonthvalue().toUpperCase();
+				 String dpdYear = bpaygrid.getYear().toUpperCase();
+				 
+				 if(month.equals(dpdMonth) && year.equals(dpdYear))
+				 {
+					 String countStr = bpaygrid.getDaysPastDue()!=null?bpaygrid.getDaysPastDue().toString():"0";
+					 boolean deliquent = false;
+					 if(countStr.matches("^[0-9]*$"))
+					 {
+						try 
+						{
+							if(Integer.parseInt(countStr) > 90)
+					 		{	
+								deliquent = true;
+					 		}
+						} 
+						catch (Exception e) 
+						{
+							e.printStackTrace();
+						}
+					}
+					else
+					{
+						deliquent = isDelinquentAccount(countStr);
+					}
+					 
+					if(deliquent)
+					{
+						int cur = Integer.parseInt(conscred.getCurrentBalance()); 
+						long curBal = Long.valueOf(cur); 
+						totOutDelAmt = totOutDelAmt + curBal;
+					}
+					
+			 		return totOutDelAmt;
+			 	}
+		 	}
+	 	}
+	 	catch (Exception e) 
+	 	{
+	 		e.printStackTrace();
+	 	}
+	
+	 	return 0;
+
+ 	}
+	
+	private boolean isDelinquentAccount(String delStr)
+ 	{
+ 		delStr = delStr.trim().toUpperCase();
+ 		
+ 		if(delStr.equals("M") || delStr.equals("B") || delStr.equals("D") || delStr.equals("L"))
+ 		{
+ 			return true;
+ 		}
+ 		
+ 		return false;
+ 	}
+	
+	
+	private String convertDate(String str) 
+	{
+		SimpleDateFormat format1 = new SimpleDateFormat("ddmmyyyy");
+		SimpleDateFormat format2 = new SimpleDateFormat("dd/mm/yy");
+		java.util.Date date;
+		
+		String newDate="";
+		try
+		{
+			if(!(str.equals(""))||!(str.equals(null)))
+			{
+				date = format1.parse(str);
+				newDate = format2.format(date);
+			}
+			else
+			{
+				return "";
+			}
+		} 
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return newDate;
+	}
+	
 }
