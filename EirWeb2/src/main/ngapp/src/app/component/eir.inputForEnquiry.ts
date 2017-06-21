@@ -65,18 +65,16 @@ export class InputForEnquiryComponent implements OnInit
         isCIRActive:'',
         isComboActive:'',
          bir: {companyName:'',company:''},
-        cir: {companyName:'',productField:'',purpose:'',amt:'',accType1:'',clientRefNo:'',accType2:'',cmpPan:'',addrType:'',addrLinen1:'',
+        cir: {companyName:'',productField:'',cirPurpose:'',amt:'',accType1:'',clientRefNo:'',accType2:'',cmpPan:'',addrType:'',addrLinen1:'',
               addrline2:'',city:'',cirState:'',pinCode:'',telephoneNo:'',cin:'',tin:'',emailId:'',triggers:''},
-        consumerList: [ 
+         consumerList: [ 
                 {relationType:'',accountType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
                 rationCard:'',passportNo:'',homeTelephoneNo:'',officeTelephoneNo:'',mobileNo:'',birthDate:'',maritalStatus:'',gender:'',
-                addressType :'' ,personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:'',amount:''}                
-            ]
-};
+                addressType :'' ,personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:'',amount:'',consumerPurpose:'', consumerFinancialPurpose:''}]};
 
-consumerData : any= [{relationType:'',accountType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
+        consumerData : any= [{relationType:'',accountType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
                 rationCard:'',passportNo:'',homeTelephoneNo:'',officeTelephoneNo:'',mobileNo:'',birthDate:'',maritalStatus:'',gender:'',
-                addressType :'' ,personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:'',amount:''}]  ;
+                addressType :'' ,personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:'',amount:'',consumerPurpose:'', consumerFinancialPurpose:''}]  ;
 
   ngOnInit(){
     this._stateListService.getStateList().subscribe((stateListSubs) => {
@@ -179,7 +177,7 @@ consumerData : any= [{relationType:'',accountType:'',firstName:'',middleName:'',
           'city'        : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z]*')])],
           'product'     : [null,  Validators.required],
           'address'     : [null,  Validators.required],         
-          'purpose'     : [null,  Validators.required],
+          'cirPurpose'     : [null,  Validators.required],
           'cirState'       : [null,  Validators.required]
          });
          

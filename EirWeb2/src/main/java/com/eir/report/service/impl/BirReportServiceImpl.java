@@ -390,7 +390,7 @@ public class BirReportServiceImpl implements BirReportService {
 					{
 						Float score = mapEntry.getKey();
 						scoreXMlOutput = mapEntry.getValue();
-						birRequest.setScoreXMlOutput(scoreXMlOutput.getBytes());
+						birRequest.setScoreCardExcell(scoreXMlOutput.getBytes());
 						birRequest.setScore(score.toString());
 					}
 				}
@@ -428,7 +428,7 @@ public class BirReportServiceImpl implements BirReportService {
 	@Override
 	public List<BirRequest> getPendingRecord() {
 		Integer pendingStatus = 1; //TODO status id of pending form status table
-		return birReqRepository.getByStatus(pendingStatus);
+		return birReqRepository.getByStatus(getStatusByDescription(com.eir.report.constant.Status.PENDING.toString()).getStatusId());
 	}
 	
 	@Override

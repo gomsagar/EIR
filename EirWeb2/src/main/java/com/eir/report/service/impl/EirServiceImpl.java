@@ -7,9 +7,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +75,7 @@ import com.eir.report.repository.UserDetailsRepository;
 import com.eir.report.service.BirReportService;
 import com.eir.report.service.EirService;
 import com.eir.report.service.NextGenWebService;
+import com.eir.report.util.GetStatus;
 
 @Service
 public class EirServiceImpl implements EirService{
@@ -179,16 +183,6 @@ public class EirServiceImpl implements EirService{
 		return addressTypeRepository.findAll();
 	}
 
-	
-	
-	/*@Override
-	public void saveRequestedData(MultipleRequest input , HttpServletRequest request) {
-		 		
-		//cirReqRepository.save(setCIRData(input , request));
-		addressRepository.save(createAddress(input.getCir()));
-		setConsumerListData(input , request);
-	}*/
-	
 	private Address createAddress(com.eir.bir.request.model.CirRequest cirReq) {
 		Address addrsEntity = new Address();
 			addrsEntity.setAddressLine1(cirReq.getAddrLine1());
@@ -240,32 +234,14 @@ public class EirServiceImpl implements EirService{
 		return null;
 	}*/
 
-	private AccountType setAccntType(Consumer consumer_element) {
-		AccountType setAccntType = new AccountType();
-		setAccntType.setAccntTypeId(consumer_element.getAccountType().getAccntTypeId());
-		setAccntType.setAccntTypeDescription(consumer_element.getAccountType().getAccntTypeDescription());
-		return setAccntType;
-	}
-
-	private RelationType setRelationType(Consumer consumer_element) {
-		RelationType setRelstnType = new RelationType();
-		
-		setRelstnType.setRelationTypeId(consumer_element.getRelationType().getRelationTypeId());
-		setRelstnType.setRelationTypeDescription(consumer_element.getRelationType().getRelationTypeDescription());
-		
-		return setRelstnType;
-	}
-
-	
-	
 	private CirRequest mapCirInputToCIRRequest(com.eir.bir.request.model.CirRequest cirRequest, Request request) {
 		CirRequest cirRequestEntity = new CirRequest();		
 				
 		cirRequestEntity.setRequest(request);
 		cirRequestEntity.setStatus(getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.toString()));
-		
+		cirRequestEntity.setBusName(cirRequest.getCompanyName());
 		cirRequestEntity.setProductField(cirRequest.getProductField().getReportTypeId());
-		cirRequestEntity.setPurposeId(cirRequest.getPurpose().getCirPurposeId());
+		cirRequestEntity.setPurposeId(cirRequest.getCirPurpose().getCirPurposeId());
 		cirRequestEntity.setCompanyPan(cirRequest.getCmpPan());
 		cirRequestEntity.setAddress(createAddress(cirRequest));
 		
@@ -294,8 +270,10 @@ public class EirServiceImpl implements EirService{
 				//consumerEntity.setErnNumber(consumerInput.getErnNumber());
 				consumerEntity.setScore(consumerInput.getScore());
 				consumerEntity.setStatusId(getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.toString()));
-				consumerEntity.setRelationType(consumerInput.getRelationType().getRelationTypeId());
-				//consumerEntity.setAccountType(consumerInput.getAccountType().getAccntTypeId());
+				consumerEntity.setRelationTypeId(consumerInput.getRelationType().getRelationTypeId()); 
+				consumerEntity.setEnquiryAccountTypeId(consumerInput.getAccountType().getAccntTypeId());
+				consumerEntity.setEnquiryCreditPurposeId(consumerInput.getConsumerFinancialPurpose().getFinancialPurposeId());
+				consumerEntity.setPurposeId(consumerInput.getConsumerPurpose().getPurposeId());
 				consumerEntity.setFirstName(consumerInput.getFirstName());
 				consumerEntity.setMiddleName(consumerInput.getMiddleName());
 				consumerEntity.setLastName(consumerInput.getLastName());
@@ -308,13 +286,13 @@ public class EirServiceImpl implements EirService{
 				consumerEntity.setHomeTelephoneNo(consumerInput.getHomeTelephoneNo());
 				consumerEntity.setOfficeTelephoneNo(consumerInput.getOfficeTelephoneNo());
 				consumerEntity.setMobileNo(consumerInput.getMobileNo());
-				//consumerEntity.setBirthDate(consumerInput.getBirthDate());
+				consumerEntity.setDateOfBirth(consumerInput.getBirthDate());
 				consumerEntity.setMaritalStatus(consumerInput.getMaritalStatus());
-				consumerEntity.setGender(consumerInput.getGender().getId());
+				consumerEntity.setGenderId(consumerInput.getGender().getId());
 				
 				consumerEntity.setAddressId(createAddressForConsumerList(consumerInput));
 								
-				consumerEntity.setAmount(consumerInput.getAmount());
+				consumerEntity.setEnquiryAmount(consumerInput.getAmount());
 				consumerListRepository.save(consumerEntity);
 				consumerEntityRequestList.add(consumerEntity);
 			}
@@ -370,19 +348,6 @@ public class EirServiceImpl implements EirService{
 		
  		return reqEntity;
 	}
-
-	/*private Request setRequestData(MultipleRequest input, HttpServletRequest request) {
-		Request reqEntity = new Request();
-		
-		reqEntity.setUserDetails(getUserDetails());
-		reqEntity.setUserHit(1);//TODO temporarily harcode values saved
-		reqEntity.setEntityDetails(getEntityObject(input,request));
-		reqEntity.setStatus(getStatus(com.eir.report.constant.Status.IN_PROCCESS.toString()));//TODO it should be integer
-		reqEntity.setAdminHit(1);//TODO save according to admin hit
-		reqEntity.setType(Constant.SPECIFIED);//TODO change according to FE flag
-		//reqEntity.setScore("200");//TODO calculate total score and push in to DB
-		return reqEntity;
-	}*/
 	
 	private ProductMaster setProductMaster() {
 		return productMasterRepository.findByproductId(101);

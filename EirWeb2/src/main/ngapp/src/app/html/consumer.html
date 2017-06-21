@@ -39,14 +39,14 @@
 			<div class="row">
 			<div class="form-group col-md-6">
 				<label for="exampleInputName2">Purpose</label> 
-				<select class="form-control" name="purpose" [(ngModel)]="consumerData[i].purpose" (ngModelChange)="getFinancialPurpose($event)">
+				<select class="form-control" name="consumerPurpose" [(ngModel)]="consumerData[i].consumerPurpose" (ngModelChange)="getFinancialPurpose($event)">
 					<option>--SELECT--</option>
 					<option *ngFor="let consumerPurpose of consumerPurposeList" [ngValue]="consumerPurpose" id="{{consumerPurpose.purposeId}}">{{consumerPurpose.description}}</option>
 				</select>
 			</div>
 			<div class="form-group col-md-6">
 				<label for="exampleInputName2">Financial Purpose Type</label> 
-				<select class="form-control" name="">
+				<select class="form-control"  name="consumerFinancialPurpose" [(ngModel)]="consumerData[i].consumerFinancialPurpose">
 					<option>--SELECT--</option>
 					<option *ngFor="let consumerFinancialPurpose of consumerFinancialPurposeList" [ngValue]="consumerFinancialPurpose" id="{{consumerFinancialPurpose.financialPurposeId}}">{{consumerFinancialPurpose.financialDescription}}</option>
 				</select>

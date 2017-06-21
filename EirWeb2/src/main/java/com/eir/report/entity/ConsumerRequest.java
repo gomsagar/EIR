@@ -86,8 +86,8 @@ public class ConsumerRequest implements Serializable {
 	String lastName;
 	/**
 	 */
-	@Column(name = "relation_Type")
-	String relationType;
+	@Column(name = "relation_type_id")
+	Integer relationTypeId;
 	/*@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumns({ @JoinColumn(name = "relationType_Id", referencedColumnName = "relation_type_id") })
 	RelationType relationType;*/
@@ -190,12 +190,12 @@ public class ConsumerRequest implements Serializable {
 	/**
 	 */
 
-	@Column(name = "gender")
-	Integer gender;
+	@Column(name = "gender_id")
+	Integer genderId;
 	
 	
-	@Column(name = "amount", length = 45)
-	Float amount;
+	/*@Column(name = "amount", length = 45)
+	Float amount;*/
 	
 	@Column(name = "enquiry_amt_monetary_type", length = 45)
 	String enquiryAmtMonetaryType;
@@ -209,8 +209,8 @@ public class ConsumerRequest implements Serializable {
 	@Column(name = "enquiry_add_on_product", length = 45)
 	String enquiryAddOnProduct;
 	
-	@Column(name = "enquiry_account_type", length = 45)
-	String enquiryAccountType;
+	@Column(name = "enquiry_account_type_id", length = 45)
+	Integer enquiryAccountTypeId;
 
 	@Column(name = "search_type", length = 45)
 	String searchType;
@@ -219,13 +219,13 @@ public class ConsumerRequest implements Serializable {
 	Integer purposeId;
 
 	@Column(name = "enquiry_amount", length = 45)
-	String enquiryAmount;
+	Double enquiryAmount;
 
 	@Column(name = "client_enquiry_ref_number", length = 45)
 	String clientEnquiryRefNumber;
 	
 	@Column(name = "frequency_id", length = 45)
-	String frequencyId;
+	Integer frequencyId;
 
 	@Column(name = "duration_of_agreement", length = 45)
 	String durationOfAgreement;
@@ -233,8 +233,8 @@ public class ConsumerRequest implements Serializable {
 	@Column(name = "purpose_of_inquiry", length = 45)
 	Integer purposeOfInquiry;
 
-	@Column(name = "enquiry_credit_purpose", length = 45)
-	String enquiryCreditPurpose;
+	@Column(name = "enquiry_credit_purpose_id", length = 45)
+	Integer enquiryCreditPurposeId;
 
 	@Column(name = "language", length = 45)
 	String language;
@@ -248,8 +248,9 @@ public class ConsumerRequest implements Serializable {
 	@Column(name = "application_role", length = 45)
 	String applicationRole;
 	
-	@Column(name = "dateOfBirth", length = 45)
-	Date dateOfBirth;
+	@Column(name = "dateOfBirth")
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	DateTime dateOfBirth;
 
 	@Column(name = "india_middle_name3", length = 45)
 	String indiaMiddleName3;
@@ -559,14 +560,6 @@ public class ConsumerRequest implements Serializable {
 		this.maritalStatus = maritalStatus;
 	}
 
-	public String getRelationType() {
-		return relationType;
-	}
-
-	public void setRelationType(String relationType) {
-		this.relationType = relationType;
-	}
-
 	public String getFirstName() {
 		return firstName;
 	}
@@ -589,14 +582,6 @@ public class ConsumerRequest implements Serializable {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-
-	public Float getAmount() {
-		return amount;
-	}
-
-	public void setAmount(Float amount) {
-		this.amount = amount;
 	}
 
 	public CirRequest getCirRequest() {
@@ -631,14 +616,6 @@ public class ConsumerRequest implements Serializable {
 		this.addressId = addressId;
 	}
 
-	public Integer getGender() {
-		return gender;
-	}
-
-	public void setGender(Integer gender) {
-		this.gender = gender;
-	}
-
 	public String getEnquiryAmtMonetaryType() {
 		return enquiryAmtMonetaryType;
 	}
@@ -663,14 +640,6 @@ public class ConsumerRequest implements Serializable {
 		this.enquiryApplicationType = enquiryApplicationType;
 	}
 
-	public String getEnquiryAccountType() {
-		return enquiryAccountType;
-	}
-
-	public void setEnquiryAccountType(String enquiryAccountType) {
-		this.enquiryAccountType = enquiryAccountType;
-	}
-
 	public String getSearchType() {
 		return searchType;
 	}
@@ -687,11 +656,11 @@ public class ConsumerRequest implements Serializable {
 		this.purposeId = purposeId;
 	}
 
-	public String getEnquiryAmount() {
+	public Double getEnquiryAmount() {
 		return enquiryAmount;
 	}
 
-	public void setEnquiryAmount(String enquiryAmount) {
+	public void setEnquiryAmount(Double enquiryAmount) {
 		this.enquiryAmount = enquiryAmount;
 	}
 
@@ -701,14 +670,6 @@ public class ConsumerRequest implements Serializable {
 
 	public void setClientEnquiryRefNumber(String clientEnquiryRefNumber) {
 		this.clientEnquiryRefNumber = clientEnquiryRefNumber;
-	}
-
-	public String getFrequencyId() {
-		return frequencyId;
-	}
-
-	public void setFrequencyId(String frequencyId) {
-		this.frequencyId = frequencyId;
 	}
 
 	public String getDurationOfAgreement() {
@@ -725,14 +686,6 @@ public class ConsumerRequest implements Serializable {
 
 	public void setPurposeOfInquiry(Integer purposeOfInquiry) {
 		this.purposeOfInquiry = purposeOfInquiry;
-	}
-
-	public String getEnquiryCreditPurpose() {
-		return enquiryCreditPurpose;
-	}
-
-	public void setEnquiryCreditPurpose(String enquiryCreditPurpose) {
-		this.enquiryCreditPurpose = enquiryCreditPurpose;
 	}
 
 	public String getLanguage() {
@@ -767,11 +720,11 @@ public class ConsumerRequest implements Serializable {
 		this.applicationRole = applicationRole;
 	}
 
-	public Date getDateOfBirth() {
+	public DateTime getDateOfBirth() {
 		return dateOfBirth;
 	}
 
-	public void setDateOfBirth(Date dateOfBirth) {
+	public void setDateOfBirth(DateTime dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 
@@ -950,6 +903,44 @@ public class ConsumerRequest implements Serializable {
 	public void setProductField(String productField) {
 		this.productField = productField;
 	}
-	
-	
+
+	public Integer getRelationTypeId() {
+		return relationTypeId;
+	}
+
+	public void setRelationTypeId(Integer relationTypeId) {
+		this.relationTypeId = relationTypeId;
+	}
+
+	public Integer getGenderId() {
+		return genderId;
+	}
+
+	public void setGenderId(Integer genderId) {
+		this.genderId = genderId;
+	}
+
+	public Integer getEnquiryAccountTypeId() {
+		return enquiryAccountTypeId;
+	}
+
+	public void setEnquiryAccountTypeId(Integer enquiryAccountTypeId) {
+		this.enquiryAccountTypeId = enquiryAccountTypeId;
+	}
+
+	public Integer getFrequencyId() {
+		return frequencyId;
+	}
+
+	public void setFrequencyId(Integer frequencyId) {
+		this.frequencyId = frequencyId;
+	}
+
+	public Integer getEnquiryCreditPurposeId() {
+		return enquiryCreditPurposeId;
+	}
+
+	public void setEnquiryCreditPurposeId(Integer enquiryCreditPurposeId) {
+		this.enquiryCreditPurposeId = enquiryCreditPurposeId;
+	}
 }

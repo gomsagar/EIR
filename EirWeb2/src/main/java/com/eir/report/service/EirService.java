@@ -13,6 +13,8 @@ import com.eir.report.entity.AccountType;
 import com.eir.report.entity.Address;
 import com.eir.report.entity.AddressType;
 import com.eir.report.entity.BirRequest;
+import com.eir.report.entity.CirPurpose;
+import com.eir.report.entity.ConsumerFinancialPurpose;
 import com.eir.report.entity.ConsumerPurpose;
 import com.eir.report.entity.RelationType;
 import com.eir.report.entity.ReportType;

@@ -1,6 +1,9 @@
 package com.eir.bir.request.model;
 
+import java.util.Calendar;
 import java.util.Date;
+
+import org.joda.time.DateTime;
 
 public class Consumer {
 	String ernNumber;
@@ -11,6 +14,8 @@ public class Consumer {
 	String firstName;
 	String middleName;
 	String lastName;
+	ConsumerPurpose consumerPurpose;
+	ConsumerFinancialPurpose consumerFinancialPurpose;
 	String personPan;
 	String drivingLic;
 	String aadharhCard;
@@ -20,7 +25,7 @@ public class Consumer {
 	String homeTelephoneNo;
 	String officeTelephoneNo;
 	String mobileNo;
-	/*Date birthDate;*/
+	DateTime birthDate;
 	String maritalStatus;
 	Gender gender;
 	String personAddrLine1;
@@ -29,12 +34,12 @@ public class Consumer {
 	State personState;
 	String personPincode;
 	AddressType addressType;
-	Float amount;
+	Double amount;
 	
-public Float getAmount() {
+public Double getAmount() {
 		return amount;
 	}
-	public void setAmount(Float amount) {
+	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
 public String getErnNumber() {
@@ -140,12 +145,12 @@ public String getErnNumber() {
 	public void setMobileNo(String mobileNo) {
 		this.mobileNo = mobileNo;
 	}
-	/*public Date getBirthDate() {
+	public DateTime getBirthDate() {
 		return birthDate;
 	}
-	public void setBirthDate(Date birthDate) {
+	public void setBirthDate(DateTime birthDate) {
 		this.birthDate = birthDate;
-	}*/
+	}
 	public String getMaritalStatus() {
 		return maritalStatus;
 	}
@@ -216,5 +221,17 @@ public String getErnNumber() {
 	}
 	public void setAddressType(AddressType addressType) {
 		this.addressType = addressType;
+	}
+	public ConsumerPurpose getConsumerPurpose() {
+		return consumerPurpose;
+	}
+	public void setConsumerPurpose(ConsumerPurpose consumerPurpose) {
+		this.consumerPurpose = consumerPurpose;
+	}
+	public ConsumerFinancialPurpose getConsumerFinancialPurpose() {
+		return consumerFinancialPurpose;
+	}
+	public void setConsumerFinancialPurpose(ConsumerFinancialPurpose consumerFinancialPurpose) {
+		this.consumerFinancialPurpose = consumerFinancialPurpose;
 	}
 }

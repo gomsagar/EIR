@@ -41,7 +41,7 @@ genderList=<any>[];
   @Input() consumerData = [
     {relationType:'',accountType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
                 rationCard:'',passportNo:'',homeTelephoneNo:'',officeTelephoneNo:'',mobileNo:'',birthDate:'',maritalStatus:'',gender:'',
-               addressType :'' , personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:'',amount:'',purpose:''} 
+               addressType :'' , personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:'',amount:'',consumerPurpose:'',consumerFinancialPurpose:''} 
  ];
 
  constructor(public fb1: FormBuilder, private _appService:AppService, private _newService:NewService, private _accntTypeList:AccountTyprList, private _relationTypeList:RelationTypeList,
@@ -152,14 +152,16 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
       this.requisitionForm[action]('personCity' + i, new FormControl('', [Validators.required,Validators.pattern('[A-Za-z]*')]));
       this.requisitionForm[action]('personState' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('personPinCode' + i, new FormControl('', [Validators.required,Validators.pattern('[0-9]{6}')]));
+      this.requisitionForm[action]('consumerPurpose' + i, new FormControl('', [Validators.required]));
+      this.requisitionForm[action]('consumerFinancialPurpose' + i, new FormControl('', [Validators.required]));
   	}
 
  addMore(){
    this.consumerData.push({
      relationType:'',accountType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
                 rationCard:'',passportNo:'',homeTelephoneNo:'',officeTelephoneNo:'',mobileNo:'',birthDate:'',maritalStatus:'',gender:'',
-                addressType :'' , personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:'',amount:'', purpose:''
-   })
+                addressType :'' , personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:'',amount:'',
+                consumerPurpose:'', consumerFinancialPurpose:''})
    
     this.rowValidateForm(ConsumerComponent.iRow++, 'add');
  }

@@ -9,6 +9,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -245,12 +247,12 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		enqHeader.setProduct(consumerRequest.getProductField());
 		enqHeader.setSearchType(consumerRequest.getSearchType());
 		enqHeader.setEnquiryApplicationType(consumerRequest.getEnquiryApplicationType());
-		enqHeader.setEnquiryAccountType(consumerRequest.getEnquiryAccountType());
+		enqHeader.setEnquiryAccountType(consumerRequest.getEnquiryAccountTypeId().toString());
 		enqHeader.setEnquiryAmtMonetaryType(consumerRequest.getEnquiryAmtMonetaryType());
-		enqHeader.setEnquiryAmount(consumerRequest.getEnquiryAmount());
-		enqHeader.setEnquiryCreditPurpose(consumerRequest.getEnquiryCreditPurpose());
+		enqHeader.setEnquiryAmount(consumerRequest.getEnquiryAmount().toString());
+		enqHeader.setEnquiryCreditPurpose(consumerRequest.getEnquiryCreditPurposeId().toString());
 		enqHeader.setDurationofAgreement(consumerRequest.getDurationOfAgreement());
-		enqHeader.setFrequency(consumerRequest.getFrequencyId());
+		enqHeader.setFrequency(consumerRequest.getFrequencyId().toString());
 		consumerProductRequest.setENQHEADER(enqHeader);
 		
 		UserPref userPref = new UserPref();
@@ -261,7 +263,10 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		addlProd.setEnquiryAddOnProduct(consumerRequest.getEnquiryAddOnProduct());
 		consumerProductRequest.getADDLPROD().add(addlProd);
 		
-		
+		//set Date format in ddMMyyyy form for NExtgen request
+		DateTimeFormatter formatter = DateTimeFormat.forPattern("ddMMyyyy");
+		String dateFormat = formatter.print(consumerRequest.getDateOfBirth());
+		//end dateformat here
 		
 		List<PrsnSrch> prsnsrchList = new ArrayList<>();
 		PrsnSrch srch = new PrsnSrch();
@@ -271,8 +276,8 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		srch.setFamilyName(consumerRequest.getFamilyName());
 		srch.setSuffix(consumerRequest.getSuffix());
 		srch.setApplicationRole(consumerRequest.getApplicationRole());
-		srch.setDateOfBirth(consumerRequest.getDateOfBirth().toString());
-		srch.setGender(consumerRequest.getGender().toString());
+		srch.setDateOfBirth(dateFormat);
+		srch.setGender(consumerRequest.getGenderId().toString());
 		srch.getIndiaMiddleName3();
 		srch.setIndiaNameTitle(consumerRequest.getIndiaNameTitle());
 		prsnsrchList.add(srch);
