@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -25,14 +26,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 /**
  */
 
 @Entity
 @Table(name = "request")
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = "eir/com/eir/report/entity", name = "Request")
-@XmlRootElement(namespace = "eir/com/eir/report/entity")
+@EntityListeners(AuditingEntityListener.class)
 public class Request implements Serializable {
 	private static final long serialVersionUID = 1L;
 

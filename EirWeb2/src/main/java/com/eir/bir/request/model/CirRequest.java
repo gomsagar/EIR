@@ -4,11 +4,12 @@ package com.eir.bir.request.model;
 public class CirRequest {
 	
 	String ernNumber;
+	String companyName;
 	String status;
 	String cirRequetcol;
 	Integer bankAccNo;
 	ReportType productField;
-	CirPurpose purpose;
+	CirPurpose cirPurpose;
 	Float amt;
 	String accType1;
 	String clientRefNo;
@@ -61,12 +62,7 @@ public class CirRequest {
 	public void setProductField(ReportType productField) {
 		this.productField = productField;
 	}
-	public CirPurpose getPurpose() {
-		return purpose;
-	}
-	public void setPurpose(CirPurpose purpose) {
-		this.purpose = purpose;
-	}
+	
 	public Float getAmt() {
 		return amt;
 	}
@@ -163,6 +159,18 @@ public class CirRequest {
 	}
 	public void setAddrLine2(String addrLine2) {
 		this.addrLine2 = addrLine2;
+	}
+	public CirPurpose getCirPurpose() {
+		return cirPurpose;
+	}
+	public void setCirPurpose(CirPurpose cirPurpose) {
+		this.cirPurpose = cirPurpose;
+	}
+	public String getCompanyName() {
+		return companyName;
+	}
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 
 }

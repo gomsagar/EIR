@@ -3,19 +3,12 @@ package com.eir.report.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import org.hibernate.annotations.Type;
@@ -26,6 +19,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+@IdClass(com.eir.report.entity.ReportSelectionPK.class)
 @Entity
 @Table(name = "product_selection")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -36,25 +30,15 @@ public class ReportSelection {
 	
 	@Column(name = "request_id", nullable = false)
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="reportSel_seq")
-	@SequenceGenerator(
-		name="reportSel_seq",
-		sequenceName="reportSelection_sequence",
-		allocationSize=1
-	)
-	@XmlElement
-	Integer requestId;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumns({ @JoinColumn(name = "product_id", referencedColumnName = "product_id") })
-	@XmlTransient
-	ProductMaster productMaster;
-	
-	
+	public Integer requestId;
+
+	@Column(name = "product_id", nullable = false)
+	@Id
+	public Integer productId;
+
 	@Column(name = "product_code", length = 45)
 	@XmlElement
 	String productCode;
-	
 	
 	@Column(name = "create_user_id", length = 45)
 	@CreatedBy
@@ -89,18 +73,13 @@ public class ReportSelection {
 	public void setRequestId(Integer requestId) {
 		this.requestId = requestId;
 	}
-	public ProductMaster getProductMaster() {
-		return productMaster;
+	public Integer getProductId() {
+		return productId;
 	}
-	public void setProductMaster(ProductMaster productMaster) {
-		this.productMaster = productMaster;
+	public void setProductId(Integer productId) {
+		this.productId = productId;
 	}
-	public String getProductCode() {
-		return productCode;
-	}
-	public void setProductCode(String productCode) {
-		this.productCode = productCode;
-	}
+	
 	public String getCreateUserId() {
 		return createUserId;
 	}
@@ -124,6 +103,12 @@ public class ReportSelection {
 	}
 	public void setUpdateUserDate(DateTime updateUserDate) {
 		this.updateUserDate = updateUserDate;
+	}
+	public String getProductCode() {
+		return productCode;
+	}
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
 	}
 
 }

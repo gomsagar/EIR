@@ -7,6 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -240,32 +244,14 @@ public class EirServiceImpl implements EirService{
 		return null;
 	}*/
 
-	private AccountType setAccntType(Consumer consumer_element) {
-		AccountType setAccntType = new AccountType();
-		setAccntType.setAccntTypeId(consumer_element.getAccountType().getAccntTypeId());
-		setAccntType.setAccntTypeDescription(consumer_element.getAccountType().getAccntTypeDescription());
-		return setAccntType;
-	}
-
-	private RelationType setRelationType(Consumer consumer_element) {
-		RelationType setRelstnType = new RelationType();
-		
-		setRelstnType.setRelationTypeId(consumer_element.getRelationType().getRelationTypeId());
-		setRelstnType.setRelationTypeDescription(consumer_element.getRelationType().getRelationTypeDescription());
-		
-		return setRelstnType;
-	}
-
-	
-	
 	private CirRequest mapCirInputToCIRRequest(com.eir.bir.request.model.CirRequest cirRequest, Request request) {
 		CirRequest cirRequestEntity = new CirRequest();		
 				
 		cirRequestEntity.setRequest(request);
-		cirRequestEntity.setStatus(getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.toString()));
-		
+		cirRequestEntity.setStatus(getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.status()));
+		cirRequestEntity.setBusName(cirRequest.getCompanyName());
 		cirRequestEntity.setProductField(cirRequest.getProductField().getReportTypeId());
-		cirRequestEntity.setPurposeId(cirRequest.getPurpose().getCirPurposeId());
+		cirRequestEntity.setPurposeId(cirRequest.getCirPurpose().getCirPurposeId());
 		cirRequestEntity.setCompanyPan(cirRequest.getCmpPan());
 		cirRequestEntity.setAddress(createAddress(cirRequest));
 		
@@ -293,9 +279,11 @@ public class EirServiceImpl implements EirService{
 				consumerEntity.setCirRequest(cirRequestEntity);
 				//consumerEntity.setErnNumber(consumerInput.getErnNumber());
 				consumerEntity.setScore(consumerInput.getScore());
-				consumerEntity.setStatusId(getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.toString()));
-				consumerEntity.setRelationType(consumerInput.getRelationType().getRelationTypeId());
-				//consumerEntity.setAccountType(consumerInput.getAccountType().getAccntTypeId());
+				consumerEntity.setStatusId(getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.status()));
+				consumerEntity.setRelationTypeId(consumerInput.getRelationType().getRelationTypeId()); 
+				consumerEntity.setEnquiryAccountTypeId(consumerInput.getAccountType().getAccntTypeId());
+				consumerEntity.setEnquiryCreditPurposeId(consumerInput.getConsumerFinancialPurpose().getFinancialPurposeId());
+				consumerEntity.setPurposeId(consumerInput.getConsumerPurpose().getPurposeId());
 				consumerEntity.setFirstName(consumerInput.getFirstName());
 				consumerEntity.setMiddleName(consumerInput.getMiddleName());
 				consumerEntity.setLastName(consumerInput.getLastName());
@@ -308,13 +296,13 @@ public class EirServiceImpl implements EirService{
 				consumerEntity.setHomeTelephoneNo(consumerInput.getHomeTelephoneNo());
 				consumerEntity.setOfficeTelephoneNo(consumerInput.getOfficeTelephoneNo());
 				consumerEntity.setMobileNo(consumerInput.getMobileNo());
-				//consumerEntity.setBirthDate(consumerInput.getBirthDate());
+				consumerEntity.setDateOfBirth(consumerInput.getBirthDate());
 				consumerEntity.setMaritalStatus(consumerInput.getMaritalStatus());
-				consumerEntity.setGender(consumerInput.getGender().getId());
+				consumerEntity.setGenderId(consumerInput.getGender().getId());
 				
 				consumerEntity.setAddressId(createAddressForConsumerList(consumerInput));
 								
-				consumerEntity.setAmount(consumerInput.getAmount());
+				consumerEntity.setEnquiryAmount(consumerInput.getAmount());
 				consumerListRepository.save(consumerEntity);
 				consumerEntityRequestList.add(consumerEntity);
 			}
@@ -342,7 +330,7 @@ public class EirServiceImpl implements EirService{
 		reqEntity.setUserDetails(getUserDetails(Constant.HARDCOADED_USERID));
 		reqEntity.setUserHit(1);//TODO temporarily harcode values saved
 		reqEntity.setEntityDetails(getEntityObject(input,request));
-		reqEntity.setStatus(getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.toString()));
+		reqEntity.setStatus(getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.status()));
 		reqEntity.setAdminHit(1);//TODO save according to admin hit
 		reqEntity.setType(Constant.SPECIFIED);//TODO change according to FE flag
 		
@@ -377,7 +365,7 @@ public class EirServiceImpl implements EirService{
 		reqEntity.setUserDetails(getUserDetails());
 		reqEntity.setUserHit(1);//TODO temporarily harcode values saved
 		reqEntity.setEntityDetails(getEntityObject(input,request));
-		reqEntity.setStatus(getStatus(com.eir.report.constant.Status.IN_PROCCESS.toString()));//TODO it should be integer
+		reqEntity.setStatus(getStatus(com.eir.report.constant.Status.IN_PROCCESS.status()));//TODO it should be integer
 		reqEntity.setAdminHit(1);//TODO save according to admin hit
 		reqEntity.setType(Constant.SPECIFIED);//TODO change according to FE flag
 		//reqEntity.setScore("200");//TODO calculate total score and push in to DB
@@ -543,7 +531,7 @@ public class EirServiceImpl implements EirService{
 				//fileName.replace(fileName.length()-1, fileName.length()-1, "");
 				//fileName.replace(fileName.length()-1, fileName.length(), " ");
 				kycApprval.setKycDocument(fileName.toString());
-				kycApprval.setStatus(getStatusByDescription(com.eir.report.constant.Status.PENDING.toString()).getStatusId());
+				kycApprval.setStatus(getStatusByDescription(com.eir.report.constant.Status.PENDING.status()).getStatusId());
 				
 				kycApprovalRepository.save(kycApprval);
 
@@ -622,7 +610,7 @@ public class EirServiceImpl implements EirService{
 		reqEntity.setUserDetails(getUserDetails(Constant.HARDCOADED_USERID));
 		reqEntity.setUserHit(1);//TODO temporarily harcode values saved
 		//reqEntity.setEntityDetails(getEntityObject(input,request));
-		reqEntity.setStatus(getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.toString()));
+		reqEntity.setStatus(getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.status()));
 		reqEntity.setAdminHit(1);//TODO save according to admin hit
 		reqEntity.setType(Constant.SPECIFIED);//TODO change according to FE flag
 		
@@ -634,7 +622,7 @@ public class EirServiceImpl implements EirService{
 				ReportSelection cws = new ReportSelection();
 				cws.setProductCode(EIRDataConstant.COMBOWITHSCORE);
 				ProductMaster comboWithScore = productMasterRepository.findByproductCode(EIRDataConstant.COMBOWITHSCORE);
-				cws.setProductMaster(comboWithScore);
+				cws.setProductId(comboWithScore.getProductId());
 				cws.setRequestId(reqEntity.getRequestId());
 				addintoList.add(cws);
 			}
@@ -643,7 +631,7 @@ public class EirServiceImpl implements EirService{
 				ReportSelection cwos = new ReportSelection();
 				cwos.setProductCode(EIRDataConstant.COMBOWITHOUTSCORE);
 				ProductMaster comboWithScore = productMasterRepository.findByproductCode(EIRDataConstant.COMBOWITHOUTSCORE);
-				cwos.setProductMaster(comboWithScore);
+				cwos.setProductId(comboWithScore.getProductId());
 				cwos.setRequestId(reqEntity.getRequestId());
 				addintoList.add(cwos);
 			}
@@ -652,7 +640,7 @@ public class EirServiceImpl implements EirService{
 				ReportSelection cirws = new ReportSelection();
 				cirws.setProductCode(EIRDataConstant.CIRWITHSCORE);
 				ProductMaster comboWithScore = productMasterRepository.findByproductCode(EIRDataConstant.CIRWITHSCORE);
-				cirws.setProductMaster(comboWithScore);
+				cirws.setProductId(comboWithScore.getProductId());
 				cirws.setRequestId(reqEntity.getRequestId());
 				addintoList.add(cirws);
 			}
@@ -661,7 +649,7 @@ public class EirServiceImpl implements EirService{
 				ReportSelection cirwos = new ReportSelection();
 				cirwos.setProductCode(EIRDataConstant.CIRWITHOUTSCORE);
 				ProductMaster comboWithScore = productMasterRepository.findByproductCode(EIRDataConstant.CIRWITHOUTSCORE);
-				cirwos.setProductMaster(comboWithScore);
+				cirwos.setProductId(comboWithScore.getProductId());
 				cirwos.setRequestId(reqEntity.getRequestId());
 				addintoList.add(cirwos);
 			}
@@ -670,7 +658,7 @@ public class EirServiceImpl implements EirService{
 				ReportSelection let = new ReportSelection();
 				let.setProductCode(EIRDataConstant.LETIGATION);
 				ProductMaster comboWithScore = productMasterRepository.findByproductCode(EIRDataConstant.LETIGATION);
-				let.setProductMaster(comboWithScore);
+				let.setProductId(comboWithScore.getProductId());
 				let.setRequestId(reqEntity.getRequestId());
 				addintoList.add(let);
 			}
@@ -679,7 +667,7 @@ public class EirServiceImpl implements EirService{
 				ReportSelection newsfeed = new ReportSelection();
 				newsfeed.setProductCode(EIRDataConstant.NEWSFEED);
 				ProductMaster comboWithScore = productMasterRepository.findByproductCode(EIRDataConstant.NEWSFEED);
-				newsfeed.setProductMaster(comboWithScore);
+				newsfeed.setProductId(comboWithScore.getProductId());
 				newsfeed.setRequestId(reqEntity.getRequestId());
 				addintoList.add(newsfeed);
 			}
@@ -688,7 +676,7 @@ public class EirServiceImpl implements EirService{
 				ReportSelection sme = new ReportSelection();
 				sme.setProductCode(EIRDataConstant.SME);
 				ProductMaster comboWithScore = productMasterRepository.findByproductCode(EIRDataConstant.SME);
-				sme.setProductMaster(comboWithScore);
+				sme.setProductId(comboWithScore.getProductId());
 				sme.setRequestId(reqEntity.getRequestId());
 				addintoList.add(sme);
 			}
@@ -697,7 +685,7 @@ public class EirServiceImpl implements EirService{
 				ReportSelection bir = new ReportSelection();
 				bir.setProductCode(EIRDataConstant.BIR);
 				ProductMaster comboWithScore = productMasterRepository.findByproductCode(EIRDataConstant.BIR);
-				bir.setProductMaster(comboWithScore);
+				bir.setProductId(comboWithScore.getProductId());
 				bir.setRequestId(reqEntity.getRequestId());
 				addintoList.add(bir);
 			}

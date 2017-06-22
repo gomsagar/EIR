@@ -30,7 +30,12 @@ public class UserDetails implements Serializable {
 
 	@Column(name = "user_id", nullable = false)
 	@Id
-	@XmlElement
+	@GeneratedValue(strategy=GenerationType.IDENTITY, generator="userDetails_seq")
+	@SequenceGenerator(
+		name="userDetails_seq",
+		sequenceName="userDetails_sequence",
+		allocationSize=1
+	)
 	Integer userId;
 
 	

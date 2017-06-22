@@ -51,7 +51,7 @@
     -->
 
     <jpa:repositories base-package="com.eir.report.repository"/>
-   <!--  <bean id="auditorAware" class="com.eir.report.entity.CommonFieldEntity"/>
-    <jpa:auditing auditor-aware-ref="auditorAware" /> -->
+    <bean id="auditorAware" class="com.eir.report.entity.CommonFieldEntity"/>
+    <jpa:auditing auditor-aware-ref="auditorAware" />
 
 </beans>

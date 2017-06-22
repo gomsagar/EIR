@@ -390,7 +390,7 @@ public class BirReportServiceImpl implements BirReportService {
 					{
 						Float score = mapEntry.getKey();
 						scoreXMlOutput = mapEntry.getValue();
-						birRequest.setScoreXMlOutput(scoreXMlOutput.getBytes());
+						birRequest.setScoreCardExcell(scoreXMlOutput.getBytes());
 						birRequest.setScore(score.toString());
 					}
 				}
@@ -428,7 +428,7 @@ public class BirReportServiceImpl implements BirReportService {
 	@Override
 	public List<BirRequest> getPendingRecord() {
 		Integer pendingStatus = 1; //TODO status id of pending form status table
-		return birReqRepository.getByStatus(pendingStatus);
+		return birReqRepository.getByStatus(getStatusByDescription(com.eir.report.constant.Status.PENDING.status()).getStatusId());
 	}
 	
 	@Override
@@ -483,7 +483,7 @@ public class BirReportServiceImpl implements BirReportService {
 		birReq.setCompanyName(birInputRequest.getCompanyName());
 		birReq.setEntityName(birInputRequest.getCompany().getEntityName());
 		birReq.setCinNumber(birInputRequest.getCompany().getCinNumber());
-		//birReq.setStatus(GetStatus.getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.toString()));
+		//birReq.setStatus(GetStatus.getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.status()));
 		
 		String reportToken = reportRequest(birReq.getCinNumber());
 		logger.info("Report Tocken - " + reportToken);
@@ -491,7 +491,7 @@ public class BirReportServiceImpl implements BirReportService {
 		if (reportToken != null && !reportToken.isEmpty()) 
 		{
 			birReq.setReportToken(reportToken);
-			birReq.setStatus(getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.toString()));
+			birReq.setStatus(getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.status()));
 			birReqRepository.save(birReq);
 			logger.debug("BirReportServiceImpl createBIRrequestsaved() BirRequest saved to db Id: " + birReq.getBirRequestId());
 		} 

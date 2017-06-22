@@ -1,14 +1,14 @@
 package com.eir.bir.request.model;
 
 public class RelationType {
-	String relationTypeId;
+	Integer relationTypeId;
 	String relationTypeDescription;
 	
 	
-	public String getRelationTypeId() {
+	public Integer getRelationTypeId() {
 		return relationTypeId;
 	}
-	public void setRelationTypeId(String relationTypeId) {
+	public void setRelationTypeId(Integer relationTypeId) {
 		this.relationTypeId = relationTypeId;
 	}
 	public String getRelationTypeDescription() {

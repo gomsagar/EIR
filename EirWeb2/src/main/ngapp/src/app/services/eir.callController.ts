@@ -25,9 +25,12 @@ static count : number=1;
     submitInfo(info) {
         console.log(info);
         debugger;
-        info.bir.cinNumber = info.bir.Cin;
-        info.bir.entityName = info.bir.Name;
-        info.cir.state = info.cir.stateCode;
+        if(info.isBIRActive == 'true')
+        {
+            info.bir.cinNumber = info.bir.Cin;
+            info.bir.entityName = info.bir.Name;
+        }
+        //info.cir.state = info.cir.stateCode;
         var head = new Headers();
         head.append('Content-Type', 'application/json');
          

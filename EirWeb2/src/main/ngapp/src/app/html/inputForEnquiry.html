@@ -58,13 +58,13 @@
 							<div *ngIf="(cirForm.controls['product'].hasError('required') && cirForm.controls['product'].touched)||(cirForm.controls['product'].hasError('required') && submitted)"
 							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must select Product.</div>
 						</div>
-						<div class="form-group col-md-3" [ngClass]="{'has-error':(!cirForm.controls['purpose'].valid && cirForm.controls['purpose'].touched)||(!cirForm.controls['purpose'].valid && submitted)}">
+						<div class="form-group col-md-3" [ngClass]="{'has-error':(!cirForm.controls['cirPurpose'].valid && cirForm.controls['cirPurpose'].touched)||(!cirForm.controls['cirPurpose'].valid && submitted)}">
 							<label for="exampleInputName2">Purpose *</label>
-							<select class="form-control" [formControl]="cirForm.controls['purpose']" name="purpose" [(ngModel)]="commonArray.cir.purpose">
+							<select class="form-control" [formControl]="cirForm.controls['cirPurpose']" name="cirPurpose" [(ngModel)]="commonArray.cir.cirPurpose">
 									<option>--Select--</option>
 									<option *ngFor="let cirPurpose of cirPurposeList" [ngValue]="cirPurpose">{{cirPurpose.cirPurposeDescription}}</option>
 							</select>
-							<div *ngIf="(cirForm.controls['purpose'].hasError('required') && cirForm.controls['purpose'].touched)||(cirForm.controls['purpose'].hasError('required') && submitted)"
+							<div *ngIf="(cirForm.controls['cirPurpose'].hasError('required') && cirForm.controls['cirPurpose'].touched)||(cirForm.controls['cirPurpose'].hasError('required') && submitted)"
 							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must select Purpose.</div>
 						</div>
 					</div>

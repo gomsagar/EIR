@@ -64,10 +64,10 @@ public class BirRequest implements Serializable {
 	@Lob
 	byte[] xmlOutput;
 	
-	@Column(name = "score_xml_Output", columnDefinition = "BLOB")
+	@Column(name = "score_card_excell", columnDefinition = "BLOB")
 	@Basic(fetch = FetchType.LAZY)
 	@Lob
-	byte[] scoreXMlOutput;
+	byte[] scoreCardExcell;
 	/**
 	 */
 
@@ -136,11 +136,6 @@ public class BirRequest implements Serializable {
 	@Column(name = "admin_hit", length = 45)
 	String adminHit;
 	
-	@Column(name = "excel_data", columnDefinition = "BLOB")
-	@Basic(fetch = FetchType.LAZY)
-	@Lob
-	byte[] excelData;
-
 	/**
 	 */
 	public void setBirRequestId(Integer birRequestId) {
@@ -324,12 +319,12 @@ public class BirRequest implements Serializable {
 		this.companyName = companyName;
 	}
 
-	public byte[] getScoreXMlOutput() {
-		return scoreXMlOutput;
+	public byte[] getScoreCardExcell() {
+		return scoreCardExcell;
 	}
 
-	public void setScoreXMlOutput(byte[] scoreXMlOutput) {
-		this.scoreXMlOutput = scoreXMlOutput;
+	public void setScoreCardExcell(byte[] scoreXMlOutput) {
+		this.scoreCardExcell = scoreXMlOutput;
 	}
 
 	public String getUserHit() {
@@ -347,12 +342,4 @@ public class BirRequest implements Serializable {
 	public void setAdminHit(String adminHit) {
 		this.adminHit = adminHit;
 	}
-
-	public byte[] getExcelData() {
-		return excelData;
-	}
-
-	public void setExcelData(byte[] excelData) {
-		this.excelData = excelData;
-	}	
 }
