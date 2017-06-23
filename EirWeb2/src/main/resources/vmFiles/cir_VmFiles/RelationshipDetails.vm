@@ -1,0 +1,159 @@
+<tr>
+   <td  valign="top" bgcolor="#FFFFFF" style="border:1px solid #E5E5E5;">
+      <table style="page-break-inside: avoid" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+   <td height="30"  bgcolor="#406eb3" style="border-bottom:1px solid #E5E5E5;vertical-align: middle;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+         <tr>
+            <td width="4%"><div class="sectionHeadingtickmark">&nbsp;&nbsp;&nbsp;<img src=$tickmarkByteCode width="16" height="16" align="center" alt="Arrow" /></div></td>
+            <td width="96%">
+               <div>#set($headCount=$headCount+1)
+                  <h1 class="sectionHeading">$headCount. Relationship Details</h1>
+               </div>
+            </td>
+         </tr>
+      </table>
+   </td>
+</tr>
+#if($reportDetails.relationshipDetails.size() > 0)
+#foreach($relationship in $reportDetails.relationshipDetails)
+<tr>
+   <td height="10" valign="top"></td>
+</tr>
+#set($relationshipentity = $relationship.relationshipEntity)
+#if($relationshipentity=="false")
+<tr>
+   <td height="10" valign="top" bgcolor="#FFFFFF">
+      <table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+         <tbody>
+            <tr>
+               <td height="10"colspan="3" align="center" valign="top" bgcolor="#FFFFFF">
+                  <table width="99%" border="0" cellpadding="0" cellspacing="0">
+                     <tr>
+                        <td class="sectionHeading1">  Relationship $velocityCount</td>
+                     </tr>
+                  </table>
+               </td>
+            </tr>
+            <tr>
+   				<td height="5" valign="top"></td>
+			</tr>
+            <tr>
+               
+               <td height="10" valign="top" bgcolor="#FFFFFF">
+                    
+                  <table width="99%" border="0" align="center" cellpadding="3" cellspacing="0">
+                     <tr>
+                        <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="13%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels"> Name</td>
+                        <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="13%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementValues"><span class="sectionDataElementLabels">Address</span></td>
+                        <td width="13%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Relationship</td>
+                        <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="12%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementValues"><span class="sectionDataElementLabels">Percentage of control</span></td>
+                        <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="12%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">PAN</td>
+                        <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="12%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">Phone</td>
+                        <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="12%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">Related Type</td>
+                        <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="12%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">Last Reported Date</td>
+                     </tr>
+                     <tr>
+                        <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.entityName)")$empty</td>
+                        <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.entityAddress)")$empty</td>
+                        <td width="12%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.entityRelationship)")$empty</td>
+                        <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.entityPctResp)")$empty</td>
+                        <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.entityPAN)")$empty</td>
+                        <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.entityPhone)")$empty</td>
+                        <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.entityRelatedType)")$empty</td>
+                        <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.lastReportedDate)")$empty</td>
+                     </tr>
+                     <tr>
+                        <td valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">DOB</td>
+                        <td valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Gender</td>
+                        <td valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Voter ID</td>
+                        <td valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Passport No</td>
+                        <td valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Driving License No</td>
+                        <td valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">UID</td>
+                        <td valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;">Ration Card No</td>
+                        <td valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;">Other Id</td>
+                     </tr>
+                     <tr>
+                        <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.dob)")$empty</td>
+                        <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.gender)")$empty</td>
+                        <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.voterId)")$empty</td>
+                        <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.passportNo)")$empty</td>
+                        <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.drivingLiNo)")$empty</td>
+                        <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.uid)")$empty</td>
+                        <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.rationCardNo)")$empty</td>
+                        <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.otherId)")$empty</td>
+                     </tr>
+                  </table>
+               </td>
+            </tr>
+            #else
+            <tr>
+               <td height="10" valign="top" bgcolor="#FFFFFF">
+                  <table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+                     <tbody>
+                        <tr>
+                           <td height="10"colspan="3" align="center" valign="top" bgcolor="#FFFFFF">
+                              <table width="99%" border="0" cellpadding="0" cellspacing="0">
+                                 <tr>
+                                    <td class="sectionHeading1">  Relationship $velocityCount</td>
+                                 </tr>
+                              </table>
+                           </td>
+                        </tr>
+                        <tr>
+   							<td height="5" valign="top"></td>
+						</tr>
+                        <tr>
+                           <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="13%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">Name</td>
+                           <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="13%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementValues"><span class="sectionDataElementLabels">Address</span></td>
+                           <td width="13%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Relationship</td>
+                           <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="12%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementValues"><span class="sectionDataElementLabels">Percentage of control</span></td>
+                           <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="12%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">PAN</td>
+                           <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="12%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">Phone</td>
+                           <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="12%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">Related Type</td>
+                           <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="12%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">Last Reported Date</td>
+                        </tr>
+                        <tr>
+                           <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.entityName)")$empty</td>
+                           <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.entityAddress)")$empty</td>
+                           <td width="12%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.entityRelationship)")$empty</td>
+                           <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.entityPctResp)")$empty</td>
+                           <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.entityPAN)")$empty</td>
+                           <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.entityPhone)")$empty</td>
+                           <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.entityRelatedType)")$empty</td>
+                           <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.lastReportedDate)")$empty</td>
+                        </tr>
+                        <tr>
+                           <td valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">DIN</td>
+                           <td valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">CIN</td>
+                           <td valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">TIN</td>
+                           <td valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Business Category</td>
+                           <td valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Business/Industry Type</td>
+                           <td valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Date of Incorporation</td>
+                           <td valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;">Registration Number</td>
+                           <td valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;">Service Tax No</td>
+                        </tr>
+                        <tr>
+                           <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.din)")$empty</td>
+                           <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.cin)")$empty</td>
+                           <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.tin)")$empty</td>
+                           <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.busCat)")$empty</td>
+                           <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.busIndType)")$empty</td>
+                           <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.dateOfIncorporation)")$empty</td>
+                           <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.regNo)")$empty</td>
+                           <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!relationship.serviceTaxNo)")$empty</td>
+                        </tr>
+                        #end
+                  </table>
+               </td>
+            </tr>
+            #end
+            <tr>
+               <td height="10" valign="top" bgcolor="#FFFFFF"></td>
+            </tr>
+            #else
+            <td bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">No Data To Display</td>
+            #end
+      </table>
+   </td>
+</tr>

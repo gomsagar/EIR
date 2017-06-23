@@ -1,0 +1,58 @@
+###if($creditFacility.creditRatings=="")
+#set($creditFacilityDetail = $creditFacility.creditRatings)
+###emptyDataCheck($!creditFacilityDetail)
+<tr>
+   <td height="10" align="center" valign="top" bgcolor="#FFFFFF">
+      <table width="99%" border="0" cellpadding="0" cellspacing="0">
+         <tbody>
+            <tr>
+               <td>
+                  <h2 class="sectionHeading1">Credit Rating Details</h2>
+               </td>
+            </tr>
+            <tr>
+               <td height="25" class="sectionDataElementsubheading">Credit Rating Issued-CRISIL</td>
+            </tr>
+         </tbody>
+      </table>
+   </td>
+</tr>
+<tr>
+   <td height="10" valign="top" bgcolor="#FFFFFF"></td>
+</tr>
+<tr>
+   <td align="center" valign="top" bgcolor="#FFFFFF">
+      <table width="99%" border="0" align="center" cellpadding="3" cellspacing="0">
+         <tbody>
+            <tr>
+               <td width="25%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Credit Rating</td>
+               <td width="25%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.aaa)")$empty</td>
+               <td width="25%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.aa)")$empty</td>
+               <td width="24%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.bbb)")$empty</td>
+            </tr>
+            <tr>
+               <td valign="middle" bgcolor="#FFFFFF" class="sectionDataElementValues1" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Credit Rating As On</td>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.creditRatingasOnaaa)")$empty</td>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.creditRatingasOnaa)")$empty</td>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.creditRatingasOnbbb)")$empty</td>
+            </tr>
+            <tr>
+               <td valign="middle" bgcolor="#FFFFFF" class="sectionDataElementValues1" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Credit Rating Expiry Date</td>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.creditRatingExpiryDateaaa)")$empty</td>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.creditRatingExpiryDateaa)")$empty</td>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.creditRatingExpiryDatebbb)")$empty</td>
+            </tr>
+            <tr>
+               <td valign="middle" bgcolor="#FFFFFF" class="sectionDataElementValues1" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Credit Rating Reported Date</td>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.creditRatingReportedDateaaa)")$empty</td>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.creditRatingReportedDateaa)")$empty</td>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.creditRatingReportedDatebbb)")$empty</td>
+            </tr>
+         </tbody>
+         <tr>
+   			<td>&nbsp;</td>
+		</tr>
+      </table>
+   </td>
+</tr>
+## #end

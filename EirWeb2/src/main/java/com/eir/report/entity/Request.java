@@ -2,6 +2,11 @@
 package com.eir.report.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -150,12 +155,12 @@ public class Request implements Serializable {
 	KycApproval kycApproval;
 	/**
 	 */
-	@OneToMany(mappedBy = "request", fetch = FetchType.LAZY)
-	java.util.Set<com.eir.report.entity.CirRequest> cirRequets;
+	@OneToOne(mappedBy = "request", fetch = FetchType.LAZY)
+	com.eir.report.entity.CirRequest cirRequest;
 	/**
 	 */
 	@OneToMany(mappedBy = "request", fetch = FetchType.LAZY)
-	java.util.Set<com.eir.report.entity.ConsumerRequest> consumerRequets;
+	List<com.eir.report.entity.ConsumerRequest> consumerRequests;
 
 	/**
 	 */
@@ -306,32 +311,32 @@ public class Request implements Serializable {
 
 	/**
 	 */
-	public void setCirRequets(Set<CirRequest> cirRequets) {
-		this.cirRequets = cirRequets;
+	public void setCirRequets(CirRequest cirRequets) {
+		this.cirRequest = cirRequest;
 	}
 
 	/**
 	 */
-	public Set<CirRequest> getCirRequets() {
-		if (cirRequets == null) {
-			cirRequets = new java.util.LinkedHashSet<com.eir.report.entity.CirRequest>();
+	public CirRequest getCirRequets() {
+		if (cirRequest == null) {
+			cirRequest = new com.eir.report.entity.CirRequest();
 		}
-		return cirRequets;
+		return cirRequest;
 	}
 
 	/**
 	 */
-	public void setConsumerRequets(Set<ConsumerRequest> consumerRequets) {
-		this.consumerRequets = consumerRequets;
+	public void setConsumerRequets(List<ConsumerRequest> consumerRequets) {
+		this.consumerRequests = consumerRequets;
 	}
 
 	/**
 	 */
-	public Set<ConsumerRequest> getConsumerRequets() {
-		if (consumerRequets == null) {
-			consumerRequets = new java.util.LinkedHashSet<com.eir.report.entity.ConsumerRequest>();
+	public List<ConsumerRequest> getConsumerRequets() {
+		if (consumerRequests == null) {
+			consumerRequests = new ArrayList<ConsumerRequest>();
 		}
-		return consumerRequets;
+		return consumerRequests;
 	}
 
 	/**

@@ -1,0 +1,77 @@
+<tr>
+   <td valign="top" bgcolor="#FFFFFF" style="border:1px solid #E5E5E5;">
+      <table style="page-break-inside: avoid" width="100%" border="0" cellspacing="0" cellpadding="0">
+         <tr>
+            <td height="30" bgcolor="#406eb3" style="border-bottom:1px solid #E5E5E5;vertical-align: middle;">
+               <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                     <td width="4%"><div class="sectionHeading">&nbsp;&nbsp;&nbsp;<img src=$tickmarkByteCode width="16" height="16" align="center" alt="Arrow" /></div></td>
+                     <td width="96%">
+                        <div>#set($headCount=$headCount+1)
+                           <h1 class="sectionHeading">$headCount. Enquiry Details </h1>
+                        </div>
+                     </td>
+                  </tr>
+               </table>
+            </td>
+         </tr>
+         #if($reportDetails.enquiryDetails.size() > 0)
+         <tr>
+            <td height="10" valign="top"></td>
+         </tr>
+         <tr>
+            <td valign="top" bgcolor="#FFFFFF">
+               <table width="99%" border="0" align="center" cellpadding="3" cellspacing="0">
+                  <tr>
+                     <td width="20%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">
+                        Date
+                     </td>
+                     <td width="20%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">
+                        Purpose 
+                     </td>
+                     <td width="20%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">
+                        Currency
+                     </td>
+                     <td width="20%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">
+                        Amount
+                     </td>
+                     <td width="19%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">
+                        Credit Institution
+                     </td>
+                  </tr>
+                  ###set($enquiryDetails="#emptyDataCheck($reportDetails)")
+                  #foreach($enquiryDetails in $reportDetails.enquiryDetails)
+                  ###set($enquiryDetails="#emptyDataCheck($enquiryDetails)")
+                  <tr>
+                     <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">
+                        ###if($StringUtils.isNotBlank
+                        #set($empty="#emptyDataCheck($enquiryDetails.outputInqRqstDt)")$empty
+                        ##$!enquiryDetails.outputInqRqstDt
+                        ###else
+                        ##	$emptyDataIndicator
+                        ###end
+                     </td>
+                     <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">
+                        #set($empty="#emptyDataCheck($!enquiryDetails.outputInqPurpCd4In)")$empty
+                     </td>
+                     <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">
+                        #set($empty="#emptyDataCheck($!enquiryDetails.currency)")$empty
+                     </td>
+                     <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">
+                       #set($empty="#emptyDataCheck($!enquiryDetails.amount)")$empty
+                     </td>
+                     <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;border-right:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!enquiryDetails.outputInqCreditinstitutionNm)")$empty </td>
+                  </tr>
+                  #end   
+               </table>
+            </td>
+         </tr>
+         #else
+         <td bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">No Data To Display</td>
+         #end           
+        <tr>
+   				<td>&nbsp;</td>
+			</tr>
+      </table>
+   </td>
+</tr>

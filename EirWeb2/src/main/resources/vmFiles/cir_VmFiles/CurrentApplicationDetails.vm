@@ -1,0 +1,68 @@
+#set($companyDetails = $reportDetails.application)
+###emptyDataCheck($!companyDetails)
+<tr>
+   <td valign="top" bgcolor="#FFFFFF" style="border:1px solid #E5E5E5;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+         <tr>
+            <td height="30"  bgcolor="#406eb3" style="border-bottom:1px solid #E5E5E5;vertical-align: middle;">
+               <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                     <td width="4%"><div class="sectionHeadingtickmark">&nbsp;&nbsp;&nbsp;<img src=$tickmarkByteCode width="16" height="16" align="center" alt="Arrow" /></div></td>
+                     <td width="96%">
+                        <div>
+                        	#set($headCount=$headCount+1)
+                           <h1 class="sectionHeading">$headCount. Current Application details</h1>
+                        </div>
+                     </td>
+                  </tr>
+               </table>
+            </td>
+         </tr>
+         <tr>
+            <td height="10" valign="top"></td>
+         </tr>
+         <tr>
+            <td valign="top" bgcolor="#FFFFFF">
+               <table style="page-break-inside: avoid" width="99%" border="0" align="center" cellpadding="3" cellspacing="0">
+                  <tr>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels">Company Name</td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementValues"><span class="sectionDataElementLabels">Enquiry Purpose</span></td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels">Enquiry Amount</td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels">Address</td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementValues"><span class="sectionDataElementLabels">City</span></td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="7%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels">Pin Code</td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels">Telephone</td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels">PAN</td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="15%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels">Loan Account Number</td>
+                  </tr>
+                  <tr>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;"  bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!companyDetails.inqCompanyName)")$empty</td>
+                     
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;"  bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!companyDetails.enquiryPurposeCd)")$empty</td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;"  bgcolor="#FFFFFF" class="sectionDataElementValues1">
+                        #set($empty="#currencyNullCheck($!companyDetails.enquiryAmount)")$empty
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <span class="currencySym" ><img alt="rupee_icon.png" src=$currenyByteArray /></span> 
+                        <span class="amtValue">#set($empty="#emptyDataCheck($!companyDetails.enquiryAmount)")$empty</span>
+                        #else
+                        <span style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!companyDetails.enquiryAmount)")$empty</span>
+                        #end
+                     </td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;"  bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!companyDetails.inqCompanyAddress)")$empty</td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;"  bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!companyDetails.inqCompanyCity)")$empty</td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;"  bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!companyDetails.inqCompanyPinCode)")$empty</td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;"  bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!companyDetails.telephone)")$empty</td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;"  bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!companyDetails.inqPan)")$empty</td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!companyDetails.loanAccNo)")$empty</td>
+                  </tr>
+                   <tr>
+   				<td>&nbsp;</td>
+			</tr>
+               </table>
+            </td>
+      </table>
+   </td>
+</tr>
+<tr>
+   <td height="10" bgcolor="#FFFFFF">&nbsp;</td>
+</tr>

@@ -1,0 +1,52 @@
+#if($creditFacility.borowerDetails4.size() > 0)
+<tr>
+   <td height="10" valign="top" bgcolor="#FFFFFF">
+      <table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+         <tbody>
+            <tr>
+               <td>
+                  <h2 class="sectionHeading1"> Borrower Details</h2>
+               </td>
+            </tr>
+         </tbody>
+      </table>
+   </td>
+</tr>
+<tr>
+   <td height="10" valign="top" bgcolor="#FFFFFF"></td>
+</tr>
+<tr>
+   <td height="64" valign="top" bgcolor="#FFFFFF">
+      <table width="99%" border="0" align="center" cellpadding="3" cellspacing="0">
+         <tbody>
+            <tr>
+               <td width="12%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Borrower Name</td>
+               <td width="12%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;"><span class="sectionDataElementLabels">PAN</span></td>
+               <td width="12%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">CIN</td>
+               <td width="12%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;"><span class="sectionDataElementLabels">TIN</span></td>
+               <td width="15%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Address </td>
+               <td width="12%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Address Type</td>
+               <td width="12%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Account Status Date</td>
+               <td width="12%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;">Last Reported Date</td>
+            </tr>
+            #foreach($creditFacilityDetail in $creditFacility.borowerDetails4)
+            <tr>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.borrowerNm)")$empty</td>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.panNo)")$empty</td>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.cin)")$empty</td>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.tin)")$empty</td>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.address)")$empty</td>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.addType)")$empty</td>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.accStatusDate)")$empty</td>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.lastReportDate)")$empty</td>
+            </tr>
+            #end
+           
+         </tbody>
+        <tr>
+   			<td>&nbsp;</td>
+		</tr>
+      </table>
+   </td>
+</tr>
+#end

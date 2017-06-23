@@ -1,0 +1,431 @@
+<h1 style="padding-top:20px;font-size: 18px;color: #0C5DAB;margin-left: 0px;"> Enquiries </h1>
+            <div id="ccredit-account-details">
+              <h1 style="color: #0C5DAB;font-size: 18px;">Credit Enquiries</h1>
+              <br>
+              #set($enqrhists = $responseInfo.ConsumerResponse.ENQRHIST)
+              #set($index = 0)
+			  #foreach($enqrhist in $enqrhists)
+			  <table class="tabular_data_wrap">
+			 
+                <tbody>
+					<tr class="list_header">
+                    <td style="11%">Date/Time</td>
+                    <td style="width:08%">Experian Reference</td>
+                    <td style="width:10%">Industry</td>
+                    <td style="width:10%">Credit Provider</td>
+                    <td style="width:10%">Account Type</td>
+                    <td style="width:10%" class="txtright">Amount Considered</td>
+                    <td style="width:10%">Account Responsibility</td>
+                    <td style="7%">Terms</td>
+                    <td style="width:12%">Bank Account</td>
+                    <td style=width:12%>Click to View</td>
+                  </tr>
+                  <tr class="list listh" id="R0">
+                    <td style="width:11%">#set($value="#emptyDataCheck($enqrhist.dateTime)")$value</td>
+                    <td style="width:08%">#set($value="#emptyDataCheck($enqrhist.EnquiryRefNum)")$value</td>
+                    <td style="width:10%">#set($value="#emptyDataCheck($enqrhist.BureauMemberName)")$value</td>
+                    <td style="width:10%">#set($value="#emptyDataCheck($enqrhist.creditProvider)")$value</td>
+                    <td style="width:10%">#set($value="#emptyDataCheck($enqrhist.EnquiryAccountType)")$value</td>
+                    <td style="width:10%;text-align: right;">#set($value="#emptyDataCheck($enqrhist.EnquiryAmount)")$value</td>
+                    <td style="width:10%">#set($value="#emptyDataCheck($enqrhist.EnquiryFinRespCd)")$value</td>
+                    <td style="width:7%">#set($value="#emptyDataCheck($enqrhist.Frequency)")$value &nbsp;Monthly</td>
+                    <td style="width:12%">#set($value="#emptyDataCheck($enqrhist.EnquiryBankAccountNumber)")$value</td>
+                    <td style=width:12%><a class=showAD onClick=callPayment($index)>Applicant Details</a></td>
+                  </tr>
+                   
+                  <!-- Applicant Details starts -->
+                <tr  id=tr$index  class="subList" style="display: none;">
+                #set($index = $index + 1)
+                    <td colspan="10"><div id="applicant-details" class="applicant10/04/2017 07:53R0"> <br>
+                        <div style="height:35px;"></div>
+                        <div class="applicant-details" style="width:100%;">
+                          <table id="borrower" style="width:100%;">
+                            <tbody>
+                              <tr>
+                                <th style="text-align:left; padding-left:2px;padding-top :5px; background-color:#E8E8DB;color:#0c5dab;" colspan="9">Applicant Details</th>
+                              </tr>
+                              <tr class="list_header">
+                                <td style="width:14%;">Personal Information</td>
+                                <td style="width:14%">Addresses</td>
+                                <td style="width:16%">Contact Info </td>
+                                <td style="width:16%">Occupation </td>
+                                <td style="width:10%">ID Card Type </td>
+                                <td style="width:10%">ID Card Num </td>
+                                <td style="width:10%">Issue Date </td>
+                                <td style="width:10%">Expiry Date </td>
+                              </tr>
+                              <tr class="list listpds" style="background-color: white;">
+								<td style="padding-left: 5px; padding-top:0px;">
+								#set($prsnsrchs = $enqrhist.PRSNSRCH)
+								#foreach($prsnsrch in $prsnsrchs)
+								<table>
+									<tbody>
+									  <tr>
+										<td style="padding:0px;">
+										<table>
+											<tbody>
+												#set($value="#emptyDataCheck($prsnsrch.firstGivenName)")
+												#set($name="#trimVar($value)")
+												#set($name=$StringUtils.deleteWhitespace($name))
+												#if($name != 0)	
+												<tr>
+													<td style="padding-top:0px;">$value</td>
+												</tr>
+												#end
+												#set($value="#emptyDataCheck($prsnsrch.middleName)")
+												#set($name="#trimVar($value)")
+												#set($name=$StringUtils.deleteWhitespace($name))
+												#if($name != 0)
+												<tr>
+													<td style="padding-top:0px;">$value</td>
+												</tr>
+												#end
+												
+												#set($value="#emptyDataCheck($prsnsrch.otherMiddleNames)")
+												#set($name="#trimVar($value)")
+												#set($name=$StringUtils.deleteWhitespace($name))
+												#if($name != 0)
+												<tr>
+													<td style="padding-top:0px;">$value</td>
+												</tr>
+												#end
+												#set($value="#emptyDataCheck($prsnsrch.indiaMiddleName3)")
+												#set($name="#trimVar($value)")
+												#set($name=$StringUtils.deleteWhitespace($name))
+												#if($name != 0)
+												<tr>
+													<td style="padding-top:0px;">$value</td>
+												</tr>
+												#end
+												#set($value="#emptyDataCheck($prsnsrch.familyName)")
+												#set($name="#trimVar($value)")
+												#set($name=$StringUtils.deleteWhitespace($name))
+												#if($name != 0)
+												<tr>
+													<td style="padding-top:0px;">$value</td>
+												</tr>
+												#end
+											</tbody>
+										</table>
+										</td>
+									  </tr>
+									  <tr>
+										<td style="padding-top:0px;">#set($value="#emptyDataCheck($prsnsrch.Gender)")$value</td>
+									  </tr>
+									  <tr>
+										<td style="padding-top:0px;">#set($value="#emptyDataCheck($prsnsrch.DateOfBirth)")$value</td>
+									  </tr>
+									  <tr> </tr>
+									</tbody>
+								  </table>
+								  #end
+								</td>
+								<td style="padding-top: 0px;">
+							   
+									#set($persaddrs = $enqrhist.PERSADDR)
+									#foreach($persaddr in $persaddrs)
+									<table>
+										<tbody>
+										#set($value="#emptyDataCheck($persaddr.addressL1)")
+										#set($name="#trimVar($value)")
+										#set($name=$StringUtils.deleteWhitespace($name))
+										#if($name != 0)
+				                        	<tr>
+				                            	<td style="padding-top:0px;">$value</td>
+											</tr>
+										#end
+										#set($value="#emptyDataCheck($persaddr.addressL2)")
+										#set($name="#trimVar($value)")
+										#set($name=$StringUtils.deleteWhitespace($name))
+										#if($name != 0)
+										<tr>
+				                            <td style="padding-top:0px;">$value</td>
+										</tr>
+										#end
+										#set($value="#emptyDataCheck($persaddr.addressL3)")
+										#set($name="#trimVar($value)")
+										#set($name=$StringUtils.deleteWhitespace($name))
+										#if($name != 0)
+										<tr>
+				                            <td style="padding-top:0px;">$value</td>
+										</tr>
+										#end
+										#set($value="#emptyDataCheck($persaddr.PostalCode)")
+										#set($name="#trimVar($value)")
+										#set($name=$StringUtils.deleteWhitespace($name))
+										#if($name != 0)
+										<tr>
+				                            <td style="padding-top:0px;">$value</td>
+										</tr>
+										#end
+										#set($value="#emptyDataCheck($persaddr.LocalityName)")
+										#set($name="#trimVar($value)")
+										#set($name=$StringUtils.deleteWhitespace($name))
+										#if($name != 0)
+										<tr>
+				                            <td style="padding-top:0px;">$value</td>
+										</tr>
+										#end
+										#set($value="#emptyDataCheck($persaddr.RegionCode)")
+										#set($name="#trimVar($value)")
+										#set($name=$StringUtils.deleteWhitespace($name))
+										#if($name != 0)
+											<tr>
+					                            <td style="padding-top:0px;">$value</td>
+											</tr>
+										#end
+										</tbody>
+									  </table>
+									  #end
+								</td>
+								<td style="padding-top:0px;">
+									#set($persphones = $enqrhist.PERSPHONE)
+									#foreach($persphone in $persphones)
+									#set($value="#emptyDataCheck($persphone.PhoneNumber)")
+									#set($phoneType="#emptyDataCheck($persphone.phoneType)")
+									#set($phoneType=$StringUtils.deleteWhitespace($phoneType))
+									<table>
+										<tbody>
+										 
+											#if($phoneType == "1")
+					                          <tr>
+					                            <td style="padding-top:0px;">$value(H)</td>
+					                          </tr>
+					                        #elseif($phoneType == "6")
+											  <tr>
+					                            <td style="padding-top:0px;">$value(M)</td>
+					                          </tr>
+					                        #elseif($phoneType == "3")
+											  <tr>
+					                            <td style="padding-top:0px;">$value(O)</td>
+					                          </tr>
+					                        #elseif($phoneType == "7")
+											  <tr>
+					                            <td style="padding-top:0px;">$value(OT)</td>
+					                          </tr>
+					                          #elseif($phoneType == "" && $value != "")
+											  <tr>
+					                            <td style="padding-top:0px;">$value</td>
+					                          </tr>
+				                       	   #end
+										</tbody>
+									  </table>
+									  #end
+								  </td>
+                 				  <td style="padding-top:0px;">
+                 				  #set($employer = $enqrhist.Employer)
+                 				  <table>
+			                        <tbody>     
+			                          <tr> 
+			                          #set($value="#emptyDataCheck($employer.OccYearsEmployed)")
+			                          #set($value=$StringUtils.deleteWhitespace($value))
+			                          	#if($value != "-")
+			                          		<td style="padding-top:0px;">Years Employed &nbsp;$value</td>
+			                          	#end
+			                          	</tr>
+			                          <tr>
+			                          #set($value="#emptyDataCheck($employer.OccMonthsEmployed)")
+			                          #set($value=$StringUtils.deleteWhitespace($value))
+			                          #if($value != "-")
+			                          <td style="padding-top:0px;">Months Employed &nbsp;$value</td> 
+			                          #end
+			                          </tr>
+			                          <tr>
+			                          #set($value="#emptyDataCheck($employer.NetMontlyIncome)")
+			                          #set($value=$StringUtils.deleteWhitespace($value))
+			                           #if($value != "-")
+			                          <td style="padding-top:0px;">Net Monthly Income &nbsp;$value</td>
+			                          #end
+			                           </tr>
+			                        </tbody>
+			                      </table>
+			                      </td>
+								 
+								  <td style="padding-top:0px;">    
+								   #set($personidInqs = $enqrhist.PERSONIDINQ)
+								  #foreach($personidInq in $personidInqs)                 
+										#set($idType = $personidInq.IdNumberType)
+				                   		 <table id="card-type">
+				                        	<tbody>
+				                        	 #if($idType == "10")
+						                          <tr height="26px">
+						                            <td style="padding-top:0px;">PAN</td>
+						                          </tr>
+									         #elseif($idType == "7")
+						                          <tr height="26px">
+						                            <td style="padding-top:0px;">VOTER ID</td>
+						                          </tr>
+											 #elseif($idType == "1")	
+						                          <tr height="26px">
+						                            <td style="padding-top:0px;">D/L</td>
+						                          </tr>
+											 #elseif($idType == "11")	
+						                          <tr height="26px">
+						                            <td style="padding-top:0px;">RATION CARD</td>
+						                          </tr>
+											 #elseif($idType == "4")	
+						                          <tr height="26px">
+						                            <td style="padding-top:0px;">Passport Number</td>
+						                          </tr>
+											 #elseif($idType == "12")	
+						                          <tr height="26px">
+						                            <td style="padding-top:0px;">AADHAR</td>
+						                          </tr>
+						                     #elseif($idType == "19")	
+						                          <tr height="26px">
+						                            <td style="padding-top:0px;">Account Number</td>
+						                          </tr>
+											   #end
+										   </tbody>
+		                      			</table>
+									 #end
+                     
+								  </td>
+								  
+									<td>
+									#set($personidInqs = $enqrhist.PERSONIDINQ)
+								    #foreach($personidInq in $personidInqs)
+								    
+										#set($idType = "#emptyDataCheck($personidInq.IdNumberType)")
+										#set($idNum = "#emptyDataCheck($personidInq.IdNumber)")
+										 #set($idType=$StringUtils.deleteWhitespace($idType))
+											<table id="card-num">
+											<tbody>
+											
+				                        	 #if($idType == "10")
+				                        	
+						                          <tr height="26px">
+						                            <td style="padding-top:0px;">$idNum</td>
+						                          </tr>
+											 #elseif($idType == "7")	
+						                          <tr height="26px">
+						                            <td style="padding-top:0px;">$idNum</td>
+						                          </tr>
+											 #elseif($idType == "1")	
+						                          <tr height="26px">
+						                            <td style="padding-top:0px;">$idNum</td>
+						                          </tr>
+											 #elseif($idType == "11")	
+						                          <tr height="26px">
+						                            <td style="padding-top:0px;">$idNum</td>
+						                          </tr>
+											 #elseif($idType == "4")	
+						                          <tr height="26px">
+						                            <td style="padding-top:0px;">$idNum</td>
+						                          </tr>
+											 #elseif($idType == "12")	
+						                          <tr height="26px">
+						                            <td style="padding-top:0px;">$idNum</td>
+						                          </tr>
+						                     #elseif($idType == "19")	
+						                          <tr height="26px">
+						                            <td style="padding-top:0px;">$idNum</td>
+						                          </tr>
+											 #end
+										</tbody>
+									  </table>
+									  #end
+									</td>
+									
+									<td>
+									#set($personidInqs = $enqrhist.PERSONIDINQ)
+								    #foreach($personidInq in $personidInqs)
+										<table id="card-num">
+										<tbody>
+										 #set($idType = "#emptyDataCheck($personidInq.IdNumberType)")
+										  #set($idType=$StringUtils.deleteWhitespace($idType))
+										 #set($issueDt="#emptyDataCheck($personidInq.IdIssueDate)")
+												#if($idType == "10")
+							                          <tr height="26px">
+							                            <td style="padding-top:0px;">$issueDt</td>
+							                          </tr>
+												#elseif($idType == "7")	
+							                          <tr height="26px">
+							                            <td style="padding-top:0px;">$issueDt</td>
+							                          </tr>
+												#elseif($idType == "1")	
+							                          <tr height="26px">
+							                            <td style="padding-top:0px;">$issueDt</td>
+							                          </tr>
+												#elseif($idType == "11")	
+							                          <tr height="26px">
+							                            <td style="padding-top:0px;">$issueDt</td>
+							                          </tr>
+												#elseif($idType == "4")	
+							                          <tr height="26px">
+							                            <td style="padding-top:0px;">$issueDt</td>
+							                          </tr>
+												#elseif($idType == "12")	
+							                          <tr height="26px">
+							                            <td style="padding-top:0px;">$issueDt</td>
+							                          </tr>
+							                    #elseif($idType == "19")	
+							                          <tr height="26px">
+							                            <td style="padding-top:0px;">$issueDt</td>
+							                          </tr>
+											  	#end
+									
+			                       		 	</tbody>
+			                     		 </table>
+			                     		 #end
+									</td>
+									<td>
+									#set($personidInqs = $enqrhist.PERSONIDINQ)
+								    #foreach($personidInq in $personidInqs)
+										<table id="card-num">
+										<tbody>
+										#set($idType = "#emptyDataCheck($personidInq.IdNumberType)")
+										 #set($idType=$StringUtils.deleteWhitespace($idType))
+										#set($expDt="#emptyDataCheck($personidInq.IdExpirationDate)")
+										#if($idType == "10")
+					                          <tr height="26px">
+					                            <td style="padding-top:0px;">$expDt</td>
+					                          </tr>
+										#elseif($idType == "7")	
+					                          <tr height="26px">
+					                            <td style="padding-top:0px;">$expDt</td>
+					                          </tr>
+										#elseif($idType == "1")	
+					                          <tr height="26px">
+					                            <td style="padding-top:0px;">$expDt</td>
+					                          </tr>
+										#elseif($idType == "11")	
+					                          <tr height="26px">
+					                            <td style="padding-top:0px;">$expDt</td>
+					                          </tr>
+										#elseif($idType == "4")	
+					                          <tr height="26px">
+					                            <td style="padding-top:0px;">$expDt</td>
+					                          </tr>
+										#elseif($idType == "12")	
+					                          <tr height="26px">
+					                            <td style="padding-top:0px;">$expDt</td>
+					                          </tr>
+					                    #elseif($idType == "19")	
+					                          <tr height="26px">
+					                            <td style="padding-top:0px;">$expDt</td>
+					                          </tr>
+									    #end
+				                        </tbody>
+				                      </table>
+			                      #end
+									</td>
+									
+								</tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+					</td>
+                  </tr>
+                
+                  <tr id="disputesInquiryR38" style="display:none;">
+                    <td colspan="10" style="padding:0px !important;"><div> </div></td>
+                  </tr>
+                  
+                  
+                  <!-- Applicant details end -->
+				</tbody>
+			</table>
+			  #end		  
+			</div>

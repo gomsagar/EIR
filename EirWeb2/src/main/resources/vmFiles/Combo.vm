@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>			
+			#if($reportType == "EIR"  ||  $reportType == "CWOS" || $reportType == "CWS")
+				#set($responseInfoList = $eirDomain.comboDomain.responseInfoList)
+				#set($reportDetails = $eirDomain.comboDomain.reportDetails)
+				#set($comboSummaryDetails = $eirDomain.comboDomain.summaryDetails)
+				
+				#if($reportType == "EIR"  ||  $reportType == "CWOS" || $reportType == "CWS")
+					#parse("/vmFiles/combo_Vmfiles/commercialPhaseIIReport.vm")
+				#end
+				
+				#parse("/vmFiles/cir_VmFiles/MainCommercial.vm")
+				
+				#if($reportType == "EIR"  ||  $reportType == "CWOS" || $reportType == "CWS")
+					#if($!responseInfoList.size() > 0)
+						#foreach($responseInfo in $responseInfoList)
+							#parse("/vmFiles/consumer_VmFiles/MainConsumer.vm")
+						#end
+					#end
+				#end
+			#end
+</html>			

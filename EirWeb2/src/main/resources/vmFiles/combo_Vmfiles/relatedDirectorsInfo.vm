@@ -1,0 +1,346 @@
+#set($dirinfo = $comboSummaryDetails.dirDomain)
+
+##  Trim string ##
+#macro(trimInput $date)
+#set($str = "margin-left:~margin~px;")
+#set($value=0.0)
+#if($StringUtils.isNotEmpty($date))
+#set($value=$Float.valueOf($date))
+#set($value=$value*2.9)
+#set($align=$StringUtils.replace($str, "~margin~", $value.toString().trim()))
+#set($align=$StringUtils.deleteWhitespace($align))
+#else
+#set($align="0")
+#end
+$align
+#end
+#macro(trimVar $value)
+#if($StringUtils.isNotEmpty($value))
+#set($value=$value.trim())
+#set($value=$StringUtils.deleteWhitespace($value))
+#else
+#set($value="0")
+#end
+$value
+#end
+
+<tr>
+   <td height="30"  width="60%" valign="middle" bgcolor="#702784" class="sectionHeadingBureau">
+      <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+         <tbody>
+            <tr>
+               <td width="1%">&nbsp;</td>
+               <td width="35%"><span class="secHeading" style="VERTICAL-ALIGN: middle;"> Related Directors Information</span></td>
+               <td width="4%"><img alt="related_director.png" src=$related_director width="20" height="19" alt="Related Directors"/></td>
+               <td width="60%">&nbsp;</td>            
+            </tr>
+         </tbody>
+      </table>
+   </td>
+   <td width="40%" valign="middle" bgcolor="#e13287">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+         <tbody>
+            <tr>
+               <td width="1%">&nbsp;</td>
+               <td width="45%" valign="middle" class="sectionHeadingBureau">Business Principal Bureau Score</td>
+               <td width="8%" align="center" valign="middle"><img alt="bureau_score_img.png" src=$bureau_logo width="38" height="25" alt=""/></td>
+               <td width="46%">&nbsp;</td>
+            </tr>
+         </tbody>
+      </table>
+   </td>
+</tr>
+ 	#if(($dirinfo.size()>0))
+       #set($var="")
+    #else
+       #set($var="No Data Found")
+       <tr>
+    	<td>
+            <h1 style="color: #0C5DAB;font-size: 22px;margin-top: 20px;">$var</h1>
+        </td>
+     </tr>
+    #end
+    
+#foreach($director in $dirinfo)
+<tr>
+   <td colspan="2">&nbsp;</td>
+</tr>
+<tr>
+   <td valign="top" style="border-right:1px solid #58595b;">
+      <table width="98%" border="0" align="center" cellpadding="5" cellspacing="0">
+         <tbody>
+            <tr>
+               <td width="25%" align="center" bgcolor="#e2d4e6" style="border-right:1px solid #ffffff;" class="relatedDirectorsHea">Name</td>
+               <td width="25%" align="center" bgcolor="#E2D4E6" style="border-right:1px solid #ffffff;" class="relatedDirectorsHea">Relationship</td>
+               <td width="25%" align="center" bgcolor="#E2D4E6" style="border-right:1px solid #ffffff;" class="relatedDirectorsHea">Id Type </td>
+               <td width="25%" align="center" bgcolor="#E2D4E6" style="border-right:1px solid #E2D4E6;" class="relatedDirectorsHea">Id Number</td>
+            </tr>
+            <tr>
+               <td align="center" class="nameDirectorData" style="border-left: 1px solid #E2D4E6; border-bottom: 1px solid #E2D4E6;">#set($name="#checknull($director.name)")$name</td>
+               <td align="center" class="nameDirectorData" style="border-left: 1px solid #E2D4E6; border-bottom: 1px solid #E2D4E6;">#set($relationship="#checknull($director.relationship)")$relationship</td>
+               <td align="center" class="nameDirectorData" style="border-left: 1px solid #E2D4E6; border-bottom: 1px solid #E2D4E6;">#set($idType="#checknull($director.idType)")$idType</td>
+               <td align="center" class="nameDirectorData" style="border-left: 1px solid #E2D4E6; border-bottom: 1px solid #E2D4E6; border-right: 1px solid #E2D4E6;">#set($idNum="#checknull($director.idNum)")$idNum </td>
+            </tr>
+            <tr>
+               <td height="2" colspan="4"></td>
+            </tr>
+            <tr>
+               <td colspan="2" align="center" valign="top">
+                  <table width="96%" border="0" cellpadding="3" cellspacing="0" class="borderforTd">
+                     <tbody>
+                        <tr>
+                           <td width="59%" height="30" class="sectionDataElementsmallHed" style="padding:8px; border-right:1px solid #58595b;vertical-align: middle;">All Accounts</td>
+                           <td width="37%" class="sectionDataValues" style="vertical-align: middle;">
+                              <table>
+                                 <tbody>
+                                    <tr>
+                                       <td width="20%" class="currencySymbol">&nbsp;</td>
+                                       <td width="80%" class="amountValue" style="text-align: center;">#set($allAccts="#checknull($director.allAccts)")$allAccts</td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </td>
+               <td colspan="2">
+                  <table width="96%" border="0" cellpadding="0" cellspacing="0" class="borderforTd">
+                     <tbody>
+                        <tr>
+                           <td style="padding:8px; border-right:1px solid #58595b;" width="59%" class="sectionDataElementsmallHed">Total Outstanding<br />
+                              On Active Accounts
+                           </td>
+                           <td width="37%" class="sectionDataElementValuesNew" >
+                              <table>
+                                 #if($StringUtils.isNotEmpty($director.totOutstanding) && $director.totOutstanding !="0")
+                                 <td width="20%" class="currencySymbol" style="margin-top:-2px"><img alt="rupee_icon.png" src=$currenyByteArray /></td>
+                                 <td width="80%" class="amountValue"> #set($totOutstanding="#checknull($director.totOutstanding)")$totOutstanding</td>
+                                 #else
+                                 <!-- <td class="amountValue" style="text-align: center;"> -</td>-->
+                                <td width="20%" class="currencySymbol">&nbsp;</td>
+                                       <td width="80%" class="amountValue" style="text-align: center;">-</td>
+                                 #end
+                              </table>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </td>
+            </tr>
+            <tr>
+               <td colspan="2" align="center" valign="top">
+                  <table width="96%" border="0" cellpadding="3" cellspacing="0" class="borderforTd">
+                     <tbody>
+                        <tr>
+                           <td width="59%" height="30" class="sectionDataElementsmallHed" style="padding:8px; border-right:1px solid #58595b;vertical-align: middle;">No of Active Accounts</td>
+                           <td width="37%" class="sectionDataValues" style="vertical-align: middle;">
+                              <table>
+                                 <tbody>
+                                    <tr>
+                                       <td width="20%" class="currencySymbol">&nbsp;</td>
+                                       <td width="80%" class="amountValue" style="text-align: center;">#set($noOfActAccts="#checknull($director.noOfActAccts)")$noOfActAccts</td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </td>
+               <td colspan="2">
+                  <table width="96%" border="0" cellpadding="0" cellspacing="0" class="borderforTdFil">
+                     <tbody>
+                        <tr>
+                           <td style="padding:8px; border-right:1px solid #58595b;vertical-align: middle;" width="59%" class="sectionDataElementsmallHed">No of Active Delinquent <br />
+                              Accounts
+                           </td>
+                           <td width="37%" class="sectionDataValues" style="vertical-align: middle;">
+                              <table>
+                                 <tbody>
+                                    <tr>
+                                       <td width="20%" class="currencySymbol">&nbsp;</td>
+                                       <td width="80%" class="amountValue" style="text-align: center;">#set($noOfActDelinquent="#checknull($director.noOfActDelinquent)")$noOfActDelinquent</td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </td>
+            </tr>
+            <tr>
+               <td colspan="2" align="center" valign="top">
+                  <table width="96%" border="0" cellpadding="0" cellspacing="0" class="borderforTd">
+                     <tbody>
+                        <tr>
+                           <td style="padding:8px; border-right:1px solid #58595b;" width="59%" class="sectionDataElementsmallHed">Total Sanctioned 
+                              Amount On Active Accounts
+                           </td>
+                           <td width="37%" class="sectionDataElementValuesNew">
+                              <table>
+                                 #if($StringUtils.isNotEmpty($director.totSanctioned) && $director.totSanctioned !="0")
+                                 <td width="20%" class="currencySymbol" style="margin-top:-2px"><img alt="rupee_icon.png" src=$currenyByteArray /></td>
+                                 <td width="80%" class="amountValue">#set($totSanctioned="#checknull($director.totSanctioned)")$totSanctioned</td>
+                                 #else
+                                <!-- <td class="amountValue" style="text-align: center;"> -</td>-->
+                                <td width="20%" class="currencySymbol">&nbsp;</td>
+                                       <td width="80%" class="amountValue" style="text-align: center;">-</td>
+                                 #end
+                              </table>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </td>
+               <td colspan="2">
+                  <table width="96%" border="0" cellpadding="0" cellspacing="0" class="borderforTd">
+                     <tbody>
+                        <tr>
+                           <td style="padding:8px; border-right:1px solid #58595b;" width="59%" class="sectionDataElementsmallHed" >Total Outstanding On Active Delinquent Accounts</td>
+                           <td width="37%" class="sectionDataElementValuesNew" >
+                              <table>
+                                 #if($StringUtils.isNotEmpty($director.totOutActDelinquent) && $director.totOutActDelinquent !="0")
+                                 <td width="20%" class="currencySymbol" style="margin-top:-2px"><img alt="rupee_icon.png" src=$currenyByteArray /></td>
+                                 <td width="80%" class="amountValue">#set($totOutActDelinquent="#checknull($director.totOutActDelinquent)")$totOutActDelinquent</td>
+                                 #else
+                                  <!-- <td class="amountValue" style="text-align: center;"> -</td>-->
+                                <td width="20%" class="currencySymbol">&nbsp;</td>
+                                       <td width="80%" class="amountValue" style="text-align: center;">-</td>
+                                 #end
+                              </table>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </td>
+            </tr>
+         </tbody>
+      </table>
+   </td>
+   <td valign="top">
+      <table width="100%" border="0" cellspacing="0" cellpadding="5">
+         <tbody>
+            <tr>
+               <td>
+                  #set($modelName=$director.modelName)
+                  #if($modelName == 1)	
+                 #set($confScore=$director.score)
+         
+                  <table>
+                     <tr>
+                        <td height="25"><span class="sectionTooltip">&nbsp;&nbsp;&nbsp;Your Experian Credit Report is summarized in the form of Experian Business Risk Indicator which ranges from 300 - 900.</span></td>
+                     </tr>
+                     <tr>
+                        <td >&nbsp;</td>
+                     </tr>
+                     <tr>
+                     
+                        <td >&nbsp;</td>
+                     </tr>
+                     <tr>
+                        <td align="center">
+                                                     
+                           #if($confScore >= 300 && $confScore <= 420)
+                          
+                           <div style="width:300px; height:125px; background:url($cons1) no-repeat center;" >
+                              <h2 style="margin-left: 250px;">$confScore</h2>
+                           </div>
+                           
+                           #elseif($confScore >= 421 && $confScore <= 540)
+                           
+                           <div style="width:300px; height:125px; background:url($cons2) no-repeat center;" >
+                              <h2 style="margin-left: 250px;">$confScore</h2>
+                           </div>
+                         
+                           #elseif($confScore >= 541 && $confScore <= 660)
+                           
+                           <div style="width:300px; height:125px; background:url($cons3) no-repeat center;" >
+                              <h2 style="margin-left: 250px;">$confScore</h2>
+                           </div>
+                          
+                           #elseif($confScore >= 661 && $confScore <= 780)
+                           
+                           <div style="width:300px; height:125px; background:url($cons4) no-repeat center;" >
+                              <h2 style="margin-left: 250px;">$confScore</h2>
+                           </div>
+                          
+                           #elseif($confScore >= 781)
+                          
+                           <div style="width:300px; height:125px; background:url($cons5) no-repeat center;" >
+                              <h2 style="margin-left: 250px;">$confScore</h2>
+                           </div>
+                           #end
+                        </td>
+                     </tr>
+                  </table>
+                  #end
+                  #if($modelName == 0)
+                  <table>
+                     <tr>
+                        <td height="25"><span class="sectionTooltip" >&nbsp;&nbsp;&nbsp;Your Experian Credit Report is summarized in the form of Experian Business Risk Indicator which ranges from 1 - 10.</span></td>
+                     </tr>
+                     <tr>
+                        <td >&nbsp;</td>
+                     </tr>
+                     <tr>
+                        <td >&nbsp;</td>
+                     </tr>
+                     <tr>
+                        <td align="center">
+                            #set($risk=$director.riskScore)
+                          
+                            		 #if($risk == 1)
+		                                <div style="width:300px; height:145px; background:url($cir1) no-repeat center;"></div>
+	                                 
+	                                 #elseif($risk == 2)
+		                                <div style="width:300px; height:145px; background:url($cir1) no-repeat center;"></div>
+		                                
+	                                 #elseif($risk == 3)
+		                                 <div style="width:300px; height:145px; background:url($cir3) no-repeat center;"></div>
+		                                 
+		                             #elseif($risk == 4)
+		                                 <div style="width:300px; height:145px; background:url($cir4) no-repeat center;"></div>
+	                                
+	                                 #elseif($risk == 5)
+		                                 <div style="width:300px; height:145px; background:url($cir5) no-repeat center;"></div>
+		                                 
+		                             #elseif($risk == 6)
+		                                 <div style="width:300px; height:145px; background:url($cir6) no-repeat center;"></div>
+	                                
+	                                 #elseif($risk == 7)
+		                                 <div style="width:300px; height:145px; background:url($cir7) no-repeat center;" ></div>
+		                                 
+		                             #elseif($risk == 8)
+		                                 <div style="width:300px; height:145px; background:url($cir8) no-repeat center;" ></div>
+	                               
+	                                 #elseif($risk == 9 )
+		                                 <div style="width:300px; height:145px; background:url($cir9) no-repeat center;"></div>
+		                                 
+		                             #elseif($risk == 10)
+		                                 <div style="width:300px; height:145px; background:url($cir10) no-repeat center;"></div>
+	                                 #end
+                        </td>
+                     </tr>
+                  </table>
+                  #end
+               </td>
+            </tr>
+            <tr>
+               <td >&nbsp;</td>
+            </tr>
+         </tbody>
+      </table>
+   </td>
+ </tr>
+<tr>
+   <td colspan="2" valign="top" style="border-bottom:1px solid #58595b">&nbsp;</td>
+</tr>
+<tr>
+   <td height="5" colspan="2" valign="top" ></td>
+</tr>
+#end
+</tbody>
+</table></td>
+</tr>

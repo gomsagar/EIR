@@ -1,0 +1,333 @@
+<style type="text/css">
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	background-color: #f6f5f5;
+}
+.borderforTd{
+	border: 1px solid #702784;
+	border-radius: 16px;
+	}
+	
+.borderforTdFil{
+	border: 1px solid #702784;
+	border-radius: 16px;
+	background-color: #e2d4e6;
+	}
+
+.reportTitle{
+	font-family:DINNextLTPro-Regular; 
+	color:#0070c0; 
+	font-size:25px; 
+	text-align:center;
+}
+.MetaDataElementLabels{
+  font-family:DINNextLTPro-Regular;  
+  color:#0070c0; 
+  font-size:13px; 
+  font-weight:normal;
+}
+.MetaDataElementValues{
+	font-family:DINNextLTPro-Regular; 
+	color:#333; 
+	font-size:13px; 
+	font-weight:normal;
+	}
+.sectionHeading{
+	font-family:DINNextLTPro-Regular;  
+	font-size:11px; 
+	color:#333; 
+	font-weight: bold; 
+	text-transform:uppercase;
+	line-height: 11px;
+}
+
+.sectionHeadingtop{
+	font-family:DINNextLTPro-Regular;  
+	font-size:16px; 
+	color:#fff; 
+	font-weight: normal; 
+	text-transform:uppercase;
+	line-height: 11px;
+}
+.secHeading{
+	font-family:DINNextLTPro-Regular;  
+	font-size:16px; 
+	color:#FFFFFF; 
+	font-weight: normal; 
+	line-height: 11px;
+}
+
+.sectionHeadingBureau{
+	font-family:DINNextLTPro-Regular;  
+	font-size:16px; 
+	color:#fff; 
+	font-weight:normal; 
+	line-height: 11px;
+	VERTICAL-ALIGN: middle;
+}
+
+.sectionTooltip{
+	font-family:DINNextLTPro-Regular; 
+	font-size:11px; 
+	color:#be8851; 
+	font-weight:normal; 
+	font-style:italic;
+}
+
+.sectionDataElementLabels{
+	font-family:DINNextLTPro-Regular;  
+	color:#0070c0; 
+	font-size:11px; 
+	font-weight:bold;
+}
+
+.sectionDataValues{
+	font-family:DINNextLTPro-Regular;  
+	color:#333; 
+	font-size:13px; 
+	font-weight:normal;
+}
+.sectionDataElementValuesNew{
+	font-family:DINNextLTPro-Regular;  
+	color:#333; 
+	font-size:13px; 
+	font-weight:normal;
+	vertical-align:middle;
+}
+
+.headerInfo{
+	font-family:DINNextLTPro-Regular; 
+	color:#333; 
+	font-size:14px; 
+	font-weight:normal;
+}
+
+.sectionDataElementsmallHed{
+	font-family:DINNextLTPro-Regular; 
+	color:#0070c0; 
+	font-size:13px; 
+	font-weight:normal;
+}
+
+.relatedDirectorsHea{
+	font-family:DINNextLTPro-Regular;  
+	color:#333; 
+	font-size:18px; 
+	font-weight:normal;
+}
+
+.relatedDirectorsData{
+	font-family:DINNextLTPro-Regular;  
+	color:#333; 
+	font-size:16px; 
+	font-weight:normal;
+}
+
+.graphheding{
+	font-family:DINNextLTPro-Regular; 
+	color:#e13287;
+	font-size:25px;
+	font-weight:bold;
+}
+.creditReating{
+	font-family:DINNextLTPro-Regular; 
+	color:#333;
+	font-size:22px;
+	font-weight:normal;
+}
+.nameDirectorData{
+	font-family:DINNextLTPro-Regular; 
+	color:#333;
+	font-size:16px;
+	font-weight:normal;
+}
+.nameDirectorHeading{
+	font-family:DINNextLTPro-Regular; 
+	color:#0070c0;
+	font-size:15px;
+	font-weight:normal;
+}
+
+.creditScoreTable{
+	font-family:DINNextLTPro-Regular; 
+	color:#333; 
+	font-size:11px; 
+	font-weight:normal;
+}
+.creditScoreTableHeading{
+	font-family:DINNextLTPro-Regular;  
+	color:#333; 
+	font-size:11px; 
+	font-weight:bold;
+}
+.subHeding{
+	font-family:DINNextLTPro-Regular; 
+	color:#0070c0; 
+	font-size:11px; 
+	font-weight:bold;
+}
+.circleText{
+	text-align:center;
+	font-family:DINNextLTPro-Regular; 
+	color:#FFF; 
+	font-size:12px; 
+	font-weight:normal;
+	line-height:20px;
+}
+
+.circle1Background{
+	background-image:url(images/circle1.png); 
+	background-repeat:no-repeat; 
+	background-position:center;
+}
+
+.circle2Background{
+	background-image:url(images/circle2.png); 
+	background-repeat:no-repeat; 
+	background-position:center;
+}
+
+.circle3Background{
+	background-image:url(images/circle3.png); 
+	background-repeat:no-repeat; 
+	background-position:center;
+}
+.contacting{
+	font-family:DINNextLTPro-Regular;  
+	color:#17365d; 
+	font-size:11px; 
+	font-weight:normal;
+	line-height:20px;
+}
+
+.bottomtips{
+	font-family:DINNextLTPro-Regular; 
+	color:#0070c0; 
+	font-size:11px; 
+	font-weight:normal;
+	line-height:20px;
+	font-style:italic;
+}
+.paymentmode{
+	font-family:DINNextLTPro-Regular; 
+	color:#999; 
+	font-size:11px; 
+	font-weight:bold;
+}
+
+.paymentmodeData{
+	font-family:DINNextLTPro-Regular;  
+	color:#333; 
+	font-size:11px; 
+	font-weight:normal;
+}
+.bottomstext{
+	font-family:DINNextLTPro-Regular; 
+	color:#999; 
+	font-size:11px; 
+	font-weight:normal;
+	text-align:justify;
+}
+.matchFound{
+	color: #0070c0;
+    font-family:DINNextLTPro-Regular; 
+    font-size: 22px;
+    font-weight: normal;
+	padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.subHeadings{
+	font-family:DINNextLTPro-Regular;  
+	color:#333; 
+	font-size:11px; 
+	font-weight:bold;
+}
+
+.sectionDataValuesZero{
+	font-family:DINNextLTPro-Regular;  
+	color:#bcbcbc; 
+	font-size:12px; 
+	font-weight:normal;
+}
+
+.note{
+	font-family:DINNextLTPro-Regular; 
+	color:#f00007; 
+	font-size:11px; 
+	
+}
+
+.MetaDataElementLabels1 {         
+		 font-family:DINNextLTPro-Regular; 
+         color:#0070c0; 
+         font-size:13px; 
+         font-weight:normal;
+}
+.MetaDataElementValues1 {         
+		 font-family:DINNextLTPro-Regular; 
+         color:#333; 
+         font-size:13px; 
+         font-weight:normal;
+}
+.paymentmodeData1 {         
+		 font-family:DINNextLTPro-Regular; 
+         color:#333; 
+         font-size:11px; 
+         font-weight:normal;
+}
+.amountValue {
+         
+         width: 80%; 
+         word-wrap:break-word;
+         
+         
+         }
+.currencySymbol {
+         float: left; 
+         width: 20%; 
+         word-wrap: break-word;
+         ##text-align: left;
+       
+         }
+.currencySymSalesFigAlign {
+         float: left; 
+         width: 10%; 
+         word-wrap: break-word;
+         text-align: center;
+ 
+         }
+.amtValues {
+         float: right; 
+         width: 92%; 
+         word-wrap:break-word;
+         text-align: left;
+         }
+.currencySyms {
+         float: left; 
+         width: 8%; 
+         word-wrap: break-word;
+         text-align: left;
+         }
+.explicitLeft {
+         text-align: left !important;
+         word-wrap: break-word;
+         word-break: break-all;
+         }
+.graphheding{
+	font-family:"Segoe UI";
+	color:#333;
+	font-size:30px;
+	font-weight:bold;
+}
+.sectionTooltip {
+    font-family: 'Segoe UI';
+    font-size: 11px;
+    color: #be8851;
+    font-weight: normal;
+  ##  font-style: italic;
+}
+</style>

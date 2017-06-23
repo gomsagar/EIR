@@ -1,0 +1,212 @@
+   #set($compinfo = $comboSummaryDetails.companyDetails)
+
+<tr>
+		   <td valign="top" bgcolor="#FFFFFF">
+		      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tbody>
+   <tr>
+      <td width="60%" height="40" valign="middle" bgcolor="#004f9a">
+         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+               <tr>
+                  <td width="1%">&nbsp;</td>
+                  <td width="30%" style="vertical-align: middle;"><span class="sectionHeadingBureau">Company Information</span></td>
+                  <td width="10%" align="center" style="vertical-align: middle;"> <img alt="company_information.png" src=$comp_info width="32" height="32" alt=""/></td>
+                  <td width="59%">&nbsp;</td>
+               </tr>
+            </tbody>
+         </table>
+      </td>    
+      <td width="40%" valign="middle" bgcolor="#004f9a">
+  	  </td>
+   </tr>
+   <tr>
+      <td height="10" colspan="2"></td>
+   </tr>
+   
+  
+   <tr>
+      <td valign="top" style="border-right:1px solid #58595b;">
+         <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tbody>
+               <tr>
+                  <td width="58%" valign="top" style="border-right:1px solid #58595b;">
+                     <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                        <tbody>
+                           <tr>
+                              <td>
+                                 <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                       <td width="40%" class="sectionDataElementsmallHed">Company name</td>
+                                       <td width="60%" class="sectionDataElementValues explicitLeft">#set($name="#checknull($compinfo.busNm)")$name</td>
+                                    </tr>
+                                 </table>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td>
+                                 <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                       <td width="40%" class="sectionDataElementsmallHed">Company Short Name</td>
+                                       <td width="60%" class="sectionDataElementValues explicitLeft">#set($shrtname="#checknull($compinfo.companyShortName)")$shrtname</td>
+                                    </tr>
+                                 </table>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td>
+                                 <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                       <td width="40%" valign="top" class="sectionDataElementsmallHed">Address</td>
+                                       <td width="60%" class="sectionDataElementValues explicitLeft">#set($address="#checknull($compinfo.busAddress)")$address</td>
+                                    </tr>
+                                 </table>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td>
+                                 <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                       <td width="40%" class="sectionDataElementsmallHed">Company Telephone</td>
+                                       <td width="60%" class="sectionDataElementValues explicitLeft">#set($telephone="#checknull($compinfo.businessTelephone)")$telephone</td>
+                                    </tr>
+                                 </table>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td>
+                                 <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                       <td width="40%" class="sectionDataElementsmallHed">Company Fax</td>
+                                       <td width="60%" class="sectionDataElementValues explicitLeft">#set($fax="#checknull($compinfo.busFax)")$fax</td>
+                                    </tr>
+                                 </table>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </td>
+                  <td width="42%" valign="top">
+                     <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                        <tbody>
+                           <tr>
+                              <td>
+                                 <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                       <td width="55%" class="sectionDataElementsmallHed">Legal Constitution</td>
+                                       <td width="45%" class="sectionDataElementValues explicitLeft">#set($legalConst="#checknull($compinfo.legalConstitution)")$legalConst</td>
+                                    </tr>
+                                 </table>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td>
+                                 <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                       <td width="55%" class="sectionDataElementsmallHed">Business Category</td>
+                                       <td width="45%" class="sectionDataElementValues explicitLeft">#set($businessCategory="#checknull($compinfo.busCategoryCd)")$businessCategory</td>
+                                    </tr>
+                                 </table>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td>
+                                 <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                       <td width="55%" class="sectionDataElementsmallHed">Industry Type</td>
+                                       <td width="45%" class="sectionDataElementValues explicitLeft">#set($industryType="#checknull($compinfo.indusCd)")$industryType</td>
+                                    </tr>
+                                 </table>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td>
+                                 <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                       <td width="55%" class="sectionDataElementsmallHed">Class of Activity</td>
+                                       <td width="45%" class="sectionDataElementValues explicitLeft">#set($classOfActivity="#checknull($compinfo.classOfActivity)")$classOfActivity</td>
+                                    </tr>
+                                 </table>
+                              </td>
+                           </tr>
+                          
+                        </tbody>
+                     </table>
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+      </td>
+      <td valign="top">
+         <table width="100%" border="0" cellspacing="0" cellpadding="5">
+            <tbody>
+             <tr>
+                              <td>
+                                 <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                       <td width="44%" class="sectionDataElementsmallHed">Registration Number </td>
+                                       <td width="56%" class="sectionDataElementValues explicitLeft">#set($registrationNo="#checknull($compinfo.busRegNb4In)")$registrationNo</td>
+                                    </tr>
+                                 </table>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td>
+                                 <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                       <td width="44%" class="sectionDataElementsmallHed">Registration Date</td>
+                                       <td width="56%" class="sectionDataElementValues explicitLeft">#set($regDate="#date($!compinfo.busRegDt)")$regDate</td>
+                                    </tr>
+                                 </table>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td>
+                                 <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                       <td width="44%" class="sectionDataElementsmallHed">Registration City</td>
+                                       <td width="56%" class="sectionDataElementValues explicitLeft">#set($regCity="#checknull($compinfo.busRegCityNum)")$regCity</td>
+                                    </tr>
+                                 </table>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td>
+                                 <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                       <td width="44%" class="sectionDataElementsmallHed">Registration State</td>
+                                       <td width="56%" class="sectionDataElementValues explicitLeft">#set($regState="#checknull($compinfo.busRegProvinceCd4In)")$regState</td>
+                                    </tr>
+                                 </table>
+                              </td>
+                           </tr>
+##               <tr>
+##                  <td>&nbsp;</td>
+##               </tr>
+##               <tr>
+##                  <td align="center"><img alt="score_meter.png" src=$compinfo_scoremeter width="345" height="85" alt=""/></td>
+##               </tr>
+##               <tr>
+##                  <td>
+##                     <table width="80%" class="borderforTd" border="0" align="center" cellpadding="2" cellspacing="0">
+##                        <tbody>
+##                           <tr>
+##                              <td width="45%" align="center" class="creditReating"> CREDIT RATING :</td>
+##                              <td width="35%" class="graphheding">#set($creditRating="#checknull($compinfo.score)")#set($creditRating="#scorecheck($compinfo.score)")$creditRating</td>
+##                           </tr>
+##                        </tbody>
+##                     </table>
+##                  </td>
+##               </tr>
+##               <tr>
+##                  <td>&nbsp;</td>
+##               </tr>
+            </tbody>
+         </table>
+     </td>
+   </tr>
+   <tr>
+      <td height="10" ></td>
+      <td height="10" ></td>
+   </tr>
+   

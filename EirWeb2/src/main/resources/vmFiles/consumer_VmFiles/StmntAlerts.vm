@@ -1,0 +1,28 @@
+
+			<div id="app-details">
+              <h1>Statements &amp; Alerts</h1>
+              <table class="tabular_data_wrap">
+                <tbody>
+                 #set($stmtAlerts = $responseInfo.ConsumerResponse.STMTALRT)
+                #if($stmtAlerts.size() > 0)
+                  <tr class="list_header">
+                    <td style="width:15%">Date</td>
+                    <td style="width:15%">Type </td>
+                    <td style="width:70%">Comments</td>
+                  </tr>
+                  
+                  #foreach($stmtAlert in $stmtAlerts)
+                  <tr class="list_header">
+                    <td style="width:15%">#set($value="#emptyDataCheck($stmtAlert.StatementDate)")$value</td>
+                    <td style="width:15%">#set($value="#emptyDataCheck($stmtAlert.StatementTypeCode)")$value </td>
+                    <td style="width:70%">#set($value="#emptyDataCheck($stmtAlert.StatementText)")$value</td>
+                  </tr>
+                  #end
+                  #else
+                  <tr class="list">
+                    <td colspan="3"><b>No Records to Display.</b></td>
+                  </tr>
+                  #end
+                </tbody>
+              </table>
+            </div>

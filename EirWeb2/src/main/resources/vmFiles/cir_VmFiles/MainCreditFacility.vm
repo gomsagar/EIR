@@ -1,0 +1,77 @@
+<tr>
+   <td valign="top" bgcolor="#FFFFFF" style="border:1px solid #E5E5E5;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+         <tbody>
+            <tr>
+               <td height="30"  bgcolor="#406eb3" style="border-bottom:1px solid #E5E5E5;vertical-align: middle;">
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                     <tbody>
+                        <tr>
+                           <td width="4%">
+                              <div class="sectionHeadingtickmark">&nbsp;&nbsp;&nbsp;<img src=$tickmarkByteCode width="16" height="16" align="center" alt="Arrow"></div>
+                           </td>
+                           <td width="96%">
+                              <div>
+                              #set($headCount=$headCount+1)
+                              <h1 class="sectionHeading">$headCount. CREDIT FACILITY DETAILS - AS BORROWER</h1>
+                              </div>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </td>
+            </tr>
+            
+          ## #set( $var1 = $count1)
+          ## #set( $var2 = $count2)
+          ## #set( $var3 = $count3) 
+           ##$count1
+            ###set($creditFacility="#func($creditFacility)")
+            #if($reportDetails.creditFacilities.size() > 0)
+            #foreach($creditFacility in $reportDetails.creditFacilities)
+            	#set($isDerivative = $creditFacility.derivative)
+            	#set($count=1)
+            	#if($isDerivative=="true")
+            		#parse("/vmFiles/cir_VmFiles/CreditFacilityDetailsDerivative.vm")
+            	#else
+            		#parse("/vmFiles/cir_VmFiles/CreditFacilityDetails.vm")
+            	#end
+            	
+            	#parse("/vmFiles/cir_VmFiles/CreditFacilityPaymentHistory.vm")
+            	#set($isIndividual = $creditFacility.individual)
+            	
+            	###if($isIndividual=="true")
+            		#parse("/vmFiles/cir_VmFiles/CreditFacilityDetailsGuarentor.vm")
+            	###else
+            		###parse("/vmFiles/cir_VmFiles/CreditFaciltyDetailsGuarentorType.vm")
+            	###end
+            	
+            	#set($isborrower = $creditFacility.borrower)
+            	#if($isborrower=="true")
+            		#parse("/vmFiles/cir_VmFiles/CreditFacilityDetailsBorrwer.vm")
+            	#end
+            
+            	#set($issecurity = $creditFacility.security)
+            	#if($issecurity=="true")
+            		#parse("/vmFiles/cir_VmFiles/CreditFacilityDetailsSecurity.vm")
+            	#end
+            
+            	#set($ischeckDishonour = $creditFacility.checkDishonour)
+            	#if($ischeckDishonour=="true")
+            		#parse("/vmFiles/cir_VmFiles/CreditFacilityDetailsCheckDishoner.vm")
+            	#end
+            	
+            	#set($iscreditRating = $creditFacility.creditRating)
+            	
+            	#if($iscreditRating=="true")
+            		#parse("/vmFiles/cir_VmFiles/CreditFacilityDetailsCreditRatings.vm")
+            	#end
+            #end
+            #else
+<td bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">No Data To Display</td>
+
+#end
+         </tbody>
+      </table>
+   </td>
+</tr>

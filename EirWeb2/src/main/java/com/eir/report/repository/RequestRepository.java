@@ -12,5 +12,7 @@ import com.eir.report.entity.Request;
  *
  */
 public interface RequestRepository extends JpaRepository<Request, Integer> {
+	
+	Request findByRequestId(Integer requestId) ;
 
 }

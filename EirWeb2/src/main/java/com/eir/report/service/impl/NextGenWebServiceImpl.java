@@ -1,5 +1,7 @@
 package com.eir.report.service.impl;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
@@ -26,7 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.eir.combo.domains.ComboSummaryDomain;
-import com.eir.bir.request.model.CirRequest;
+//import com.eir.bir.request.model.CirRequest;
 import com.eir.combo.domains.RelatedDirectorsDomain;
 import com.eir.commercial.domains.CommercialReportDetails;
 import com.eir.domain.BIRDomain;
@@ -73,11 +75,11 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 
 	ExperianHttpDirectClient experianHttDirectClient;
 	
-	/*public NextGenWebServiceImpl()
+	public NextGenWebServiceImpl()
 	{
 		System.out.println("NextGenWebServiceImpl constructor");
 		experianHttDirectClient = new ExperianHttpDirectClient();
-	}*/
+	}
 	
 	@Autowired
 	CirRequestRepository cirRequestRepository;
@@ -103,12 +105,13 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 					 if(cirRequest.getStatus() != null)
 					 {
 						 String reportStatus = cirRequest.getStatus().getStatusDescription();
-						 if(com.eir.report.constant.Status.COMPLETED.equals(reportStatus))
+						 if(com.eir.report.constant.Status.COMPLETED.status().equals(reportStatus))
 						 {
 							 byte[] reportXml = cirRequest.getXmlOutput();
-							 FileInputStream  fileInputStream  =  new FileInputStream(reportXml.toString());
+							 ByteArrayInputStream in = new ByteArrayInputStream(reportXml);
+							 //FileInputStream  fileInputStream  =  new FileInputStream(reportXml.toString());
 							  
-				             SOAPMessage message = MessageFactory.newInstance().createMessage(null, fileInputStream );
+				             SOAPMessage message = MessageFactory.newInstance().createMessage(null, in );
 				             Unmarshaller unmarshaller = JAXBContext.newInstance(com.experian.nextgen.ind.model.commercial.uofpojo.ResponseInfo.class).createUnmarshaller();
 				             com.experian.nextgen.ind.model.commercial.uofpojo.ResponseInfo responseInfo = (com.experian.nextgen.ind.model.commercial.uofpojo.ResponseInfo)unmarshaller.unmarshal(message.getSOAPBody().extractContentAsDocument());
 				             CommercialMapper commercialMapper = new CommercialMapper();
@@ -245,7 +248,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 	
 	public List<com.experian.nextgen.ind.model.consumer.uofpojo.ResponseInfo> getConsumerReport(List<ConsumerRequest> consumerRequests)
 	{
-		List<com.experian.nextgen.ind.model.consumer.uofpojo.ResponseInfo> responseInfoList = null;
+		List<com.experian.nextgen.ind.model.consumer.uofpojo.ResponseInfo> responseInfoList = new ArrayList();
 		logger.info("NextGenWebServiceImpl: - getCIRReport()");
 		
 		if(consumerRequests != null && consumerRequests.size() > 0)
@@ -264,12 +267,13 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 					{
 						String xmlStatus = consumerRequest.getStatusId().getStatusDescription();
 						 
-						 if(com.eir.report.constant.Status.COMPLETED.equals(xmlStatus))
+						 if(com.eir.report.constant.Status.COMPLETED.status().equals(xmlStatus))
 						 {
 							byte[] requestedConsXml = consumerRequest.getXmlOutput();
-							FileInputStream  fileInputStream  =  new FileInputStream(requestedConsXml.toString());
+							ByteArrayInputStream bais = new ByteArrayInputStream(requestedConsXml);
+							//FileInputStream  fileInputStream  =  new FileInputStream(requestedConsXml.toString());
 							
-				            SOAPMessage message = MessageFactory.newInstance().createMessage(null, fileInputStream );
+				            SOAPMessage message = MessageFactory.newInstance().createMessage(null, bais );
 				            Unmarshaller unmarshaller = JAXBContext.newInstance(com.experian.nextgen.ind.model.consumer.uofpojo.ResponseInfo.class).createUnmarshaller();
 				            com.experian.nextgen.ind.model.consumer.uofpojo.ResponseInfo responseInfoCons = (com.experian.nextgen.ind.model.consumer.uofpojo.ResponseInfo)unmarshaller.unmarshal(message.getSOAPBody().extractContentAsDocument());
 				           
@@ -364,7 +368,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 	{
 		com.eir.report.nextgen.service.model.consumer.ObjectFactory objectFactory = new com.eir.report.nextgen.service.model.consumer.ObjectFactory();
 		GetConsumerProductRequest consumerProductRequest = objectFactory.createGetConsumerProductRequest();
-		consumerProductRequest.setSTARTENQ("START");
+		/*consumerProductRequest.setSTARTENQ("START");
 		EnqHeader enqHeader = new EnqHeader();
 		enqHeader.setClientEnquiryRefNumber(consumerRequest.getClientEnquiryRefNumber());
 		enqHeader.setBureauMemberId(consumerRequest.getBureauMemberId().toString());
@@ -536,7 +540,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		pinId.setEperianEncryptedPIN(consumerRequest.getMonthlyFamilyExpenseAmt());
 		List<com.eir.report.nextgen.service.model.consumer.PinId> pinIdList = new ArrayList<>();
 		pinIdList .add(pinId);
-		consumerProductRequest.setPINID(pinIdList);
+		consumerProductRequest.setPINID(pinIdList);*/
 		
 		return consumerProductRequest;
 	}
@@ -550,7 +554,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 			String cirRequestXML = getCIRRequestXML(cirRequest);
 			NextGenResponseWrapper nextGenResponseWrapper = experianHttDirectClient.getNextgenReport(cirRequestXML);
 			
-			Status cirReqStatus = getStatusByDescription(com.eir.report.constant.Status.ERROR.toString());
+			Status cirReqStatus = getStatusByDescription(com.eir.report.constant.Status.ERROR.status());
 			
 			if(nextGenResponseWrapper != null)
 			{
@@ -561,7 +565,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 					
 					if(!isFailed)
 					{
-						cirReqStatus = getStatusByDescription(com.eir.report.constant.Status.COMPLETED.toString());
+						cirReqStatus = getStatusByDescription(com.eir.report.constant.Status.COMPLETED.status());
 					}
 					
 				}
@@ -569,7 +573,14 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 			}
 			else
 			{
-				cirRequest.setXmlOutput("NextGen response is null".getBytes());
+				//cirRequest.setXmlOutput("NextGen response is null".getBytes());
+				File f = new File("C:/Experian/EIR/getBusinessProductRespnse.xml");
+				
+				byte[] bytesArray = new byte[(int) f.length()];
+
+				FileInputStream fis = new FileInputStream(f);
+				fis.read(bytesArray); //read file into bytes[]
+				cirRequest.setXmlOutput(bytesArray);
 			}
 			
 			cirRequest.setStatus(cirReqStatus);
@@ -590,8 +601,8 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		{
 			if(consumerEntityRequestList != null && !consumerEntityRequestList.isEmpty())
 			{
-				Status consumerReqStatusSuccess = getStatusByDescription(com.eir.report.constant.Status.COMPLETED.toString());
-				Status consumerReqStatusFailure = getStatusByDescription(com.eir.report.constant.Status.ERROR.toString());
+				Status consumerReqStatusSuccess = getStatusByDescription(com.eir.report.constant.Status.COMPLETED.status());
+				Status consumerReqStatusFailure = getStatusByDescription(com.eir.report.constant.Status.ERROR.status());
 				
 				for(ConsumerRequest consumerEntityRequest: consumerEntityRequestList )
 				{
@@ -614,7 +625,15 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 					}
 					else
 					{
-						consumerEntityRequest.setXmlOutput("NextGen response is null".getBytes());
+						//consumerEntityRequest.setXmlOutput("NextGen response is null".getBytes());
+						File f = new File("C:/Experian/EIR/getConsumerProductRespnse.xml");
+						
+						byte[] bytesArray = new byte[(int) f.length()];
+
+						FileInputStream fis = new FileInputStream(f);
+						fis.read(bytesArray); //read file into bytes[]
+						consumerEntityRequest.setXmlOutput(bytesArray);
+
 					}
 					
 					consumerRequetRepository.save(consumerEntityRequest);
@@ -679,32 +698,31 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		 
 		if(requestId != null)
 		{
-			 request= requestRepository.findByRequestId(requestId);
-			 cirRequest = request.getCirRequets();
-			 consumerRequests = request.getConsumerRequets();
-			 ComboDomain comboDomain= new ComboDomain();
-			 
-			 if(cirRequest != null)
-			 {
-			    reportDetails = getCIRReport(cirRequest);
-			    comboDomain.setReportDetails(reportDetails);
-			 }
-			 
-			 if(consumerRequests != null)
-			 {
-				responseInfoList = getConsumerReport(consumerRequests);
-				comboDomain.setResponseInfoList(responseInfoList);
-			 }
-			 
-			 if(reportDetails != null && responseInfoList != null)
-			 {
-				summaryDetails = getSummaryDetails(reportDetails,responseInfoList);
-				comboDomain.setSummaryDetails(summaryDetails);
-			 }
-				
-			 return comboDomain;
+			request= requestRepository.findByRequestId(requestId);
+			if(request != null)
+			{
+				 ComboDomain comboDomain= new ComboDomain();
+				 cirRequest = request.getCirRequets();
+				 if(cirRequest != null)
+				 {
+				    reportDetails = getCIRReport(cirRequest);
+				    comboDomain.setReportDetails(reportDetails);
+				 }
+				 
+				 consumerRequests = request.getConsumerRequets();
+				 if(consumerRequests != null)
+				 {
+					responseInfoList = getConsumerReport(consumerRequests);
+					comboDomain.setResponseInfoList(responseInfoList);
+				 }
+				 if(reportDetails != null && responseInfoList != null)
+				 {
+					summaryDetails = getSummaryDetails(reportDetails,responseInfoList);
+					comboDomain.setSummaryDetails(summaryDetails);
+				 }
+				 return comboDomain;
+			}
 		}
-		
 		return null;
 	}
 	

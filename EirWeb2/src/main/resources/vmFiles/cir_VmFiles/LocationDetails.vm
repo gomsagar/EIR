@@ -1,0 +1,64 @@
+<tr>
+   <td valign="top" bgcolor="#FFFFFF" style="border:1px solid #E5E5E5;">
+      <table style="page-break-inside: avoid" width="100%" border="0" cellspacing="0" cellpadding="0">
+         <tr>
+            <td height="30"  bgcolor="#406eb3" style="border-bottom:1px solid #E5E5E5;vertical-align: middle;">
+               <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                     <td width="4%"><div class="sectionHeadingtickmark">&nbsp;&nbsp;&nbsp;<img src=$tickmarkByteCode width="16" height="16" alt="Arrow" /></div></td>
+                     <td width="96%">
+                        <div>
+                        #set($headCount=$headCount+1)
+                           <h1 class="sectionHeading">$headCount. Location Details</h1>
+                        </div>
+                     </td>
+                  </tr>
+               </table>
+            </td>
+         </tr>
+         <tr>
+            <td height="10" valign="top"></td>
+         </tr>
+         <tr>
+            <td valign="top" bgcolor="#FFFFFF">
+               <table width="99%" border="0" align="center" cellpadding="3" cellspacing="0">
+                  <tr>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="14%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels">Address Type </td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="14%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementValues"><span class="sectionDataElementLabels">Address </span></td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="15%" bgcolor="#EFEFEF" class="sectionDataElementLabels">City</td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="14%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementValues"><span class="sectionDataElementLabels">PIN Code</span></td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="14%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels">Telephone</td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="14%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels">Last Reported Date</td>
+                  </tr>
+                  #foreach($locationDetails in $reportDetails.locationDetails)
+                  ## #emptyDataCheck($locationDetails)
+                  <tr>
+                     <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">
+                        #set($empty="#emptyDataCheck($locationDetails.regOffice)")$empty
+                     </td>
+                     <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">
+                        #set($empty="#emptyDataCheck($locationDetails.businessAddress)")$empty
+                     </td>
+                     <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">
+                        #set($empty="#emptyDataCheck($locationDetails.businessCity)")$empty
+                     </td>
+                     <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">
+                        #set($empty="#emptyDataCheck($locationDetails.pinCode)")$empty
+                     </td>
+                     <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">
+                        #set($empty="#emptyDataCheck($locationDetails.telephone)")$empty
+                     </td>
+                     <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;">
+                        #set($empty="#emptyDataCheck( $locationDetails.rptAsOfDt)")$empty
+                     </td>
+                  </tr>
+                  #end
+                  <tr>
+   				<td>&nbsp;</td>
+			</tr>
+               </table>
+            </td>
+         </tr>
+      </table>
+   </td>
+</tr>

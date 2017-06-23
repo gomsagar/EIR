@@ -1,0 +1,177 @@
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="expires" content="-1">
+<meta http-equiv="X-Frame-Options" content="sameorigin">
+<title>PDS/BOS Reporting</title>
+<script>
+  if (self == top) {
+  document.documentElement.style.display = 'block';
+  } else {
+  top.location = self.location;
+  }
+  </script>
+  		#parse("/vmFiles/consumer_VmFiles/StyleCons.vm")
+</head>
+<body>
+<form id="sessionRedirect" action="http://localhost:2820/nextgen-ind-pds/products/ssoLogout.page" method="post">
+</form>
+<form id="sessionCSRF" action="http://localhost:2820/nextgen-ind-pds/products/" method="post">
+  <input name="sessionReqToken" id="sessionReqToken" value="-1427477617468135501" type="hidden">
+</form>
+
+ 		 #parse("/vmFiles/consumer_VmFiles/BodyCons.vm")
+  
+<script>
+  $(document).ready(function(){
+    /* $("#report-back").click(function(){
+        submitCSRF('pdsComboBack.page');
+        }); */
+        $("#report-back").hide();
+    $("#create-pdf").click(function(){
+        submitCSRF("pdsComboPDFReport.page");
+    });
+    
+    $('a.showAccountDTL').click( function(){
+        $(this).parent().parent().next().next().next().next(".accountDetails").toggle();
+    });
+    
+    $('a.paymentDetailsD').click( function(){
+        $(this).parent().parent().next().next(".sublist").toggle();
+    }); 
+    
+    $('.showAD').click( function(){
+        $(this).parent().parent().next().next(".subList").toggle();
+    });
+  
+    $('a.showAD2').click( function(){
+        $(this).parent().parent().next().next(".subList2").toggle();
+    });
+    
+  });
+  
+   function callPayment(index)
+   {
+	   
+	   var trIndex = "tr" + index;
+	   var docObj = document.getElementById(trIndex);
+	   
+	   //alert("docObj.style.display ---> " + docObj.style.display);
+	   if(docObj.style.display == 'none')
+	   {
+	   		docObj.style.display = "";
+	   		//alert("in if docObj.style.display ---> " + docObj.style.display);
+	   }
+	   else
+	   {
+	   		docObj.style.display = 'none';
+	   		//alert("in else docObj.style.display ---> " + docObj.style.display);
+	   }
+	   //alert(" out of if and else docObj.style.display ---> " + docObj.style.display);
+	   
+    }
+    
+    function callAccountDetail(countAcc)
+   {
+
+	  // alert("Inside account details"+countAcc);
+	   var trcountAcc = "br" + countAcc;
+	   var arcountAcc = "ar" + countAcc;
+	   var docObj = document.getElementById(trcountAcc);
+	    var docObjAcc = document.getElementById(arcountAcc);
+	   
+	   //alert("docObj.style.display ---> " + docObj.style.display);
+	   if(docObj.style.display == 'none')
+	   {
+	   		docObj.style.display = "";
+	   		//alert("in if docObj.style.display ---> " + docObj.style.display);
+	   }
+	   else
+	   {
+	   		docObj.style.display = 'none';
+	   		//alert("in else docObj.style.display ---> " + docObj.style.display);
+	   }
+	   //alert(" out of if and else docObj.style.display ---> " + docObj.style.display);
+	   if(docObjAcc.style.display == 'none')
+	   {
+	   		docObjAcc.style.display = "";
+	   		//alert("in if docObj.style.display ---> " + docObj.style.display);
+	   }
+	   else
+	   {
+	   		docObjAcc.style.display = 'none';
+	   		//alert("in else docObj.style.display ---> " + docObj.style.display);
+	   }
+	   
+    }
+    
+    function callPaymentHist(count)
+   {
+   
+	  // alert("Inside payment hist"+count);
+	   var trcount = "pr" + count;
+	   var docObj = document.getElementById(trcount);
+	   
+	  // alert("docObj.style.display ---> " + docObj.style.display);
+	   if(docObj.style.display == 'none')
+	   {
+	   		docObj.style.display = "";
+	   		//alert("in if docObj.style.display ---> " + docObj.style.display);
+	   }
+	   else
+	   {
+	   		docObj.style.display = 'none';
+	   		//alert("in else docObj.style.display ---> " + docObj.style.display);
+	   }
+	  // alert(" out of if and else docObj.style.display ---> " + docObj.style.display);
+	   
+    }
+  </script>
+              <script type="text/javascript">
+    $(document).ready(function(){ 
+        $('#credit-account-details .tabular_data_wrap').find('.listh:odd td').css("background","none");
+        if(typeof String.prototype.trim !== 'function') { 
+            String.prototype.trim = function() { 
+                return this.replace(/^\s+|\s+$/g, ''); 
+            }
+        }
+        
+        $("#acctable td").each(function(){
+            if($(this).text() == null || $.trim($(this).text()).length == 0 ){
+                var text = $(this).text();
+                text = "-";
+                $(this).text(text);
+                } 
+            if($(this).text() == 'space'){
+               $(this).text("");
+             }
+        });
+        
+        $(".daysPastDueCtClass").each(function(){
+            var daysPastDueCtVal = $(this).html();
+            
+            if(!(daysPastDueCtVal == "" || daysPastDueCtVal == undefined)){
+                if(daysPastDueCtVal.length == 1 &&  !isNaN(daysPastDueCtVal)){
+                    $(this).empty();
+                    $(this).text("00"+daysPastDueCtVal);
+                }else if(daysPastDueCtVal.length == 2 &&  !isNaN(daysPastDueCtVal)){
+                    $(this).empty();
+                    $(this).text("0"+daysPastDueCtVal);
+                }
+            }
+        });      
+        
+    });
+  </script>
+              <script type="text/javascript">
+  $(document).ready(function(){ 
+    $('#ccredit-account-details .tabular_data_wrap').find('.listh:odd td').css("background","none");
+    $('#non-credit-account-details .tabular_data_wrap').find('.listh:odd td').css("background","none");
+   });
+  </script>
+</body>
+

@@ -1,0 +1,330 @@
+		
+		<div id="app-details">
+              <h1> Bureau Best Identity Profile </h1>
+              <table class="tabular_data_wrap" style="margin-top:10px">
+                <tbody>
+                  <tr class="list_header">
+                    <td>Personal Information</td>
+                    <td style="width:23%">Addresses</td>
+                    <td>Contact Info</td>
+                    <td style="width:18%">ID Card Type</td>
+                    <td>ID Card Num</td>
+                    <td>Issue Date</td>
+                    <td>Expiry Date</td>
+                  </tr>
+                  <tr class="list listpds" style="background-color: white;">
+                    <td style="padding-left: 5px; padding-top:0px;"><table>
+                        <tbody>
+                          <tr>
+                            <td style="padding:0px;">
+                            #set($pidnames = $responseInfo.ConsumerResponse.PERSONID.Pidname)
+							#foreach($pidname in $pidnames)
+							<table>
+								<tbody>
+								#set($value="#emptyDataCheck($pidname.FirstGivenName)")
+								#set($name="#trimVar($value)")
+								#set($name=$StringUtils.deleteWhitespace($name))
+								#if($name != 0)	
+									<tr>
+										<td style="padding-top:0px;">$value</td>
+									</tr>
+								#end
+									
+								#set($value="#emptyDataCheck($pidname.MiddleName)")
+								#set($name="#trimVar($value)")
+								#set($name=$StringUtils.deleteWhitespace($name))
+								#if($name != 0)	
+									<tr>
+										<td style="padding-top:0px;">$value</td>
+									</tr>
+								#end
+									
+								#set($value="#emptyDataCheck($pidname.IndiaMiddleName3)")
+								#set($name="#trimVar($value)")
+								#set($name=$StringUtils.deleteWhitespace($name))
+								#if($name != 0)	
+									<tr>
+										<td style="padding-top:0px;">$value</td>
+									</tr>
+								#end
+									
+								#set($value="#emptyDataCheck($pidname.OtherMiddleNames)")
+								#set($name="#trimVar($value)")
+								#set($name=$StringUtils.deleteWhitespace($name))
+								#if($name != 0)	
+									<tr>
+										<td style="padding-top:0px;">$value</td>
+									</tr>
+								#end
+									
+								#set($value="#emptyDataCheck($pidname.FamilyName)")
+								#set($name="#trimVar($value)")
+								#set($name=$StringUtils.deleteWhitespace($name))
+								#if($name != 0)	
+									<tr>
+										<td style="padding-top:0px;">$value</td>
+									</tr>
+								#end
+								</tbody>
+							</table>
+							#end
+							</td>
+                          </tr>
+                          <tr>
+                            <td style="padding-top:0px;">#set($value="#emptyDataCheck($!responseInfo.ConsumerResponse.PERSONID.Gender)")$value</td>
+                          </tr>
+                          #set($day = "#emptyDataCheck($!responseInfo.ConsumerResponse.PERSONID.BirthDay)")
+			 			  #set($month = "#emptyDataCheck($!responseInfo.ConsumerResponse.PERSONID.BirthMonth)")
+			              #set($year = "#emptyDataCheck($!responseInfo.ConsumerResponse.PERSONID.BirthYear)")
+			  
+			              #set($dob = $day +"/"+ $month +"/"+ $year)
+                          <tr>
+                            <td style="padding-top:0px;">$dob</td>
+                          </tr>
+                          <tr> </tr>
+                        </tbody>
+                      </table></td>
+                      
+                   <td style="padding-top: 0px;">
+                    #set($perinpaddrs = $responseInfo.ConsumerResponse.PERSONID.PIDADDRS)
+				    #foreach($perinpaddr in $perinpaddrs)
+					<table>
+                        <tbody>
+                        #set($value="#emptyDataCheck($perinpaddr.AddrLine1)")
+						#set($name="#trimVar($value)")
+						#set($name=$StringUtils.deleteWhitespace($name))
+						#if($name != 0)	
+                        	<tr>
+                            	<td style="padding-top:0px;">$value</td>
+							</tr>
+						#end
+						
+						#set($value="#emptyDataCheck($perinpaddr.AddrLine2)")
+						#set($name="#trimVar($value)")
+						#set($name=$StringUtils.deleteWhitespace($name))
+						#if($name != 0)	
+							<tr>
+	                            <td style="padding-top:0px;">$value</td>
+							</tr>
+						#end
+						
+						#set($value="#emptyDataCheck($perinpaddr.AddrLine3)")
+						#set($name="#trimVar($value)")
+						#set($name=$StringUtils.deleteWhitespace($name))
+						#if($name != 0)							
+							<tr>
+	                            <td style="padding-top:0px;">$value</td>
+							</tr>
+						#end
+						
+						#set($value="#emptyDataCheck($perinpaddr.PostalCode)")
+						#set($name="#trimVar($value)")
+						#set($name=$StringUtils.deleteWhitespace($name))
+						#if($name != 0)	
+							<tr>
+	                            <td style="padding-top:0px;">$value</td>
+							</tr>
+						#end
+						
+						#set($value="#emptyDataCheck($perinpaddr.localityName)")
+						#set($name="#trimVar($value)")
+						#set($name=$StringUtils.deleteWhitespace($name))
+						#if($name != 0)	
+							<tr>
+	                            <td style="padding-top:0px;">$value</td>
+							</tr>
+						#end
+						
+						#set($value="#emptyDataCheck($perinpaddr.regionName)")
+						#set($name="#trimVar($value)")
+						#set($name=$StringUtils.deleteWhitespace($name))
+						#if($name != 0)	
+							<tr>
+	                            <td style="padding-top:0px;">$value</td>
+							</tr>
+						#end
+                        </tbody>
+                      </table>
+                      #end
+                      </td>
+                  
+                    <td style="padding-top:0px;"><table>
+                        <tbody>
+                        #set($perinpphns = $responseInfo.ConsumerResponse.PERSONID.PIDPHONE)
+                        #foreach($perinpphn in $perinpphns)
+                        	#set($phoneType = $perinpphn.PhoneType)
+                        	#set($value="#emptyDataCheck($perinpphn.PhoneNumber)")
+                            #if($phoneType == "1")
+	                          <tr>
+	                            <td style="padding-top:0px;">$value(H)</td>
+	                          </tr>
+	                        #elseif($phoneType == "6")
+							  <tr>
+	                            <td style="padding-top:0px;">$value(M)</td>
+	                          </tr>
+	                        #elseif($phoneType == "3")
+							  <tr>
+	                            <td style="padding-top:0px;">$value(O)</td>
+	                          </tr>
+	                        #elseif($phoneType == "7")
+							  <tr>
+	                            <td style="padding-top:0px;">$value(OT)</td>
+	                          </tr>
+	                        #end
+	                        #end
+                        </tbody>
+                      </table>
+                      </td>
+                 #set($perinpidcs=$responseInfo.ConsumerResponse.PERSONID.PIDCARDS)
+                    <td style="padding-top:0px;"><table id="card-type">
+                        <tbody>
+                        #foreach($perinpidc in $perinpidcs)
+                        	#set($idType = $perinpidc.IdNumberType)
+                        	 #if($idType == "10")
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">PAN</td>
+		                          </tr>
+					         #elseif($idType == "7")
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">VOTER ID</td>
+		                          </tr>
+							 #elseif($idType == "1")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">D/L</td>
+		                          </tr>
+							 #elseif($idType == "11")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">RATION CARD</td>
+		                          </tr>
+							 #elseif($idType == "4")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">Passport Number</td>
+		                          </tr>
+							 #elseif($idType == "12")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">AADHAR</td>
+		                          </tr>
+		                     #elseif($idType == "19")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">Account Number</td>
+		                          </tr>
+							 #end
+							 #end
+                        </tbody>
+                      </table></td>
+                    <td><table id="card-num">
+                        <tbody>
+						#foreach($perinpidc in $perinpidcs)
+                        	#set($idType = $perinpidc.IdNumberType)
+                        	#set($idNum="#emptyDataCheck($perinpidc.idNumber)")
+                        	 #if($idType == "10")
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$idNum</td>
+		                          </tr>
+							 #elseif($idType == "7")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$idNum</td>
+		                          </tr>
+							 #elseif($idType == "1")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$idNum</td>
+		                          </tr>
+							 #elseif($idType == "11")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$idNum</td>
+		                          </tr>
+							 #elseif($idType == "4")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$idNum</td>
+		                          </tr>
+							 #elseif($idType == "12")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$idNum</td>
+		                          </tr>
+		                     #elseif($idType == "19")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$idNum</td>
+		                          </tr>
+							#end
+							#end
+                        </tbody>
+                      </table></td>
+                      <td><table id="card-num">
+                        <tbody>
+						#foreach($perinpidc in $perinpidcs)
+                        	#set($idType = $perinpidc.IdNumberType)
+                        	#set($issueDt="#emptyDataCheck($perinpidc.IdIssueDate)")
+                        	 #if($idType == "10")
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$issueDt</td>
+		                          </tr>
+							#elseif($idType == "7")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$issueDt</td>
+		                          </tr>
+							#elseif($idType == "1")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$issueDt</td>
+		                          </tr>
+							#elseif($idType == "11")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$issueDt</td>
+		                          </tr>
+							#elseif($idType == "4")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$issueDt</td>
+		                          </tr>
+							#elseif($idType == "12")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$issueDt</td>
+		                          </tr>
+		                    #elseif($idType == "19")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$issueDt</td>
+		                          </tr>
+						#end
+						#end
+                        </tbody>
+                      </table></td>
+                      <td><table id="card-num">
+                        <tbody>
+						#foreach($perinpidc in $perinpidcs)
+                        	#set($idType = $perinpidc.IdNumberType)
+                        	#set($expDt="#emptyDataCheck($perinpidc.IdExpirationDate)")
+                        	 #if($idType == "10")
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$expDt</td>
+		                          </tr>
+							#elseif($idType == "7")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$expDt</td>
+		                          </tr>
+							#elseif($idType == "1")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$expDt</td>
+		                          </tr>
+							#elseif($idType == "11")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$expDt</td>
+		                          </tr>
+							#elseif($idType == "4")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$expDt</td>
+		                          </tr>
+							#elseif($idType == "12")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$expDt</td>
+		                          </tr>
+		                    #elseif($idType == "19")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$expDt</td>
+		                          </tr>
+						#end
+						#end
+                        </tbody>
+                      </table></td>
+                  </tr>
+                 
+                </tbody>
+              </table>
+            </div>

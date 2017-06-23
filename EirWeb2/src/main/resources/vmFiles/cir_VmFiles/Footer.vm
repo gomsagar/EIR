@@ -1,0 +1,47 @@
+<pd4ml:page.footer scope="skiplast" style="display:none;pd4ml-display:block!important;">
+   #set($reportHeader = $reportDetails.reportHeader)	
+   <table width="940px" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+         <td style="height:5px;" bgcolor="#FFFFFF">&nbsp;</td>
+      </tr>
+      <tr>
+         <td height="1" bgcolor="#FFFFFF"></td>
+      </tr>
+      <tr>
+         <td height="8" bgcolor="#FFFFFF"></td>
+      </tr>
+      <tr>
+         <td bgcolor="#FFFFFF" style="text-align:center;">
+            <span class="MetaDataElementLabels">Experian Reference Number (ERN):</span> <span class="MetaDataElementValues">
+            $!reportHeader.experianReferenceNumber
+            </span> 
+            <span class="MetaDataElementValues">
+            $!reportHeader.generateDate
+            </span> 
+            <span class="MetaDataElementValues">
+            $!reportHeader.generateTime
+            </span>
+            &nbsp;
+            <span class="MetaDataElementLabels">
+            Enquiry Reference:
+            </span> 
+            <span class="MetaDataElementValues">
+            $!reportHeader.enquiryReference
+            </span>
+            &nbsp;
+            <span class="MetaDataElementLabels">
+            Member Name:
+            </span> 
+            <span class="MetaDataElementValues">
+            $!reportHeader.memberName
+            </span>
+         </td>
+      </tr>
+      <tr>
+         <td height = "50" gcolor="#FFFFFF" class="MetaDataElementValues" style="display:none;pd4ml-display:block!important;text-align:center;font-family:Arial,Gotham, 'Helvetica Neue', Helvetica,  sans-serif; font-weight:800">Page $[page] of $[total]</td>
+      </tr>
+      <tr>
+         <td bgcolor="#FFFFFF">&nbsp;</td>
+      </tr>
+   </table>
+</pd4ml:page.footer>

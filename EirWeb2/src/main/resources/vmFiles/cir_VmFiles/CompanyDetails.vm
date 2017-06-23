@@ -1,0 +1,333 @@
+#set($companyDetails2 =$reportDetails.companyDetails)
+<tr>
+   <td height="334" bgcolor="#FFFFFF" style="border:1px solid #E5E5E5;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+         <tr>
+            <td height="30"  bgcolor="#406eb3" style="border-bottom:1px solid #E5E5E5;vertical-align: middle;">
+               <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                     <td width="4%"><div class="sectionHeadingtickmark">&nbsp;&nbsp;&nbsp;<img src=$tickmarkByteCode width="16" height="16" align="center" alt="Arrow" /></div></td>
+                     <td width="96%">
+                        <div>
+                        	#set($headCount=$headCount+1)
+                           <h1 class="sectionHeading">$headCount. Company Details</h1>
+                        </div>
+                     </td>
+                  </tr>
+               </table>
+            </td>
+         </tr>
+         <tr>
+            <td bgcolor="#FFFFFF">&nbsp;</td>
+         </tr>
+         <tr>
+            <td valign="top" bgcolor="#FFFFFF">
+               <table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+                  <tr>
+                     <td height="1" bgcolor="#FFFFFF"></td>
+                  </tr>
+                  <tr>
+                     <td height="30" colspan="3" bgcolor="#EFEFEF" class="subHeding" style="border-right:1px solid #E5E5E5;vertical-align:middle;">&nbsp; Company Details</td>
+                  </tr>
+                  <tr>
+                     <td width="33%" valign="top" style="border-right:1px solid #E5E5E5; border-left:1px solid #E5E5E5;">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                       <tr>
+                                          <td width="44%" class="sectionDataElementsmallHed">Company Name</td>
+                                          <td width="56%" class="sectionDataElementValues explicitLeft">#set($empty="#emptyDataCheck($!companyDetails2.busNm)")$empty</td>
+                                       </tr>
+                                    </table>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                       <tr>
+                                          <td width="44%" class="sectionDataElementsmallHed">Company Short Name</td>
+                                          <td width="56%" class="sectionDataElementValues explicitLeft">#set($empty="#emptyDataCheck($!companyDetails2.companyShortName)")$empty</td>
+                                       </tr>
+                                    </table>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                       <tr>
+                                          <td width="44%" valign="top" class="sectionDataElementsmallHed">Address</td>
+                                          <td width="56%" valign="top" class="sectionDataElementValues explicitLeft">#set($empty="#emptyDataCheck($!companyDetails2.busAddress)")$empty</td>
+                                       </tr>
+                                    </table>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                       <tr>
+                                          <td width="44%" valign="top" class="sectionDataElementsmallHed">Company Telephone</td>
+                                          <td width="56%" valign="top" class="sectionDataElementValues explicitLeft">#set($empty="#emptyDataCheck($!companyDetails2.businessTelephone)")$empty</td>
+                                       </tr>
+                                    </table>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                       <tr>
+                                          <td width="44%" valign="top" class="sectionDataElementsmallHed">Company Fax</td>
+                                          <td width="56%" valign="top" class="sectionDataElementValues explicitLeft">#set($empty="#emptyDataCheck($!companyDetails2.busFax)")$empty</td>
+                                       </tr>
+                                    </table>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </td>
+                     <td width="33%" valign="top" style="border-right:1px solid #E5E5E5;">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                       <tr>
+                                          <td width="44%" class="sectionDataElementsmallHed">Legal Constitution</td>
+                                          <td width="56%" class="sectionDataElementValues explicitLeft">#set($empty="#emptyDataCheck($!companyDetails2.legalConstitution)")$empty</td>
+                                       </tr>
+                                    </table>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                       <tr>
+                                          <td width="44%" class="sectionDataElementsmallHed">Business Category:</td>
+                                          <td width="56%" class="sectionDataElementValues explicitLeft">#set($empty="#emptyDataCheck($!companyDetails2.busCategoryCd)")$empty</td>
+                                       </tr>
+                                    </table>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                       <tr>
+                                          <td width="44%" class="sectionDataElementsmallHed">Industry Type</td>
+                                          <td width="56%" class="sectionDataElementValues explicitLeft">#set($empty="#emptyDataCheck($!companyDetails2.indusCd)")$empty</td>
+                                       </tr>
+                                    </table>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                       <tr>
+                                          <td width="44%" class="sectionDataElementsmallHed">Class of Activity</td>
+                                          <td width="56%" class="sectionDataElementValues explicitLeft">#set($empty="#emptyDataCheck($!companyDetails2.classOfActivity)")$empty</td>
+                                       </tr>
+                                    </table>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </td>
+                     <td width="33%" valign="top"  style="border-right:1px solid #E5E5E5;">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                       <tr>
+                                          <td width="44%" valign="top" class="sectionDataElementsmallHed">Registration Number</td>
+                                          <td width="56%" valign="top" class="sectionDataElementValues explicitLeft">#set($empty="#emptyDataCheck($!companyDetails2.busRegNb4In)")$empty</td>
+                                       </tr>
+                                    </table>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                       <tr>
+                                          <td width="44%" class="sectionDataElementsmallHed">Registration Date</td>
+                                          <td width="56%" class="sectionDataElementValues explicitLeft">#set($empty="#emptyDataCheck($!companyDetails2.busRegDt)")$empty</td>
+                                       </tr>
+                                    </table>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                       <tr>
+                                          <td width="44%" class="sectionDataElementsmallHed">Registration City</td>
+                                          <td width="56%" class="sectionDataElementValues explicitLeft">#set($empty="#emptyDataCheck($!companyDetails2.busRegCityNum)")$empty</td>
+                                       </tr>
+                                    </table>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                       <tr>
+                                          <td width="44%" class="sectionDataElementsmallHed">Registration State</td>
+                                          <td width="56%" class="sectionDataElementValues explicitLeft">#set($empty="#emptyDataCheck($!companyDetails2.busRegProvinceCd4In)")$empty</td>
+                                       </tr>
+                                    </table>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td style="border-right:1px solid #E5E5E5; border-left:1px solid #E5E5E5;">&nbsp;</td>
+                     <td valign="top" style="border-right:1px solid #E5E5E5;">&nbsp;</td>
+                     <td valign="top"  style="border-right:1px solid #E5E5E5;">&nbsp;</td>
+                  </tr>
+                  <tr>
+                     <td height="30" bgcolor="#EFEFEF" class="sectionDataElementLabels1" style="border-right:1px solid #E5E5E5;"><span class="subHeding" style="border-right:1px solid #E5E5E5;vertical-align:middle;">&nbsp; </span>Identifiers</td>
+                     <td bgcolor="#EFEFEF" class="sectionDataElementLabels1" style="border-right:1px solid #E5E5E5;"><span class="subHeding" style="border-right:1px solid #E5E5E5;vertical-align:middle;">&nbsp; </span>Credit Rating Details</td>
+                     <td bgcolor="#EFEFEF" class="sectionDataElementLabels1" ><span class="subHeding" style="border-right:1px solid #E5E5E5;vertical-align:middle">&nbsp; </span>Other Details</td>
+                  </tr>
+                  <tr>
+                     <td valign="top" style="border-right:1px solid #E5E5E5; border-left:1px solid #E5E5E5;">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                       <tr>
+                                          <td width="44%" valign="top" class="sectionDataElementsmallHed">PAN</td>
+                                          <td width="56%" valign="top" class="sectionDataElementValues explicitLeft">#set($empty="#emptyDataCheck($!companyDetails2.panNumber)")$empty</td>
+                                       </tr>
+                                    </table>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                       <tr>
+                                          <td width="44%" valign="top" class="sectionDataElementsmallHed">CIN</td>
+                                          <td width="56%" valign="top" class="sectionDataElementValues explicitLeft">#set($empty="#emptyDataCheck($!companyDetails2.cin)")$empty</td>
+                                       </tr>
+                                    </table>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                       <tr>
+                                          <td width="44%" valign="top" class="sectionDataElementsmallHed">TIN</td>
+                                          <td width="56%" valign="top" class="sectionDataElementValues explicitLeft">#set($empty="#emptyDataCheck($!companyDetails2.tin)")$empty</td>
+                                       </tr>
+                                    </table>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                       <tr>
+                                          <td width="44%" valign="top" class="sectionDataElementsmallHed">SIC Code</td>
+                                          <td width="56%" valign="top" class="sectionDataElementValues explicitLeft">#set($empty="#emptyDataCheck($!companyDetails2.sic)")$empty</td>
+                                       </tr>
+                                    </table>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                       <tr>
+                                          <td width="44%" class="sectionDataElementsmallHed">Service Tax Number</td>
+                                          <td width="56%" class="sectionDataElementValues explicitLeft">#set($empty="#emptyDataCheck($!companyDetails2.serviceTaxNumber)")$empty</td>
+                                       </tr>
+                                    </table>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </td>
+                     <td valign="top" style="border-right:1px solid #E5E5E5; ">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                       <tr>
+                                          <td width="44%" valign="top" class="sectionDataElementsmallHed">Latest Credit Rating</td>
+                                          <td width="56%" valign="top" class="sectionDataElementValues explicitLeft">#set($empty="#emptyDataCheck($!companyDetails2.latestCreditRating)")$empty</td>
+                                       </tr>
+                                    </table>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                       <tr>
+                                          <td width="44%" valign="top" class="sectionDataElementsmallHed">Credit Rating Agency</td>
+                                          <td width="56%" valign="top" class="sectionDataElementValues explicitLeft">#set($empty="#emptyDataCheck($!companyDetails2.creditRatingAgency)")$empty</td>
+                                       </tr>
+                                    </table>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </td>
+                     <td valign="top"  style="border-right:1px solid #E5E5E5;" >
+                        <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                       <tr>
+                                          <td width="40%" valign="top" class="sectionDataElementsmallHed">Number of Employees</td>
+                                          <td width="60" valign="top" class="sectionDataElementValues explicitLeft">#set($empty="#emptyDataCheck($!companyDetails2.totalEmpCt)")$empty</td>
+                                       </tr>
+                                    </table>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                       <tr>
+                                          <td width="33%" valign="top" class="sectionDataElementsmallHed">Sales Figure</td>
+                                          <td width="67%" valign="top" class="sectionDataElementValues explicitLeft">
+                                             #set($empty="#currencyNullCheck($!companyDetails2.salesFigureAm)")$empty
+                                             #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                                             <div class="currencySymSalesFigAlign"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                                             <div style="float: left; width: 90%; word-wrap:break-word; line-height:16px">#set($empty="#emptyDataCheck($!companyDetails2.salesFigureAm)")$empty</div>
+                                             #else
+                                             <div style="float: right; width: 90%; word-wrap:break-word;">#set($empty="#emptyDataCheck($!companyDetails2.salesFigureAm)")$empty</div>
+                                             #end
+                                          </td>
+                                       </tr>
+                                    </table>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                       <tr>
+                                          <td width="40%" valign="top" class="sectionDataElementsmallHed">Financial Year</td>
+                                          <td width="60%" valign="top" class="sectionDataElementValues explicitLeft">#set($empty="#emptyDataCheck($!companyDetails2.financialYear)")$empty</td>
+                                       </tr>
+                                    </table>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td valign="top" style="border-right:1px solid #E5E5E5; border-left:1px solid #E5E5E5;">&nbsp;</td>
+                     <td valign="top" style="border-right:1px solid #E5E5E5;">&nbsp;</td>
+                     <td valign="top" style="border-right:1px solid #E5E5E5;">&nbsp;</td>
+                  </tr>
+               </table>
+            </td>
+         </tr>
+      </table>
+   </td>
+</tr>
+<tr>
+   <td bgcolor="#FFFFFF">&nbsp;</td>
+</tr>

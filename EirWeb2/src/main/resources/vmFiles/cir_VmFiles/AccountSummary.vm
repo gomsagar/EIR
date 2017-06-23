@@ -1,0 +1,671 @@
+#set ($accountSummary = $reportDetails.accountSummary)
+#set($disclosureAcc=$reportDetails.disclosure)
+<tr>
+   <td bgcolor="#FFFFFF" style="border:1px solid #E5E5E5;">
+      <table style="page-break-inside: avoid" width="100%" border="0" cellspacing="0" cellpadding="0">
+         <tr>
+            <td height="30"  bgcolor="#406eb3" style="border-bottom:1px solid #E5E5E5;vertical-align: middle;">
+               <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                     <td width="4%"><div class="sectionHeadingtickmark">&nbsp;&nbsp;&nbsp;<img src=$tickmarkByteCode width="16" height="16" align="center" alt="Arrow" /></div></td>
+                     <td width="96%">
+                        <div>
+                        	#set($headCount=$headCount+1)
+                           <h1 class="sectionHeading">$headCount. Account summary</h1>
+                        </div>
+                     </td>
+                  </tr>
+               </table>
+            </td>
+         </tr>
+         <tr>
+            <td height="10" valign="top"></td>
+         </tr>
+         <tr>
+            <td height="10" valign="top">
+               <table width="99%" border="0" align="center" cellpadding="3" cellspacing="0">
+                  <tr>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels">&nbsp;</td>
+                     <td colspan="2" align="center" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Fund / Non-Fund Based</td>
+                     <td colspan="2" align="center" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Short / Long Term</td>
+                     <td colspan="3" align="center" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;"><strong>Negative Indicator</strong></td>
+                  </tr>
+                  <tr>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="12%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels">Currency</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="12%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementValues"><span class="sectionDataElementLabels">Funded </span></td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="12%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels">Non-Funded</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="12%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementValues"><span class="sectionDataElementLabels">Short Term</span></td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="12%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels">Long Term</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="13%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels">Willful Defaults</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="13%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels">Suit Filed</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="13%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels">Cheque Dishonored</td>
+                  </tr>
+                  #foreach($account in $accountSummary.fundedLists)
+                  <tr>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="12%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        <span class="amtValue">#set($empty="#emptyDataCheck($!account.currency)")$empty</span>
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="12%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!account.Funded)")$empty
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="12%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!account.NonFunded)")$empty
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="12%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!account.ShortTerm)")$empty
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="12%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!account.LongTerm)")$empty
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="13%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!account.Wilful)")$empty
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="13%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!account.SuitFiled)")$empty
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;" width="13%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!account.checkDishonor)")$empty
+                     </td>
+                  </tr>
+                  #end
+               </table>
+            </td>
+         </tr>
+         <tr>
+            <td height="10" valign="top"></td>
+         </tr>
+         <tr>
+            <td height="10" valign="top">&nbsp;</td>
+         </tr>
+         <tr>
+            <td valign="top">
+               <table width="99%" border="0" align="center" cellpadding="3" cellspacing="0">
+                  <tr>
+                     <td style="border-left:1px solid #dce6f1;" width="9%" bgcolor="#EFEFEF" class="sectionDataElementLabels1">Credit Grantor</td>
+                     <td colspan="2" align="center" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Total Credit Facilities</td>
+                     <td align="center"width="9%" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Active Credit Facilities</td>
+                     <td colspan="2" align="center" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Total Outstanding</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="10%" bgcolor="#EFEFEF" class="sectionDataElementLabels">Latest Account Open Date</td>
+                     <td colspan="4" align="center" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Delinquent Credit Facilitates and Outstanding Balance</td>
+                  </tr>
+                  <tr>
+                     <td valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">&nbsp;</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;"  valign="top" bgcolor="#EFEFEF" class="sectionDataElementValues">As  Borrower</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#EFEFEF" class="sectionDataElementValues">As Guarantor</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#EFEFEF" class="sectionDataElementValues">&nbsp;</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#EFEFEF" class="sectionDataElementValues">As Borrower</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#EFEFEF" class="sectionDataElementValues">As Guarantor</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#EFEFEF" class="sectionDataElementValues">&nbsp;</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#EFEFEF" class="sectionDataElementValues">As Borrower</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#EFEFEF" class="sectionDataElementValues">Balance</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#EFEFEF" class="sectionDataElementValues">As Guarantor</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#EFEFEF" class="sectionDataElementValues">Balance</td>
+                  </tr>
+                   #if($disclosureAcc=="false")
+                  <tr>
+                     <td valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels1" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">$accountSummary.nameOfInstitution</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.TCFAB)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.TCFAG)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.ACF)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!accountSummary.TOAB)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.TOAB)")$empty
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.TOAB)")$empty</div>
+                        #end
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!accountSummary.TOAG)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.TOAG)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.TOAG)")$empty</div>
+                        #end
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.LAOP)")$empty
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.DCFOBAB)")$empty
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!accountSummary.DCFOBABB)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.DCFOBABB)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.DCFOBABB)")$empty</div>
+                        #end
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.DCFOBAG)")$empty</div>
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!accountSummary.DCFOBAGB)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.DCFOBAGB)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.DCFOBAGB)")$empty</div>
+                        #end
+                     </td>
+                  </tr>
+                  #end
+                  <tr>
+                     <td width="9%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels1" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">PSU</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="9%" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.PSUTCFAB)")$empty
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="9%" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.PSUTCFAG)")$empty
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="9%" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.PSUACF)")$empty
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="9%" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!accountSummary.PSUTOAB)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.PSUTOAB)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.PSUTOAB)")$empty</div>
+                        #end
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="9%" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!accountSummary.PSUTOAG)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.PSUTOAG)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.PSUTOAG)")$empty</div>
+                        #end
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="10%" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.PSULAOP)")$empty
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="9%" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.PSUDCFOBAB)")$empty</div>
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="9%" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!accountSummary.PSUDCFOBABB)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.PSUDCFOBABB)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.PSUDCFOBABB)")$empty</div>
+                        #end
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="9%" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.PSUDCFOBAG)")$empty</div>
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;" width="9%" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!accountSummary.PSUDCFOBAGB)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.PSUDCFOBAGB)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.PSUDCFOBAGB)")$empty</div>
+                        #end
+                     </td>
+                  </tr>
+                  <tr>
+                     <td valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels1" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">PVT</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.PVTTCFAB)")$empty
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.PVTTCFAG)")$empty
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.PVTACF)")$empty
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!accountSummary.PVTTOAB)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.PVTTOAB)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.PVTTOAB)")$empty</div>
+                        #end
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!accountSummary.PVTTOAG)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.PVTTOAG)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.PVTTOAG)")$empty</div>
+                        #end
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.PVTLAOP)")$empty
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.PVTDCFOBAB)")$empty</div>
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!accountSummary.PVTDCFOBABB)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.PVTDCFOBABB)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.PVTDCFOBABB)")$empty</div>
+                        #end
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.PVTDCFOBAG)")$empty</div>
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!accountSummary.PVTDCFOBAGB)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.PVTDCFOBAGB)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.PVTDCFOBAGB)")$empty</div>
+                        #end
+                     </td>
+                  </tr>
+                  <tr>
+                     <td valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels1" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">NBFC & OTHERS</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.NBFCTCFAB)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.NBFCTCFAG)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.NBFCACF)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!accountSummary.NBFCTOAB)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.NBFCTOAB)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.NBFCTOAB)")$empty</div>
+                        #end
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!accountSummary.NBFCTOAG)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.NBFCTOAG)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.NBFCTOAG)")$empty</div>
+                        #end
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.NBFCLAOP)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.NBFCDCFOBAB)")$empty</div>
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!accountSummary.NBFCDCFOBABB)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.NBFCDCFOBABB)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.NBFCDCFOBABB)")$empty</div>
+                        #end
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.NBFCDCFOBAG)")$empty</div>
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!accountSummary.NBFCDCFOBAGB)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.NBFCDCFOBAGB)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.NBFCDCFOBAGB)")$empty</div>
+                        #end
+                     </td>
+                  </tr>
+                  <tr>
+                     <td valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels1" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Non-Self Total</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.NSTTCFAB)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.NSTTCFAG)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.NSTACF)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!accountSummary.NSTTOAB)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.NSTTOAB)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.NSTTOAB)")$empty</div>
+                        #end
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!accountSummary.NSTTOAG)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.NSTTOAG)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.NSTTOAG)")$empty</div>
+                        #end
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.NSTLAOP)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.NSTDCFOBAB)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!accountSummary.NSTDCFOBABB)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.NSTDCFOBABB)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.NSTDCFOBABB)")$empty</div>
+                        #end
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.NSTDCFOBAG)")$empty</div>
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!accountSummary.NSTDCFOBAGB)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.NSTDCFOBAGB)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.NSTDCFOBAGB)")$empty</div>
+                        #end
+                     </td>
+                  </tr>
+                  <tr>
+                     <td valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels1" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Grand Total</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.GTTCFAB)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.GTTCFAG)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.GTACF)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!accountSummary.GTTOAB)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.GTTOAB)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.GTTOAB)")$empty</div>
+                        #end
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!accountSummary.GTTOAG)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.GTTOAG)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.GTTOAG)")$empty</div>
+                        #end
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.GTLAOP)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.GTDCFOBAB)")$empty
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!accountSummary.GTDCFOBABB)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.GTDCFOBABB)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.GTDCFOBABB)")$empty</div>
+                        #end
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!accountSummary.GTDCFOBAG)")$empty
+                     </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!accountSummary.GTDCFOBAGB)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.GTDCFOBAGB)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!accountSummary.GTDCFOBAGB)")$empty</div>
+                        #end
+                     </td>
+                  </tr>
+               </table>
+            </td>
+         </tr>
+         #if($disclosureAcc=="false")
+         <tr>
+            <td height="10" valign="top">&nbsp;</td>
+         </tr>
+         #if(($!accountSummary.types.size()) > 0)
+         <tr>
+            <td valign="top" bgcolor="#FFFFFF">
+               <table width="99%" border="0" align="center" cellpadding="3" cellspacing="0">
+                  <tr>
+                     <td colspan="3" valign="top" bgcolor="#FFFFFF" class="subHeadings">$!accountSummary.nameOfInstitution</td>
+                  </tr>
+                  <tr>
+                     <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementLabels">&nbsp;</td>
+                     <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementLabels">&nbsp;</td>
+                     <td colspan="4" align="center" bgcolor="#397C2C" class="sectionHeading" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">STD</td>
+                     <td align="center" bgcolor="#D3AB07" class="sectionHeading" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">SUB</td>
+                     <td align="center" bgcolor="#ED1951" class="sectionHeading" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">DBT</td>
+                     <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementLabels">&nbsp;</td>
+                     <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementLabels">&nbsp;</td>
+                     <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementLabels">&nbsp;</td>
+                  </tr>
+                  <tr>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="9%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels1">Credit Type </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="9%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">Detail of # of Accounts and Outstanding Bal </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="9%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">0 DPD</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="9%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">1-30 DPD</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="9%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">31-60 DPD</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="9%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">61-90 DPD</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="9%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">91-365 DPD</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="9%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">366-730 DPD</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="9%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">Loss</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="9%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">SMA</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="9%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">Total</td>
+                  </tr>
+                  #foreach($credit in $accountSummary.types)
+                  <tr>
+                     <td rowspan="2" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels1" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">$credit.creditType</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementValues"># of Accounts</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!credit.CreditType0dpdacc)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!credit.CreditType30dpdacc)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!credit.CreditType60dpdacc)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!credit.CreditType90dpdacc)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!credit.CreditType365dpdacc)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!credit.CreditType730dpdacc)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!credit.CreditTypelossacc)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!credit.CreditTypeSMAacc)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#EFEFEF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!credit.CreditTypeTotalacc)")$empty</td>
+                  </tr>
+                  <tr>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementValues"> Total Outstanding</td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="middle" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!credit.CreditType0dpdoutstanding)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!credit.CreditType0dpdoutstanding)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!credit.CreditType0dpdoutstanding)")$empty</div>
+                        #end
+                     </td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!credit.CreditType30dpdoutstanding)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!credit.CreditType30dpdoutstanding)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!credit.CreditType30dpdoutstanding)")$empty</div>
+                        #end
+                     </td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!credit.CreditType60dpdoutstanding)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!credit.CreditType60dpdoutstanding)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!credit.CreditType60dpdoutstanding)")$empty</div>
+                        #end
+                     </td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!credit.CreditType90dpdoutstanding)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!credit.CreditType90dpdoutstanding)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!credit.CreditType90dpdoutstanding)")$empty</div>
+                        #end
+                     </td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!credit.CreditType365dpdoutstanding)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!credit.CreditType365dpdoutstanding)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!credit.CreditType365dpdoutstanding)")$empty</div>
+                        #end
+                     </td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!credit.CreditType730dpdoutstanding)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!credit.CreditType730dpdoutstanding)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!credit.CreditType730dpdoutstanding)")$empty</div>
+                        #end
+                     </td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!credit.CreditTypelossoutstanding)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!credit.CreditTypelossoutstanding)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!credit.CreditTypelossoutstanding)")$empty</div>
+                        #end
+                     </td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!credit.CreditTypeSMAoutstanding)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!credit.CreditTypeSMAoutstanding)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!credit.CreditTypeSMAoutstanding)")$empty</div>
+                        #end
+                     </td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#EFEFEF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!credit.CreditTypeTotaloutstanding)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!credit.CreditTypeTotaloutstanding)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!credit.CreditTypeTotaloutstanding)")$empty</div>
+                        #end
+                     </td>
+                  </tr>
+                  #end
+               </table>
+            </td>
+         </tr>
+         #end
+         #end
+         #if($!accountSummary.others.size() > 0)
+         <tr>
+            <td valign="top" bgcolor="#FFFFFF">&nbsp;</td>
+         </tr>
+         <tr>
+            <td valign="top" bgcolor="#FFFFFF">
+               <table width="99%" border="0" align="center" cellpadding="3" cellspacing="0">
+                  <tr>
+                     <td colspan="5" valign="top" bgcolor="#FFFFFF" class="subHeadings">Others</td>
+                  </tr>
+                  <tr>
+                     <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementLabels">&nbsp;</td>
+                     <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementLabels">&nbsp;</td>
+                     <td colspan="4" align="center" bgcolor="#397C2C" class="sectionHeading" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">STD</td>
+                     <td align="center" bgcolor="#D3AB07" class="sectionHeading" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">SUB</td>
+                     <td align="center" bgcolor="#ED1951" class="sectionHeading" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">DBT</td>
+                     <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementLabels">&nbsp;</td>
+                     <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementLabels">&nbsp;</td>
+                     <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementLabels">&nbsp;</td>
+                  </tr>
+                  <tr>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="8%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels1">Credit Type </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="8%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">Detail of # of Accounts and Outstanding Bal </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="8%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">0 DPD</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="8%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">1-30 DPD</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="8%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">31-60 DPD</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="8%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">61-90 DPD</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="7%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">91-365 DPD</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="7%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">366-730 DPD</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="7%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">Loss</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="7%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">SMA</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="7%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">Total</td>
+                  </tr>
+                  #foreach($others in $accountSummary.others)
+                  <tr>
+                     <td rowspan="2" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels1" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">$others.creditType</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementValues"># of Accounts</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!others.CreditType0dpdacc)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!others.CreditType30dpdacc)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!others.CreditType60dpdacc)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!others.CreditType90dpdacc)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!others.CreditType365dpdacc)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!others.CreditType730dpdacc)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!others.CreditTypelossacc)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!others.CreditTypeSMAacc)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!others.CreditTypeTotalacc)")$empty</td>
+                  </tr>
+                  <tr>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementValues">  Total Outstanding </td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!others.CreditType0dpdoutstanding)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!others.CreditType0dpdoutstanding)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!others.CreditType0dpdoutstanding)")$empty</div>
+                        #end
+                     </td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!others.CreditType30dpdoutstanding)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!others.CreditType30dpdoutstanding)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!others.CreditType30dpdoutstanding)")$empty</div>
+                        #end
+                     </td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!others.CreditType60dpdoutstanding)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!others.CreditType60dpdoutstanding)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!others.CreditType60dpdoutstanding)")$empty</div>
+                        #end
+                     </td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!others.CreditType90dpdoutstanding)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!others.CreditType90dpdoutstanding)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!others.CreditType90dpdoutstanding)")$empty</div>
+                        #end
+                     </td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!others.CreditType365dpdoutstanding)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!others.CreditType365dpdoutstanding)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!others.CreditType365dpdoutstanding)")$empty</div>
+                        #end
+                     </td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!others.CreditType730dpdoutstanding)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!others.CreditType730dpdoutstanding)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!others.CreditType730dpdoutstanding)")$empty</div>
+                        #end
+                     </td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!others.CreditTypelossoutstanding)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!others.CreditTypelossoutstanding)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!others.CreditTypelossoutstanding)")$empty</div>
+                        #end
+                     </td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck($!others.CreditTypeSMAoutstanding)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!others.CreditTypeSMAoutstanding)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!others.CreditTypeSMAoutstanding)")$empty</div>
+                        #end
+                     </td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" valign="top" bgcolor="#EFEFEF" class="sectionDataElementValues">
+                        #set($empty="#currencyNullCheck( $!others.CreditTypeTotaloutstanding)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <div class="currencySymAcc"><img alt="rupee_icon.png" src=$currenyByteArray /></div> 
+                        <div class="amtValue">#set($empty="#emptyDataCheck($!others.CreditTypeTotaloutstanding)")$empty</div>
+                        #else
+                        <div style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!others.CreditTypeTotaloutstanding)")$empty</div>
+                        #end
+                     </td>
+                  </tr>
+                  #end
+               </table>
+            </td>
+         </tr>
+         #end
+         <tr>
+            <td height="10" valign="top" bgcolor="#FFFFFF"></td>
+         </tr>
+      </table>
+   </td>
+</tr>

@@ -1,0 +1,44 @@
+<div style="margin-top:50px;">
+              <p style="text-decoration:underline;">Legend</p>
+              <p>DPD - days past due</p>
+              <p>D/L - Driver License</p>
+              <p>SF/WD/WO/SETTLED accounts that are Suit Filed/ Willful Default/ Written Off/ Settled </p>
+            </div>
+            <div id="disclaimer" class="disclaimer_logo">
+              <p id="disclaimer_rights">© Experian Credit Information Company of India Private Limited, 2017. All rights reserved. </p>
+              
+              <!-- MessageFormat.format((String) props.get("products.label.disclaimer"),{year}); -->
+              
+              <p id="disclaimer_message">The Experian Credit Information 
+                Report is not a guarantee of any particular outcome including (but not 
+                limited to) the likelihood of any particular lender granting you credit.
+                You should not therefore use any Information, or any part of it, as the
+                sole basis for any decision you take. We do not accept any 
+                responsibility for any loss that may arise from relying on the 
+                Information other than as specifically set out in this Condition; 
+                Experian will use all reasonable skill and care in the supply of the 
+                Information to you. Due to the number of third party sources from which 
+                we obtain the data used to provide you with the Information we cannot 
+                give you a guarantee or warranty that any Information is complete, 
+                accurate, up-to-date or error-free. However we do what we reasonably can
+                (by running data through quality control checks) to ensure that the 
+                data Experian receives from third party sources which is used to provide
+                you with the Information is accurate. </p>
+              <br>
+              <br>
+              <br>
+              <br>
+              <br>
+              <p id="disclaimer_end">**********End of Report **********</p>
+            </div>
+            <div class="panel_deck_wrap fix fix2 correction-popup rel" style="height:0px;min-height:0px;left:35%;width: 300px;border:none !important; bottom:350px;background:none !important;">
+              <div class="panel_deck rel popup-content" style="right:10%;height:0px;min-height:0px;width: 300px;border:none !important; bottom:160px;background:none !important;"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </div>
+            </div></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>
+<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>
+<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>

@@ -1,0 +1,19 @@
+			<div id="experian-credit-score">
+              <h1 style="font-size: 18px; color: #0C5DAB"> Experian Credit Score </h1>
+              <div id="model-score">
+                <div class="rating-result" style="height: 20px;">
+                  <div class="rating" style="left:66.92307692307692%;"> <span></span> </div>
+                </div>
+                <div class="rate-dsp">
+                  <p>Experian Credit Score (735)</p>
+                </div>
+              </div>
+              <div id="credit-score">
+                <h5>The Experian Credit Score is:</h5>
+                <h1>735</h1>
+                <div class="credit-disp">
+                  <p style="color: #0C3D6B; font-weight: bold;">Confidence Level</p>
+                  <p style="color: #0C5DAB; font-weight: bold;">HIGH</p>
+                </div>
+              </div>
+            </div>

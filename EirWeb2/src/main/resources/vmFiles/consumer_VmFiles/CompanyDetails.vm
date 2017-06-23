@@ -1,0 +1,241 @@
+<style>
+  body, a, div, dl, dt, dd, ul, ol, li, input, img, form, p, h1, h2, h3, h4, h5, h6, span, pre, code, form, button, input, .clear_fix, option, blockquote {
+    margin: 0px;
+    padding: 0px;
+    font: 12px arial;
+    color: #4D4D4D;
+    border: 0px;
+    text-decoration: none;
+    list-style-position: inside;
+    list-style-type: none;
+}
+.header {
+
+}
+#page-content {
+    margin: 0px auto;
+}
+.rel {
+    position: relative;
+}
+body {
+    margin-left: 0px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    background-color: #f6f5f5;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-size: 14px;
+    font-weight: bold;
+}
+.page-header {
+    font-size: 26px;
+    color: #0C5DAB;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;	
+}
+.credit-info {
+    padding: 11px 7px 5px 0px;
+    border-bottom: 1px solid #eee;
+    color: #666666;
+}
+.list_header td, .list td {
+    width: 130px;
+    table-layout: fixed;
+}
+.match-heading {
+    padding: 20px 20px 10px 0px;
+    color: #0C5DAB;
+    font-size: 22px;
+    margin-top: 20px;
+}
+#app-details h1, #credit-account-details h1, .business-details h1 {
+    font-size: 18px;
+    color: #0C5DAB;
+}
+#app-details, #credit-account-details, .business-details {
+    /* border-bottom: 1px solid #EEEEEE; */
+    color: #666666;
+    padding: 10px 0 10px;
+}
+table {
+    width: 100%;
+}
+table tr td {
+    vertical-align: top;
+}
+.sub-details {
+    color: #666666;
+    margin: -3px 0px 0px 0px;
+}
+.sub-details #head div {
+    margin-top: 1px;
+    color: #666666;
+    font-size: 10px !important;
+}
+.main_wrap, .content_wrap {
+    width: 960px;
+}
+#applicant-details .listpds td, #app-details .listpds td, #credit-account-details .listpds td, #non-credit-account-details .listpds td {
+    background: #f5f0ec !important;
+}
+.pdsTable .list_header td:nth-last-child(1) {
+    border-right: 0px !important;
+}
+#app-details .list, #credit-account-details .list, #borrower-details .list, #negative-indicator .list, #payment-details .list, .business-details .list {
+    font-size: 11px;
+}
+#credit-account-details .list td, #consumer-nofootprint-enquiry .list td, #consumer-gvap-enquiry .list td, #consumer-other-enquiry .list td, #consumer-experian-enquiry .list td, #ccredit-account-details .list td, #non-credit-account-details .list td {
+    background: #eeeeee;
+}
+.tabular_data_wrap .list td a {
+    display: inline-block;
+}
+.tabular_data_wrap .list td a, .tabular_data_wrap .list td span {
+    color: #0093D8;
+    text-decoration: underline;
+}
+#app-details .listno td {
+    background: #fff;
+}
+.pdsTable .list_header td {
+    border-right: 1px solid #bebebe !important;
+}
+.tabular_data_wrap .list_header td {
+    color: #0094D9;
+    font-weight: bold;
+    vertical-align: top;
+}
+.list_header td, .list td {
+    width: 130px;
+    table-layout: fixed;
+}
+.credit_accounts_wrap .history_wrap td, .tabular_data_wrap td {
+    padding: 5px 0px;
+}
+.pdsTable .list_header {
+    background-color: #eee;
+    border-bottom: 1px solid #bebebe;
+}
+#app-details .list_header td, #credit-account-details .list_header td, #borrower-details .list_header td, #negative-indicator .list_header td, #payment-details .list_header td, .business-details .list_header td {
+    color: #0C5DAB;
+}
+#app-details .list_header td {
+    background: none;
+}
+#app-details td, #credit-account-details td, #borrower-details td, .business-details td {
+    border: none;
+    font-size: 12px;
+}
+#consumer-nofootprint-enquiry, #consumer-gvap-enquiry, #consumer-other-enquiry, #consumer-experian-enquiry, #ccredit-account-details, #non-credit-account-details {
+    /* border-bottom: 1px solid #EEEEEE; */
+    color: #666666;
+    padding: 20px 0;
+}
+.txtright {
+    text-align: right;
+}
+#disclaimer_rights {
+    text-align: center;
+    font-size: 11px;
+    font-weight: bold;
+    border-top: 1px solid #9E9C9C;
+    padding-top: 12px;
+    color: #808080;
+}
+#disclaimer_message {
+    font-size: 11px;
+    font-weight: bold;
+    color: #808080;
+}
+#model-score {
+    margin-top: 25px;
+    padding: 21px 21px 5px 21px;
+    background: #eee;
+    width: 294px;
+    height: 89px;
+    display: inline-block;
+    zoom: 1;
+    vertical-align: top;
+    background: url('../images/bg2.PNG') no-repeat center top #eee;
+}
+#model-score .rating-result {
+    height: 20px;
+    background: url('../images/slider_1.png') no-repeat;
+    float: left;
+    width: 300px;
+    padding-top: 40px;
+    margin-right: -22px;
+    zoom: 1;
+    position: relative;
+}
+#model-score .rating {
+    position: relative;
+    margin-top: -10px;
+    zoom: 1;
+}
+#model-score .rating span {
+    position: absolute;
+    left: 0;
+    background: url('../images/handler_1.png') no-repeat;
+    width: 151px;
+    margin-top: 10px;
+    height: 66px;
+    padding: 25px 0 0 19px;
+    font-size: 2.250em;
+    color: #2982c7;
+    font-family: 'GrotesqueMTLight', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+#model-score .rate-dsp p {
+    margin-left: 60px;
+    font-weight: bold;
+}
+#credit-score {
+    width: 170px;
+    margin: 24px 0 0 15px;
+    display: inline-block;
+    zoom: 1;
+    padding: 28px 0px 0px 0px;
+    height: 104px;
+    background: url('../images/bg.PNG') no-repeat center top;
+}
+#credit-score h5 {
+    text-align: center;
+    font-size: 10px;
+    margin-top: -12px;
+}
+#credit-score h1 {
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 0px;
+    line-height: 58px;
+    text-align: center;
+    vertical-align: middle;
+}
+#credit-score .credit-disp {
+    text-align: center;
+    background: #D6E3EF;
+}
+.list_header td {
+    vertical-align: top !important;
+}
+#app-details td, .business-details td {
+    background: #eee;
+}
+.history_wrap, .tabular_data_wrap {
+    margin: 25px 0px 10px 0px;
+    background-color: #FFFFFF;
+}
+#app-details .tabular_data_wrap {
+    /* border-bottom: 1px solid #EEEEEE; */
+    border-top: none;
+}
+#disclaimer_end {
+    font-size: 12px;
+    font-weight: bold;
+    color: #808080;
+    text-align: center;
+}
+  </style>

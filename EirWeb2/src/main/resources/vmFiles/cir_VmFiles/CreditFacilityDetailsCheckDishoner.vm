@@ -1,0 +1,47 @@
+#if($creditFacility.checkDishonour6s.size() > 0)
+<tr>
+   <td height="10" align="center" valign="top" bgcolor="#FFFFFF">
+      <table width="99%" border="0" cellpadding="0" cellspacing="0">
+         <tbody>
+            <tr>
+               <td>
+                  <h2 class="sectionHeading1">  Cheques Dishonour Details : Reason Insufficient Funds</h2>
+               </td>
+            </tr>
+         </tbody>
+      </table>
+   </td>
+</tr>
+<tr>
+   <td height="10" valign="top" bgcolor="#FFFFFF"></td>
+</tr>
+<tr>
+   <td bgcolor="#FFFFFF">
+      <table width="99%" border="0" align="center" cellpadding="3" cellspacing="0">
+         <tbody>
+            <tr>
+               <td width="20%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels1" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Months</td>
+               <td width="20%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;"><span class="sectionDataElementLabels">3 Months</span></td>
+               <td width="20%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">6 Months</td>
+               <td width="20%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;"><span class="sectionDataElementLabels">9 Months</span></td>
+               <td width="19%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;">12 Months</td>
+            </tr>
+            #foreach($creditFacilityDetail in $creditFacility.checkDishonour6s)
+            ## #emptyDataCheck($creditFacilityDetail)
+            <tr>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues1" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.month)")$empty</td>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.month3)")$empty</td>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.month6)")$empty</td>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.month9)")$empty</td>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.month12)")$empty</td>
+            </tr>
+            #end
+           
+         </tbody>
+         <tr>
+   			<td>&nbsp;</td>
+		</tr>
+      </table>
+   </td>
+</tr>
+#end

@@ -1,0 +1,120 @@
+#set($acctSummary = $consMain.accountSummary)	
+#set($creditSummary = $consMain.creditActivitySummary)	
+#set($enqSummary = $consMain.enquirySummary)	
+<div id="app-details">
+              <h1>Report Summary</h1>
+              <br>
+              <table style="background-color: #E0E0E0; outline-color: silver;; border-collapse: separate; border-spacing: 10px;outline-color: activeborder;border-radius: 10px; ">
+                <tbody>
+                  <tr> 
+                    <!-- Account Summary -->
+                    <td style="width:30%;background-color: #FFF;*background-color: #d4d0c8;*border:20px;"><table style=" border-collapse: separate;*border-collapse: collapse; border-spacing: 7px 22px;*margin:8px">
+                        <tbody>
+                          <tr>
+                            <td colspan="2" style="*line-height:4;color: #0094D9; font-size: medium; background: #fff;*margin:10px;" align="center"><b>Accounts Summary</b></td>
+                          </tr>
+                          <tr>
+                            <td style="width:80%;color: #0094D9; *line-height:2;background: #fff;">&nbsp;All Accounts:</td>
+                            <td class="txtright" style="*line-height:3;*padding-right:10px;width:20%;color: #0094D9; background: #fff;">#set($value="#emptyDataCheck($responseInfo.ConsumerResponse.PSUMMARY.CCATOTACCS.TotAccnts)")$value</td>
+                          </tr>
+                          <tr>
+                            <td style="width:80%;color: #0094D9;*line-height:2; background: #fff;">&nbsp;Open Accounts:</td>
+                            <td class="txtright" style="*line-height:3;*padding-right:10px;width:20%;color: #0094D9; background: #fff;">#set($value="#emptyDataCheck($responseInfo.ConsumerResponse.PSUMMARY.CCATOTACCS.TotActiveAccnts)")$value</td>
+                          </tr>
+                          <tr>
+                            <td style="width:80%;*line-height:3;color: #0094D9; background: #fff;">&nbsp;WO/WD/SF/STL Accounts:</td>
+                            <td class="txtright" style="width:20%;*line-height:3;*padding-right:10px;color: #0094D9;background: #fff;">#set($value="#emptyDataCheck($responseInfo.ConsumerResponse.PSUMMARY.CCATOTACCS.TotSFWDWOSTLAccnts)")$value</td>
+                          </tr>
+                          <tr>
+                            <td style="width:80%;color: #0094D9; *line-height:3;background: #fff;">&nbsp;Closed Accounts:</td>
+                            <td class="txtright" style="width:20%;*line-height:3;*padding-right:10px;;color: #0094D9; background: #fff;">#set($value="#emptyDataCheck($responseInfo.ConsumerResponse.PSUMMARY.CCATOTACCS.TotClosedAccnts)")$value</td>
+                          </tr>
+                          <tr>
+                          #set($month = "#emptyDataCheck($!responseInfo.ConsumerResponse.PSUMMARY.CCATOTACCS.OldestWOAccountMonth)")
+                          #set($year = "#emptyDataCheck($!responseInfo.ConsumerResponse.PSUMMARY.CCATOTACCS.OldestWOAccountYear)")
+                          #set($oldWwSs = $month +"/"+ $year)
+                            <td style="width:80%;color: #0094D9;*line-height:3; background: #fff;">&nbsp;Oldest WO/WD/SF/STL Account:</td>
+                            <td class="txtright" style="width:20%;*line-height:3;*padding-right:10px;color: #0094D9; background: #fff;">$oldWwSs</td>
+                          </tr>
+                          <tr>
+                          #set($recentMonth = "#emptyDataCheck($!responseInfo.ConsumerResponse.PSUMMARY.CCATOTACCS.MostRecentWOAccountMonth)")
+                          #set($recentYear = "#emptyDataCheck($!responseInfo.ConsumerResponse.PSUMMARY.CCATOTACCS.MostRecentWOAccountYear)")
+                          #set($recentWwSs = $recentMonth +"/"+ $recentYear)
+                            <td style="width:80%;color: #0094D9; *line-height:3;background: #fff;">&nbsp;Recent WO/WD/SF/STL Account:</td>
+                            <td class="txtright" style="width:20%;*line-height:3;*padding-right:10px;;color: #0094D9; background: #fff;">$recentWwSs</td>
+                          </tr>
+                        </tbody>
+                      </table></td>
+                      
+                    <!-- Credit Activity Summary -->
+                    <td style="width:40%  ;background-color: #FFF;*background-color: #d4d0c8;" valign="top"><table id="summary" style=" border-collapse: separate;*border-collapse: collapse; border-spacing: 7px 22px ;*margin:8px;">
+                        <tbody>
+                          <tr>
+                            <td colspan="2" style="color: #0094D9; font-size: medium; background: #fff;*line-height:4;" align="center"><b>Credit Activity Summary</b></td>
+                          </tr>
+                          <tr>
+                            <td style="width:70%;color: #0094D9; background: #fff;*line-height:3;">&nbsp;Total Balance-All Accounts:</td>
+                            <td class="txtright" style="width:30%;color: #0094D9; background: #fff;*line-height:3;*padding-right:10px;"> #set($value="#emptyDataCheck($responseInfo.ConsumerResponse.PSUMMARY.CCATOTACCS.totBalAllAccts)")$value </td>
+                          </tr>
+                          <tr>
+                            <td style="width:70%;color: #0094D9; background: #fff;*line-height:3;">&nbsp;Total Balance-WO/WD/SF/STL Accounts:</td>
+                            <td class="txtright" style="width:30%;color: #0094D9; background: #fff;*line-height:3;*padding-right:10px;"> #set($value="#emptyDataCheck($responseInfo.ConsumerResponse.PSUMMARY.CCATOTACCS.PercSFWDWOSTLAccnts)")$value </td>
+                          </tr>
+                          <tr>
+                            <td style="width:70%;color: #0094D9; background: #fff;*line-height:3;">&nbsp;Total Balance-Secured Accounts:</td>
+                            <td class="txtright" style="width:30%;color: #0094D9; background: #fff;*line-height:3;*padding-right:10px;"> #set($value="#emptyDataCheck($responseInfo.ConsumerResponse.PSUMMARY.CCATOTACCS.TotSecuredBalance)")$value </td>
+                          </tr>
+                          <tr>
+                            <td style="width:70%;color: #0094D9; background: #fff;*line-height:3;">&nbsp;Total Balance-Un-Secured Accounts:</td>
+                            <td class="txtright" style="width:30%;color: #0094D9; *line-height:3;*padding-right:10px;background: #fff;">#set($value="#emptyDataCheck($responseInfo.ConsumerResponse.PSUMMARY.CCATOTACCS.TotUnSecuredBalance)")$value </td>
+                          </tr>
+                          <tr>
+                           #set($firstMonth = "#emptyDataCheck($!responseInfo.ConsumerResponse.PSUMMARY.CCAACCTHIS.FirstCreditAccountMonth)")
+                           #set($firstYear = "#emptyDataCheck($!responseInfo.ConsumerResponse.PSUMMARY.CCAACCTHIS.FirstCreditAccountYear)")
+                           #set($firstCredit = $firstMonth +"/"+ $firstYear)
+                            <td style="width:70%;color: #0094D9; background: #fff;*line-height:3;">&nbsp;Date First Credit Active:</td>
+                            <td class="txtright" style="width:30%;color: #0094D9;*line-height:3;*padding-right:10px; background: #fff;">$firstCredit</td>
+                          </tr>
+                          <tr>
+                          #set($recentMonth = "#emptyDataCheck($!responseInfo.ConsumerResponse.PSUMMARY.CCAACCTHIS.MostRecentCreditAccountMonth)")
+                          #set($recentYear = "#emptyDataCheck($!responseInfo.ConsumerResponse.PSUMMARY.CCAACCTHIS.MostRecentCreditAccountYear)")
+                          #set($recentCredit = $recentMonth +"/"+ $recentYear)
+                            <td style="width:70%;color: #0094D9; background: #fff;*line-height:3;">&nbsp;Most Recent Credit Line:</td>
+                            <td class="txtright" style="width:30%;color: #0094D9;*line-height:3;*padding-right:10px;background: #fff;">$recentCredit</td>
+                          </tr>
+                        </tbody>
+                      </table></td>
+                      
+                    <!-- Enquiry Summary -->
+                    <td style="width:30%;*width:270px  ;background: #fff;*background: #d4d0c8;" valign="top"><table style=" border-collapse: separate;*border-collapse: collapse; border-spacing: 7px 22px; *margin:8px">
+                        <tbody>
+                          <tr>
+                            <td colspan="2" style="color: #0094D9; font-size: medium; background: #fff;*line-height:4;" align="center"><b>Enquiry Summary</b></td>
+                          </tr>
+                          <tr>
+                            <td style="width:80%;*line-height:3;color: #0094D9; background: #fff;">&nbsp;Enquiries in the Last 7 Days:</td>
+                            <td class="txtright" style="width:20%;*line-height:3;color: #0094D9; background: #fff;">#set($value="#emptyDataCheck($responseInfo.ConsumerResponse.PSUMMARY.ENQATTR.TotEnq7Days)")$value</td>
+                          </tr>
+                          <tr>
+                            <td style="width:80%;color: #0094D9; *line-height:3;background: #fff;">&nbsp;Enquiries	in the Last 30 Days:</td>
+                            <td class="txtright" style="width:20%;*line-height:3;color: #0094D9; background: #fff;">#set($value="#emptyDataCheck($responseInfo.ConsumerResponse.PSUMMARY.ENQATTR.TotEnq30Days)")$value</td>
+                          </tr>
+                          <tr>
+                            <td style="width:80%;color: #0094D9; *line-height:3;background: #fff;">&nbsp;Enquiries	in the Last 90 Days:</td>
+                            <td class="txtright" style="width:20%;*line-height:3;color: #0094D9; background: #fff;">#set($value="#emptyDataCheck($responseInfo.ConsumerResponse.PSUMMARY.ENQATTR.TotEnq90Days)")$value</td>
+                          </tr>
+                          <tr>
+                            <td style="width:80%;color: #0094D9; *line-height:3;background: #fff;">&nbsp;Enquiries in the Last 180 Days:</td>
+                            <td class="txtright" style="width:20%;*line-height:3;color: #0094D9; background: #fff;">#set($value="#emptyDataCheck($responseInfo.ConsumerResponse.PSUMMARY.ENQATTR.TotEnq180Days)")$value</td>
+                          </tr>
+                          <tr>
+                            <td style="width:80%;color: #0094D9; *line-height:3;*padding-bottom:37px;background: #fff;">&nbsp;Total Enquiries:</td>
+                            <td class="txtright" style="width:20%;*line-height:3;color: #0094D9; background: #fff;">#set($value="#emptyDataCheck($responseInfo.ConsumerResponse.PSUMMARY.ENQATTR.TotEnq)")$value</td>
+                          </tr>
+                        </tbody>
+                      </table></td>
+                  </tr>
+                </tbody>
+              </table>
+              <p style="margin-left:125px;margin-top:10px;color: #0094D9"><b>* Note: Enquiry Summary is based on Credit related enquiries only</b></p>
+            </div>

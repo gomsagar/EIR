@@ -1,0 +1,19 @@
+
+##<tr>
+##   <td height="25" bgcolor="#FFFFFF" class="paymentmodeData" style="text-align:center;"><span class="MetaDataElementLabels1">Experian Reference Number (ERN):</span> 
+##      <span class="MetaDataElementValues1">#set($ern="#checknull($maindomain.ern)")$ern </span> <span class="MetaDataElementValues1">#set($reportDate="#checknull($maindomain.reportDate)")$reportDate  </span> 
+##      &nbsp; <span class="MetaDataElementLabels1"> Enquiry Reference: </span> <span class="MetaDataElementValues1"> #set($enqRef="#checknull($maindomain.enqRef)")$enqRef </span> &nbsp; <span 
+##         class="MetaDataElementLabels1"> Member Name: </span> <span class="MetaDataElementValues1"> #set($memName="#checknull($maindomain.memName)")$memName </span>
+##   </td>
+##</tr>
+##<tr>
+##   <td height="25" bgcolor="#FFFFFF" class="paymentmodeData" style="text-align:center;"><span class="paymentmodeData1" style="color:#808080;">@ Experian 
+##      Confidential</span>
+##   </td>
+##</tr>
+<tr>
+   <td height="25" bgcolor="#FFFFFF" class="paymentmodeData" style="text-align:center;">&copy; Experian Ltd, 2014. All rights reserved.</td>
+</tr>
+<tr>
+   <td height="19" bgcolor="#FFFFFF">&nbsp;</td>
+</tr>

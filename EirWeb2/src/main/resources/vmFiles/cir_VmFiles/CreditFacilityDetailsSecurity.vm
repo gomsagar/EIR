@@ -1,0 +1,54 @@
+#if($creditFacility.securitiesDetails5s.size() > 0)
+<tr>
+   <td height="10" align="center" valign="top" bgcolor="#FFFFFF">
+      <table width="99%" border="0" cellpadding="0" cellspacing="0">
+         <tbody>
+            <tr>
+               <td>
+                  <h2 class="sectionHeading1"> Security Details</h2>
+               </td>
+            </tr>
+         </tbody>
+      </table>
+   </td>
+</tr>
+<tr>
+   <td height="10" valign="top" bgcolor="#FFFFFF"></td>
+</tr>
+<tr>
+   <td valign="top" bgcolor="#FFFFFF">
+      <table width="99%" border="0" align="center" cellpadding="3" cellspacing="0">
+         <tbody>
+            <tr>
+               <td width="17%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Currency </td>
+               <td width="17%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;"><span class="sectionDataElementLabels">Type</span></td>
+               <td width="16%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Classification</td>
+               <td width="16%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;"><span class="sectionDataElementLabels">Valuation Date</span></td>
+               <td width="16%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Security Value</td>
+               <td width="17%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;">Last Reported Date</td>
+            </tr>
+            #foreach($creditFacilityDetail in $creditFacility.securitiesDetails5s)
+            ## #emptyDataCheck($creditFacilityDetail)
+            <tr>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">
+                  ## <span class="currencySym"><img alt="rupee_icon.png" src=$currenyByteArray /></span>
+                  ##<span class="amtValue">
+                 #set($empty="#emptyDataCheck($!creditFacilityDetail.currency)")$empty
+                  ##</span>
+               </td>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.type)")$empty</td>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.classification)")$empty</td>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.valuationDate)")$empty</td>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!creditFacilityDetail.securityValue)")$empty</td>
+               <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;">#set($empty="#emptyDataCheck($creditFacilityDetail.lastReportDate)")$empty</td>
+            </tr>
+            #end
+            
+         </tbody>
+         <tr>
+  			 <td>&nbsp;</td>
+		</tr>
+      </table>
+   </td>
+</tr>
+#end

@@ -1,0 +1,257 @@
+#set($nonCreditEnq = $consMain.nonCreditEnquriy)	
+#set($applicantDetails = $consMain.nonCreditEnquriy.applicantDetails)
+
+<div id="non-credit-account-details">
+              <h1 style="color: #0C5DAB;font-size: 18px;">Non-Credit Enquiries</h1>
+              <br>
+              <table class="tabular_data_wrap">
+                <tbody>
+                  <tr class="list_header">
+                    <td style="width:11%">Date/Time</td>
+                    <td style="width:08%">Experian Reference</td>
+                    <td style="width:10%">Industry</td>
+                    <td style="width:10%">Credit Provider</td>
+                    <td style="width:10%">Account Type</td>
+                    <td style="width:10%" class="txtright">Amount Considered</td>
+                    <td style="width:10%">Account Responsibility</td>
+                    <td style="7%">Terms</td>
+                    <td style="width:12%">Bank Account</td>
+                    <td style="width:12%">Click to View</td>
+                  </tr>
+                  <tr class="list listh">
+                   	<td style="width:11%">#set($value="#emptyDataCheck($!nonCreditEnq.dateTime)")$value</td>
+                    <td style="width:08%">#set($value="#emptyDataCheck($!nonCreditEnq.expRef)")$value</td>
+                    <td style="width:10%">#set($value="#emptyDataCheck($!nonCreditEnq.industry)")$value</td>
+                    <td style="width:10%">#set($value="#emptyDataCheck($!nonCreditEnq.creditProvider)")$value</td>
+                    <td style="width:10%">#set($value="#emptyDataCheck($!nonCreditEnq.acctType)")$value</td>
+                    <td style="width:10%;text-align: right;">#set($value="#emptyDataCheck($!nonCreditEnq.amntConsidered)")$value</td>
+                    <td style="width:10%">#set($value="#emptyDataCheck($!nonCreditEnq.acctResp)")$value</td>
+                    <td style="width:7%">#set($value="#emptyDataCheck($!nonCreditEnq.terms)")$value</td>
+                    <td style="width:12%">#set($value="#emptyDataCheck($!nonCreditEnq.bankAcct)")$value</td>
+                    <td style="width:12%"><a class="showAD2">Applicant Details</a></td>
+                  </tr>
+                  <tr id="disputesInquiryR81" style="display:none;">
+                    <td colspan="10" style="padding:0px !important;"><div> </div></td>
+                  </tr>
+                  <tr class="subList2" style="display: none;">
+                    <td colspan="10"><div id="applicant-details" class="applicant10/04/2017 07:53R0"> <br>
+                        <div style="height:35px;"></div>
+                        <div class="applicant-details" style="width:100%;">
+                          <table id="borrower" style="width:100%;background-color:#F5F0EC!important;">
+                            <tbody>
+                              <tr>
+                                <th style="text-align:left; padding-left:2px;padding-top :5px; background-color:#E8E8DB;color:#0c5dab;" colspan="9">Applicant Details</th>
+                              </tr>
+                              <tr class="list_header">
+                                <td style="width:14%;">Personal Information</td>
+                                <td style="width:14%">Addresses</td>
+                                <td style="width:16%">Contact Info </td>
+                                <td style="width:16%">Occupation </td>
+                                <td style="width:10%">ID Card Type </td>
+                                <td style="width:10%">ID Card Num </td>
+                                <td style="width:10%">Issue Date </td>
+                                <td style="width:10%">Expiry Date </td>
+                              </tr>
+                              <tr class="list listpds" style="background-color: white;">
+                    <td style="padding-left: 5px; padding-top:0px;"><table>
+                        <tbody>
+                          <tr>
+                            <td style="padding:0px;">
+							<table>
+								<tbody>
+									<tr>
+										<td style="padding-top:0px;">#set($value="#emptyDataCheck($!applicantDetails.fName)")$value</td>
+									</tr>
+									<tr>
+										<td style="padding-top:0px;">#set($value="#emptyDataCheck($!applicantDetails.mName)")$value</td>
+									</tr>
+									<tr>
+										<td style="padding-top:0px;">#set($value="#emptyDataCheck($!applicantDetails.otherMiddleName2)")$value</td>
+									</tr>
+									<tr>
+										<td style="padding-top:0px;">#set($value="#emptyDataCheck($!applicantDetails.indiaMiddleName)")$value</td>
+									</tr>
+									<tr>
+										<td style="padding-top:0px;">#set($value="#emptyDataCheck($!applicantDetails.lName)")$value</td>
+									</tr>
+								</tbody>
+							</table>
+							</td>
+                          </tr>
+                          <tr>
+                            <td style="padding-top:0px;">#set($value="#emptyDataCheck($!applicantDetails.gender)")$value</td>
+                          </tr>
+                          <tr>
+                            <td style="padding-top:0px;">#set($value="#emptyDataCheck($!applicantDetails.dob)")$value</td>
+                          </tr>
+                          <tr> </tr>
+                        </tbody>
+                      </table></td>
+                    <td style="padding-top: 0px;">
+                    #foreach($addr in $address)
+					<table>
+                        <tbody>
+                        <tr>
+                            <td style="padding-top:0px;">#set($value="#emptyDataCheck($!addr.addrLine1)")$value</td>
+						</tr>
+						<tr>
+                            <td style="padding-top:0px;">#set($value="#emptyDataCheck($!addr.addrLine2)")$value</td>
+						</tr>
+						<tr>
+                            <td style="padding-top:0px;">#set($value="#emptyDataCheck($!addr.addrLine3)")$value</td>
+						</tr>
+						<tr>
+                            <td style="padding-top:0px;">#set($value="#emptyDataCheck($!addr.PostalCode)")$value</td>
+						</tr>
+						<tr>
+                            <td style="padding-top:0px;">#set($value="#emptyDataCheck($!addr.localityName)")$value</td>
+						</tr>
+						<tr>
+                            <td style="padding-top:0px;">#set($value="#emptyDataCheck($!addr.regionName)")$value</td>
+						</tr>
+                        </tbody>
+                      </table>
+                      #end
+                      </td>
+                    <td style="padding-top:0px;"><table>
+                        <tbody>
+                          <tr>
+                            <td style="padding-top:0px;">#set($value="#emptyDataCheck($!applicantDetails.homeNum)")$value(H)</td>
+                          </tr>
+						  <tr>
+                            <td style="padding-top:0px;">#set($value="#emptyDataCheck($!applicantDetails.mobileNum)")$value(M)</td>
+                          </tr>
+						  <tr>
+                            <td style="padding-top:0px;">#set($value="#emptyDataCheck($!applicantDetails.officeNum)")$value(O)</td>
+                          </tr>
+						  <tr>
+                            <td style="padding-top:0px;">#set($value="#emptyDataCheck($!applicantDetails.otherNum)")$value(OT)</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      </td>
+                 
+                    <td style="padding-top:0px;"><table id="card-type">
+                        <tbody>
+                          <tr height="26px">
+                            <td style="padding-top:0px;">PAN</td>
+                          </tr>
+			
+                          <tr height="26px">
+                            <td style="padding-top:0px;">VOTER ID</td>
+                          </tr>
+						
+                          <tr height="26px">
+                            <td style="padding-top:0px;">D/L</td>
+                          </tr>
+						
+                          <tr height="26px">
+                            <td style="padding-top:0px;">RATION CARD</td>
+                          </tr>
+						
+                          <tr height="26px">
+                            <td style="padding-top:0px;">Passport Number</td>
+                          </tr>
+						
+                          <tr height="26px">
+                            <td style="padding-top:0px;">AADHAR</td>
+                          </tr>
+						
+                        </tbody>
+                      </table></td>
+                    <td><table id="card-num">
+                        <tbody>
+						
+                          <tr height="26px">
+                            <td style="padding-top:0px;">#set($idNum="#emptyDataCheck($!applicantDetails.pan)")$idNum</td>
+                          </tr>
+						
+                          <tr height="26px">
+                            <td style="padding-top:0px;">#set($idNum="#emptyDataCheck($!applicantDetails.voterId)")$idNum</td>
+                          </tr>
+						
+                          <tr height="26px">
+                            <td style="padding-top:0px;">#set($idNum="#emptyDataCheck($!applicantDetails.drivingLic)")$idNum</td>
+                          </tr>
+						
+                          <tr height="26px">
+                            <td style="padding-top:0px;">#set($idNum="#emptyDataCheck($!applicantDetails.rationCard)")$idNum</td>
+                          </tr>
+						
+                          <tr height="26px">
+                            <td style="padding-top:0px;">#set($idNum="#emptyDataCheck($!applicantDetails.passportNum)")$idNum</td>
+                          </tr>
+						
+                          <tr height="26px">
+                            <td style="padding-top:0px;">#set($idNum="#emptyDataCheck($!applicantDetails.aadarhCard)")$idNum</td>
+                          </tr>
+						
+                        </tbody>
+                      </table></td>
+                      <td><table id="card-num">
+                        <tbody>
+						
+                          <tr height="26px">
+                            <td style="padding-top:0px;">#set($issueDt="#emptyDataCheck($!applicantDetails.pan)")$issueDt</td>
+                          </tr>
+						
+                          <tr height="26px">
+                            <td style="padding-top:0px;">#set($issueDt="#emptyDataCheck($!applicantDetails.voterId)")$issueDt</td>
+                          </tr>
+						
+                          <tr height="26px">
+                            <td style="padding-top:0px;">#set($issueDt="#emptyDataCheck($!applicantDetails.drivingLic)")$issueDt</td>
+                          </tr>
+						
+                          <tr height="26px">
+                            <td style="padding-top:0px;">#set($issueDt="#emptyDataCheck($!applicantDetails.rationCard)")$issueDt</td>
+                          </tr>
+						
+                          <tr height="26px">
+                            <td style="padding-top:0px;">#set($issueDt="#emptyDataCheck($!applicantDetails.passportNum)")$issueDt</td>
+                          </tr>
+						
+                          <tr height="26px">
+                            <td style="padding-top:0px;">#set($issueDt="#emptyDataCheck($!applicantDetails.aadarhCard)")$issueDt</td>
+                          </tr>
+						
+                        </tbody>
+                      </table></td>
+                      <td><table id="card-num">
+                        <tbody>
+						
+                          <tr height="26px">
+                            <td style="padding-top:0px;">#set($expDt="#emptyDataCheck($!applicantDetails.pan)")$expDt</td>
+                          </tr>
+						
+                          <tr height="26px">
+                            <td style="padding-top:0px;">#set($expDt="#emptyDataCheck($!applicantDetails.voterId)")$expDt</td>
+                          </tr>
+						
+                          <tr height="26px">
+                            <td style="padding-top:0px;">#set($expDt="#emptyDataCheck($!applicantDetails.drivingLic)")$expDt</td>
+                          </tr>
+						
+                          <tr height="26px">
+                            <td style="padding-top:0px;">#set($expDt="#emptyDataCheck($!applicantDetails.rationCard)")$expDt</td>
+                          </tr>
+						
+                          <tr height="26px">
+                            <td style="padding-top:0px;">#set($expDt="#emptyDataCheck($!applicantDetails.passportNum)")$expDt</td>
+                          </tr>
+						
+                          <tr height="26px">
+                            <td style="padding-top:0px;">#set($expDt="#emptyDataCheck($!applicantDetails.aadarhCard)")$expDt</td>
+                          </tr>
+						
+                        </tbody>
+                      </table></td>
+                  </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>

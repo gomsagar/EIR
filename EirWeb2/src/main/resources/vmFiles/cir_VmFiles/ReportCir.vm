@@ -1,0 +1,124 @@
+	#set($cir =$reportDetails.cir)
+                <tr>
+                     <td style="height:5px;"></td>
+                  </tr>
+                  <tr>
+                     <td height="1" bgcolor="#E5E5E5"></td>
+                  </tr>
+                  <tr>
+                     <td bgcolor="#FFFFFF" style="height:5px;"></td>
+                  </tr>
+                  <tr>
+                     <td bgcolor="#FFFFFF" style="text-align:right;"><span class="MetaDataElementLabels">Experian Report Number (ERN):</span> <span class="MetaDataElementValues">#set($empty="#emptyDataCheck($!cir.experianReferenceNumber)")$empty</span></td>
+                  </tr>
+                  <tr>
+                     <td bgcolor="#FFFFFF" style="text-align:right;"><span class="MetaDataElementLabels">Date of report:</span> <span class="MetaDataElementValues">#set($empty="#emptyDataCheck($!cir.dateOfReport)")$empty</span></td>
+                  </tr>
+                  <tr>
+                     <td class="MetaDataElementValues" bgcolor="#FFFFFF">#set($empty="#emptyDataCheck($!cir.address)")$empty</td>
+                  </tr>
+                  <tr>
+                     <td bgcolor="#FFFFFF" class="MetaDataElementValues">#set($empty="#emptyDataCheck($!cir.city)")$empty - #set($empty="#emptyDataCheck($!cir.pincode)")$empty.</td>
+                  </tr>
+                 
+                  <tr>
+                     <td height="28" bgcolor="#FFFFFF" class="MetaDataElementValues">&nbsp;</td>
+                  </tr>
+                  <tr>
+                     <td bgcolor="#FFFFFF" class="MetaDataElementValues"><span>Dear </span><span>#set($empty="#emptyDataCheck($!cir.company_name)")$empty</span></td>
+                  </tr>
+                  <tr>
+                     <td height="28" bgcolor="#FFFFFF" class="MetaDataElementValues">&nbsp;</td>
+                  </tr>
+                  <tr>
+                     <td bgcolor="#FFFFFF" class="MetaDataElementValues">Thank you for applying for your Experian Credit Information Report (CIR). Please find attached your Experian CIR and a leaflet explaining the<br />
+                        information therein.
+                     </td>
+                  </tr>
+                  <tr>
+                     <td height="28" bgcolor="#FFFFFF" class="MetaDataElementValues">&nbsp;</td>
+                  </tr>
+                  <tr>
+                     <td bgcolor="#FFFFFF" class="MetaDataElementValues">Your CIR lists all the information Experian Credit Information Company of India Private Limited holds about you and represents the data supplied to<br />
+                        us by our approved members.
+                     </td>
+                  </tr>
+                  <tr>
+                     <td height="28" bgcolor="#FFFFFF" class="MetaDataElementValues">&nbsp;</td>
+                  </tr>
+                  <tr>
+                     <td bgcolor="#FFFFFF" class="MetaDataElementValues">The data in the Experian CIR is a factual representation of the information provided to us by all our member banks, financial institutions and other<br />
+                        credit grantors. It includes details of your identity and of your credit/loan accounts including your payment behaviour in the past 36 months and<br />
+                        details of any credit applications that you have made.
+                     </td>
+                  </tr>
+                  <tr>
+                     <td height="28" bgcolor="#FFFFFF" class="MetaDataElementValues">&nbsp;</td>
+                  </tr>
+                  <tr>
+                     <td bgcolor="#FFFFFF" class="MetaDataElementValues">If you find a discrepancy in your report, it is important to quickly raise it with your lender. Under the Credit Information Companies (Regulation) Act<br />
+                        2005 and as per the guidelines set by the Reserve Bank of India, Experian Credit Information Company of India Private Limited is not authorised to<br />
+                        change any data in your credit information report without authorisation from your lender. However, we would be happy to help you with this process.
+                     </td>
+                  </tr>
+                  <tr>
+                     <td height="28" bgcolor="#FFFFFF" class="MetaDataElementValues">&nbsp;</td>
+                  </tr>
+                  <tr>
+                     <td bgcolor="#FFFFFF" class="MetaDataElementValues">If you would like us to help, please download the Experian CIR Query Application Form from our website (www.experian.in) or contact us on 022<br />
+                        6641 9000.
+                     </td>
+                  </tr>
+                  <tr>
+                     <td height="28" bgcolor="#FFFFFF" class="MetaDataElementValues">&nbsp;</td>
+                  </tr>
+                  <tr>
+                     <td bgcolor="#FFFFFF" class="MetaDataElementValues">Please feel free to contact us if you have any questions.</td>
+                  </tr>
+                  <tr>
+                     <td height="28" bgcolor="#FFFFFF" class="MetaDataElementValues">&nbsp;</td>
+                  </tr>
+                  <tr>
+                     <td valign="top" bgcolor="#FFFFFF" class="MetaDataElementValues">
+                        <table width="70%" border="0" cellspacing="0" cellpadding="3">
+                           <tbody>
+                              <tr>
+                                 <td width="20%">Email:</td>
+                                 <td width="50%">#set($empty="#emptyDataCheck($!cir.email)")$empty</td>
+                              </tr>
+                              <tr>
+                                 <td>Telephone:</td>
+                                 <td>#set($empty="#emptyDataCheck($!cir.telephone)")$empty</td>
+                              </tr>
+                              <tr>
+                                 <td valign="top">Post:</td>
+                                 <td>#set($empty="#emptyDataCheck($!cir.post)")$empty.
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>Website:</td>
+                                 <td>#set($empty="#emptyDataCheck($!cir.website)")$empty</td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td height="28" bgcolor="#FFFFFF" class="MetaDataElementValues">&nbsp;</td>
+                  </tr>
+                  <tr>
+                     <td bgcolor="#FFFFFF" class="MetaDataElementValues">Regards,</td>
+                  </tr>
+                  <tr>
+                     <td bgcolor="#FFFFFF" class="MetaDataElementValues">Consumer Support Team</td>
+                  </tr>
+                  <tr>
+                     <td height="28" bgcolor="#FFFFFF" class="MetaDataElementValues">&nbsp;</td>
+                  </tr>
+                  <tr>
+                     <td height="19" bgcolor="#FFFFFF">&nbsp;</td>
+                  </tr>
+               
+           <pd4ml-page-break/>
+
+      

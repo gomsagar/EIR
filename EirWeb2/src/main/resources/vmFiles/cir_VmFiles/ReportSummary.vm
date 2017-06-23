@@ -1,0 +1,156 @@
+#set($reportsummary =$reportDetails.reportSummary)
+###emptyDataCheck($reportsummary)
+#set($disclosure =$reportDetails.disclosure)
+#set($colSpan = "5")
+#if($disclosure == "true")
+	#set($colSpan ="4")
+#end
+<tr>
+   <td valign="top" bgcolor="#FFFFFF" style="border:1px solid #E5E5E5;">
+      <table style="page-break-inside: avoid" width="100%" border="0" cellspacing="0" cellpadding="0">
+         <tr>
+            <td height="30"  bgcolor="#406eb3" style="border-bottom:1px solid #E5E5E5;vertical-align: middle;">
+               <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                     <td width="4%"><div class="sectionHeadingtickmark">&nbsp;&nbsp;&nbsp;<img src=$tickmarkByteCode width="16" height="16" align="center" alt="Arrow" /></div></td>
+                     <td width="96%">
+                        <div>
+                        #set($headCount=$headCount+1)
+                        <h1 class="sectionHeading">$headCount. Report Summary</h1>
+                        </div>
+                     </td>
+                  </tr>
+               </table>
+            </td>
+         </tr>
+         <tr>
+            <td height="10" valign="top"></td>
+         </tr>
+         <tr>
+            <td valign="top" bgcolor="#FFFFFF">
+               <table width="99%" border="0" align="center" cellpadding="3" cellspacing="0">
+                  <tr>
+                     <td colspan="5" valign="top" bgcolor="#FFFFFF" class="subHeadings">Account Information</td>
+                  </tr>
+                  <tr>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">Total Accounts </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">Active Accounts </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">Total Credit Providers</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">Active Credit Providers</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">Standard</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">Substandard</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">Doubtful</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">Loss</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">SMA</td>
+                  </tr>
+                  <tr>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.numOfAllAccounts)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.numOfActiveAccounts)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.totalCreditProviders)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.currentCreditProviders)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.standard)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.subStandard)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.doubtful)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.loss)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($reportsummary.sma)")$empty</td>
+                  </tr>
+                  <tr>
+            <td valign="top" bgcolor="#FFFFFF" height="10"></td>
+         	</tr>
+               </table>
+            </td>
+         </tr>
+         
+         <tr>
+            <td valign="top" bgcolor="#FFFFFF">
+               <table width="99%" border="0" align="center" cellpadding="3" cellspacing="0">
+                  <tr>
+                     <td colspan="5" valign="top" bgcolor="#FFFFFF" class="subHeadings">Enquiry Summary</td>
+                  </tr>
+                  <tr>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels1"># of Enquiries( In Months ) </td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">1</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">2-3</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">4-6</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">7-12</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">12-24</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">&gt;24</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">Total</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels">Most Recent</td>
+                  </tr>
+                   #if($disclosure=="false")
+                  <tr>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementLabels1">#set($empty="#emptyDataCheck($reportsummary.enquiryinstitutionName)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.monthOne)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.monthTwoToThree)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.monthFourToSix)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.monthSevenToTwelve)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.monthTwelveToTwentyFour)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.monthGreaterThanTwentyFour)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.enquiryTotal)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.mostRecent)")$empty</td>
+                  </tr>
+                  #end
+                  <tr>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementLabels1">Others</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.othersmonthOne)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.othersmonthTwoToThree)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.othersmonthFourToSix)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.othersmonthSevenToTwelve)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.othersmonthTwelveToTwentyFour)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.othersmonthGreaterThanTwentyFour)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.othersTotal)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.othersmostRecent)")$empty</td>
+                  </tr>
+                  <tr>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementLabels1">Total</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.totalmonthOne)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.totalmonthTwoToThree)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.totalmonthFourToSix)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.totalmonthSevenToTwelve)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.totalmonthTwelveToTwentyFour)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.totalmonthGreaterThanTwentyFour)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.total_total)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;" width="11%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.totalmostRecent)")$empty</td>
+                  </tr>
+               </table>
+            </td>
+         </tr>
+         <tr>
+            <td height="10" valign="top" ></td>
+         </tr>
+         <tr>
+            <td valign="top" bgcolor="#FFFFFF">
+               <table width="99%" border="0" align="center" cellpadding="3" cellspacing="0">
+               		<tr>
+                     <td colspan = $colSpan valign="top" bgcolor="#FFFFFF" class="subHeadings">Share of Wallet - Exposure current balance</td>
+                  </tr>
+                  
+                  <tr>
+                    #if($disclosure == "false" )
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="20%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels">#set($empty="#emptyDataCheck($reportsummary.enquiryinstitutionName)")$empty </td>
+                    #end 
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="20%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels">PVT Banks</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="20%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels">PSU Banks</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="20%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels">MNC Banks</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="19%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels">NBFC & Others</td>
+                  </tr>
+                  <tr>
+                   #if($disclosure == "false" )
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="20%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.bureauMember)")$empty</td>
+                   #end  
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="20%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.pvt)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="20%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.psu)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="20%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.frb)")$empty</td>
+                     <td align="center"style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;" width="19%" valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues">#set($empty="#emptyDataCheck($!reportsummary.nbfc)")$empty</td>
+                  </tr>
+                   <tr>
+            <td height="10" valign="top" bgcolor="#FFFFFF"></td>
+         	</tr>
+               </table>
+            </td>
+         </tr>
+      </table>
+   </td>
+</tr>
+<pd4ml:page.break/>

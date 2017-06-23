@@ -10,13 +10,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.eir.bir.request.model.CirPurpose;
 import com.eir.bir.request.model.Gender;
@@ -25,9 +25,7 @@ import com.eir.bir.request.model.SpecifiedUserFlag;
 import com.eir.model.EligibleReport;
 import com.eir.report.constant.Constant;
 import com.eir.report.entity.AccountType;
-import com.eir.report.entity.Address;
 import com.eir.report.entity.AddressType;
-import com.eir.report.entity.ConsumerFinancialPurpose;
 import com.eir.report.entity.ConsumerPurpose;
 import com.eir.report.entity.RelationType;
 import com.eir.report.entity.ReportType;
@@ -36,6 +34,7 @@ import com.eir.report.entity.State;
 import com.eir.report.entity.UserDetails;
 import com.eir.report.service.BirReportService;
 import com.eir.report.service.EirService;
+import com.eir.report.service.NextGenWebService;
 
 @Controller
 //@RequestMapping("eir")
@@ -46,6 +45,9 @@ public class EirController {
 	
 	@Autowired
 	BirReportService birService;
+	
+	@Autowired
+	NextGenWebService nextGenWebService; 
 	
 	Logger logger = LoggerFactory.getLogger(EirController.class);
 
@@ -241,4 +243,14 @@ public class EirController {
 	{
 		return eirService.getGender();
 	}
+	
+	@Transactional
+	@RequestMapping(value="/getReport", method = RequestMethod.GET)
+	public void getEIRReport(@RequestParam(required= true) Integer requestId, @RequestParam(required= true) String reportType)
+	{
+		nextGenWebService.getEIRReport(requestId, reportType);
+		logger.debug("EirController - getEIRReport(): report generated");
+	}
+	
+	
 }

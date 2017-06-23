@@ -1,0 +1,308 @@
+
+<h1 class="match-heading">Match Found</h1>
+            </div>
+            <div id="app-details">
+              <h1>Current Application Details</h1>
+              <br>
+              <table class="tabular_curr_app">
+                <tbody>
+                  <tr class="list_header">
+                    <td><b>Date/Time</b></td>
+                    <td><b>Experian Reference</b></td>
+                    <td><b>Industry</b></td>
+                    <td><b>Credit Provider</b></td>
+                    <td><b>Account Type</b></td>
+                    <td class="txtright"><b>Amount Considered</b></td>
+                    <td><b>Account Responsibility</b></td>
+                    <td><b>Terms</b></td>
+                    <td><b>Bank Account</b></td>
+                  </tr>
+                  <tr>
+                    <!--<td width="15%">#set($value="#emptyDataCheck($!curDetails.dateTime)")$value&nbsp;&nbsp;
+                      <p></p></td>-->
+                      <td></td>
+                    <td>#set($value="#emptyDataCheck($!responseInfo.ConsumerResponse.NGINQUIRY.ClientEnquiryRefNumber)")$value</td>
+                    <td>#set($value="#emptyDataCheck($!responseInfo.ConsumerResponse.NGINQUIRY.InqBureauMemberName)")$value</td>
+                   <!-- <td>#set($value="#emptyDataCheck($!responseInfo.ConsumerResponse.NGINQUIRY.ClientEnquiryRefNumber)")$value</td>-->
+                    <td></td>
+                    <td>#set($value="#emptyDataCheck($!responseInfo.ConsumerResponse.NGINQUIRY.InqAcctTypeCd)")$value</td>
+                    <td class="txtright">#set($value="#emptyDataCheck($!responseInfo.ConsumerResponse.NGINQUIRY.InqAmt)")$value</td>
+                    <td>#set($value="#emptyDataCheck($!responseInfo.ConsumerResponse.NGINQUIRY.InqFinRespCd)")$value</td>
+                    <td>#set($value="#emptyDataCheck($!responseInfo.ConsumerResponse.NGINQUIRY.InqFrequency)")$value</td>
+                    <td>#set($value="#emptyDataCheck($!responseInfo.ConsumerResponse.NGINQUIRY.Perinput.Perinpbnk.BankAccountNumber)")$value</td>
+                  </tr>
+                </tbody>
+              </table>
+        <table class="tabular_data_wrap">
+                   <!-- <table class="tabular_curr_app">-->
+                <tbody>
+                  <tr class="list_header" style="background-color: white;">
+                    <td>Personal Information</td>
+                    <td>Addresses</td>
+                    <td>Contact Info.</td>
+                    <td>Occupation</td>
+                    <td>ID Card Type</td>
+                    <td>ID Card Num</td>
+                  </tr>
+                  <tr class="list listpds" style="background-color: white;">
+                    <td style="padding-left: 5px; padding-top:0px;"><table>
+                        <tbody>
+                          <tr>
+                            <td style="padding:0px;">
+							<table>
+								<tbody>
+								#set($value="#emptyDataCheck($responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.FirstGivenName)")
+								#set($name="#trimVar($value)")
+								#set($name=$StringUtils.deleteWhitespace($name))
+								#if($name != 0)	
+									<tr>
+										<td style="padding-top:0px;">$value</td>
+									</tr>
+								#end
+								
+								#set($value="#emptyDataCheck($responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.MiddleName)")
+								#set($name="#trimVar($value)")
+								#set($name=$StringUtils.deleteWhitespace($name))
+								#if($name != 0)	
+									<tr>
+										<td style="padding-top:0px;">$value</td>
+									</tr>
+								#end
+								
+								#set($value="#emptyDataCheck($responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.IndiaMiddleName3)")
+								#set($name="#trimVar($value)")
+								#set($name=$StringUtils.deleteWhitespace($name))
+								#if($name != 0)	
+									<tr>
+										<td style="padding-top:0px;">$value</td>
+									</tr>
+								#end
+								
+								#set($value="#emptyDataCheck($responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.OtherMiddleNames)")
+								#set($name="#trimVar($value)")
+								#set($name=$StringUtils.deleteWhitespace($name))
+								#if($name != 0)	
+									<tr>
+										<td style="padding-top:0px;">$value</td>
+									</tr>
+								#end
+								
+								#set($value="#emptyDataCheck($responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.FamilyName)")
+								#set($name="#trimVar($value)")
+								#set($name=$StringUtils.deleteWhitespace($name))
+								#if($name != 0)	
+									<tr>
+										<td style="padding-top:0px;">$value</td>
+									</tr>
+								#end
+								</tbody>
+							</table>
+							</td>
+                          </tr>
+                          <tr>
+                            <td style="padding-top:0px;">#set($value="#emptyDataCheck($!$responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.Gender)")$value</td>
+                          </tr>
+                          #set($day = "#emptyDataCheck($!responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.BirthDay)")
+			 			  #set($month = "#emptyDataCheck($!responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.BirthMonth)")
+			              #set($year = "#emptyDataCheck($!responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.BirthYear)")
+			  
+			              #set($dob = $day +"/"+ $month +"/"+ $year)
+                          <tr>
+                            <td style="padding-top:0px;">$dob</td>
+                          </tr>
+                          <tr> </tr>
+                        </tbody>
+                      </table></td>
+                   <td style="padding-top: 0px;">
+                    #set($perinpaddrs = $responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.Perinpaddr)
+				    #foreach($perinpaddr in $perinpaddrs)
+					<table>
+                        <tbody>
+                        	#set($value="#emptyDataCheck($perinpaddr.IndiaAddressL1)")
+							#set($name="#trimVar($value)")
+							#set($name=$StringUtils.deleteWhitespace($name))
+							#if($name != 0)	
+	                        	<tr>
+	                            	<td style="padding-top:0px;">$value</td>
+								</tr>
+							#end
+							
+							#set($value="#emptyDataCheck($perinpaddr.IndiaAddressL2)")
+							#set($name="#trimVar($value)")
+							#set($name=$StringUtils.deleteWhitespace($name))
+							#if($name != 0)	
+								<tr>
+		                            <td style="padding-top:0px;">$value</td>
+								</tr>
+							#end
+							
+							#set($value="#emptyDataCheck($perinpaddr.IndiaAddressL3)")
+							#set($name="#trimVar($value)")
+							#set($name=$StringUtils.deleteWhitespace($name))
+							#if($name != 0)	
+								<tr>
+		                            <td style="padding-top:0px;">$value</td>
+								</tr>
+							#end
+							
+							#set($value="#emptyDataCheck($perinpaddr.PostalCode)")
+							#set($name="#trimVar($value)")
+							#set($name=$StringUtils.deleteWhitespace($name))
+							#if($name != 0)	
+								<tr>
+		                            <td style="padding-top:0px;">$value</td>
+								</tr>
+							#end
+								
+							#set($value="#emptyDataCheck($perinpaddr.LocalityName)")
+							#set($name="#trimVar($value)")
+							#set($name=$StringUtils.deleteWhitespace($name))
+							#if($name != 0)	
+								<tr>
+		                            <td style="padding-top:0px;">$value</td>
+								</tr>
+							#end
+							
+							#set($value="#emptyDataCheck($perinpaddr.RegionName)")
+							#set($name="#trimVar($value)")
+							#set($name=$StringUtils.deleteWhitespace($name))
+							#if($name != 0)	
+								<tr>
+		                            <td style="padding-top:0px;">$value</td>
+								</tr>
+							#end
+                        </tbody>
+                      </table>
+                      #end
+                      </td>
+                    <td style="padding-top:0px;"><table>
+                        <tbody>
+                        #set($perinpphns = $responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.Perinpphn)
+                        #foreach($perinpphn in $perinpphns)
+                        	#set($phoneType = $perinpphn.PhoneType)
+                        	#set($value="#emptyDataCheck($perinpphn.phoneNumber)")
+                            #if($phoneType == "1")
+	                          <tr>
+	                            <td style="padding-top:0px;">$value(H)</td>
+	                          </tr>
+	                        #elseif($phoneType == "6")
+							  <tr>
+	                            <td style="padding-top:0px;">$value(M)</td>
+	                          </tr>
+	                        #elseif($phoneType == "3")
+							  <tr>
+	                            <td style="padding-top:0px;">$value(O)</td>
+	                          </tr>
+	                        #elseif($phoneType == "7")
+							  <tr>
+	                            <td style="padding-top:0px;">$value(OT)</td>
+	                          </tr>
+	                        #end
+	                        #end
+                        </tbody>
+                      </table>
+                      </td>             
+                      <td style="padding-top:0px;"><table>
+                        <tbody>     
+                          <tr> 
+                          #set($value="#emptyDataCheck($!responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.OccYearsEmployed)")
+                          #set($value=$StringUtils.deleteWhitespace($value))
+                          	#if($value != "-")
+                          		<td style="padding-top:0px;">Years Employed &nbsp;$value</td>
+                          	#end
+                          	</tr>
+                          <tr>
+                          #set($value="#emptyDataCheck($!responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.OccMonthsEmployed)")
+                          #set($value=$StringUtils.deleteWhitespace($value))
+                          #if($value != "-")
+                          <td style="padding-top:0px;">Months Employed &nbsp;$value</td> 
+                          #end
+                          </tr>
+                          <tr>
+                          #set($value="#emptyDataCheck($!responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.NetMontlyIncome)")
+                          #set($value=$StringUtils.deleteWhitespace($value))
+                          #if($value != "-")
+                          <td style="padding-top:0px;">Net Monthly Income &nbsp;$value</td>
+                          #end
+                           </tr>
+                        </tbody>
+                      </table></td>
+                    #set($perinpidcs=$responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.Perinpidc)
+                    <td style="padding-top:0px;"><table id="card-type">
+                        <tbody>
+                        #foreach($perinpidc in $perinpidcs)
+                        	#set($idType = $perinpidc.IdNumberType)
+                        	 #if($idType == "10")
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">PAN</td>
+		                          </tr>
+					         #elseif($idType == "7")
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">VOTER ID</td>
+		                          </tr>
+							 #elseif($idType == "1")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">D/L</td>
+		                          </tr>
+							 #elseif($idType == "11")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">RATION CARD</td>
+		                          </tr>
+							 #elseif($idType == "4")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">Passport Number</td>
+		                          </tr>
+							 #elseif($idType == "12")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">AADHAR</td>
+		                          </tr>
+		                     #elseif($idType == "19")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">Account Number</td>
+		                          </tr>
+							 #end
+							 #end
+                        </tbody>
+                      </table></td>
+                    <td><table id="card-num">
+                        <tbody>
+						#foreach($perinpidc in $perinpidcs)
+                        	#set($idType = $perinpidc.IdNumberType)
+                        	#set($idNum="#emptyDataCheck($perinpidc.IndiaIdNumber)")
+                        	 #if($idType == "10")
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$idNum</td>
+		                          </tr>
+							 #elseif($idType == "7")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$idNum</td>
+		                          </tr>
+							 #elseif($idType == "1")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$idNum</td>
+		                          </tr>
+							 #elseif($idType == "11")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$idNum</td>
+		                          </tr>
+							 #elseif($idType == "4")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$idNum</td>
+		                          </tr>
+							 #elseif($idType == "12")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$idNum</td>
+		                          </tr>
+		                     #elseif($idType == "19")	
+		                          <tr height="26px">
+		                            <td style="padding-top:0px;">$idNum</td>
+		                          </tr>
+							#end
+							#end
+                        </tbody>
+                      </table></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            

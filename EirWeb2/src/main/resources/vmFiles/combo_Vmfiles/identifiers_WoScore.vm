@@ -1,0 +1,174 @@
+ #set($identy = $comboSummaryDetails.companyDetails)
+
+<tr>
+   <td width="60%" height="10" >
+      <table width="100%" border="0" align="center" 
+         cellpadding="5" cellspacing="0">
+         <tbody>
+            <tr>
+               <td width="58%" height="30" bgcolor="#0574bb" 
+                  class="sectionHeadingBureau">Identifiers</td>
+               <td width="42%" height="30" bgcolor="#3790c9" 
+                  class="sectionHeadingBureau">Credit Rating Details</td>
+            </tr>
+            <tr>
+               <td colspan="2"></td>
+            </tr>
+            <tr>
+               <td style="border-right:1px solid #58595b;">
+                  <table 
+                     width="100%" border="0" cellpadding="0" cellspacing="0">
+                     <tr>
+                        <td width="40%" 
+                           class="sectionDataElementsmallHed">PAN</td>
+                        <td width="60%" 
+                           class="sectionDataElementValues explicitLeft">#set($pan="#checknull($identy.panNumber)")$pan</td>
+                     </tr>
+                  </table>
+               </td>
+               <td style="border-right:1px solid #58595b;">
+                  <table width="100%" border="0" cellpadding="0" 
+                     cellspacing="0">
+                     <tr>
+                        <td width="55%" 
+                           class="sectionDataElementsmallHed">Latest Credit Rating</td>
+                        <td width="45%" 
+                           class="sectionDataElementValues explicitLeft" >#set($latestCreditRating="#checknull($identy.latestCreditRating)")$latestCreditRating</td>
+                     </tr>
+                  </table>
+               </td>
+            </tr>
+            <tr>
+               <td style="border-right:1px solid #58595b;">
+                  <table 
+                     width="100%" border="0" cellpadding="0" cellspacing="0">
+                     <tr>
+                        <td width="40%" 
+                           class="sectionDataElementsmallHed">CIN</td>
+                        <td width="60%" 
+                           class="sectionDataElementValues explicitLeft">#set($cin="#checknull($identy.cin)")$cin</td>
+                     </tr>
+                  </table>
+               </td>
+               <td style="border-right:1px solid #58595b;" valign="top">
+                  <table width="100%" border="0" 
+                     cellpadding="0" cellspacing="0">
+                     <tr>
+                        <td width="55%" 
+                           class="sectionDataElementsmallHed">Credit Rating Agency</td>
+                        <td width="45%" 
+                           class="sectionDataElementValues explicitLeft">#set($creditRatingAgency="#checknull($identy.creditRatingAgency)")$creditRatingAgency</td>
+                     </tr>
+                  </table>
+               </td>
+            </tr>
+            <tr>
+               <td style="border-right:1px solid #58595b;">
+                  <table 
+                     width="100%" border="0" cellpadding="0" cellspacing="0">
+                     <tr>
+                        <td width="40%" 
+                           class="sectionDataElementsmallHed">TIN</td>
+                        <td width="60%" 
+                           class="sectionDataElementValues explicitLeft">#set($tin="#checknull($identy.tin)")$tin</td>
+                     </tr>
+                  </table>
+               </td>
+               <td style="border-right:1px solid #58595b;">&nbsp;</td>
+            </tr>
+            <tr>
+               <td style="border-right:1px solid #58595b;">
+                  <table 
+                     width="100%" border="0" cellpadding="0" cellspacing="0">
+                     <tr>
+                        <td width="40%" 
+                           class="sectionDataElementsmallHed">SIC Code</td>
+                        <td width="60%" 
+                           class="sectionDataElementValues explicitLeft">#set($sic="#checknull($identy.sic)")$sic</td>
+                     </tr>
+                  </table>
+               </td>
+               <td style="border-right:1px solid #58595b;">&nbsp;</td>
+            </tr>
+            <tr>
+               <td style="border-right:1px solid #58595b;">
+                  <table 
+                     width="100%" border="0" cellpadding="0" cellspacing="0">
+                     <tr>
+                        <td width="40%" 
+                           class="sectionDataElementsmallHed">Service Tax Number</td>
+                        <td width="60%" 
+                           class="sectionDataElementValues explicitLeft">#set($serviceTaxNo="#checknull($identy.serviceTaxNumber)")$serviceTaxNo</td>
+                     </tr>
+                  </table>
+               </td>
+               <td style="border-right:1px solid #58595b;">&nbsp;</td>
+            </tr>
+         </tbody>
+      </table>
+   </td>
+   <td width="40%" height="10" valign="top" >
+      <table width="100%" 
+         border="0" align="center" cellpadding="5" cellspacing="0">
+         <tbody>
+            <tr>
+               <td width="100%" height="30" bgcolor="#69acd6" 
+                  class="sectionHeadingBureau">Other Details</td>
+            </tr>
+            <tr>
+               <td></td>
+            </tr>
+            <tr>
+               <td>
+                  <table width="100%" border="0" cellpadding="0" 
+                     cellspacing="0">
+                     <tr>
+                        <td width="44%"
+                           class="sectionDataElementsmallHed">Number of Employees</td>
+                        <td width="56%"
+                           class="sectionDataElementValues explicitLeft">#set($noOfEmp="#checknull($identy.totalEmpCt)")$noOfEmp</td>
+                     </tr>
+                  </table>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <table width="100%" border="0" cellpadding="0" 
+                     cellspacing="0">
+                     <tr>
+                        <td width="40%" class="sectionDataElementsmallHed">Sales Figure</td>
+                        <td width="60%">   
+                        #if($StringUtils.isNotEmpty($identy.salesFigureAm))
+                        	<div class="currencySymSalesFigAlign"><img alt="rupee_icon.png" src=$currenyByteArray /></div>  
+                        	<div style="float: left; width: 90%; word-wrap:break-word; line-height:16px"> #set($salesFig="#checknull($identy.salesFigureAm)")$salesFig</div>                 
+                   		#else
+                   			<div style="float: right; width: 90%; word-wrap:break-word;">-</div>
+                     	#end
+                     ##      <span class="currencySyms"><img alt="rupee_icon.png" src=$currenyByteArray /></span>
+                     ##     <span class="amtValues explicitLeft">#set($salesFig="#checknull($identy.salesFigureAm)")#set($salesFig="#currency($identy.salesFigureAm)")$salesFig</span>
+                          </td>
+                     </tr>
+                  </table>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <table width="100%" border="0" cellpadding="0" 
+                     cellspacing="0">
+                     <tr>
+                        <td width="44%" 
+                           class="sectionDataElementsmallHed">Financial Year</td>
+                        <td width="56%" 
+                           class="sectionDataElementValues explicitLeft">#set($financialYear="#checknull($identy.financialYear)")$financialYear</td>
+                     </tr>
+                  </table>
+               </td>
+            </tr>
+         </tbody>
+      </table>
+   </td>
+</tr>
+<tr>
+   <td height="10" ></td>
+   <td height="10" ></td>
+</tr>

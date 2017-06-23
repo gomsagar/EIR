@@ -1,0 +1,472 @@
+
+
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <title>Commercial Report</title>
+      <style type="text/css">
+         body {
+         margin-left: 0px;
+         margin-top: 0px;
+         margin-right: 0px;
+         margin-bottom: 0px;
+         background-color: #f6f5f5;
+         }
+         .reportTitle{
+         font-family:DINNextLTPro-Regular; 
+         color:#0070c0; 
+         font-size:25px; 
+         text-align:center;
+         }
+         .MetaDataElementLabels{
+         font-family:DINNextLTPro-Regular; 
+         color:#0070c0; 
+         font-size:13px; 
+         font-weight:normal;
+         }
+         .MetaDataElementValues{
+         font-family:DINNextLTPro-Regular; 
+         color:#333; 
+         font-size:13px; 
+         font-weight:normal;
+         }
+         .sectionHeading{
+         font-family:DINNextLTPro-Regular; 
+         font-size:11px; 
+         color:#ffffff; 
+         font-weight: bold; 
+         text-transform:uppercase;
+         line-height: 15px;
+         }
+         .sectionHeadingtickmark{
+         font-family:DINNextLTPro-Regular; 
+         font-size:11px; 
+         color:#ffffff; 
+         font-weight: bold; 
+         ##text-transform:uppercase;
+         line-height: 12px;
+         }
+         .sectionTooltip{
+         font-family:DINNextLTPro-Regular; 
+         font-size:11px; 
+         color:#be8851; 
+         font-weight:normal; 
+         font-style:italic;
+         }
+         .sectionDataElementLabels{
+         font-family:DINNextLTPro-Regular; 
+         color:#0070c0; 
+         font-size:11px; 
+         font-weight:bold;
+         text-align: center;
+         vertical-align: middle;
+         }
+          .sectionDataElementLabels1{
+         font-family:DINNextLTPro-Regular; 
+         color:#0070c0; 
+         font-size:11px; 
+         font-weight:bold;
+         vertical-align: middle;
+         }
+         .sectionDataElementsubheading{
+         font-family:DINNextLTPro-Regular; 
+         color:#333; 
+         font-size:11px; 
+         font-weight:bold;
+         }
+         .sectionDataElementValues{
+         font-family:DINNextLTPro-Regular;
+         color:#333; 
+         font-size:12px; 
+         font-weight:normal;
+         text-align: center;
+         vertical-align: middle;
+         }
+         .sectionDataElementValues1{
+         font-family:DINNextLTPro-Regular;
+         color:#333; 
+         font-size:12px; 
+         font-weight:normal;
+         text-align: center;
+         ##vertical-align: middle;
+         }
+         .right{
+         float:right;
+         font-family:DINNextLTPro-Regular; 
+         color:#333; 
+         font-size:12px; 
+         font-weight:normal;
+         }
+         .left{
+         float:right;
+         font-family:DINNextLTPro-Regular; 
+         color:#333; 
+         font-size:12px; 
+         font-weight:normal;
+         }
+         .headerInfo{
+         font-family:DINNextLTPro-Regular; 
+         color:#333; 
+         font-size:14px; 
+         font-weight:normal;
+         }
+         .sectionDataElementsmallHed{
+         font-family:DINNextLTPro-Regular; 
+         color:#0070c0; 
+         font-size:12px; 
+         font-weight:normal;
+         }
+         .graphheding{
+         font-family:"Arial";
+         color:#333;
+         font-size:30px;
+         font-weight:bold;
+         }
+         .creditScoreTable{
+         font-family:DINNextLTPro-Regular; 
+         color:#333; 
+         font-size:11px; 
+         font-weight:normal;
+         }
+         .creditScoreTableHeading{
+         font-family:DINNextLTPro-Regular; 
+         color:#333; 
+         font-size:11px; 
+         font-weight:bold;
+         }
+         .subHeding{
+         font-family:DINNextLTPro-Regular; 
+         color:#0070c0; 
+         font-size:11px; 
+         font-weight:bold;
+         }
+         .circleText{
+         text-align:center;
+         font-family:DINNextLTPro-Regular; 
+         color:#FFF; 
+         font-size:12px; 
+         font-weight:normal;
+         line-height:20px;
+         }
+         .circle1Background{
+         background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RERBOUJFMDQxN0Q4MTFFNEE3N0FBMjBFNEY5QTRGMzMiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RERBOUJFMDUxN0Q4MTFFNEE3N0FBMjBFNEY5QTRGMzMiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpEREE5QkUwMjE3RDgxMUU0QTc3QUEyMEU0RjlBNEYzMyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpEREE5QkUwMzE3RDgxMUU0QTc3QUEyMEU0RjlBNEYzMyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PgD2spMAAAFlSURBVHjatJY7SwNBFIUni+JWES0Ei2ipjWl8YSmYJlGwMr2VVlb2tiKCgo0/QStBDWgKOwM+wTRpNxEErUwVtfEcuSsx7JglmXvgqzJ7vk12MncTl6lR80/6wDxYBnOAi/vBOwhACZyAK/BhK0lYJD1gFWyBYdM+r2AbHIDP1g+9iAvGwD04jClghsAuuAXj7STT4BqkTWdJy/WzNgnvoAgGTXcZABfN3yiU9IIjeaguwp5j6f2VbHTxE9kyIb0/Eh9sGp2w16dkUXaHRti7REnO6CZLyaSyZIqSEWVJynO4ba3bmZK6sqROSU1Z8uzJoaaZG0oKypICJacyDzTyxn5KGmBHScLeRnhA7oMnx4Iy2Gs+hb9AXma3i7BnRXr/DK0KWHDwfHh9Rvoix++djOCHDgWPYKb1bxH1IlGVGb0OXmKWc92aCIK4r0RhfJk3OTmtuTgpR1EgbzXn4Ex2aWS+BRgAx59BBFOaBUUAAAAASUVORK5CYII='); 
+         background-repeat:no-repeat; 
+         background-position:center;
+         }
+         .circle2Background{
+         background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RjM2RjJDOTkxN0Q4MTFFNEJBNUREQ0Q0N0VDMERBNTYiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RjM2RjJDOUExN0Q4MTFFNEJBNUREQ0Q0N0VDMERBNTYiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpGMzZGMkM5NzE3RDgxMUU0QkE1RERDRDQ3RUMwREE1NiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpGMzZGMkM5ODE3RDgxMUU0QkE1RERDRDQ3RUMwREE1NiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pl4RRZ4AAAFnSURBVHjatJa9S0JRGMaPl6JLQ1FD0FCNteTSF42BLpngVHtTTU3trRFBQUtDf0BNQSVIg1uBfQi6tN4Kgppyslp6nnhvmNyTFz3vA79Jz/NT7/G8J9F7lDX/pAcsgByYB2OgH7yDAFyDU1AEH7aShEXSBVbBFhg2rfMKtsEB+Gx+0YtYMA7uwGFMATMEdsENmGglmQFXIGnaS1LWz9kk/ASXYNB0lgFQaPxGoaQbHMtDdRH2nEjvr2Sjg5/Ilknp/ZH4YNPohL0+JUuyOzTC3iwlGaObRUqmlCXTlIwqS0Y8h9vWup0pqSlLapQ8KUuePTnUNFOiJK8syVNyJvNAI2/sp6QOdpQk7K2HB+Q+qDgWVMFe4yn8BVZkdrsIe5al98/QegApB8+H69PSFzl+b2UE37cpKIPZ5r9F1EXiUWb0OniJWc73rYkgiHslCuPLvMnIac17V58cRYHcai7AuezSyHwLMACdnUD+bSBVGAAAAABJRU5ErkJggg=='); 
+         background-repeat:no-repeat; 
+         background-position:center;
+         }
+         .circle3Background{
+         background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RERBOUJFMDQxN0Q4MTFFNEE3N0FBMjBFNEY5QTRGMzMiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RERBOUJFMDUxN0Q4MTFFNEE3N0FBMjBFNEY5QTRGMzMiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpEREE5QkUwMjE3RDgxMUU0QTc3QUEyMEU0RjlBNEYzMyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpEREE5QkUwMzE3RDgxMUU0QTc3QUEyMEU0RjlBNEYzMyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PgD2spMAAAFlSURBVHjatJY7SwNBFIUni+JWES0Ei2ipjWl8YSmYJlGwMr2VVlb2tiKCgo0/QStBDWgKOwM+wTRpNxEErUwVtfEcuSsx7JglmXvgqzJ7vk12MncTl6lR80/6wDxYBnOAi/vBOwhACZyAK/BhK0lYJD1gFWyBYdM+r2AbHIDP1g+9iAvGwD04jClghsAuuAXj7STT4BqkTWdJy/WzNgnvoAgGTXcZABfN3yiU9IIjeaguwp5j6f2VbHTxE9kyIb0/Eh9sGp2w16dkUXaHRti7REnO6CZLyaSyZIqSEWVJynO4ba3bmZK6sqROSU1Z8uzJoaaZG0oKypICJacyDzTyxn5KGmBHScLeRnhA7oMnx4Iy2Gs+hb9AXma3i7BnRXr/DK0KWHDwfHh9Rvoix++djOCHDgWPYKb1bxH1IlGVGb0OXmKWc92aCIK4r0RhfJk3OTmtuTgpR1EgbzXn4Ex2aWS+BRgAx59BBFOaBUUAAAAASUVORK5CYII='); 
+         background-repeat:no-repeat; 
+         background-position:center;
+         }
+         .contacting{
+         font-family:DINNextLTPro-Regular; 
+         color:#17365d; 
+         font-size:11px; 
+         font-weight:normal;
+         line-height:20px;
+         }
+         .bottomtips{
+         font-family:DINNextLTPro-Regular; 
+         color:#0070c0; 
+         font-size:11px; 
+         font-weight:normal;
+         line-height:20px;
+         font-style:italic;
+         }
+         .paymentmode{
+         font-family:DINNextLTPro-Regular; 
+         color:#999; 
+         font-size:11px; 
+         font-weight:bold;
+         }
+         .paymentmodeData{
+         font-family:DINNextLTPro-Regular; 
+         color:#333; 
+         font-size:11px; 
+         font-weight:normal;
+         }
+         .bottomstext{
+         font-family:DINNextLTPro-Regular; 
+         color:#999; 
+         font-size:11px; 
+         font-weight:normal;
+         text-align:justify;
+         }
+         .matchFound{
+         color: #0070c0;
+         font-family: "Arial";
+         font-size: 22px;
+         font-weight: normal;
+         padding-bottom: 10px;
+         padding-top: 10px;
+         }
+         .subHeadings{
+         font-family:DINNextLTPro-Regular; 
+         color:#333; 
+         font-size:11px; 
+         font-weight:bold;
+         }
+         .sectionHeading1 {
+         font-family: 'Arial';
+         font-size: 11px;
+         color: #333;
+         font-weight: bold;
+         text-transform: uppercase;
+         line-height: 11px;
+         margin:0px;
+         }
+         .sectionDataValuesZero{
+         font-family:DINNextLTPro-Regular; 
+         color:#bcbcbc; 
+         font-size:12px; 
+         font-weight:normal;
+         }
+         .note{
+         font-family:DINNextLTPro-Regular; 
+         color:#f00007; 
+         font-size:11px; 
+         }
+        .currencySym {
+         float: left; 
+         width: 10%; 
+         word-wrap: break-word;
+         text-align: center;
+         MARGIN-TOP: 5px;
+         }
+         .currencySymSalesFigAlign {
+         float: left; 
+         width: 10%; 
+         word-wrap: break-word;
+         text-align: center;
+        
+         }
+         .currencySymAcc {
+         ##width: 10%; 
+         word-wrap: break-word;
+         text-align: center;
+         MARGIN-TOP: 5px;
+         }
+         
+         .amtValue {
+         float: right; 
+         width: 90%; 
+         word-wrap:break-word;
+         text-align: center;
+         margin-top:6px !important;
+         ##line-height: 18px;
+         }
+          .amtValue1 {
+         float: right; 
+         width: 70%; 
+         word-wrap:break-word;
+         text-align: center;
+         ##line-height: 18px;
+         margin-top:6px !important
+         }
+         .explicitLeft {
+         text-align: left !important;
+         word-wrap: break-word;
+         word-break: break-all;
+         }
+         @font-face{
+         font-family:DINNextLTPro-Regular;
+         src:url(fonts/dinnext-regular.ttf);
+         font-weight: normal;
+         }
+         .graphheding{
+		font-family:"Segoe UI";
+		color:#333;
+		font-size:30px;
+		font-weight:bold;
+		}
+		.sectionTooltip {
+	    font-family: 'Segoe UI';
+	    font-size: 11px;
+	    color: #be8851;
+	    font-weight: normal;
+	 	 ##  font-style: italic;
+		}
+        </style>
+   </head>
+   <body>
+   
+   #set($disclosure = $reportDetails.disclosure)
+   #set($reportIdentifier = $reportDetails.reportIdentifier)
+  	##GENERIC CONSTANTS
+  		
+    #set($tickmarkByteCode="data:image/png;base64,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")
+	#set($currenyByteArray="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAQBAMAAAACH4lsAAAAMFBMVEX/////wX4zMzMzfsH//9+gWjN+wf+gWlqg3//BfjP//8F+M37B//9aoN//36BaM34Y0ZRzAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAAAEgAAABIAEbJaz4AAAAqSURBVAjXY2AgHggpKcOYrgmYYu4NMDE1uJZpcNbqAzAW5wUYi+8PQTsBmU8GN1MaUKwAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTctMDEtMjRUMDQ6MzI6NDEtMDU6MDBWW/dcAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE3LTAxLTI0VDA0OjMyOjQxLTA1OjAwJwZP4AAAAABJRU5ErkJggg==")
+  	
+  	###if($reportDetails.currency == "EURO")
+  	###elseif($reportDetails.currency == "USD")
+  	###set($currenyByteArray='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAQCAIAAAB/UwMIAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDY3IDc5LjE1Nzc0NywgMjAxNS8wMy8zMC0yMzo0MDo0MiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NTc5Q0U4RDhDREJGMTFFNjgyM0RBM0IwNTdFMUZFNEYiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NTc5Q0U4RDdDREJGMTFFNjgyM0RBM0IwNTdFMUZFNEYiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKFdpbmRvd3MpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6RDZEQkNERUZDQ0ZCMTFFNjlCRjhFRkU3RDFFOTYxRDIiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6RDZEQkNERjBDQ0ZCMTFFNjlCRjhFRkU3RDFFOTYxRDIiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5eFDRmAAAAmUlEQVR42mL8//8/A4mAiYF0QC09hxpMYKDhEDZN/9HAwwVRxlELHj5cUL/g4f+D9cb1B9FV/GfBYoy6m6Mcw34Qy67hjB0RbpNTVL05ed4hvB76jw0A3QQBQFdiymLXA/IW1D9YPMSEJdAQgWXn5MNw+/4jQv4BKtsycyFU2aF9W8ABQtg/oOCGAiwhTcg/2AHjIE6jAAEGAJbq/xvoecUwAAAAAElFTkSuQmCC')
+  	###else
+  	###set($currenyByteArray='')
+  	
+  	###end
+  	 
+  	
+  	
+  #macro(emptyDataCheck $emptyDataIndicator)
+  	#set($currenyByteArray="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAQBAMAAAACH4lsAAAAMFBMVEX/////wX4zMzMzfsH//9+gWjN+wf+gWlqg3//BfjP//8F+M37B//9aoN//36BaM34Y0ZRzAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAAAEgAAABIAEbJaz4AAAAqSURBVAjXY2AgHggpKcOYrgmYYu4NMDE1uJZpcNbqAzAW5wUYi+8PQTsBmU8GN1MaUKwAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTctMDEtMjRUMDQ6MzI6NDEtMDU6MDBWW/dcAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE3LTAxLTI0VDA0OjMyOjQxLTA1OjAwJwZP4AAAAABJRU5ErkJggg==")
+	#if($StringUtils.isEmpty($emptyDataIndicator))
+		#set($emptyDataIndicator="-")
+	#elseif($emptyDataIndicator=="0")
+		#set($emptyDataIndicator="-")
+	#end
+	
+$emptyDataIndicator
+#end
+
+#macro(currencyNullCheck $emptyDataIndicator)
+
+	#if($StringUtils.isEmpty($emptyDataIndicator) || $emptyDataIndicator=="0" || $emptyDataIndicator=="-")
+	#set($currenyByteArray="")	
+	#else
+	#set($currenyByteArray="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAQBAMAAAACH4lsAAAAMFBMVEX/////wX4zMzMzfsH//9+gWjN+wf+gWlqg3//BfjP//8F+M37B//9aoN//36BaM34Y0ZRzAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAAAEgAAABIAEbJaz4AAAAqSURBVAjXY2AgHggpKcOYrgmYYu4NMDE1uJZpcNbqAzAW5wUYi+8PQTsBmU8GN1MaUKwAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTctMDEtMjRUMDQ6MzI6NDEtMDU6MDBWW/dcAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE3LTAxLTI0VDA0OjMyOjQxLTA1OjAwJwZP4AAAAABJRU5ErkJggg==")
+	#end
+#end
+	
+	
+	#macro(date $date)
+		#if($StringUtils.isNotEmpty($date))
+			#set($date=$sdf2.format($sdf.parse($date)))
+		#else
+			#set($date="-")
+		#end
+		$date
+	#end
+
+
+  		 ##FOOTER START
+               #parse("/vmFiles/cir_VmFiles/Footer.vm")
+               ##HEADER END
+  ##HEADER START
+  #parse("/vmFiles/cir_VmFiles/Header.vm")
+  ##HEADER ENDS
+      <table width="940" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+         <td valign="top" bgcolor="#FFFFFF" style="width:940px;">
+            <table width="900px" border="0" align="center" cellpadding="0" cellspacing="0">
+              #set($matchFound=$reportDetails.matchFound)
+              #set($headCount=0)
+               #if($matchFound=="true")
+	               <td height="8" bgcolor="#FFFFFF"></td>
+	               </tr>
+	               #if($reportIdentifier=="Commercial - Disclosure")
+	                 #parse("/vmFiles/cir_VmFiles/ReportCir.vm")
+	               #end
+	               
+	               
+	               #parse("/vmFiles/cir_VmFiles/CurrentApplicationDetails.vm")
+	               
+	               #set($chck = $reportDetails.score)
+	               #if($chck.isscore == 1)
+	               #parse("/vmFiles/cir_VmFiles/Score.vm")
+	               #end
+	               
+	               #parse("/vmFiles/cir_VmFiles/CompanyDetails.vm")
+	               #parse("/vmFiles/cir_VmFiles/ReportSummary.vm")
+	               <tr>
+	                  <td height="10"  bgcolor="#FFFFFF"></td>
+	               </tr>
+	               #parse("/vmFiles/cir_VmFiles/AccountSummary.vm")
+	               <tr>
+	                  <td bgcolor="#FFFFFF">&nbsp;</td>
+	               </tr>
+	               #parse("/vmFiles/cir_VmFiles/LocationDetails.vm")
+	               <tr>
+	                  <td bgcolor="#FFFFFF">&nbsp;</td>
+	               </tr>
+	               #parse("/vmFiles/cir_VmFiles/MainCreditFacility.vm")
+	               <tr>
+	                  <td valign="top" bgcolor="#FFFFFF">&nbsp; </td>
+	               </tr>
+	               
+	              ## #set($relationshipentity=$reportDetails.relationshipentity)
+	               ###if($relationshipentity=="true")
+	               #parse("/vmFiles/cir_VmFiles/RelationshipDetails.vm")
+	               ###else
+	              ## #parse("/vmFiles/cir_VmFiles/RelationshipDetailsEntity.vm")
+	              ###end 
+	              <tr>
+	                  <td bgcolor="#FFFFFF">&nbsp;</td>
+	               </tr>
+	               #parse("/vmFiles/cir_VmFiles/SuitFiledStatusDetails.vm")
+	               <tr>
+	                  <td height="10" valign="top" bgcolor="#FFFFFF"></td>
+	               </tr>
+	             	#parse("/vmFiles/cir_VmFiles/CreditFacilityDetailsAsGuarentor.vm")
+	               <tr>
+	                  <td height="10" valign="top" bgcolor="#FFFFFF"></td>
+	               </tr>
+	               #parse("/vmFiles/cir_VmFiles/EnquiryDetails.vm")
+	               #if($reportIdentifier=="Commercial - Disclosure")
+	                 #parse("/vmFiles/cir_VmFiles/SalesInvoice.vm")
+	               #end
+	               <tr>
+	                  <td height="10" bgcolor="#FFFFFF"></td>
+	               </tr>
+	               <tr>
+			         <td style="height:5px;"bgcolor="#FFFFFF">&nbsp;</td>
+			      </tr>
+			      <tr>
+			         <td height="1" bgcolor="#FFFFFF"></td>
+			      </tr>
+			     
+			      <tr>
+			         <td height="8" bgcolor="#FFFFFF"></td>
+			      </tr>
+##			      <tr>
+##			         <td bgcolor="#FFFFFF" style="text-align:center;">
+##			            <span class="MetaDataElementLabels">Experian Reference Number (ERN):</span> <span class="MetaDataElementValues">
+##			            $!reportHeader.experianReferenceNumber
+##			            </span> 
+##			            <span class="MetaDataElementValues">
+##			            $!reportHeader.generateDate
+##			            </span> 
+##			            <span class="MetaDataElementValues">
+##			            $!reportHeader.generateTime
+##			            </span>
+##			            &nbsp;
+##			            <span class="MetaDataElementLabels">
+##			            Enquiry Reference:
+##			            </span> 
+##			            <span class="MetaDataElementValues">
+##			            $!reportHeader.enquiryReference
+##			            </span>
+##			            &nbsp;
+##			            <span class="MetaDataElementLabels">
+##			            Member Name:
+##			            </span> 
+##			            <span class="MetaDataElementValues">
+##			            $!reportHeader.memberName
+##			            </span>
+##			         </td>
+##			      </tr>
+              #else
+              	#parse("/vmFiles/cir_VmFiles/NoMatchFound.vm")
+              #end
+               <tr>
+                  <td height="20" align="center"style="color:#808080;" class="paymentmodeData"bgcolor="#FFFFFF">@Experian confidencial</td>
+               </tr>
+               #set($year = $reportDetails.year)
+               <tr width="100%">
+                  <td style="text-align:justify; font-family: Arial;font-size: 11px;color: #808080;font-weight: normal;">
+                     <p align="center"style="font-family: Segoe UI;font-size: 16px;color: #808080;font-weight: normal;">Disclaimer</p>
+                     <p>Experian Credit Information Company of India Private Limited, $year. All rights reserved.
+                        The Experian Credit Information Report is not a guarantee of any particular outcome including (but not limited to) the likelihood of any particular lender granting you credit. You should not therefore use any Information, or any part of it, as the sole basis for any decision youtake. We do not accept any responsibility for any loss that may arise from relying on the Information other than as specifically set out in this Condition Experian will use all reasonable skill and care in the supply of the Information to you. Due to the number of third party sources from which we obtain the data used to provide you with the Information we cannot give you a guarantee or warranty that any Information is complete, accurate, up-to-date or error-free. However we do what we reasonably can (by running data through quality control checks) to ensure that the data Experian receives from third party sources which is used to provide you with the Information is accurate. 
+                     </p>
+                  </td>
+               </tr>
+               ##</td>
+               ##</tr>
+               <tr>
+                  <td height="25" bgcolor="#FFFFFF" class="paymentmodeData" style="text-align:center;">&copy; Experian Ltd, $year. All rights reserved.</td>
+               </tr>
+            </table>
+   </body>

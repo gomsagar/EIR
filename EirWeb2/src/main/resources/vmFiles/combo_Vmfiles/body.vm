@@ -1,0 +1,83 @@
+  ##  To Check the null values  ##
+	#macro(checknull $var)
+		#if($!var && $StringUtils.isNotEmpty($var))
+			$var
+		#else
+			#set($var="-")
+			$var
+		#end
+	#end
+	
+	#macro(checkamnt $var)
+		#if($!var && $StringUtils.isNotEmpty($var) && $var != "0")
+			$var
+		#else
+			#set($var="-")
+			$var
+		#end
+	#end
+
+  ##  To assign Grade to Credit Ratings ##
+	#macro(scorecheck $scorestr)
+		#if($StringUtils.isNumeric($scorestr))
+			#set($score=$Integer.parseInt($scorestr))
+			#if($score>=0 && $score<=560)
+				#set($creditRating="VERY POOR")
+			#elseif($score>=561 && $score<=720)
+				#set($creditRating="POOR")
+			#elseif($score>=721 && $score<=880)
+				#set($creditRating="FAIR")
+			#elseif($score>=881 && $score<=960)
+				#set($creditRating="GOOD")
+			#elseif($score>=961 && $score<=999)
+				#set($creditRating="EXCELLENT")
+			#end
+		#else
+			#set($creditRating="--")
+		#end
+		$creditRating
+	#end
+
+  ##  To Convert string into currency value ##
+  	#macro(currency $value)
+  		#if($StringUtils.isNumeric($value))
+			#set($value=$currFormat.getFormattedAmt($value))
+  		#end	
+  	$value
+  	#end
+  
+  ##  To Convert Date Format ##
+	#macro(date $date)
+		#if($StringUtils.isNotEmpty($date))
+			#set($date=$sdf2.format($sdf.parse($date)))
+		#else
+			#set($date="-")
+		#end
+		$date
+	#end
+	
+	##  To Convert CurrentDate Format ##
+	#macro(currdate $date)
+		#if($StringUtils.isNotEmpty($date))
+			#set($date=$sdf2.format($sdf.parse($date)))
+		#else
+			#set($date="-")
+		#end
+		$date
+	#end
+	
+	
+		#parse("/vmFiles/combo_Vmfiles/header.vm")
+		
+		#set($delphiChck = $comboSummaryDetails.delphiChck)
+		#if($delphiChck == 1)
+			#parse("/vmFiles/combo_Vmfiles/companyInfo.vm")
+			#parse("/vmFiles/combo_Vmfiles/identifiers.vm")
+		#else
+			#parse("/vmFiles/combo_Vmfiles/companyInfo_WoScore.vm")
+			#parse("/vmFiles/combo_Vmfiles/identifiers_WoScore.vm")
+		#end
+		
+		#parse("/vmFiles/combo_Vmfiles/relatedDirectorsInfo.vm")
+		#parse("/vmFiles/combo_Vmfiles/footer.vm")
+		

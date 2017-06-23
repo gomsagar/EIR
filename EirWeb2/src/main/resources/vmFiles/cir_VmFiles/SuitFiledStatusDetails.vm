@@ -1,0 +1,64 @@
+<tr>
+   <td valign="top" bgcolor="#FFFFFF" style="border:1px solid #E5E5E5;">
+      <table style="page-break-inside: avoid" width="100%" border="0" cellspacing="0" cellpadding="0">
+         <tr>
+            <td  height="30"  bgcolor="#406eb3" style="border-bottom:1px solid #E5E5E5;vertical-align: middle;">
+               <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                     <td width="4%"><div class="sectionHeadingtickmark">&nbsp;&nbsp;&nbsp;<img src=$tickmarkByteCode width="16" height="16" align="center" alt="Arrow" /></div></td>
+                     <td width="96%">
+                        <div>#set($headCount=$headCount+1)
+                           <h1 class="sectionHeading">$headCount. SUIT FILED STATUS DETAILS (Summary)</h1>
+                        </div>
+                     </td>
+                  </tr>
+               </table>
+            </td>
+         </tr>
+         #if($reportDetails.suitFiledDetails.size() > 0)
+         <tr>
+            <td height="10" valign="top"></td>
+         </tr>
+         <tr>
+            <td height="42" valign="top" bgcolor="#FFFFFF">
+               <table width="99%" border="0" align="center" cellpadding="3" cellspacing="0">
+                  <tr>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="14%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels">Member Name</td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="14%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels">Suit Filed Status</span></td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="15%" bgcolor="#EFEFEF" class="sectionDataElementLabels">Suit Amount</td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="12%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels">Suit Reference Number</td>
+                     <td style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;" width="14%" valign="top" bgcolor="#EFEFEF" class="sectionDataElementLabels">Date of Suit</td>
+                  </tr>
+                  #foreach($suitFileds in $reportDetails.suitFiledDetails)
+                  <tr>
+                     <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!suitFileds.memberName)")$empty</td>
+                     <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!suitFileds.suitFiledStatCd)")$empty</td>
+                     <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues1" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">
+                        #set($empty="#currencyNullCheck($!suitFileds.suitFiledAm)")
+                        #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                        <span class="currencySym"><img alt="rupee_icon.png" src=$currenyByteArray /></span> 
+                        <span class="amtValue">#set($empty="#emptyDataCheck($!suitFileds.suitFiledAm)")$empty</span>
+                        #else
+                        <span style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!suitFileds.suitFiledAm)")$empty</span>
+                        #end
+                     </td>
+                     <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!suitFileds.suitRefNB)")$empty</td>
+                     <td valign="top" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!suitFileds.suitAuthDt)")$empty</td>
+                  </tr>
+                  #end
+                 
+               </table>
+            </td>
+         </tr>
+         <tr>
+            <td height="10" valign="top" bgcolor="#FFFFFF"></td>
+         </tr>
+         #else
+         <td bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">No Data To Display</td>
+         #end
+      </table>
+   </td>
+</tr>
+ <tr>
+   <td valign="top" bgcolor="#FFFFFF">&nbsp;</td>
+</tr>

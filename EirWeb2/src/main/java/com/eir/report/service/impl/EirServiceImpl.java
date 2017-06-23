@@ -76,6 +76,7 @@ import com.eir.report.repository.UserDetailsRepository;
 import com.eir.report.service.BirReportService;
 import com.eir.report.service.EirService;
 import com.eir.report.service.NextGenWebService;
+import com.eir.report.util.GetStatus;
 
 @Service
 public class EirServiceImpl implements EirService{

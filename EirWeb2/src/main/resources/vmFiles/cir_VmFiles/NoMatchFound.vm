@@ -1,0 +1,21 @@
+<tr>
+   <td valign="top" bgcolor="#FFFFFF" style="border:1px solid #E5E5E5;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+   <td height="30" valign="middle"  style="border-bottom:1px solid #EFEFEF;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+         <tr>
+            <td width="4%"><span class="sectionHeading">&nbsp;&nbsp;&nbsp;</span></td>
+            <td width="96%">
+               <span>
+                  <h1 class="sectionDataElementsLables" style="color:#0070c0;font-size:20px";>No Match Found</h1>
+               </span>
+            </td>
+         </tr>
+      </table>
+   </td>
+</tr>
+<tr>
+   <td bgcolor="#FFFFFF">&nbsp;</td>
+</tr>
+#parse("/vmFiles/cir_VmFiles/CurrentApplicationDetails.vm")

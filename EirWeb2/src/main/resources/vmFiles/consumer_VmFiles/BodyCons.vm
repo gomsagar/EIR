@@ -1,0 +1,44 @@
+		
+	#macro(emptyDataCheck $emptyDataIndicator)
+	  	#set($currenyByteArray="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAQBAMAAAACH4lsAAAAMFBMVEX/////wX4zMzMzfsH//9+gWjN+wf+gWlqg3//BfjP//8F+M37B//9aoN//36BaM34Y0ZRzAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAAAEgAAABIAEbJaz4AAAAqSURBVAjXY2AgHggpKcOYrgmYYu4NMDE1uJZpcNbqAzAW5wUYi+8PQTsBmU8GN1MaUKwAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTctMDEtMjRUMDQ6MzI6NDEtMDU6MDBWW/dcAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE3LTAxLTI0VDA0OjMyOjQxLTA1OjAwJwZP4AAAAABJRU5ErkJggg==")
+		#if($StringUtils.isEmpty($emptyDataIndicator))
+			#set($emptyDataIndicator="-")
+		#elseif($emptyDataIndicator=="0")
+			#set($emptyDataIndicator="-")
+		#end
+	$emptyDataIndicator
+	#end		
+	
+	#macro(trimVar $value1)
+		#set($var=1)
+		#if($StringUtils.isNotEmpty($value1))
+			#set($value1=$value.trim())
+			#set($value1=$StringUtils.deleteWhitespace($value1))
+		#else
+			#set($value1="-")
+		#end
+		#if($value1 eq "-")
+			#set($var=0)
+		#else
+			#set($var=1)
+		#end
+	$var
+	#end
+		
+		
+		#parse("/vmFiles/consumer_VmFiles/HeaderCons.vm")
+		#parse("/vmFiles/consumer_VmFiles/CurrentAppDetails.vm")
+		#parse("/vmFiles/consumer_VmFiles/BestBureauIdentity.vm")
+		#parse("/vmFiles/consumer_VmFiles/ReportSummaryCons.vm")
+		#parse("/vmFiles/consumer_VmFiles/CreditScore.vm")
+		#if($isPdf == true)
+			#parse("/vmFiles/consumer_VmFiles/ConsCreditAccountPdf.vm")
+			#parse("/vmFiles/consumer_VmFiles/CreditEnquiryPdf.vm")
+		#else
+			#parse("/vmFiles/consumer_VmFiles/ConsCreditAccount.vm")
+			#parse("/vmFiles/consumer_VmFiles/CreditEnquiry.vm")
+
+		#end
+	##	#parse("/vmFiles/consumer_VmFiles/NonCreditEnquiry.vm")
+		#parse("/vmFiles/consumer_VmFiles/StmntAlerts.vm")
+		#parse("/vmFiles/consumer_VmFiles/FooterCons.vm")

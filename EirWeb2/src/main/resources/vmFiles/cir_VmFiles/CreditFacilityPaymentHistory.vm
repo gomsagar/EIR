@@ -1,0 +1,108 @@
+#if(($!creditFacility.paymentHistory.size()) > 0)
+<tr>
+   <td height="10" align="center" valign="top" bgcolor="#FFFFFF">
+      <table width="99%" border="0" cellpadding="0" cellspacing="0">
+         <tbody>
+            <tr>
+               <td>
+                  <h2 class="sectionHeading1"> Payment History</h2>
+               </td>
+            </tr>
+         </tbody>
+      </table>
+   </td>
+</tr>
+<tr>
+   <td height="10" valign="top" bgcolor="#FFFFFF"></td>
+</tr>
+<tr>
+   <td height="10" valign="top" bgcolor="#FFFFFF">
+      <table width="99%" border="0" align="center" cellpadding="3" cellspacing="0">
+         <tbody>
+            #foreach($paymentHistory in $creditFacility.paymentHistory)
+            ###emptyDataCheck($!paymentHistory)
+            <tr>
+               <td width="15%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Month</td>
+               <td width="14%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;"><div class="sectionDataElementLabels">$!paymentHistory.month1</div></td>
+               <td width="14%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">$!paymentHistory.month2</td>
+               <td width="14%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;"><div class="sectionDataElementLabels">$!paymentHistory.month3</div></td>
+               <td width="14%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">$!paymentHistory.month4</td>
+               <td width="14%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">$!paymentHistory.month5</td>
+               <td width="14%" valign="middle" bgcolor="#EFEFEF" class="sectionDataElementLabels" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;">$!paymentHistory.month6</td>
+            </tr>
+            <tr>
+               <td valign="middle" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">DPD/Asset Classification</td>
+               <td valign="middle" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!paymentHistory.status)")$empty</td>
+               <td valign="middle" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!paymentHistory.status2)")$empty</td>
+               <td valign="middle" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!paymentHistory.status3)")$empty</td>
+               <td valign="middle" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!paymentHistory.status4)")$empty</td>
+               <td valign="middle" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!paymentHistory.status5)")$empty</td>
+               <td valign="middle" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;">#set($empty="#emptyDataCheck($!paymentHistory.status6)")$empty</td>
+            </tr>
+            <tr>
+               <td valign="middle" bgcolor="#FFFFFF" class="sectionDataElementValues" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">Current Balance </td>
+               <td  bgcolor="#FFFFFF" class="sectionDataElementValues1" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">
+                  #set($empty="#currencyNullCheck($!paymentHistory.currentBalance)")
+                  #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                  <span class="currencySym"><img alt="rupee_icon.png" src=$currenyByteArray /></span> 
+                  <span class="amtValue">#set($empty="#emptyDataCheck($!paymentHistory.currentBalance)")$empty</span>
+                  #else
+                  <span style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!paymentHistory.currentBalance)")$empty</span>
+                  #end
+               </td>
+               <td  bgcolor="#FFFFFF" class="sectionDataElementValues1" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">
+                  #set($empty="#currencyNullCheck($!paymentHistory.currentBalance2)")$empty
+                  #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                  <span class="currencySym"><img alt="rupee_icon.png" src=$currenyByteArray /></span> 
+                  <span class="amtValue">#set($empty="#emptyDataCheck($!paymentHistory.currentBalance2)")$empty</span>
+                  #else
+                  <span style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!paymentHistory.currentBalance2)")$empty</span>
+                  #end
+               </td>
+               <td  bgcolor="#FFFFFF" class="sectionDataElementValues1" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">
+                  #set($empty="#currencyNullCheck( $!paymentHistory.currentBalance3)")$empty
+                  #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                  <span class="currencySym"><img alt="rupee_icon.png" src=$currenyByteArray /></span> 
+                  <span class="amtValue">#set($empty="#emptyDataCheck( $!paymentHistory.currentBalance3)")$empty</span>
+                  #else
+                  <span style="width:100%" class="amtValue">#set($empty="#emptyDataCheck( $!paymentHistory.currentBalance3)")$empty</span>
+                  #end
+               </td>
+               <td  bgcolor="#FFFFFF" class="sectionDataElementValues1" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">
+                  #set($empty="#currencyNullCheck($!paymentHistory.currentBalance4)")
+                  #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                  <span class="currencySym"><img alt="rupee_icon.png" src=$currenyByteArray /></span> 
+                  <span class="amtValue">#set($empty="#emptyDataCheck($!paymentHistory.currentBalance4)")$empty</span>
+                  #else
+                  <span style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!paymentHistory.currentBalance4)")$empty</span>
+                  #end
+               </td>
+               <td  bgcolor="#FFFFFF" class="sectionDataElementValues1" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1;">
+                  #set($empty="#currencyNullCheck($!paymentHistory.currentBalance5)")
+                  #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                  <span class="currencySym"><img alt="rupee_icon.png" src=$currenyByteArray /></span> 
+                  <span class="amtValue">#set($empty="#emptyDataCheck($!paymentHistory.currentBalance5)")$empty</span>
+                  #else
+                  <span style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!paymentHistory.currentBalance5)")$empty</span>
+                  #end
+               </td>
+               <td  bgcolor="#FFFFFF" class="sectionDataElementValues1" style="border-left:1px solid #dce6f1; border-bottom:1px solid #dce6f1; border-right:1px solid #dce6f1;">
+                  #set($empty="#currencyNullCheck($!paymentHistory.currentBalance6)")
+                  #if($StringUtils.isNotEmpty($currenyByteArray)) 
+                  <span class="currencySym"><img alt="rupee_icon.png" src=$currenyByteArray /></span> 
+                  <span class="amtValue">#set($empty="#emptyDataCheck($!paymentHistory.currentBalance6)")$empty</span>
+                  #else
+                  <span style="width:100%" class="amtValue">#set($empty="#emptyDataCheck($!paymentHistory.currentBalance6)")$empty</span>
+                  #end
+               </td>
+            </tr>
+            #end 
+            
+         </tbody>
+        <tr>
+   			<td>&nbsp;</td>
+		</tr>
+      </table>
+   </td>
+</tr>
+#end
