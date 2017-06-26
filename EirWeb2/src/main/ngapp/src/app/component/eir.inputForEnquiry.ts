@@ -220,6 +220,8 @@ export class InputForEnquiryComponent implements OnInit
   
     validate()
     {
+        var isValidationComplete : boolean = true ;
+	
         this._newService.inquerySubmitClick(true);
        
         console.log(" in validate consumerValid ----> " + this.consumerValid);
@@ -248,6 +250,7 @@ export class InputForEnquiryComponent implements OnInit
                 }
                 else
                 {
+	            isValidationComplete = false;
                     alert("Fill all the mandatory fields!!!");
                 }
          }
@@ -273,12 +276,16 @@ export class InputForEnquiryComponent implements OnInit
                 }
                 else
                 {
+	  	    isValidationComplete = false;
                     alert("Fill all the mandatory fields!!!");
                 }
          }
-          this._appService.submitInfo(this.commonArray).subscribe(this.data);
-         alert("Data Submitted Successfully!!!");
-         this.router.navigate(['viewEnquiryComponent']);
+		 if(isValidationComplete)
+		 {
+			 this._appService.submitInfo(this.commonArray).subscribe(this.data);
+			 alert("Data Submitted Successfully!!!");
+			 this.router.navigate(['viewEnquiryComponent']);
+		 }
     }
 
     getCompanyList()

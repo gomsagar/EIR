@@ -4,7 +4,6 @@ package com.eir.report.constant;
 public enum Status {
 	
 	PENDING("Pending"),
-	DOWNLOADED("DOWNLOADED"),
 	IN_PROCCESS("In Process"),
 	COMPLETED("Completed"),
 	ERROR("Error"),

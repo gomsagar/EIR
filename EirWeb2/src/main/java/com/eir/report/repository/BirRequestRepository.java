@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.eir.report.entity.BirRequest;
 import com.eir.report.entity.MemberProductMapping;
+import com.eir.report.entity.Status;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public interface BirRequestRepository extends JpaRepository<BirRequest, Integer>
 	public void updateRecord(@Param("report_token") String report_token,@Param("cin") String cin,
 			@Param("entityName")String entityName,@Param("status") String status);*/
 
+	public List<BirRequest> findByStatus(Status status);
 	public List<BirRequest> getByStatus(Integer statusId);
 
 }

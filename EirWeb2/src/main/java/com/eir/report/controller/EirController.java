@@ -17,15 +17,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.eir.bir.request.model.CirPurpose;
+import com.eir.bir.request.model.Frequency;
 import com.eir.bir.request.model.Gender;
 import com.eir.bir.request.model.MultipleRequest;
 import com.eir.bir.request.model.SpecifiedUserFlag;
 import com.eir.model.EligibleReport;
 import com.eir.report.constant.Constant;
 import com.eir.report.entity.AccountType;
+import com.eir.report.entity.Address;
 import com.eir.report.entity.AddressType;
+import com.eir.report.entity.ConsumerFinancialPurpose;
 import com.eir.report.entity.ConsumerPurpose;
 import com.eir.report.entity.RelationType;
 import com.eir.report.entity.ReportType;
@@ -175,6 +179,18 @@ public class EirController {
 		logger.debug("EirController - getConsumerPurposeList(): State list"+ consumerPurposeList );
 		
 		return consumerPurposeList;		
+	}
+	
+	@CrossOrigin("*")
+	@RequestMapping(value="/getFrequency", method = RequestMethod.GET)
+	public @ResponseBody List<Frequency> getFrequency(){
+		logger.debug("EirController - getFrequency(): Start");
+		
+		List<Frequency> frequencyList = eirService.getFrequency();
+				
+		logger.debug("EirController - getFrequency(): State list" );
+		
+		return frequencyList;		
 	}
 	
 	/**

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.eir.bir.request.model.Frequency;
 import com.eir.bir.request.model.Gender;
 import com.eir.bir.request.model.MultipleRequest;
 import com.eir.bir.request.model.SpecifiedUserFlag;
@@ -62,4 +63,6 @@ public interface EirService {
 	
 	List<Gender> getGender();
 	SpecifiedUserFlag getSpecifiedUserFlag();
+
+	List<Frequency> getFrequency();
 }

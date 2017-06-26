@@ -2,7 +2,7 @@ package com.eir.report.constant;
 
 public class Constant {
 	
-	public static final String PENDING = "PENDING";
+	/*public static final String PENDING = "PENDING";
 	public static final String DOWNLOADED = "DOWNLOADED";
 	public static final String IN_PROCCESS = "IN_PROCCESS";
 	public static final String COMPLETED = "COMPLETED";
@@ -12,7 +12,7 @@ public class Constant {
 	public static final String RECIEVEANDPLACED = "RECIEVEANDPLACED";
 	public static final String SCOREDANDSERVED = "SCOREDANDSERVED";
 	public static final String OPEN = "OPEN";
-	public static final String CLOSED = "CLOSED";
+	public static final String CLOSED = "CLOSED";*/
 	
 	// upload settings
 	public static final int MEMORY_THRESHOLD = 1024 * 1024 * 3; // 3MB

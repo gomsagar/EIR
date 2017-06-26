@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.eir.bir.request.model.Consumer;
+import com.eir.bir.request.model.Frequency;
 import com.eir.bir.request.model.Gender;
 import com.eir.bir.request.model.MultipleRequest;
 import com.eir.bir.request.model.SpecifiedUserFlag;
@@ -63,6 +64,7 @@ import com.eir.report.repository.ConsumerFinancialPurposeRepository;
 import com.eir.report.repository.ConsumerPurposeRepository;
 import com.eir.report.repository.ConsumerRequetRepository;
 import com.eir.report.repository.EntityDetailsRepository;
+import com.eir.report.repository.FrequencyRepository;
 import com.eir.report.repository.GenderRepository;
 import com.eir.report.repository.KycApprovalRepository;
 import com.eir.report.repository.ProductMasterRepository;
@@ -154,6 +156,9 @@ public class EirServiceImpl implements EirService{
 	
 	@Autowired
 	KycApprovalRepository kycApprovalRepository;
+	
+	@Autowired
+	FrequencyRepository frequencyRepository;
 	
 	
 	@Override
@@ -764,6 +769,28 @@ public class EirServiceImpl implements EirService{
 		
 		return null;
 	}
-	
+
+	@Override
+	public List<Frequency> getFrequency() {
+		
+		return getFrequencyMapper(frequencyRepository.findAll());
+	}
+
+	private List<Frequency> getFrequencyMapper(List<com.eir.report.entity.Frequency> frequencyEnittyList) {
+
+		if(frequencyEnittyList != null && !frequencyEnittyList.isEmpty())
+		{
+			List<Frequency> frequencyList = new ArrayList<>();
+			for(com.eir.report.entity.Frequency entity: frequencyEnittyList)
+			{
+				Frequency frequencyResponseObj = new Frequency();
+				frequencyResponseObj.setFrequencyId(entity.getFrequencyId());
+				frequencyResponseObj.setFrequencyDescription(entity.getFrequencyDescription());
+				frequencyList.add(frequencyResponseObj);
+			}
+			return frequencyList;
+		}
+		return null;	
+	}
 	
 }

@@ -321,7 +321,7 @@ public class BirReportServiceImpl implements BirReportService {
 			birReq.setCinNumber(birZaubaRequest.getCin());
 			// setBirReq.setScore("15");
 			birReq.setReportToken(reportToken);
-			birReq.setStatus(statusrepository.findBystatusDescription(Constant.PENDING));
+			birReq.setStatus(getStatusByDescription(com.eir.report.constant.Status.PENDING.status()));
 			birReqRepository.save(birReq);// pass one more parameter as status.
 			logger.debug("saved bir req - "+birReq);
 			logger.info("Sending Request for xml");
@@ -340,7 +340,7 @@ public class BirReportServiceImpl implements BirReportService {
 
 	@Override
 	public boolean getAndProcessBirReport(List<BirRequest> list) {
-		logger.debug("BirReportServiceImpl getAndProcessBirReport() -" + list);
+		logger.debug("BirReportServiceImpl getAndProcessBirReport() ");
 		String statusRes = null;
 		for (BirRequest birRequest : list) {
 			getZaubaResponseAndProcess(birRequest);
@@ -352,7 +352,7 @@ public class BirReportServiceImpl implements BirReportService {
 	@Override
 	public void getZaubaResponseAndProcess(BirRequest birRequest) {
 		
-		logger.info("BirReportServiceImpl getZaubaResponseAndProcess() - "+birRequest);
+		logger.info("BirReportServiceImpl getZaubaResponseAndProcess() ");
 		
 		try {
 			List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
@@ -394,7 +394,7 @@ public class BirReportServiceImpl implements BirReportService {
 						birRequest.setScore(score.toString());
 					}
 				}
-				birRequest.setStatus(statusrepository.findBystatusDescription(Constant.DOWNLOADED));
+				birRequest.setStatus(getStatusByDescription(com.eir.report.constant.Status.COMPLETED.status()));
 				
 			} else {
 				if (respoceObj.contains("620")) // response:"620":"Report is // // being processed"
@@ -414,7 +414,7 @@ public class BirReportServiceImpl implements BirReportService {
 					logger.debug("Response :"+key);
 					System.out.println("Response :" + key);
 				}
-				birRequest.setStatus(statusrepository.findBystatusDescription(Constant.PENDING));
+				birRequest.setStatus(getStatusByDescription(com.eir.report.constant.Status.PENDING.status()));
 			}
 
 			birReqRepository.save(birRequest);
@@ -428,7 +428,7 @@ public class BirReportServiceImpl implements BirReportService {
 	@Override
 	public List<BirRequest> getPendingRecord() {
 		Integer pendingStatus = 1; //TODO status id of pending form status table
-		return birReqRepository.getByStatus(getStatusByDescription(com.eir.report.constant.Status.PENDING.status()).getStatusId());
+		return birReqRepository.findByStatus(getStatusByDescription(com.eir.report.constant.Status.PENDING.status()));
 	}
 	
 	@Override
