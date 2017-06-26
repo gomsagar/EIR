@@ -112,7 +112,7 @@
 							<select class="form-control" [formControl]="cirForm.controls['cirState']" name="cirState" [(ngModel)]="commonArray.cir.cirState">
 										  
 										<option>--Select--</option>
-										  <option *ngFor="let cirState of stateList" [ngValue]="cirState">{{cirState.stateCodeDescription}}</option>
+										  <option *ngFor="let cirState of stateList" [ngValue]="cirState">{{cirState.stateDescription}}</option>
 
 										</select>
 							<div *ngIf="(cirForm.controls['cirState'].hasError('required') && cirForm.controls['cirState'].touched)||(cirForm.controls['cirState'].hasError('required') && submitted)"

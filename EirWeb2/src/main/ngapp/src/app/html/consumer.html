@@ -185,7 +185,7 @@
 						
 					</control-messages>
 							<option>--SELECT--</option>
-							<option *ngFor="let state of stateList" [ngValue]="state">{{state.stateCodeDescription}}</option>
+							<option *ngFor="let state of stateList" [ngValue]="state">{{state.stateDescription}}</option>
 				</select>
 			</div>
 			<div class="form-group col-md-3" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['personPinCode'+i].valid && requisitionForm.controls['personPinCode'+i].touched)||(!requisitionForm.controls['personPinCode'+i].valid && submitted))}">

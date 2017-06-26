@@ -96,26 +96,25 @@ public class EirController {
 	
 	@CrossOrigin("*")
 	@RequestMapping(value="/getStateList", method = RequestMethod.GET)
-	public @ResponseBody List<State> getStateList(){
+	public @ResponseBody List<com.eir.bir.request.model.State> getStateList(){
 		
 		logger.debug("EirController - getStateList(): Start");
 		
-		List<State> stateList = eirService.getStateList();
+		List<com.eir.bir.request.model.State> stateList = eirService.getStateList();
 				
-		logger.debug("EirController - getStateList(): State list"+ stateList );
+		logger.debug("EirController - getStateList(): State list" );
 		
 		return stateList;		
 	}
 	
 	@CrossOrigin("*")
 	@RequestMapping(value="/getAddressTypeList", method = RequestMethod.GET)
-	public @ResponseBody List<AddressType> getAddressTypeList(){
-		List<AddressType> addrsTypeList =new ArrayList<AddressType>();
+	public @ResponseBody List<com.eir.bir.request.model.AddressType> getAddressTypeList(){
 		logger.debug("EirController - getAddressTypeList(): Start");
 		
-		addrsTypeList = eirService.getAddressTypeList();
+		List<com.eir.bir.request.model.AddressType> addrsTypeList = eirService.getAddressTypeList();
 				
-		logger.debug("EirController - getAddressTypeList(): State list"+ addrsTypeList );
+		logger.debug("EirController - getAddressTypeList(): State list" );
 		
 		return addrsTypeList;		
 	}
@@ -135,22 +134,22 @@ public class EirController {
 	
 	@CrossOrigin("*")
 	@RequestMapping(value="/getAccountTypeList", method = RequestMethod.GET)
-	public @ResponseBody List<AccountType> getAccountTypeList(){
+	public @ResponseBody List<com.eir.bir.request.model.AccountType> getAccountTypeList(){
 		logger.debug("EirController - getAccountTypeList(): Start");
 		
-		List<AccountType> accntTypeList = eirService.getAccountTypeList();
+		List<com.eir.bir.request.model.AccountType> accntTypeList = eirService.getAccountTypeList();
 				
-		logger.debug("EirController - getAccountTypeList(): State list"+ accntTypeList );
+		logger.debug("EirController - getAccountTypeList(): State list" );
 		
 		return accntTypeList;		
 	}
 	
 	@CrossOrigin("*")
 	@RequestMapping(value="/getReportTypeList", method = RequestMethod.GET)
-	public @ResponseBody List<ReportType> getReportTypeList(){
+	public @ResponseBody List<com.eir.bir.request.model.ReportType> getReportTypeList(){
 		logger.debug("EirController - getReportTypeList(): Start");
 		
-		List<ReportType> reportTypeList = eirService.getReportTypeList();
+		List<com.eir.bir.request.model.ReportType> reportTypeList = eirService.getReportTypeList();
 				
 		logger.debug("EirController - getReportTypeList(): State list"+ reportTypeList );
 		
@@ -159,10 +158,10 @@ public class EirController {
 	
 	@CrossOrigin("*")
 	@RequestMapping(value="/getRelationTypeList", method = RequestMethod.GET)
-	public @ResponseBody List<RelationType> getRelationTypeList(){
+	public @ResponseBody List<com.eir.bir.request.model.RelationType> getRelationTypeList(){
 		logger.debug("EirController - getRelationTypeList(): Start");
 		
-		List<RelationType> relationTypeList = eirService.getRelationTypeList();
+		List<com.eir.bir.request.model.RelationType> relationTypeList = eirService.getRelationTypeList();
 				
 		logger.debug("EirController - getRelationTypeList(): State list"+ relationTypeList );
 		
@@ -171,10 +170,10 @@ public class EirController {
 	
 	@CrossOrigin("*")
 	@RequestMapping(value="/getConsumerPurposeList", method = RequestMethod.GET)
-	public @ResponseBody List<ConsumerPurpose> getConsumerPurposeList(){
+	public @ResponseBody List<com.eir.bir.request.model.ConsumerPurpose> getConsumerPurposeList(){
 		logger.debug("EirController - getConsumerPurposeList(): Start");
 		
-		List<ConsumerPurpose> consumerPurposeList = eirService.getConsumerPurposeList();
+		List<com.eir.bir.request.model.ConsumerPurpose> consumerPurposeList = eirService.getConsumerPurposeList();
 				
 		logger.debug("EirController - getConsumerPurposeList(): State list"+ consumerPurposeList );
 		

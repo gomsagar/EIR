@@ -178,18 +178,54 @@ public class EirServiceImpl implements EirService{
 	}
 
 	@Override
-	public List<State> getStateList() {
+	public List<com.eir.bir.request.model.State> getStateList() {
 		
-		return stateRepository.findAll();
+		return getStateMapperList(stateRepository.findAll());
+	}
+
+	private List<com.eir.bir.request.model.State> getStateMapperList(List<State> entityStateList) 
+	{
+		if(entityStateList != null && !entityStateList.isEmpty())
+		{
+			List<com.eir.bir.request.model.State> stateList = new ArrayList<>();
+			for (State state : entityStateList) 
+			{
+				com.eir.bir.request.model.State responceObj = new com.eir.bir.request.model.State();
+				
+				responceObj.setStateId(state.getStateId());
+				responceObj.setStateDescription(state.getStateCodeDescription());
+				
+				stateList.add(responceObj);				
+			}
+			return stateList;
+		}
+		return null;
 	}
 
 	@Override
-	public List<AddressType> getAddressTypeList() {
+	public List<com.eir.bir.request.model.AddressType> getAddressTypeList() {
 		
-		return addressTypeRepository.findAll();
+		return getAddressTypeMapper(addressTypeRepository.findAll());
 	}
-
 	
+	private List<com.eir.bir.request.model.AddressType> getAddressTypeMapper(List<AddressType> entityAddressType) 
+	{
+		if (entityAddressType != null && !entityAddressType.isEmpty()) 
+		{
+			List<com.eir.bir.request.model.AddressType> adrssTypeList = new ArrayList<com.eir.bir.request.model.AddressType>();
+			for (AddressType addressType : entityAddressType) 
+			{
+				com.eir.bir.request.model.AddressType responceSddrsTypeObj = new com.eir.bir.request.model.AddressType();
+				
+				responceSddrsTypeObj.setAddressTypeId(addressType.getAddressTypeId());
+				responceSddrsTypeObj.setAddressTypeDescription(addressType.getAddressTypeDescription());
+				
+				adrssTypeList.add(responceSddrsTypeObj);
+			}			
+			return adrssTypeList;
+		}
+		return null;
+	}
 	
 	/*@Override
 	public void saveRequestedData(MultipleRequest input , HttpServletRequest request) {
@@ -428,30 +464,104 @@ public class EirServiceImpl implements EirService{
 	}
 
 	@Override
-	public List<AccountType> getAccountTypeList() {
-		return accntTypeRepository.findAll();
+	public List<com.eir.bir.request.model.AccountType> getAccountTypeList() {
+		return getAccntTypeMapper(accntTypeRepository.findAll());
+	}
+
+	private List<com.eir.bir.request.model.AccountType> getAccntTypeMapper(List<AccountType> entityAccountType) {
+		
+		if (entityAccountType != null && !entityAccountType.isEmpty()) 
+		{
+			List<com.eir.bir.request.model.AccountType> accntTypeList = new ArrayList<com.eir.bir.request.model.AccountType>();
+			for (AccountType accountType : entityAccountType) 
+			{
+				com.eir.bir.request.model.AccountType accntTypeResponce = new com.eir.bir.request.model.AccountType();
+				
+				accntTypeResponce.setAccntTypeId(accountType.getAccntTypeId());
+				accntTypeResponce.setAccntTypeDescription(accountType.getAccntTypeDescription());
+				accntTypeList.add(accntTypeResponce);
+			}
+			return accntTypeList;
+		}
+		return null;
 	}
 
 	@Override
-	public List<ReportType> getReportTypeList() {
-		return reportTypeRepository.findAll();
+	public List<com.eir.bir.request.model.ReportType> getReportTypeList() {
+		return getReportTypeMapper(reportTypeRepository.findAll());
 	}
 	
+	private List<com.eir.bir.request.model.ReportType> getReportTypeMapper(List<ReportType> entityReportType) 
+	{
+		 if (entityReportType != null && !entityReportType.isEmpty()) 
+		 {
+			 List<com.eir.bir.request.model.ReportType> reportTypeList = new ArrayList<com.eir.bir.request.model.ReportType>();
+			 for (ReportType reportType : entityReportType) 
+			 {
+				 com.eir.bir.request.model.ReportType reportTypeResponse = new com.eir.bir.request.model.ReportType();
+				 reportTypeResponse.setReportTypeId(reportType.getReportTypeId());
+				 reportTypeResponse.setReportTypeDescription(reportType.getReportTypeDescription());
+				 
+				 reportTypeList.add(reportTypeResponse);			
+			}
+			return reportTypeList;
+		}
+		return null;
+	}
+
 	public UserDetails getUserById(Integer userId)
 	{
 		UserDetails userDetails = userDetailsRepository.findByUserId(userId);
 		return userDetails;
 	}
 	@Override
-	public List<RelationType> getRelationTypeList() {
-		return relationTypeRepository.findAll();
+	public List<com.eir.bir.request.model.RelationType> getRelationTypeList() {
+		return getRelatnTypeMapper(relationTypeRepository.findAll());
+	}
+
+	private List<com.eir.bir.request.model.RelationType> getRelatnTypeMapper(List<RelationType> entityRelatnType) 
+	{
+		if (entityRelatnType != null && !entityRelatnType.isEmpty()) 
+		{
+			List<com.eir.bir.request.model.RelationType> reltnTypeList = new ArrayList<com.eir.bir.request.model.RelationType>();
+			for (RelationType relationType : entityRelatnType) 
+			{
+				com.eir.bir.request.model.RelationType relatnTypeResponce = new com.eir.bir.request.model.RelationType();
+				
+				Integer convertedRelationTypeId = Integer.parseInt(relationType.getRelationTypeId());
+				relatnTypeResponce.setRelationTypeId(convertedRelationTypeId);
+				relatnTypeResponce.setRelationTypeDescription(relationType.getRelationTypeDescription());
+				reltnTypeList.add(relatnTypeResponce);
+			}
+			return reltnTypeList;
+		}
+		return null;
 	}
 
 	@Override
-	public List<ConsumerPurpose> getConsumerPurposeList() {
-		return consumerPurposeRepository.findAll();
+	public List<com.eir.bir.request.model.ConsumerPurpose> getConsumerPurposeList() {
+		return getConsumerPurposeMapper(consumerPurposeRepository.findAll());
 	}
 	
+	private List<com.eir.bir.request.model.ConsumerPurpose> getConsumerPurposeMapper(List<ConsumerPurpose> entityConsumrPurpose) 
+	{
+		if (entityConsumrPurpose != null && !entityConsumrPurpose.isEmpty()) 
+		{
+			List<com.eir.bir.request.model.ConsumerPurpose> consumerPurposesList = new ArrayList<com.eir.bir.request.model.ConsumerPurpose>();
+			for (ConsumerPurpose consumerPurpose : entityConsumrPurpose) 
+			{
+				com.eir.bir.request.model.ConsumerPurpose consumerPurposeResponce = new com.eir.bir.request.model.ConsumerPurpose();
+				
+				
+				consumerPurposeResponce.setPurposeId(consumerPurpose.getPurposeId());
+				consumerPurposeResponce.setDescription(consumerPurpose.getDescription());
+				consumerPurposesList.add(consumerPurposeResponce);				
+			}
+			return consumerPurposesList;			
+		}
+		return null;
+	}
+
 	@Override
 	public List<com.eir.bir.request.model.ConsumerFinancialPurpose> findConsumerFinancialPurposeByPurposeId(Integer purposeId) 
 	{

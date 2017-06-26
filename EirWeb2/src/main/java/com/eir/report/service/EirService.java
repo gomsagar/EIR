@@ -31,9 +31,9 @@ public interface EirService {
 
 	List<Address> getAddress();
 
-	List<State> getStateList();
+	List<com.eir.bir.request.model.State> getStateList();
 
-	List<AddressType> getAddressTypeList();
+	List<com.eir.bir.request.model.AddressType> getAddressTypeList();
 
 	void uploadKYCDocuments(HttpServletRequest request, HttpServletResponse response);
 
@@ -47,13 +47,13 @@ public interface EirService {
 	
 	List<com.eir.bir.request.model.CirPurpose> getCirPurposeList();
 
-	List<AccountType> getAccountTypeList();
+	List<com.eir.bir.request.model.AccountType> getAccountTypeList();
 
-	List<ReportType> getReportTypeList();
+	List<com.eir.bir.request.model.ReportType> getReportTypeList();
 
-	List<RelationType> getRelationTypeList();
+	List<com.eir.bir.request.model.RelationType> getRelationTypeList();
 
-	List<ConsumerPurpose> getConsumerPurposeList();
+	List<com.eir.bir.request.model.ConsumerPurpose> getConsumerPurposeList();
 
 	//void createCIRAndConsumersRequest(MultipleRequest input, Request reqEntity);
 	

@@ -37,17 +37,17 @@ public class ConsumerPurpose {
 		sequenceName="purpose_sequence",
 		allocationSize=1
 	)
-	String purposeId;
+	Integer purposeId;
 	
 	@Column(name = "description", length = 45)
 	
 
 	String description;
 	
-	public String getPurposeId() {
+	public Integer getPurposeId() {
 		return purposeId;
 	}
-	public void setPurposeId(String purposeId) {
+	public void setPurposeId(Integer purposeId) {
 		this.purposeId = purposeId;
 	}
 	public String getDescription() {
