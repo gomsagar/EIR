@@ -42,9 +42,9 @@ $value
          <tbody>
             <tr>
                <td width="1%">&nbsp;</td>
-               <td width="45%" valign="middle" class="sectionHeadingBureau">Business Principal Bureau Score</td>
+               <td width="75%" valign="middle" class="sectionHeadingBureau">Business Principal Bureau Score</td>
                <td width="8%" align="center" valign="middle"><img alt="bureau_score_img.png" src=$bureau_logo width="38" height="25" alt=""/></td>
-               <td width="46%">&nbsp;</td>
+               <td width="16%">&nbsp;</td>
             </tr>
          </tbody>
       </table>

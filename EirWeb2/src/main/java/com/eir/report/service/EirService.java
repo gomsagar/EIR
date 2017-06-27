@@ -9,6 +9,7 @@ import com.eir.bir.request.model.Frequency;
 import com.eir.bir.request.model.Gender;
 import com.eir.bir.request.model.MultipleRequest;
 import com.eir.bir.request.model.SpecifiedUserFlag;
+import com.eir.model.DashboardObject;
 import com.eir.model.EligibleReport;
 import com.eir.report.entity.AccountType;
 import com.eir.report.entity.Address;
@@ -65,4 +66,6 @@ public interface EirService {
 	SpecifiedUserFlag getSpecifiedUserFlag();
 
 	List<Frequency> getFrequency();
+
+	DashboardObject getDashboardDetails(Integer userId);
 }

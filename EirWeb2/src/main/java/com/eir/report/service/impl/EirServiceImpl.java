@@ -31,6 +31,7 @@ import com.eir.bir.request.model.Frequency;
 import com.eir.bir.request.model.Gender;
 import com.eir.bir.request.model.MultipleRequest;
 import com.eir.bir.request.model.SpecifiedUserFlag;
+import com.eir.model.DashboardObject;
 import com.eir.model.EIRDataConstant;
 import com.eir.model.EligibleReport;
 import com.eir.report.constant.Constant;
@@ -63,6 +64,7 @@ import com.eir.report.repository.CirRequestRepository;
 import com.eir.report.repository.ConsumerFinancialPurposeRepository;
 import com.eir.report.repository.ConsumerPurposeRepository;
 import com.eir.report.repository.ConsumerRequetRepository;
+import com.eir.report.repository.DisputeRepository;
 import com.eir.report.repository.EntityDetailsRepository;
 import com.eir.report.repository.FrequencyRepository;
 import com.eir.report.repository.GenderRepository;
@@ -108,6 +110,9 @@ public class EirServiceImpl implements EirService{
 	
 	@Autowired
 	RequestRepository requestRepository;
+	
+	@Autowired
+	DisputeRepository disputeRepository;
 	
 	@Autowired
 	EntityDetailsRepository entityDetailsRepository;
@@ -901,6 +906,25 @@ public class EirServiceImpl implements EirService{
 			return frequencyList;
 		}
 		return null;	
+	}
+	@Override
+	public DashboardObject getDashboardDetails(Integer userId) {
+		
+		if(userId != null)
+		{
+		Status inProcessStatus = getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.status());
+		
+		DashboardObject dashboardObject = new DashboardObject();
+		
+		dashboardObject.setTotEnquiry(requestRepository.findCountByUserId(userId));
+		dashboardObject.setInProcessEnquiry(requestRepository.findCountByUserIdAndStatusId(userId,inProcessStatus.getStatusId()));
+		dashboardObject.setTotDispute(disputeRepository.findDisputeCountByUserId(userId));
+		dashboardObject.setPendingDispute(disputeRepository.findDisputeCountByUserIdAndStatusId(userId,inProcessStatus.getStatusId()));
+		
+		return dashboardObject;
+		}
+		
+		return null;
 	}
 	
 }

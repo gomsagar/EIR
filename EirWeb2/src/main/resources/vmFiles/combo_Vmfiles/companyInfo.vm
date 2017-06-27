@@ -45,12 +45,15 @@
                	  #set($scoreType = $comboSummaryDetails.scoreCom)
                   <td width="1%">&nbsp;</td>
                   #if($scoreType>=300 && $scoreType<=900)
-                  	<td width="35%" valign="middle" class="sectionHeadingBureau">Business Bureau Score</td>
+                  	<td width="50%" valign="middle" class="sectionHeadingBureau">Business Bureau Score</td>
+                  	<td width="8%" align="center" valign="middle"><img alt="bureau_score_img.png" src=$bureau_logo width="38" height="25" alt=""/></td>
+                  <td width="41%">&nbsp;</td>
                   #elseif($scoreType>=1 && $scoreType<=10)
                   	<td width="35%" valign="middle" class="sectionHeadingBureau">Bureau Score</td>
-                  #end
-                  <td width="8%" align="center" valign="middle"><img alt="bureau_score_img.png" src=$bureau_logo width="38" height="25" alt=""/></td>
+                  	<td width="8%" align="center" valign="middle"><img alt="bureau_score_img.png" src=$bureau_logo width="38" height="25" alt=""/></td>
                   <td width="56%">&nbsp;</td>
+                  #end
+                  
                </tr>
             </tbody>
          </table>

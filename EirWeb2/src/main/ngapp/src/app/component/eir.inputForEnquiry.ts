@@ -176,17 +176,17 @@ export class InputForEnquiryComponent implements OnInit
           //'pan'         : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})([PFCAHBLJRpfcahbljr]{1})([0-9]{4})([A-Za-z]{1})'),Validators.required])],
           //'cmppan'      : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})([PFCAHBLJRpfcahbljr]{1})([0-9]{4})([A-Za-z]{1})'),Validators.required])],
           //'pan'         : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})([ABCFGHLJPTKabcfghljptk]{2})([0-9]{4})([A-Za-z]{1})'),Validators.required])],
-          'cmppan'      : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})([ABCFGHLJPTKabcfghljptk]{2})([0-9]{4})([A-Za-z]{1})'),Validators.required])],
+          'cmppan'      : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})[ABCFEGHLJPTabcfeghljpt][A-Za-z]([0-9]{4})([A-Za-z]{1})'),Validators.required])],
           'city'        : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z]*')])],
           'product'     : [null,  Validators.required],
           'address'     : [null,  Validators.required],         
-          'cirPurpose'     : [null,  Validators.required],
-          'cirState'       : [null,  Validators.required]
+          'cirPurpose'  : [null,  Validators.required],
+          'cirState'    : [null,  Validators.required]
          });
          
          this.birForm =fb.group(
          {
-          'companyName'    :[null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z0-9&]*')])],          
+          'companyName' :[null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z0-9&]*')])],          
           'cmplist'     :[null,  Validators.required]
         });
         this.cirForm2 =fb1.group(

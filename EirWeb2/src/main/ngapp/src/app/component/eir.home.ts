@@ -1,11 +1,13 @@
 import { Component,Input } from '@angular/core';
 import { Router} from '@angular/router';
 import{DataService} from '../services/eir.getData';
+import{CompanyNameService} from '../services/eir.sendCompName';
+
 interface MessageJson {}
 @Component({
   selector: 'home',
   templateUrl: '../html/home.html',
-  providers: [DataService]
+  providers: [CompanyNameService]
 })
 export class HomeComponent 
 {
@@ -16,12 +18,14 @@ export class HomeComponent
  private inProcessEnq;
  private pendingDisp;
  private totDisp;
+userId:Number;
 
-
-  constructor(private router: Router,private _dataService:DataService) 
+  constructor(private router: Router,private _compService:CompanyNameService) 
   {
+    this.userId=1;
     console.log("HomeComponent");   
-     this._subscription = this._dataService.getCount()
+   
+     this._subscription = this._compService.getCount(this.userId)
             .subscribe((count) => {
                     
                     this.jsonResponse = JSON.stringify(count);

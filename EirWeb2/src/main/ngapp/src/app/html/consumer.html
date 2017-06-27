@@ -2,14 +2,14 @@
 	<form id="requisition-form" role="form" class="user-form abpDetails col-md-12">
 		<div class="row">
 			<div class="form-group col-md-6">
-				<label for="exampleInputName2">Relation Type</label> <select class="form-control" name="relationType" [(ngModel)]="consumerData[i].relationType">
-					<option>--SELECT--</option>
+				<label for="exampleInputName2">Relation Type</label> <select class="form-control" placeholder="--SELECT--" name="relationType" [(ngModel)]="consumerData[i].relationType">
+					<option value="" disabled selected>--SELECT--</option>	
 					<option *ngFor="let relationType of relationTypeList" [ngValue]="relationType">{{relationType.relationTypeDescription}}</option>
 				</select>
 			</div>
 			<div class="form-group col-md-6">
-				<label for="exampleInputName2">Account Type</label> <select class="form-control" name="accountType" [(ngModel)]="consumerData[i].accountType">
-					<option>--SELECT--</option>
+				<label for="exampleInputName2">Account Type</label> <select class="form-control" placeholder="--SELECT--" name="accountType" [(ngModel)]="consumerData[i].accountType">
+					<option value="" disabled selected>--SELECT--</option>	
 					<option *ngFor="let accntType of accntTypeList" [ngValue]="accntType">{{accntType.accntTypeDescription}}</option>
 				</select>
 			</div>
@@ -39,16 +39,16 @@
 			<div class="row">			
 				<div class="form-group col-md-6" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['consumerPurpose'+i].valid && requisitionForm.controls['consumerPurpose'+i].touched)||(!requisitionForm.controls['consumerPurpose'+i].valid && submitted))}">
 					<label for="exampleInputName2">Purpose</label> 
-					<select class="form-control" name="consumerPurpose" formControlName="consumerPurpose{{i}}" [(ngModel)]="consumerData[i].consumerPurpose" (ngModelChange)="getFinancialPurpose($event)">
-						<option>--SELECT--</option>
+					<select class="form-control" placeholder="--SELECT--" name="consumerPurpose" formControlName="consumerPurpose{{i}}" [(ngModel)]="consumerData[i].consumerPurpose" (ngModelChange)="getFinancialPurpose($event)">
+						<option value="" disabled selected>--SELECT--</option>	
 						<option *ngFor="let consumerPurpose of consumerPurposeList" [ngValue]="consumerPurpose" id="{{consumerPurpose.purposeId}}">{{consumerPurpose.description}}</option>
 					</select>
 					<control-messages [control]="requisitionForm.controls['consumerPurpose'+i]" [label]="'Purpose'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
 				</div>			
 				<div class="form-group col-md-6" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['consumerFinancialPurpose'+i].valid && requisitionForm.controls['consumerFinancialPurpose'+i].touched)||(!requisitionForm.controls['consumerFinancialPurpose'+i].valid && submitted))}">
 					<label for="exampleInputName2">Financial Purpose Type</label> 
-					<select class="form-control"  name="consumerFinancialPurpose" formControlName="consumerFinancialPurpose{{i}}" [(ngModel)]="consumerData[i].consumerFinancialPurpose">
-						<option>--SELECT--</option>
+					<select class="form-control" placeholder="--SELECT--"  name="consumerFinancialPurpose" formControlName="consumerFinancialPurpose{{i}}" [(ngModel)]="consumerData[i].consumerFinancialPurpose">
+						<option value="" disabled selected>--SELECT--</option>	
 						<option *ngFor="let consumerFinancialPurpose of consumerFinancialPurposeList" [ngValue]="consumerFinancialPurpose" id="{{consumerFinancialPurpose.financialPurposeId}}">{{consumerFinancialPurpose.financialDescription}}</option>
 					</select>
 					<control-messages [control]="requisitionForm.controls['consumerFinancialPurpose'+i]" [label]="'Financial Purpose Type'"  style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
@@ -63,9 +63,9 @@
 							
 						
 								<select class="form-control" name="category" style=" width: 30%;"> 
-									<option value=""></option>
-									<option value="0">INR</option>
-									<option value="1">DOL</option>									
+									<option value="" disabled selected>--SELECT--</option>	
+								<option *ngFor="let frequency of frequencyList" [ngValue]="frequency">{{frequency.frequencyDescription}}</option>	
+									
 								</select>           
 							
 						</div>
@@ -78,7 +78,7 @@
 				 name="amount{{i}}">          
 											
 							<select class="form-control" name="category" style=" width: 30%;"> 
-								<option value=""></option>
+								<option value="" disabled selected>--SELECT--</option>	
 								<option value="0">INR</option>
 								<option value="1">DOL</option>	
 							</select>           
@@ -87,9 +87,11 @@
 			</div>
 			</div>
 			<div class="row">
-			<div class="form-group col-md-3">
+			<div class="form-group col-md-3" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['personPan'+i].valid && requisitionForm.controls['personPan'+i].touched)||(!requisitionForm.controls['personPan'+i].valid && submitted))}">
 				<label for="exampleInputName2">PAN</label> <input type="text" class="form-control" id="exampleInputName2" placeholder="PAN"
-				 name="personPan" [(ngModel)]="consumerData[i].personPan">
+				 name="personPan{{i}}" [(ngModel)]="consumerData[i].personPan" formControlName="personPan{{i}}">				
+				<control-messages [control]="requisitionForm.controls['personPan'+i]" [label]="'PAN'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
+
 			</div>
 			<div class="form-group col-md-3">
 				<label for="exampleInputName2">Driving Licence</label> <input type="text" class="form-control" id="exampleInputName2"
@@ -136,8 +138,8 @@
 					<!--
 						<i  class="fa fa-calendar"></i>
 						<input  class="form-control"  id="date"   placeholder="MM/DD/YYYY"  type="text" 
-					/>-->
-					<ng2-datepicker [(options)]="options" [(ngModel)]="consumerData[i].birthDate" name="date" ></ng2-datepicker>
+					/>--> 
+					<ng2-datepicker id="date" name="datePicker" [options]="{maxDate: dateExpires,format:MM-DD-YYYY}" [(ngModel)]="consumerData[i].birthDate"></ng2-datepicker>
 				</div>
 			</div>
 			<div class="form-group col-md-3">
@@ -149,6 +151,7 @@
 				<select class="form-control" name="gender{{i}}" formControlName="gender{{i}}"
 				 [(ngModel)]="consumerData[i].gender">
 				<control-messages [control]="requisitionForm.controls['gender'+i]" [label]="'Gender'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
+								<option value="" disabled selected>--SELECT--</option>	
 								<option *ngFor="let gender of genderList" [ngValue]="gender">{{gender.description}}</option>
 							</select>
 			</div>
@@ -156,8 +159,8 @@
 			<div class="row" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['personAddrLine1'+i].valid && requisitionForm.controls['personAddrLine1'+i].touched)||(!requisitionForm.controls['personAddrLine1'+i].valid && submitted))}">
 				<div class="form-group col-md-4">
 							<label for="exampleInputName2">Address Type</label>
-								<select class="form-control"  name="addressType{{i}}" formControlName="addressType{{i}}" [(ngModel)]="consumerData[i].addressType">
-											<option>--Select--</option>
+								<select class="form-control" placeholder="--SELECT--"  name="addressType{{i}}" formControlName="addressType{{i}}" [(ngModel)]="consumerData[i].addressType">
+										<option value="" disabled selected>--SELECT--</option>	
 										  <option *ngFor="let addressType of consumerAddrTypeList" [ngValue]="addressType">{{addressType.addressTypeDescription}}</option>
 										</select>
 						</div>
@@ -180,12 +183,12 @@
 			</div>
 			<div class="form-group col-md-3" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['personState'+i].valid && requisitionForm.controls['personState'+i].touched)||(!requisitionForm.controls['personState'+i].valid && submitted))}">
 				<label for="exampleInputName2">State</label>
-				<select class="form-control" name="personState{{i}}" formControlName="personState{{i}}" [(ngModel)]="consumerData[i].personState">	
+				<select class="form-control" placeholder="--SELECT--" name="personState{{i}}" formControlName="personState{{i}}" [(ngModel)]="consumerData[i].personState">	
 					<control-messages [control]="requisitionForm.controls['personState'+i]" [label]="'State'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">
 						
 					</control-messages>
-							<option>--SELECT--</option>
-							<option *ngFor="let state of stateList" [ngValue]="state">{{state.stateDescription}}</option>
+							<option value="" disabled selected>--SELECT--</option>	
+							<option *ngFor="let state of stateList" [ngValue]="state">{{state.stateCodeDescription}}</option>
 				</select>
 			</div>
 			<div class="form-group col-md-3" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['personPinCode'+i].valid && requisitionForm.controls['personPinCode'+i].touched)||(!requisitionForm.controls['personPinCode'+i].valid && submitted))}">

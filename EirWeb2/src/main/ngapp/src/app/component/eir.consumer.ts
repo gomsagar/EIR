@@ -9,6 +9,9 @@ import{RelationTypeList} from '../services/dropdown/eir.getRelationTypeList';
 import{ConsumerPurposeList} from '../services/dropdown/eir.getConsumerPurposeList';
 import{StateListService} from '../services/eir.stateList';
 import{AddressTypeList} from '../services/eir.getAddressTypeList';
+import {Moment} from 'moment';
+import * as moment from 'moment';
+
 
 //import{ControlGroup} from '@angular/common';
 import{NewService} from '../services/eir.newService';
@@ -20,6 +23,7 @@ providers:[AppService,AccountTyprList,RelationTypeList,ConsumerPurposeList,Addre
 })
 
 export class ConsumerComponent implements OnDestroy, OnInit {
+  dt1 : Date;
  private list: number[] = [];
  private hasList:boolean=false;
  private jsonResponse: string;
@@ -37,6 +41,8 @@ subscription: Subscription;
 submitted : boolean;
 stateList=<any>[];
 genderList=<any>[];
+frequencyList=<any>[];
+public dateExpires: any; 
   options: DatePickerOptions;
   @Input() consumerData = [
     {relationType:'',accountType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
@@ -77,7 +83,8 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
    ngOnInit(){
 
      //this.stateList = this._newService.getStateList();
-
+     this.dt1 = new Date();
+      this.dateExpires = this.dt1;
       this._stateListService.getStateList().subscribe((stateListSubs) => {
 
            this.stateList=stateListSubs;
@@ -131,11 +138,14 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
         this.genderList=genders;
     });
 
+    this._consumerPurposeList.getFrequency().subscribe((frequency) => {
+        this.frequencyList=frequency;
+    });
+
   }
 
  rowValidateForm(i: number, scenario?: string) {
-  
-  // console.log("Inside row validator........."+this.submitted);
+
   		let action = "addControl";
   		if (scenario == 'remove') {
   			action = "removeControl";
@@ -149,6 +159,7 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
       this.requisitionForm[action]('personAddrLine1' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('personAddrLine2' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('personCity' + i, new FormControl('', [Validators.required,Validators.pattern('[A-Za-z]*')]));
+      this.requisitionForm[action]('personPan' + i, new FormControl('', [Validators.required,Validators.pattern('([A-Za-z]{3})[ABCFEGHLJPTabcfeghljpt][A-Za-z]([0-9]{4})([A-Za-z]{1})')]));
       this.requisitionForm[action]('personState' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('personPinCode' + i, new FormControl('', [Validators.required,Validators.pattern('[0-9]{6}')]));
       this.requisitionForm[action]('consumerPurpose' + i, new FormControl('', [Validators.required]));

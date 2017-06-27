@@ -24,6 +24,7 @@ import com.eir.bir.request.model.Frequency;
 import com.eir.bir.request.model.Gender;
 import com.eir.bir.request.model.MultipleRequest;
 import com.eir.bir.request.model.SpecifiedUserFlag;
+import com.eir.model.DashboardObject;
 import com.eir.model.EligibleReport;
 import com.eir.report.constant.Constant;
 import com.eir.report.entity.AccountType;
@@ -257,6 +258,13 @@ public class EirController {
 	public @ResponseBody List<Gender> getRequest()
 	{
 		return eirService.getGender();
+	}
+	
+	@CrossOrigin("*")
+	@RequestMapping(value = "/getDashboardObject", method = RequestMethod.POST,produces="application/json")
+	public @ResponseBody DashboardObject getDashboardDetails(@RequestParam(required= true) Integer userId)
+	{
+		return eirService.getDashboardDetails(userId);
 	}
 	
 	@Transactional
