@@ -193,10 +193,10 @@
             <artifactId>xstream</artifactId>
             <version>1.2.1</version>
         </dependency>
-       	<dependency>
-		    <groupId>org.zefer.pd4ml</groupId>
-		    <artifactId>pd4ml</artifactId>
-		    <version>3.2.3fx5</version>
+		<dependency>
+			<groupId>org.zefer.pd4ml</groupId>
+			<artifactId>pd4ml</artifactId>
+			<version>3.2.3</version>
 		</dependency>
         <dependency>
             <groupId>org.apache.velocity</groupId>

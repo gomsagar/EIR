@@ -111,7 +111,7 @@ public class ObjectFactory {
     	
     	GetBusinessProductRequest businessProductRequest = new GetBusinessProductRequest();
     	 
-    	businessProductRequest.setSTARTENQ("START");
+    	/*businessProductRequest.setSTARTENQ("START");
 		EnqHeadr param = new EnqHeadr();
 		param.setBureauMemberId("139");
 		param.setPurpose("1");
@@ -150,7 +150,7 @@ public class ObjectFactory {
 		busAddrArr.add(busAddr);
 		businessProductRequest.busnaddr = busAddrArr;
 
-		businessProductRequest.setENDOFENQ("END");
+		businessProductRequest.setENDOFENQ("END");*/
 
 		
 		

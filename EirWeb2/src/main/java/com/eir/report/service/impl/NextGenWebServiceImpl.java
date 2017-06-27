@@ -206,15 +206,17 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		param.setEnquiryAmtMonetaryType(cirRequest.getEnquiryAmntMomentaryType());
 		param.setDurationofAgrement(cirRequest.getDurationOfAgrement());
 		businessProductRequest.setENQHEADR(param);
+		
 		com.eir.report.nextgen.service.model.product.UserPref userPref = new com.eir.report.nextgen.service.model.product.UserPref();
 		businessProductRequest.setUSERPREF(userPref);
+		
+		com.eir.report.nextgen.service.model.product.AddlProd addlProd = new com.eir.report.nextgen.service.model.product.AddlProd();
+		addlProd.setEnquiryAddOnProduct(cirRequest.getEnquiryAddProduct());
+		businessProductRequest.getADDLPROD().add(addlProd);
 		
 		com.eir.report.nextgen.service.model.product.BusnesAcct e = new com.eir.report.nextgen.service.model.product.BusnesAcct();
 		e.setBankAccountNumber("");
 		businessProductRequest.getBUSNESACCT().add(e);
-		com.eir.report.nextgen.service.model.product.AddlProd addlProd = new com.eir.report.nextgen.service.model.product.AddlProd();
-		addlProd.setEnquiryAddOnProduct(cirRequest.getEnquiryAddProduct());
-		businessProductRequest.getADDLPROD().add(addlProd);
 		
 		com.eir.report.nextgen.service.model.product.BinId binId = new com.eir.report.nextgen.service.model.product.BinId();
 		businessProductRequest.getBINID().add(binId);
@@ -554,37 +556,36 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 			String cirRequestXML = getCIRRequestXML(cirRequest);
 			NextGenResponseWrapper nextGenResponseWrapper = experianHttDirectClient.getNextgenReport(cirRequestXML);
 			
-			Status cirReqStatus = getStatusByDescription(com.eir.report.constant.Status.ERROR.status());
+			String statusStr = com.eir.report.constant.Status.COMPLETED.status();
 			
 			if(nextGenResponseWrapper != null)
 			{
 				if(nextGenResponseWrapper.getResponseCode() == 200)
 				{
 					//unmarshling code to get the response, whether it is business exception of connection error
-					boolean isFailed = true;
-					
-					if(!isFailed)
+					if(nextGenResponseWrapper.getResponse().contains("Error") || nextGenResponseWrapper.getResponse().contains("ERROR"))
 					{
-						cirReqStatus = getStatusByDescription(com.eir.report.constant.Status.COMPLETED.status());
+						statusStr = com.eir.report.constant.Status.ERROR.status();
 					}
-					
 				}
 				cirRequest.setXmlOutput(nextGenResponseWrapper.getResponse().getBytes());
 			}
 			else
 			{
+				statusStr = com.eir.report.constant.Status.ERROR.status();
 				//cirRequest.setXmlOutput("NextGen response is null".getBytes());
-				File f = new File("C:/Experian/EIR/getBusinessProductRespnse.xml");
+				/*File f = new File("C:/Experian/EIR/getBusinessProductRespnse.xml");
 				
 				byte[] bytesArray = new byte[(int) f.length()];
 
 				FileInputStream fis = new FileInputStream(f);
 				fis.read(bytesArray); //read file into bytes[]
 				cirRequest.setXmlOutput(bytesArray);
-			}
+*/			}
 			
-			cirRequest.setStatus(cirReqStatus);
-			logger.info("NextGenWebServiceImpl:createCIRReport() success End");
+			Status status = getStatusByDescription(statusStr);
+			cirRequest.setStatus(status);
+			logger.info("NextGenWebServiceImpl:createCIRReport() End");
 			return cirRequestRepository.save(cirRequest);
 		} catch (Exception e) {
 			logger.error("NextGenWebServiceImpl:createCIRReport(), Nextgen service call fail: ", e);
