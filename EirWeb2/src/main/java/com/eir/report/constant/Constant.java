@@ -26,4 +26,6 @@ public class Constant {
 	public static final String ACCESS_TOKEN = "AccessToken"; 
 	
 	public static final Integer HARDCOADED_USERID = 1;
+	
+	public static final String BURERROR = "BURERROR";
 }

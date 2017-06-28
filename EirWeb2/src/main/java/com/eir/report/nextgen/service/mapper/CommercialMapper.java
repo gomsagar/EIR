@@ -167,7 +167,11 @@ public class CommercialMapper {
 		String addr = address.getAddressL1() + "," + address.getAddressL2() + "," + address.getAddressL3() + ","
 					+ address.getCity() + "," + address.getPinCode() + "," + address.getState();
 		companyDetails.setBusAddress(addr);
-		companyDetails.setBusinessTelephone(responseInfo.getBusinessResponse().getBUSINESS().getBidphone().get(0).getPhoneNumber());
+		if(responseInfo.getBusinessResponse().getBUSINESS().getBidphone() != null 
+				&& !responseInfo.getBusinessResponse().getBUSINESS().getBidphone().isEmpty())
+		{
+			companyDetails.setBusinessTelephone(responseInfo.getBusinessResponse().getBUSINESS().getBidphone().get(0).getPhoneNumber());	
+		}
 		
 		List<BidCards> bidCards = responseInfo.getBusinessResponse().getBUSINESS().getBidCards();
 		for(BidCards bidCard: bidCards)
@@ -186,13 +190,18 @@ public class CommercialMapper {
 			}
 		}
 		
-		Bussfirm bussfirm = responseInfo.getBusinessResponse().getBUSINESS().getBussfirm().get(0);
+		if(responseInfo.getBusinessResponse().getBUSINESS().getBussfirm() != null 
+				&& !responseInfo.getBusinessResponse().getBUSINESS().getBussfirm().isEmpty())
+		{
+			Bussfirm bussfirm = responseInfo.getBusinessResponse().getBUSINESS().getBussfirm().get(0);
 			companyDetails.setBusRegNb4In(bussfirm.getRegistrationNumber());
 		    companyDetails.setBusRegDt(convertDate(bussfirm.getRegistrationDate()));
 			companyDetails.setBusRegCityNum(bussfirm.getRegistrationCity());
 			companyDetails.setBusRegProvinceCd4In(bussfirm.getRegistrationProvince());
 			companyDetails.setTotalEmpCt(bussfirm.getNumberOfEmployees());
-			companyDetails.setSalesFigureAm(bussfirm.getSalesFigureAmt());
+			companyDetails.setSalesFigureAm(bussfirm.getSalesFigureAmt());	
+		}
+		
 		
 		return companyDetails;
 	}
@@ -242,18 +251,22 @@ public class CommercialMapper {
 		reportSummary.setCurrentCreditProviders(responseInfo.getBusinessResponse().getPSUMMARY().getGrantor().getCurrentCreditProviders());
 	
 		List<Credtype> credtypelist=responseInfo.getBusinessResponse().getPSUMMARY().getCredtype();
-		for(Credtype credtype: credtypelist)
+		if(credtypelist != null && !credtypelist.isEmpty())
 		{
-			List<Acctypinfo> acctypinfos =credtype.getAccTypeInfo();
-			for(Acctypinfo acctypinfo: acctypinfos)
+			for(Credtype credtype: credtypelist)
 			{
-				reportSummary.setStandard(acctypinfo.getPctTotalStandardCreditType());
-				reportSummary.setSubStandard(acctypinfo.getPctTotalSubStandardCreditType());
-				reportSummary.setDoubtful(acctypinfo.getPctTotalDoubtfulCreditType());
-				reportSummary.setLoss(acctypinfo.getPctTotalLossCreditType());
-				reportSummary.setSma(acctypinfo.getPctTotalSpecMentionCreditType());
-			}
+				List<Acctypinfo> acctypinfos =credtype.getAccTypeInfo();
+				for(Acctypinfo acctypinfo: acctypinfos)
+				{
+					reportSummary.setStandard(acctypinfo.getPctTotalStandardCreditType());
+					reportSummary.setSubStandard(acctypinfo.getPctTotalSubStandardCreditType());
+					reportSummary.setDoubtful(acctypinfo.getPctTotalDoubtfulCreditType());
+					reportSummary.setLoss(acctypinfo.getPctTotalLossCreditType());
+					reportSummary.setSma(acctypinfo.getPctTotalSpecMentionCreditType());
+				}
+			}	
 		}
+		
 		reportSummary.setEnquiryinstitutionName(responseInfo.getBusinessResponse().getNGINQUIRY().getInqBureauMemberName());
 		
 		return reportSummary;
@@ -264,21 +277,24 @@ public class CommercialMapper {
 		AccountSummary accSum = new AccountSummary();
 		List<Currcycnct> currcycncts=responseInfo.getBusinessResponse().getPSUMMARY().getCurrcycnct();
 	
-		List<FundedList> fundedLists = new ArrayList<>();
-		for(Currcycnct currcycnct: currcycncts)
+		if(currcycncts != null && !currcycncts.isEmpty())
 		{
-			FundedList fundedList=new FundedList();
-			fundedList.setCurrency(currcycnct.getCurrencyCd());
-			fundedList.setFunded(currcycnct.getTotalNoFundedAccountType());
-			fundedList.setNonFunded(currcycnct.getTotalNoNonFundedAccountType());
-			fundedList.setLongTerm(currcycnct.getTotalNoLongTermAccountType());
-			fundedList.setShortTerm(currcycnct.getTotalNoShortTermAccountType());
-			fundedList.setWilful(currcycnct.getTotalNoWDAccountType());
-			fundedList.setSuitFiled(currcycnct.getTotalNoSFAccountType());
-			
-			fundedLists.add(fundedList);
+			List<FundedList> fundedLists = new ArrayList<>();
+			for(Currcycnct currcycnct: currcycncts)
+			{
+				FundedList fundedList=new FundedList();
+				fundedList.setCurrency(currcycnct.getCurrencyCd());
+				fundedList.setFunded(currcycnct.getTotalNoFundedAccountType());
+				fundedList.setNonFunded(currcycnct.getTotalNoNonFundedAccountType());
+				fundedList.setLongTerm(currcycnct.getTotalNoLongTermAccountType());
+				fundedList.setShortTerm(currcycnct.getTotalNoShortTermAccountType());
+				fundedList.setWilful(currcycnct.getTotalNoWDAccountType());
+				fundedList.setSuitFiled(currcycnct.getTotalNoSFAccountType());
+				
+				fundedLists.add(fundedList);
+			}
+			accSum.setFundedLists(fundedLists);
 		}
-		accSum.setFundedLists(fundedLists);
 		accSum.setNameOfInstitution(responseInfo.getBusinessResponse().getNGINQUIRY().getInqBureauMemberName());
 		
 		return accSum;
@@ -286,20 +302,23 @@ public class CommercialMapper {
 	
 	private List<LocationDetails> getLocationDetails()
 	{
-
-		List<LocationDetails> locationDetailsList = new ArrayList<LocationDetails>();
 		List<BusHistory> busHistories =responseInfo.getBusinessResponse().getBUSINESS().getBusHist();
-		for(BusHistory busHistory : busHistories)
+		List<LocationDetails> locationDetailsList = null;
+		if(busHistories != null && !busHistories.isEmpty())
 		{
-			LocationDetails locationDetails = new LocationDetails();
-			locationDetails.setPinCode(busHistory.getCompanyPinCode());
-			locationDetails.setBusinessAddress(busHistory.getCompanyAddress());
-			locationDetails.setRptAsOfDt(convertDate(busHistory.getAsOfDate()));
-			locationDetails.setTelephone(busHistory.getTelephone());
-			locationDetails.setBusinessCity(busHistory.getCompanyCity());
-			//locationDetails.setRegOffice(regOffice);
-			
-			locationDetailsList.add(locationDetails);
+			locationDetailsList = new ArrayList<LocationDetails>();
+			for(BusHistory busHistory : busHistories)
+			{
+				LocationDetails locationDetails = new LocationDetails();
+				locationDetails.setPinCode(busHistory.getCompanyPinCode());
+				locationDetails.setBusinessAddress(busHistory.getCompanyAddress());
+				locationDetails.setRptAsOfDt(convertDate(busHistory.getAsOfDate()));
+				locationDetails.setTelephone(busHistory.getTelephone());
+				locationDetails.setBusinessCity(busHistory.getCompanyCity());
+				//locationDetails.setRegOffice(regOffice);
+				
+				locationDetailsList.add(locationDetails);
+			}
 		}
 		
 		return locationDetailsList;
@@ -307,90 +326,94 @@ public class CommercialMapper {
 	
 	private List<MainCreditFacility> getMainCreditFacility()
 	{
-		List<MainCreditFacility> creditFacilities = new ArrayList<MainCreditFacility>();
-		MainCreditFacility mainCreditFacility = new MainCreditFacility();
-		
+		List<MainCreditFacility> creditFacilities = null;
 		List<Commcred> commcreds = responseInfo.getBusinessResponse().getCOMMCRED();
-		
-		for(Commcred commcred: commcreds)
+		if(commcreds != null && !commcreds.isEmpty())
 		{
-			CreditFacilityDetails details = new CreditFacilityDetails();
+			creditFacilities = new ArrayList<MainCreditFacility>();
+			MainCreditFacility mainCreditFacility = new MainCreditFacility();
 			
-			details.setAccNo(commcred.getAccountNumber());
-			details.setAccStatus(commcred.getAccountStatus());
-			//details.setAccStatusDate(commcred.getAccountNumber());
-			details.setCurrency(commcred.getAccountCurrency());
-			details.setSancDate(convertDate(commcred.getSanctionDate()));
-			details.setSancAmount(commcred.getSanctionedAmount());
-			details.setCurrentBal(commcred.getCurrentBalance());
-			details.setLastReportedDate(convertDate(commcred.getLastReportedDate()));
-			
-			details.setAssetClass(commcred.getAssetClassification());
-			//details.setDpd();
-			//details.setDrawingPower();
-			//details.setInstallationAmount();
-			//details.setLastRepaidAmount();
-			details.setSuitFiled(commcred.getSuitFiledStatus());
-			details.setWillfulDefault(commcred.getWilfulDefaultStatus());
-			mainCreditFacility.setCreditFacilityDetails(details);
-			
-			List<Guarantor> guarantors= commcred.getGuarantor();
-			List<CreditFacilityGuarentorDetails> creditFacilityGuarentorDetails=new ArrayList<CreditFacilityGuarentorDetails>();
-				for(Guarantor guarantor: guarantors)
-				{
-					CreditFacilityGuarentorDetails guarantorDetails = new CreditFacilityGuarentorDetails();
-					guarantorDetails.setEntityName(guarantor.getGuarantorName());
-					guarantorDetails.setEntityRelatedType(guarantor.getGuarantorType());
-					guarantorDetails.setEntityPAN(guarantor.getGuarantorPAN());
-					guarantorDetails.setEntityAddress(guarantor.getGuarantorAddress());
-					guarantorDetails.setEntityPhone(guarantor.getGuarantorTelephone());
-					//guarantorDetails.setGender(guarantor.get());
-					guarantorDetails.setLastReportedDate(convertDate(guarantor.getGuarantorLastReportedDate()));
-					
-					creditFacilityGuarentorDetails.add(guarantorDetails);
-					mainCreditFacility.setGuarentorDetailsSec(creditFacilityGuarentorDetails);
-				}
-			
-			List<Borrower> borrowers= commcred.getBorrower();
-			List<CreditFacilityBorowerDetails> creditFacilityBorowerDetails=new ArrayList<CreditFacilityBorowerDetails>();
-				for(Borrower borrower: borrowers)
-				{
-					CreditFacilityBorowerDetails borrowerDetails = new CreditFacilityBorowerDetails();
-					borrowerDetails.setBorrowerNm(borrower.getBorrowerName());
-					borrowerDetails.setAddress(borrower.getBorrowerAddress());
-					borrowerDetails.setPanNo(borrower.getBorrowerPAN());
-					borrowerDetails.setAddType(borrower.getBorrowerLocationType());
-					borrowerDetails.setAccStatusDate(convertDate(borrower.getAccountStatusDate()));
-					borrowerDetails.setLastReportDate(convertDate(borrower.getBorrowerLastReportedDate()));
-					
-					creditFacilityBorowerDetails.add(borrowerDetails);
-					mainCreditFacility.setBorowerDetails4(creditFacilityBorowerDetails);
-				}
-			
+			for(Commcred commcred: commcreds)
+			{
+				CreditFacilityDetails details = new CreditFacilityDetails();
+				
+				details.setAccNo(commcred.getAccountNumber());
+				details.setAccStatus(commcred.getAccountStatus());
+				//details.setAccStatusDate(commcred.getAccountNumber());
+				details.setCurrency(commcred.getAccountCurrency());
+				details.setSancDate(convertDate(commcred.getSanctionDate()));
+				details.setSancAmount(commcred.getSanctionedAmount());
+				details.setCurrentBal(commcred.getCurrentBalance());
+				details.setLastReportedDate(convertDate(commcred.getLastReportedDate()));
+				
+				details.setAssetClass(commcred.getAssetClassification());
+				//details.setDpd();
+				//details.setDrawingPower();
+				//details.setInstallationAmount();
+				//details.setLastRepaidAmount();
+				details.setSuitFiled(commcred.getSuitFiledStatus());
+				details.setWillfulDefault(commcred.getWilfulDefaultStatus());
+				mainCreditFacility.setCreditFacilityDetails(details);
+				
+				List<Guarantor> guarantors= commcred.getGuarantor();
+				List<CreditFacilityGuarentorDetails> creditFacilityGuarentorDetails=new ArrayList<CreditFacilityGuarentorDetails>();
+					for(Guarantor guarantor: guarantors)
+					{
+						CreditFacilityGuarentorDetails guarantorDetails = new CreditFacilityGuarentorDetails();
+						guarantorDetails.setEntityName(guarantor.getGuarantorName());
+						guarantorDetails.setEntityRelatedType(guarantor.getGuarantorType());
+						guarantorDetails.setEntityPAN(guarantor.getGuarantorPAN());
+						guarantorDetails.setEntityAddress(guarantor.getGuarantorAddress());
+						guarantorDetails.setEntityPhone(guarantor.getGuarantorTelephone());
+						//guarantorDetails.setGender(guarantor.get());
+						guarantorDetails.setLastReportedDate(convertDate(guarantor.getGuarantorLastReportedDate()));
+						
+						creditFacilityGuarentorDetails.add(guarantorDetails);
+						mainCreditFacility.setGuarentorDetailsSec(creditFacilityGuarentorDetails);
+					}
+				
+				List<Borrower> borrowers= commcred.getBorrower();
+				List<CreditFacilityBorowerDetails> creditFacilityBorowerDetails=new ArrayList<CreditFacilityBorowerDetails>();
+					for(Borrower borrower: borrowers)
+					{
+						CreditFacilityBorowerDetails borrowerDetails = new CreditFacilityBorowerDetails();
+						borrowerDetails.setBorrowerNm(borrower.getBorrowerName());
+						borrowerDetails.setAddress(borrower.getBorrowerAddress());
+						borrowerDetails.setPanNo(borrower.getBorrowerPAN());
+						borrowerDetails.setAddType(borrower.getBorrowerLocationType());
+						borrowerDetails.setAccStatusDate(convertDate(borrower.getAccountStatusDate()));
+						borrowerDetails.setLastReportDate(convertDate(borrower.getBorrowerLastReportedDate()));
+						
+						creditFacilityBorowerDetails.add(borrowerDetails);
+						mainCreditFacility.setBorowerDetails4(creditFacilityBorowerDetails);
+					}
+			}
+			creditFacilities.add(mainCreditFacility);	
 		}
-		
-		creditFacilities.add(mainCreditFacility);
 		return creditFacilities;
 	}
 	
 	public List<RelationshipDetails> getRelationshipDetails() 
 	{
-		List<RelationshipDetails> relationshipDetailList = new ArrayList<RelationshipDetails>();		
+		List<RelationshipDetails> relationshipDetailList = null;		
 		List<Relations> relations = responseInfo.getBusinessResponse().getRELATIONS();
-		
-		for(Relations relation: relations)
+		if(relations != null && !relations.isEmpty())
 		{
-			RelationshipDetails relationshipDetails=new RelationshipDetails();
-			relationshipDetails.setEntityName(relation.getEntityName());
-			relationshipDetails.setEntityAddress(relation.getEntityAddress());
-			relationshipDetails.setEntityRelationship(relation.getEntityRelationship());
-			relationshipDetails.setEntityPctResp(relation.getPercentageOfControl());
-			relationshipDetails.setEntityPAN(relation.getEntityPAN());
-			relationshipDetails.setEntityRelatedType(relation.getEntityRelatedType());
-			relationshipDetails.setLastReportedDate(convertDate(relation.getLastReportedDate()));
-			relationshipDetails.setEntityPhone(relation.getEntityPhone());
-						
-			relationshipDetailList.add(relationshipDetails);
+			relationshipDetailList = new ArrayList<RelationshipDetails>();
+			for(Relations relation: relations)
+			{
+				RelationshipDetails relationshipDetails=new RelationshipDetails();
+				relationshipDetails.setEntityName(relation.getEntityName());
+				relationshipDetails.setEntityAddress(relation.getEntityAddress());
+				relationshipDetails.setEntityRelationship(relation.getEntityRelationship());
+				relationshipDetails.setEntityPctResp(relation.getPercentageOfControl());
+				relationshipDetails.setEntityPAN(relation.getEntityPAN());
+				relationshipDetails.setEntityRelatedType(relation.getEntityRelatedType());
+				relationshipDetails.setLastReportedDate(convertDate(relation.getLastReportedDate()));
+				relationshipDetails.setEntityPhone(relation.getEntityPhone());
+							
+				relationshipDetailList.add(relationshipDetails);
+			}
 		}
 		
 		return relationshipDetailList;
@@ -398,39 +421,43 @@ public class CommercialMapper {
 	
 	private List<SuitFiledDetails> getSuitFiledDetails() 
 	{
-		List<SuitFiledDetails> suitFiledDetailsList = new ArrayList<SuitFiledDetails>();
-List<Commcred> commcreds = responseInfo.getBusinessResponse().getCOMMCRED();
-		
-		for(Commcred commcred: commcreds)
+		List<Commcred> commcreds = responseInfo.getBusinessResponse().getCOMMCRED();
+		List<SuitFiledDetails> suitFiledDetailsList = null;
+		if(commcreds != null && !commcreds.isEmpty())
 		{
-			SuitFiledDetails filedDetails = new SuitFiledDetails();
-			filedDetails.setMemberName(responseInfo.getBusinessResponse().getNGINQUIRY().getInqBureauMemberName());
-			filedDetails.setSuitFiledAm(commcred.getSuitFiledAmount());
-			filedDetails.setSuitAuthDt(convertDate(commcred.getSuitFiledDate()));
-			String status = commcred.getSuitFiledStatus();
-			if(status.equals("0"))
-			{
-			filedDetails.setSuitFiledStatCd("Not a Suit Filed Case");
-			}
-			if(status.equals("1"))
-			{
-			filedDetails.setSuitFiledStatCd("Suit Filed");
-			}
-			if(status.equals("2"))
-			{
-			filedDetails.setSuitFiledStatCd("Trial in Progress");
-			}
-			if(status.equals("3"))
-			{
-			filedDetails.setSuitFiledStatCd("Decree issued by court");
-			}
-			if(status.equals("4"))
-			{
-			filedDetails.setSuitFiledStatCd("Execution of Decree");
-			}
-			filedDetails.setSuitFiledAm(commcred.getSuitFiledAmount());
+			suitFiledDetailsList = new ArrayList<SuitFiledDetails>();
 			
-			suitFiledDetailsList.add(filedDetails);
+			for(Commcred commcred: commcreds)
+			{
+				SuitFiledDetails filedDetails = new SuitFiledDetails();
+				filedDetails.setMemberName(responseInfo.getBusinessResponse().getNGINQUIRY().getInqBureauMemberName());
+				filedDetails.setSuitFiledAm(commcred.getSuitFiledAmount());
+				filedDetails.setSuitAuthDt(convertDate(commcred.getSuitFiledDate()));
+				String status = commcred.getSuitFiledStatus();
+				if(status.equals("0"))
+				{
+					filedDetails.setSuitFiledStatCd("Not a Suit Filed Case");
+				}
+				if(status.equals("1"))
+				{
+					filedDetails.setSuitFiledStatCd("Suit Filed");
+				}
+				if(status.equals("2"))
+				{
+					filedDetails.setSuitFiledStatCd("Trial in Progress");
+				}
+				if(status.equals("3"))
+				{
+					filedDetails.setSuitFiledStatCd("Decree issued by court");
+				}
+				if(status.equals("4"))
+				{
+					filedDetails.setSuitFiledStatCd("Execution of Decree");
+				}
+				filedDetails.setSuitFiledAm(commcred.getSuitFiledAmount());
+				
+				suitFiledDetailsList.add(filedDetails);
+			}
 		}
 		return suitFiledDetailsList;
 	}
@@ -443,51 +470,57 @@ List<Commcred> commcreds = responseInfo.getBusinessResponse().getCOMMCRED();
 	
 	private List<EnquiryDetails> getEnquiryDetails()
 	{
-		List<EnquiryDetails> enquiryDetailsList = new ArrayList<EnquiryDetails>();
+		List<EnquiryDetails> enquiryDetailsList = null;
 		List<Enqrhist> enqrhists = responseInfo.getBusinessResponse().getENQRHIST();
 		
-		for(Enqrhist enqrhist: enqrhists)
+		if(enqrhists != null && !enqrhists.isEmpty())
 		{
-			EnquiryDetails enquiryDetails=new EnquiryDetails();
-			enquiryDetails.setOutputInqRqstDt(convertDate(enqrhist.getEnquiryDate()));
-			//convert purpose code
-			String purpose=enqrhist.getEnquiryPurposeCd();
-			if(purpose.equals("1"))
+			enquiryDetailsList = new ArrayList<EnquiryDetails>();
+			for(Enqrhist enqrhist: enqrhists)
 			{
-			enquiryDetails.setOutputInqPurpCd4In("Application for New Credit / Loan");
+				EnquiryDetails enquiryDetails=new EnquiryDetails();
+				enquiryDetails.setOutputInqRqstDt(convertDate(enqrhist.getEnquiryDate()));
+				//convert purpose code
+				String purpose=enqrhist.getEnquiryPurposeCd();
+				if(purpose.equals("1"))
+				{
+					enquiryDetails.setOutputInqPurpCd4In("Application for New Credit / Loan");
+				}
+				else if(purpose.equals("2"))
+				{
+					enquiryDetails.setOutputInqPurpCd4In("Application for Credit / Loan Increase");
+				}
+				else if(purpose.equals("3"))
+				{
+					enquiryDetails.setOutputInqPurpCd4In("Credit Review");
+				}
+				else if(purpose.equals("4"))
+				{
+					enquiryDetails.setOutputInqPurpCd4In("Collection of Debt");
+				}
+				else if(purpose.equals("5"))
+				{
+					enquiryDetails.setOutputInqPurpCd4In("Debt Purchase");
+				}
+				else if(purpose.equals("8"))
+				{
+					enquiryDetails.setOutputInqPurpCd4In("Insurance Underwriting");
+				}
+				enquiryDetails.setCurrency(enqrhist.getEnquiryConsAmtCurrencyCd());
+				enquiryDetails.setAmount(enqrhist.getEnquiryAmount());
+				if(enqrhist.getBureauMemberId().equals(responseInfo.getBusinessResponse().getNGINQUIRY().getInqBureauMemberId()))
+				{
+					enquiryDetails.setOutputInqCreditinstitutionNm(responseInfo.getBusinessResponse().getNGINQUIRY().getInqBureauMemberName());
+				}
+				else
+				{
+					enquiryDetails.setOutputInqCreditinstitutionNm("-");
+				}
+				enquiryDetailsList.add(enquiryDetails);
 			}
-			else if(purpose.equals("2"))
-			{
-			enquiryDetails.setOutputInqPurpCd4In("Application for Credit / Loan Increase");
-			}
-			else if(purpose.equals("3"))
-			{
-			enquiryDetails.setOutputInqPurpCd4In("Credit Review");
-			}
-			else if(purpose.equals("4"))
-			{
-			enquiryDetails.setOutputInqPurpCd4In("Collection of Debt");
-			}
-			else if(purpose.equals("5"))
-			{
-			enquiryDetails.setOutputInqPurpCd4In("Debt Purchase");
-			}
-			else if(purpose.equals("8"))
-			{
-			enquiryDetails.setOutputInqPurpCd4In("Insurance Underwriting");
-			}
-			enquiryDetails.setCurrency(enqrhist.getEnquiryConsAmtCurrencyCd());
-			enquiryDetails.setAmount(enqrhist.getEnquiryAmount());
-			if(enqrhist.getBureauMemberId().equals(responseInfo.getBusinessResponse().getNGINQUIRY().getInqBureauMemberId()))
-			{
-			enquiryDetails.setOutputInqCreditinstitutionNm(responseInfo.getBusinessResponse().getNGINQUIRY().getInqBureauMemberName());
-			}
-			else
-			{
-				enquiryDetails.setOutputInqCreditinstitutionNm("-");
-			}
-			enquiryDetailsList.add(enquiryDetails);
 		}
+		
+		
 		return enquiryDetailsList;
 	}
 	
