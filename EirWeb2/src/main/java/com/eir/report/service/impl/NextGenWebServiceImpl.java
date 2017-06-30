@@ -3,6 +3,7 @@ package com.eir.report.service.impl;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -368,6 +369,8 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 			xmlString.append(reqString);
 			xmlString.append("</soapenv:Body>			 </soapenv:Envelope>");
 		
+			createXml(xmlString.toString());
+			
 			return xmlString.toString(); 
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
@@ -376,6 +379,49 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		return null;
 	}
 	
+	private void createXml(String xmlString) {
+		// TODO Auto-generated method stub
+		
+		File file = new File("D:/output");
+        FileWriter fileWriter = null;
+		
+		if (!file.exists())
+		{
+		 file.mkdirs();
+		}      
+        
+        try
+        {
+        	file = new File("D:/output/Request.xml");
+			fileWriter = new FileWriter(file);
+			fileWriter.write(xmlString);
+			System.out.println("Xml File Created");
+		} 
+        catch (IOException e) 
+        {
+			e.printStackTrace();
+		} 
+        catch (Exception e) 
+        {
+			e.printStackTrace();
+		}
+        
+        finally
+        {
+			try 
+			{
+				if (fileWriter != null) 
+				{
+					fileWriter.close();
+				}
+			} 
+			catch (IOException e) 
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+
 	private String checkNull(Integer value)
 	{
 		if(value != null )
@@ -446,7 +492,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		srch.setFirstGivenName(consumerRequest.getFirstName());
 		srch.setMiddleName(consumerRequest.getMiddleName());
 		srch.setOtherMiddleNames(consumerRequest.getOtherMiddleNames());
-		srch.setFamilyName(consumerRequest.getFamilyName());
+		srch.setFamilyName(consumerRequest.getLastName());
 		srch.setSuffix(consumerRequest.getSuffix());
 		srch.setApplicationRole(consumerRequest.getApplicationRole());
 		srch.setDateOfBirth(dateFormat);

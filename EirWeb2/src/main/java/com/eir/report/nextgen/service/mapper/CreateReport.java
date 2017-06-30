@@ -36,13 +36,15 @@ public class CreateReport {
 			Template template = velocityEngine.getTemplate("/vmFiles/Combo.vm");
 			VelocityContext context = new VelocityContext();
 			
-			context.put("bpGrid", Bpaygrid.class);
+			
 			/*context.put("responseInfo", responseInfoCons);
-			context.put("reportDetails", reportDetails);*/
+			context.put("reportDetails", reportDetails);
+			context.put("isCombo",isCombo);
+			context.put("isEIR",isEIR);*/
+			
+			context.put("bpGrid", Bpaygrid.class);
 			context.put("eirDomain",eirDomain);
 			context.put("StringUtils", StringUtils.class);
-			/*context.put("isCombo",isCombo);
-			context.put("isEIR",isEIR);*/
 			context.put("reportType",reportType);
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");	

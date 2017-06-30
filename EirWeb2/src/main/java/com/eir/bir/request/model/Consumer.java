@@ -32,10 +32,24 @@ public class Consumer {
 	String personAddrLine2;
 	String personCity;
 	State personState;
+	Frequency frequency;
+	String durationOfAgreement;
 	String personPincode;
 	AddressType addressType;
 	Double amount;
 	
+public String getDurationOfAgreement() {
+		return durationOfAgreement;
+	}
+	public void setDurationOfAgreement(String durationOfAgreement) {
+		this.durationOfAgreement = durationOfAgreement;
+	}
+public Frequency getFrequency() {
+		return frequency;
+	}
+	public void setFrequency(Frequency frequency) {
+		this.frequency = frequency;
+	}
 public Double getAmount() {
 		return amount;
 	}

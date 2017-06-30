@@ -27,6 +27,7 @@ public class Constant {
 	
 	public static final Integer HARDCOADED_USERID = 1;
 	public static final Integer BUREAU_MEMBER_ID = 3388;
+	public static final String CONSPRODUCTFIELD = "INCCIR002";
 	
 	public static final String BURERROR = "BURERROR";
 }

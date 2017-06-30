@@ -325,6 +325,8 @@ public class EirServiceImpl implements EirService{
 				consumerEntity.setRequest(requestEntity);
 				consumerEntity.setCirRequest(cirRequestEntity);
 				//consumerEntity.setErnNumber(consumerInput.getErnNumber());
+				consumerEntity.setBureauMemberId(Constant.BUREAU_MEMBER_ID);
+				consumerEntity.setProductField(Constant.CONSPRODUCTFIELD);
 				consumerEntity.setScore(consumerInput.getScore());
 				consumerEntity.setStatusId(getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.status()));
 				consumerEntity.setRelationTypeId(consumerInput.getRelationType().getRelationTypeId()); 
@@ -346,6 +348,8 @@ public class EirServiceImpl implements EirService{
 				consumerEntity.setDateOfBirth(consumerInput.getBirthDate());
 				consumerEntity.setMaritalStatus(consumerInput.getMaritalStatus());
 				consumerEntity.setGenderId(consumerInput.getGender().getId());
+				consumerEntity.setFrequencyId(consumerInput.getFrequency().getFrequencyId());
+				consumerEntity.setDurationOfAgreement(consumerInput.getDurationOfAgreement());
 				
 				consumerEntity.setAddressId(createAddressForConsumerList(consumerInput));
 								

@@ -9,6 +9,7 @@ export class NewService {
    consumerCompVar = new Subject<boolean>();
 
    stateList=<any>[];
+    frequency=<any>[];
 
   // Observable boolean streams
   inqueryCompVar$ = this.inqueryCompVar.asObservable();
@@ -36,5 +37,14 @@ export class NewService {
   setStateList(stateList)
   {
     this.stateList = stateList;
+  }
+  getfrequency()
+  {
+      return this.frequency;
+  }
+
+  setfrequency(frequency)
+  {
+    this.frequency = frequency;
   }
 }

@@ -57,33 +57,33 @@
 			<div class="row">
 				<div class="form-group col-md-6">
 					<label for="exampleInputName2">Terms</label>
-						<div class="input-group">	
+						<div class="input-group" [formGroup]="requisitionForm" [ngClass]="{'has-error':(((!requisitionForm.controls['terms'+i].valid && requisitionForm.controls['terms'+i].touched)||(!requisitionForm.controls['terms'+i].valid && submitted))||((!requisitionForm.controls['frequency'+i].valid && requisitionForm.controls['frequency'+i].touched)||(!requisitionForm.controls['frequency'+i].valid && submitted)))}">	
 						
-								<input size="50" maxlength="50" class="form-control" name="q" type="text" style=" width: 70%; float: left;">          
+								<input size="50" maxlength="50" class="form-control" type="text" style=" width: 70%; float: left;"  [(ngModel)]="consumerData[i].durationOfAgreement" name="terms{{i}}" formControlName="terms{{i}}">          
 							
 						
-								<select class="form-control" name="category" style=" width: 30%;"> 
+								<select class="form-control" name="category" style=" width: 30%;" [(ngModel)]="consumerData[i].frequency" name="frequency{{i}}" formControlName="frequency{{i}}"> 
 									<option value="" disabled selected>--SELECT--</option>	
 								<option *ngFor="let frequency of frequencyList" [ngValue]="frequency">{{frequency.frequencyDescription}}</option>	
 									
-								</select>           
-							
+								</select>   
 						</div>
+						<control-messages [control]="requisitionForm.controls['terms'+i]" [label]="'Terms'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>	
+						<control-messages [control]="requisitionForm.controls['frequency'+i]" [label]="'Frequency'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>							
 				</div>
-				<div class="form-group col-md-6">
+				<div class="form-group col-md-6" >
 				<label for="exampleInputName2">Amount</label>
-				<div class="input-group">	
+				<div class="input-group" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['amount'+i].valid && requisitionForm.controls['amount'+i].touched)||(!requisitionForm.controls['amount'+i].valid && submitted))}">	
 					
-				<input size="50" maxlength="50" class="form-control" name="q" type="text" style=" width: 70%; float: left;" [(ngModel)]="consumerData[i].amount"
-				 name="amount{{i}}">          
-											
+				<input size="50" maxlength="50" class="form-control" type="text" style=" width: 70%; float: left;" [(ngModel)]="consumerData[i].amount"
+				 name="amount{{i}}" formControlName="amount{{i}}">
 							<select class="form-control" name="category" style=" width: 30%;"> 
 								<option value="" disabled selected>--SELECT--</option>	
 								<option value="0">INR</option>
 								<option value="1">DOL</option>	
-							</select>           
-							
+							</select> 
 						</div>
+						<control-messages [control]="requisitionForm.controls['amount'+i]" [label]="'Amount'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>				
 			</div>
 			</div>
 			<div class="row">
@@ -188,7 +188,7 @@
 						
 					</control-messages>
 							<option value="" disabled selected>--SELECT--</option>	
-							<option *ngFor="let state of stateList" [ngValue]="state">{{state.stateCodeDescription}}</option>
+							<option *ngFor="let state of stateList" [ngValue]="state">{{state.stateDescription}}</option>
 				</select>
 			</div>
 			<div class="form-group col-md-3" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['personPinCode'+i].valid && requisitionForm.controls['personPinCode'+i].touched)||(!requisitionForm.controls['personPinCode'+i].valid && submitted))}">
