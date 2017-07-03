@@ -686,7 +686,8 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 	{
 		String statusStr = com.eir.report.constant.Status.ERROR.status();
 		
-		if(!nextGenResponseWrapper.getResponse().contains("BURERROR"))
+		if(nextGenResponseWrapper.getResponse().contains("BURERROR") || nextGenResponseWrapper.getResponse().contains("Error") 
+				|| nextGenResponseWrapper.getResponse().contains("ERROR"))
 		{
 			statusStr = com.eir.report.constant.Status.COMPLETED.status();
 		}
