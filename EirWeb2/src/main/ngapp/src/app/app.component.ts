@@ -22,4 +22,16 @@ export class AppComponent {
   goToViewRequest(){
     this.router.navigate(['viewEarlierRequest']);
   }
+
+  goToTrackDisput(){
+
+  }
+
+  goToRaiseDisput(){
+    
+  }
+  goToDashboard()
+  {
+    this.router.navigate(['home']);
+  }
 }

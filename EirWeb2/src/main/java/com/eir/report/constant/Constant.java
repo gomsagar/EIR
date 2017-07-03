@@ -30,4 +30,8 @@ public class Constant {
 	public static final String CONSPRODUCTFIELD = "INCCIR002";
 	
 	public static final String BURERROR = "BURERROR";
+	public static final String CONS_Y= "Y";
+	public static final String CONS_N= "N";
+	public static final String CONS_NOT_SELECTED= "not-select";
+	public static final String BIR_PRODUCT_CODE= "BIR";
 }

@@ -51,6 +51,7 @@ import com.eir.report.repository.BirRequestRepository;
 import com.eir.report.repository.MemberProductMappingRepository;
 import com.eir.report.repository.ProductMasterRepository;
 import com.eir.report.repository.ReportSelectionRepository;
+import com.eir.report.repository.RequestRepository;
 import com.eir.report.repository.StatusRepository;
 import com.eir.report.service.BirReportService;
 import com.eir.report.util.GetStatus;
@@ -113,6 +114,9 @@ public class BirReportServiceImpl implements BirReportService {
 	
 	@Autowired
 	StatusRepository statusRepository;
+	
+	@Autowired
+	RequestRepository requestRepository;
 		
 	CloseableHttpResponse httpResponse = null;
 	HttpEntity entity = null;

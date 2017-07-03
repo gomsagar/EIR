@@ -1,9 +1,10 @@
-import { Component,Inject,Input,OnInit} from '@angular/core';
+import { Component,Inject,Input,OnInit,Injectable} from '@angular/core';
 import {HttpModule, Http} from "@angular/http";
 import{AppService} from '../services/eir.callController';
 import{DataService} from '../services/eir.getData';
 import {Router} from '@angular/router';
 import { InputForEnquiryComponent } from './eir.inputForEnquiry';
+import { InitalizeService } from '../services/eir.initalizeData';
 
 interface MessageJson {
     cws: boolean;
@@ -13,7 +14,7 @@ interface MessageJson {
 @Component({
  selector: 'createEnquiry',
  templateUrl: '../html/createEnquiry.html',
-  providers: [HttpModule,AppService,DataService]
+  providers: [HttpModule,AppService,DataService,InitalizeService]
 })
 
 export class EirCreateComponent implements OnInit {
@@ -35,9 +36,9 @@ private _subscription;
   public isCir:boolean;
   public isCombo:boolean;
   @Input() checkboxValue =<any>{};
+public static reqId : number;
 
-
-  constructor(private _appService:AppService,private _dataService:DataService,private router: Router)
+  constructor(private _appService:AppService,private _dataService:DataService,private router: Router,private _initalizeData :  InitalizeService)
   {
    this.data.comboWithoutScore=false;
    this.data.comboWithScore=false;
@@ -105,7 +106,15 @@ private _subscription;
               this.isCir = true;
               console.log("Only Cir:"+this.isCir);
           }
-          this._appService.submit(this.data).subscribe(this.data);
+       
+        debugger;
+          this._appService.submit(this.data).subscribe((reqId) => {
+              EirCreateComponent.reqId=reqId;     
+              console.log("reqID"+EirCreateComponent.reqId);
+              
+            });
+          console.log("reqID outside:"+EirCreateComponent.reqId);
+         //console.log("_subscription:"+this._subscription.)
 
         //   if(this.loggedInUserFlagVar == 'NonSpecifiedUser')
         //   {            
@@ -113,8 +122,9 @@ private _subscription;
         //   }else {
         //       this.router.navigate(['inputForEnquiry'],{queryParams: { isOnlyBir: this.isOnlyBir, isCombo: this.isCombo, isCir: this.isCir}});
         //   }
-
-         this.router.navigate(['inputForEnquiry'],{queryParams: { isOnlyBir: this.isOnlyBir, isCombo: this.isCombo, isCir: this.isCir}});
+debugger;
+        
+         this.router.navigate(['inputForEnquiry'],{queryParams: { isOnlyBir: this.isOnlyBir, isCombo: this.isCombo, isCir: this.isCir, reqId: EirCreateComponent.reqId}});
     }
     else
     {

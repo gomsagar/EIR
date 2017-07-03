@@ -15,8 +15,7 @@ import { DatePickerOptions, DateModel } from 'ng2-datepicker';
 import {ConsumerComponent} from './eir.consumer';
 import{NewService} from '../services/eir.newService';
 import { ControlMessages } from '../services/control.message.component';
-
-//import{}
+import { InitalizeService } from '../services/eir.initalizeData';
 
 interface MessageJson {
     name:string;
@@ -26,7 +25,7 @@ interface MessageJson {
 @Component({
   selector: 'inputForEnquiry',
   templateUrl: '../html/inputForEnquiry.html',
- providers: [HttpModule,CompanyListService,AppService,CompanyNameService,StateListService,AddressTypeList,CirPurposeList,FormsModule,ReactiveFormsModule,NewService,ControlMessages,ReportTypeList]
+ providers: [HttpModule,CompanyListService,AppService,CompanyNameService, StateListService,AddressTypeList,CirPurposeList,FormsModule,ReactiveFormsModule,NewService,ControlMessages,ReportTypeList]
 })
 export class InputForEnquiryComponent implements OnInit
 {
@@ -59,8 +58,11 @@ export class InputForEnquiryComponent implements OnInit
     formValid:boolean=false;
     isAddMore : boolean;
     consumerValid : boolean;
+    requestId : number;
+    //EirCreateComponent createComponent = new EirCreateComponent();
 
     commonArray: any = {
+        requestId:'',
         isBIRActive:'',
         isCIRActive:'',
         isComboActive:'',
@@ -121,7 +123,15 @@ export class InputForEnquiryComponent implements OnInit
     constructor(private _cmpservice:CompanyListService,private _cmpname:CompanyNameService,private _newService :NewService,private controlMessage:ControlMessages,private _stateListService:StateListService,private _addressTypeList:AddressTypeList,
     private _cirPurposeList:CirPurposeList, private _reportTypeList:ReportTypeList,private _appService:AppService,private router: Router,fb: FormBuilder,fb1: FormBuilder,private _routeParams: ActivatedRoute)
     {
-         _newService.consumerCompVar$.subscribe(
+
+        //console.log("request id from input page::::"+this._initalizeData.getRequestId());
+      //  console.log("_createEnq:::: "+this._createEnq.reqId);
+
+    //   this._appService.getRequestId().subscribe((reqId) => {                   
+    //           console.log("reqID"+reqId)           ;
+    //         });
+    
+        _newService.consumerCompVar$.subscribe(
             consumerValidate => {
                 console.log("inputforEnquiry _appService.consumerCompVar$.subscribe consumerValidate --->  " + consumerValidate);
                 this.consumerValid = consumerValidate;
@@ -132,8 +142,13 @@ export class InputForEnquiryComponent implements OnInit
        // this.history.push(`${astronaut} confirmed the mission`);
       });*/
 
-        
-            _routeParams.queryParams.subscribe(params => {this.issOnlyBIR = params['isOnlyBir'] || 'false',this.isCombo = params['isCombo'] || 'false',this.isCir = params['isCir'] || 'false'});
+        // _initalizeData.createEnqCompVar$.subscribe(
+        //     requestId =>{
+        //         this.requestId = requestId;
+        //         console.log("this.requestId"+this.requestId);
+        //     }
+        // );
+            _routeParams.queryParams.subscribe(params => {this.issOnlyBIR = params['isOnlyBir'] || 'false',this.isCombo = params['isCombo'] || 'false',this.isCir = params['isCir'] || 'false',this.requestId = params['reqId'] || '0'});
             this.birVal = this.issOnlyBIR + ""; 
             this.cirVal = this.isCir + "";
             this.comboVal = this.isCombo + "";
@@ -220,13 +235,15 @@ export class InputForEnquiryComponent implements OnInit
   
     validate()
     {
+         console.log("request id from input page::::"+EirCreateComponent.reqId);
+        //debugger;
+  // console.log("request id from input page::::"+this._dataService.getRequestId());
         var isValidationComplete : boolean = true ;
 	
         this._newService.inquerySubmitClick(true);
        
         console.log(" in validate consumerValid ----> " + this.consumerValid);
-            
-            
+            this.commonArray.requestId  = EirCreateComponent.reqId;          
             this.submitted=true;
             this.controlMessage.getValidator(this.submitted);
            
@@ -282,7 +299,7 @@ export class InputForEnquiryComponent implements OnInit
          }
 		 if(isValidationComplete)
 		 {
-			 this._appService.submitInfo(this.commonArray).subscribe(this.data);
+			 this._appService.createEnquiry(this.commonArray).subscribe(this.data);
 			 alert("Data Submitted Successfully!!!");
 			 this.router.navigate(['viewEnquiryComponent']);
 		 }

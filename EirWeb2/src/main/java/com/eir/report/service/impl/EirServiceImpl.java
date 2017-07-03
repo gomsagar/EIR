@@ -10,7 +10,9 @@ import java.io.PrintWriter;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -32,8 +34,15 @@ import com.eir.bir.request.model.Gender;
 import com.eir.bir.request.model.MultipleRequest;
 import com.eir.bir.request.model.SpecifiedUserFlag;
 import com.eir.model.DashboardObject;
+import com.eir.model.BIRObject;
+import com.eir.model.CIRWithOutScoreObject;
+import com.eir.model.CIRWithScoreObject;
+import com.eir.model.ComboWithScoreObject;
+import com.eir.model.ComboWithoutScoreObject;
 import com.eir.model.EIRDataConstant;
 import com.eir.model.EligibleReport;
+import com.eir.model.ViewEarlierEnquiresObject;
+import com.eir.model.ViewEnquiryObject;
 import com.eir.report.constant.Constant;
 import com.eir.report.entity.AccountType;
 import com.eir.report.entity.Address;
@@ -377,7 +386,7 @@ public class EirServiceImpl implements EirService{
 	@Override
 	public Request createRequest(MultipleRequest input, HttpServletRequest request) 
 	{
-		Request reqEntity = new Request();
+		/*Request reqEntity = new Request();
 		reqEntity.setUserDetails(getUserDetails(Constant.HARDCOADED_USERID));
 		reqEntity.setUserHit(1);//TODO temporarily harcode values saved
 		reqEntity.setEntityDetails(getEntityObject(input,request));
@@ -385,7 +394,9 @@ public class EirServiceImpl implements EirService{
 		reqEntity.setAdminHit(1);//TODO save according to admin hit
 		reqEntity.setType(Constant.SPECIFIED);//TODO change according to FE flag
 		
- 		requestRepository.save(reqEntity);
+ 		requestRepository.save(reqEntity);*/
+ 		Integer requestId = input.getRequestId();
+ 		Request reqEntity = requestRepository.findByRequestId(requestId);
  		
  		if (input.getIsBIRActive()) 
 		{
@@ -930,5 +941,243 @@ public class EirServiceImpl implements EirService{
 		
 		return null;
 	}
+	
+	@Override
+	public List<ViewEarlierEnquiresObject> getEarlierRequest(Integer userID) {
+		
+		Map<Integer,ViewEarlierEnquiresObject> reportStatus = new HashMap<Integer, ViewEarlierEnquiresObject>();
+		List<ViewEarlierEnquiresObject> enquiresObjects = new ArrayList<ViewEarlierEnquiresObject>();
+				
+		//ViewEnquiresObject viewEnquiresObject  = new ViewEnquiresObject();	
+		List<Object[]> cirRequests = cirReqRepository.getCirRequestByUserId(userID);
+	 
+		List<Object[]> birRequests = birRequestRepository.getBirRequestByUserId(userID);
+		
+		List<Object[]> consumerRequests = consumerListRepository.getConsumerRequestByUserId(userID);
+		ViewEarlierEnquiresObject viewEnquiresObject;
+		String withScore;
+		Integer reqId =0;
+		String statusDesc  = null;
+		
+		//consumer
+		if(!consumerRequests.isEmpty() && null != consumerRequests){
+						
+            for(Object[] consumerRequest : consumerRequests){
+            	
+				reqId = (Integer)consumerRequest[0];
+				
+				if(!(reportStatus.containsKey(reqId))){
+					
+					viewEnquiresObject = new ViewEarlierEnquiresObject();
+					reportStatus.put((reqId), viewEnquiresObject);
+					
+				}				
+			}			
+		}
+		
+		//CIR
+		if(!cirRequests.isEmpty() && null != cirRequests){	
+		
+			for(Object[] cirRequest : cirRequests){
+				
+				withScore =  (String) cirRequest[2];
+				reqId = (Integer)cirRequest[0];
+				statusDesc = (String) cirRequest[1];
+				
+				if(reportStatus.containsKey(reqId)){
+					viewEnquiresObject = reportStatus.get(reqId);
+					
+					if(null == withScore || withScore.equalsIgnoreCase(Constant.CONS_N) ){
+							viewEnquiresObject.setComboWithoutScoreStatus(statusDesc);
+					}else{
+						viewEnquiresObject.setComboWithScoreStatus(statusDesc);
+					}
+				}else{
+					viewEnquiresObject = new ViewEarlierEnquiresObject();
+					
+					if(null == withScore || withScore.equalsIgnoreCase(Constant.CONS_N) ){
+						viewEnquiresObject.setCommWithoutScoreStatus(statusDesc);
+					}else{
+						viewEnquiresObject.setCommWithScoreStatus(statusDesc);
+					}
+					reportStatus.put((reqId), viewEnquiresObject);
+				}
+			}
+			
+		}
+		
+		//BIR
+		if(!birRequests.isEmpty() && null != birRequests){
+			
+			for(Object[] birRequest : birRequests){
+				
+				reqId = (Integer)birRequest[0];
+				statusDesc = (String) birRequest[1];
+				
+				if(reportStatus.containsKey(reqId)){
+					
+					viewEnquiresObject = reportStatus.get(reqId);
+					viewEnquiresObject.setBirReportStatus(statusDesc);
+				
+				}else{
+					
+					viewEnquiresObject = new ViewEarlierEnquiresObject();
+					viewEnquiresObject.setBirReportStatus(statusDesc);
+					reportStatus.put((reqId), viewEnquiresObject);
+				}
+			}
+		}
+		
+		for(Integer mapReqId : reportStatus.keySet()){
+			viewEnquiresObject = setStatus(reportStatus.get(mapReqId));
+			viewEnquiresObject.setRequestId(mapReqId);
+			enquiresObjects.add(viewEnquiresObject);
+		}
+		
+		return enquiresObjects;
+	}
+
+	private ViewEarlierEnquiresObject setStatus(ViewEarlierEnquiresObject viewEnquiresObject) {
+		
+		if(null == viewEnquiresObject.getBirReportStatus()){
+			viewEnquiresObject.setBirReportStatus(Constant.CONS_NOT_SELECTED);
+		}
+		
+		if(null == viewEnquiresObject.getComboWithoutScoreStatus()){
+			viewEnquiresObject.setComboWithoutScoreStatus(Constant.CONS_NOT_SELECTED);
+		}
+		
+		if(null == viewEnquiresObject.getComboWithScoreStatus()){
+			viewEnquiresObject.setComboWithScoreStatus(Constant.CONS_NOT_SELECTED);
+		}
+		
+		if(null == viewEnquiresObject.getCommWithoutScoreStatus()){
+			viewEnquiresObject.setCommWithoutScoreStatus(Constant.CONS_NOT_SELECTED);
+		}
+		
+		if(null == viewEnquiresObject.getCommWithScoreStatus()){
+			viewEnquiresObject.setCommWithScoreStatus(Constant.CONS_NOT_SELECTED);
+		}
+		
+		viewEnquiresObject.setLitigationStatus(Constant.CONS_NOT_SELECTED);
+		viewEnquiresObject.setNewsFeedStatus(Constant.CONS_NOT_SELECTED);
+		viewEnquiresObject.setSmeStatus(Constant.CONS_NOT_SELECTED);
+		
+		return viewEnquiresObject;
+	}
+
+	@Override
+	public ViewEnquiryObject getRequestByRequestId(Integer reqId) {
+		ViewEnquiryObject viewEnquiryObject = new ViewEnquiryObject();
+		BIRObject birObject = new BIRObject();
+		CIRWithScoreObject cirWithScoreObject = new CIRWithScoreObject();
+		CIRWithOutScoreObject cirWithOutScoreObject = new CIRWithOutScoreObject();
+		ComboWithScoreObject comboWithScoreObject = new ComboWithScoreObject();
+		ComboWithoutScoreObject comboWithoutScoreObject = new ComboWithoutScoreObject();
+		Request request = requestRepository.findByRequestId(reqId);
+		String score = request.getCirRequets().getScore();
+		
+		if(null != request){
+			
+			//set bir report details
+			if(null != request.getBirRequests().getBirRequestId()){
+				//get product id from product selection 
+				Object[] birProduct = productMasterRepository.getBIRProductByRequestId(reqId, Constant.BIR_PRODUCT_CODE);
+				//get tats from product master table
+				//ProductMaster master = productMasterRepository.findByproductId(reportSelection.getProductId());
+				
+				birObject.setBirReportStatus(request.getBirRequests().getStatus().getStatusDescription());
+				birObject.setBirRequestDate(request.getBirRequests().getCreateUserDate().toString());
+				birObject.setBirResponseDate(request.getBirRequests().getUpdateUserDate().toString());
+				birObject.setBirMessage("Report Created and Ready to View");
+				birObject.setBirTats(birProduct[0].toString());
+			}
+			
+			//set combo details
+			//consumerRequests  = request.getConsumerRequets();
+			if(null != request.getConsumerRequets() && !request.getConsumerRequets().isEmpty()){
+				if(null == score || score.equalsIgnoreCase(Constant.CONS_N) ){
+					comboWithoutScoreObject.setComboWithoutScoreReportStatus(request.getCirRequets().getStatus().getStatusDescription());
+					comboWithoutScoreObject.setComboWithOutScoreRequestDate(request.getCirRequets().getCreateUserDate().toString());
+					comboWithoutScoreObject.setComboWithOutScoreResponseDate(request.getCirRequets().getUpdateUserDate().toString());
+					comboWithoutScoreObject.setComboWithOutScoreMessage("Report Created and Ready to View");
+					
+				}else{
+					comboWithScoreObject.setComboWithScoreReportStatus(request.getCirRequets().getStatus().getStatusDescription());
+					comboWithScoreObject.setComboWithScoreRequestDate(request.getCirRequets().getCreateUserDate().toString());
+					comboWithScoreObject.setComboWithScoreResponseDate(request.getCirRequets().getUpdateUserDate().toString());
+					comboWithScoreObject.setComboWithScoreMessage("Report Created and Ready to View");
+				}
+			}else if(null != request.getCirRequets().getCirRequestId()){	
+				// set cir details			
+				if(null == score || score.equalsIgnoreCase(Constant.CONS_N) ){
+					cirWithOutScoreObject.setCirWithOutScoreReportStatus(request.getCirRequets().getStatus().getStatusDescription());
+					cirWithOutScoreObject.setCirWithOutScoreRequestDate(request.getCirRequets().getCreateUserDate().toString());
+					cirWithOutScoreObject.setCirWithOutScoreResponseDate(request.getCirRequets().getUpdateUserDate().toString());
+					cirWithOutScoreObject.setCirWithOutScoreMessage("Report Created and Ready to View");
+					
+				}else{
+				cirWithScoreObject.setCirWithScoreReportStatus(request.getCirRequets().getStatus().getStatusDescription());
+				cirWithScoreObject.setCirWithScoreRequestDate(request.getCirRequets().getCreateUserDate().toString());
+				cirWithScoreObject.setCirWithScoreResponseDate(request.getCirRequets().getUpdateUserDate().toString());
+				cirWithScoreObject.setCirWithScoreMessage("Report Created and Ready to View");
+				}
+			}
+		}
+		
+		viewEnquiryObject.setBirObject(birObject);
+		viewEnquiryObject.setCirWithScoreObject(cirWithScoreObject);
+		viewEnquiryObject.setCirWithOutScoreObject(cirWithOutScoreObject);
+		viewEnquiryObject.setComboWithScoreObject(comboWithScoreObject);
+		viewEnquiryObject.setComboWithOutScoreObject(comboWithoutScoreObject);
+		
+		ViewEnquiryObject viewEnquiryObjectToReturn = setViewEnqStatus(viewEnquiryObject);
+		
+		return viewEnquiryObjectToReturn;
+	}
+
+	private ViewEnquiryObject setViewEnqStatus(ViewEnquiryObject viewEnquiryObject) {
+		
+		if(null == viewEnquiryObject.getBirObject().getBirReportStatus()){
+			//viewEnquiryObject.setBirReportStatus(Constant.CONS_NOT_SELECTED);
+			viewEnquiryObject.getBirObject().setBirReportStatus(Constant.CONS_NOT_SELECTED);
+			viewEnquiryObject.getBirObject().setBirRequestDate("-");
+			viewEnquiryObject.getBirObject().setBirResponseDate("-");
+			viewEnquiryObject.getBirObject().setBirTats("-");
+			viewEnquiryObject.getBirObject().setBirMessage("-");
+		}
+		
+		if(null == viewEnquiryObject.getCirWithOutScoreObject().getCirWithOutScoreReportStatus()){
+			viewEnquiryObject.getCirWithOutScoreObject().setCirWithOutScoreReportStatus(Constant.CONS_NOT_SELECTED);
+			viewEnquiryObject.getCirWithOutScoreObject().setCirWithOutScoreRequestDate("-");
+			viewEnquiryObject.getCirWithOutScoreObject().setCirWithOutScoreResponseDate("-");
+			viewEnquiryObject.getCirWithOutScoreObject().setCirWithOutScoreMessage("-");
+		}
+		
+		if(null == viewEnquiryObject.getCirWithScoreObject().getCirWithScoreReportStatus()){
+			viewEnquiryObject.getCirWithScoreObject().setCirWithScoreReportStatus(Constant.CONS_NOT_SELECTED);
+			viewEnquiryObject.getCirWithScoreObject().setCirWithScoreRequestDate("-");
+			viewEnquiryObject.getCirWithScoreObject().setCirWithScoreResponseDate("-");
+			viewEnquiryObject.getCirWithScoreObject().setCirWithScoreMessage("-");
+			
+		}
+		
+		if(null == viewEnquiryObject.getComboWithOutScoreObject().getComboWithoutScoreReportStatus()){
+			viewEnquiryObject.getComboWithOutScoreObject().setComboWithoutScoreReportStatus(Constant.CONS_NOT_SELECTED);
+			viewEnquiryObject.getComboWithOutScoreObject().setComboWithOutScoreRequestDate("-");
+			viewEnquiryObject.getComboWithOutScoreObject().setComboWithOutScoreResponseDate("-");
+			viewEnquiryObject.getComboWithOutScoreObject().setComboWithOutScoreMessage("-");
+		}
+		
+		if(null == viewEnquiryObject.getComboWithScoreObject().getComboWithScoreReportStatus()){
+			viewEnquiryObject.getComboWithScoreObject().setComboWithScoreReportStatus(Constant.CONS_NOT_SELECTED);
+			viewEnquiryObject.getComboWithScoreObject().setComboWithScoreRequestDate("-");
+			viewEnquiryObject.getComboWithScoreObject().setComboWithScoreResponseDate("-");
+			viewEnquiryObject.getComboWithScoreObject().setComboWithScoreMessage("-");
+		}
+		
+		return viewEnquiryObject;
+	}
+	
 	
 }

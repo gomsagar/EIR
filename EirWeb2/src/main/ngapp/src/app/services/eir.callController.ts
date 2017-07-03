@@ -6,6 +6,7 @@ import { Subject }    from 'rxjs/Subject';
 @Injectable()
 export class AppService {
 static count : number=1;
+
     constructor(private _http:Http) {
 
     }
@@ -22,7 +23,7 @@ static count : number=1;
         })
         .map(res=>res.json());
     }
-    submitInfo(info) {
+    createEnquiry(info) {
         console.log(info);
         debugger;
         if(info.isBIRActive == 'true')
@@ -34,10 +35,16 @@ static count : number=1;
         var head = new Headers();
         head.append('Content-Type', 'application/json');
          
-        return this._http.post('http://localhost:8080/EirWeb2/eir/getInfo',
+        return this._http.post('http://localhost:8080/EirWeb2/eir/createEnquiry',
         JSON.stringify(info), { 
            headers:head
         })
         .map(res=>res.json());
     }
+
+    getViewRequest(requestId){
+    return this._http.get('http://localhost:8080/EirWeb2/eir/getViewRequest?requestId='+ requestId)
+    .map(res=>res.json());
+    }
+    
 }

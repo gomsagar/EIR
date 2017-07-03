@@ -48,9 +48,9 @@ public class UserDetails implements Serializable {
 	
 	/**
 	 */
-	@Column(name = "password", length = 45)
+	/*@Column(name = "password", length = 45)
 	@XmlElement
-	String password;
+	String password;*/
 
 	
 	@Column(name = "first_name", length = 45)
@@ -132,15 +132,15 @@ public class UserDetails implements Serializable {
 		return this.userId;
 	}
 
-public void setPassword(String password) {
+/*public void setPassword(String password) {
 		this.password = password;
 	}
 
-	/**
-	 */
+	*//**
+	 *//*
 	public String getPassword() {
 		return this.password;
-	}
+	}*/
 	/**
 	 */
 	public void setFirstName(String firstName) {

@@ -26,6 +26,8 @@ import com.eir.bir.request.model.MultipleRequest;
 import com.eir.bir.request.model.SpecifiedUserFlag;
 import com.eir.model.DashboardObject;
 import com.eir.model.EligibleReport;
+import com.eir.model.ViewEarlierEnquiresObject;
+import com.eir.model.ViewEnquiryObject;
 import com.eir.report.constant.Constant;
 import com.eir.report.entity.AccountType;
 import com.eir.report.entity.Address;
@@ -223,8 +225,8 @@ public class EirController {
 	}
 	
 	@CrossOrigin("*")
-	@RequestMapping(value="/getInfo", method = RequestMethod.POST,produces="application/json")
-	public String getInfo(@RequestBody MultipleRequest input , HttpServletRequest request ){
+	@RequestMapping(value="/createEnquiry", method = RequestMethod.POST,produces="application/json")
+	public String createEnquiry(@RequestBody MultipleRequest input , HttpServletRequest request ){
 	
 		request.getSession().setAttribute("userId", "EIR");
 		System.out.println("session id - : "+request.getSession().getAttribute("userId"));
@@ -274,6 +276,23 @@ public class EirController {
 		nextGenWebService.getEIRReport(requestId, reportType);
 		logger.debug("EirController - getEIRReport(): report generated");
 	}
+		@CrossOrigin("*")
+	@RequestMapping(value = "/getEarlierRequest", method = RequestMethod.GET,produces="application/json")
+	public @ResponseBody List<ViewEarlierEnquiresObject> getEarlierRequest(@RequestParam("userID") Integer userID) 
+	{
+		userID = 1;		
+		List<ViewEarlierEnquiresObject> viewEnquiresObjectList = eirService.getEarlierRequest(userID);		
+		return viewEnquiresObjectList;
+	}
 	
+	@Transactional
+	@CrossOrigin("*")
+	@RequestMapping(value = "/getViewRequest", method = RequestMethod.GET,produces="application/json")
+	public @ResponseBody ViewEnquiryObject getViewRequest(@RequestParam("requestId") Integer requestId) 
+	{
+		requestId =145;		
+		ViewEnquiryObject viewEnquiresObject = eirService.getRequestByRequestId(requestId);		
+		return viewEnquiresObject;
+	}
 	
 }

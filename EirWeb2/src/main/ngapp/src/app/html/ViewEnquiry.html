@@ -30,42 +30,54 @@
 									</tr>
 									<tr>
 										<!--<td></td>-->
-										<td>CIR</td>
-									  <td><img src="assets/img/select.png"></td>
-										<td></td>
-										<td></td>
+										 <td>CIR (ws)</td>
+									    <td><img src="assets/img/{{cirWithScoreObject.cirWithScoreReportStatus}}.png"></td>
+										<td>{{cirWithScoreObject.cirWithScoreRequestDate}}</td>
+										<td>{{cirWithScoreObject.cirWithScoreResponseDate}}</td>
 										<td>REAL TIME</td>
-										<td></td>
+										<td>{{cirWithScoreObject.cirWithScoreMessage}}</td>
+										<td><img src="assets/img/save.png"></td>
+									</tr>
+									<tr>
+										<!--<td></td>-->
+										<td>CIR (wos)</td>
+									    <td><img src="assets/img/{{cirWithOutScoreObject.cirWithOutScoreReportStatus}}.png"></td>
+										<td>{{cirWithOutScoreObject.cirWithOutScoreRequestDate}}</td>
+										<td>{{cirWithOutScoreObject.cirWithOutScoreResponseDate}}</td>
+										<td>REAL TIME</td>
+										<td>{{cirWithOutScoreObject.cirWithOutScoreMessage}}</td>
 										<td><img src="assets/img/save.png"></td>
 									</tr>
 									<tr>
 										<!--<td></td>-->
 										<td >Combo (ws)</td>						
-										<td><img src="assets/img/loading.png"></td>	
-										<td>01/05/2017</td>
-										<td>01/05/2017</td>
-										<td></td>
-										<td></td>
+										<td><img src="assets/img/{{comboWithScoreObject.comboWithScoreReportStatus}}.png"></td>	
+										<td>{{comboWithScoreObject.comboWithScoreRequestDate}}</td>
+										<td>{{comboWithScoreObject.comboWithScoreResponseDate}}</td>
+										<td>REAL TIME</td>
+										<td>{{comboWithScoreObject.comboWithScoreMessage}}</td>
 										<td><img src="assets/img/save.png"></td>
 									</tr>
 									<tr>
 										<!--<td></td>-->
 										<td>Combo (wos)</td>								
-										<td><img src="assets/img/select.png"></td>	
-										<td>01/05/2017</td>	
-										<td>01/05/2017</td>
+										<td><img src="assets/img/{{comboWithOutScoreObject.comboWithoutScoreReportStatus}}.png"></td>	
+										<td>{{comboWithOutScoreObject.comboWithOutScoreRequestDate}}</td>	
+										<td>{{comboWithOutScoreObject.comboWithOutScoreResponseDate}}</td>
 										<td>REAL TIME</td>
-										<td><button href="#" type="button" class="btn btn-primary">Report Created & Ready to View</button></td>
+										<td>{{comboWithOutScoreObject.comboWithOutScoreMessage}}</td>
+										<!--<td><button href="#" type="button" class="btn btn-primary">Report Created & Ready to View</button></td>-->
 										<td><img src="assets/img/save.png"></td>							
 									</tr>
 									<tr>
 										<!--<td></td>-->
 										<td>BIR</td>									
-										<td><img src="assets/img/not-select.png"></td>	
-										<td></td>	
-										<td></td>
-										<td></td>
-										<td><button href="#" type="button" class="btn btn-primary">Report Created & Ready to View</button></td>
+										<td><img src="assets/img/{{birObject.birReportStatus}}.png"></td>	
+										<td>{{birObject.birRequestDate}}</td>	
+										<td>{{birObject.birResponseDate}}</td>
+										<td>{{birObject.birTats}}</td>
+										<td>{{birObject.birMessage}}</td>
+										<!--<td><button href="#" type="button" class="btn btn-primary">Report Created & Ready to View</button></td>-->
 										<td><img src="assets/img/save.png"></td>					
 									</tr>
 									<tr>

@@ -77,12 +77,5 @@ public class BirController {
 		return selectedProduct;
 	}
 	
-	@CrossOrigin("*")
-	@RequestMapping(value = "/getEarlierRequest", method = RequestMethod.GET,produces="application/json")
-	public @ResponseBody Request getEarlierRequest(Integer userID) 
-	{
-		userID = 1002;
-		Request request = birService.getEarlierRequest(userID);
-		return request;
-	}
+	
 }

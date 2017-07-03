@@ -147,8 +147,8 @@ public class Request implements Serializable {
 	
 	/**
 	 */
-	@OneToMany(mappedBy = "request", fetch = FetchType.LAZY)
-	java.util.Set<com.eir.report.entity.BirRequest> birRequests;
+	 @OneToOne(mappedBy = "request", fetch = FetchType.LAZY)
+	com.eir.report.entity.BirRequest birRequest;
 	/**
 	 */
 	@OneToOne(mappedBy = "request", fetch = FetchType.LAZY)
@@ -284,17 +284,17 @@ public class Request implements Serializable {
 
 	/**
 	 */
-	public void setBirRequests(Set<BirRequest> birRequests) {
-		this.birRequests = birRequests;
+	public void setBirRequests(BirRequest birRequests) {
+		this.birRequest = birRequest;
 	}
 
 	/**
 	 */
-	public Set<BirRequest> getBirRequests() {
-		if (birRequests == null) {
-			birRequests = new java.util.LinkedHashSet<com.eir.report.entity.BirRequest>();
+	public BirRequest getBirRequests() {
+		if (birRequest == null) {
+			birRequest = new com.eir.report.entity.BirRequest();
 		}
-		return birRequests;
+		return birRequest;
 	}
 
 	/**

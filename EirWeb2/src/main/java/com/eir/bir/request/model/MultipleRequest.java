@@ -14,7 +14,15 @@ private boolean isBIRActive;
 private boolean isCIRActive;
 private boolean isComboActive;
 //private Request requestObj;
+private Integer requestId;
 
+public Integer getRequestId() {
+	return requestId;
+}
+
+public void setRequestId(Integer requestId) {
+	this.requestId = requestId;
+}
 
 public List<Consumer> getConsumerList() {
 	return consumerList;

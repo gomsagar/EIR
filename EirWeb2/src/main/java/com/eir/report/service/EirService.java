@@ -11,6 +11,8 @@ import com.eir.bir.request.model.MultipleRequest;
 import com.eir.bir.request.model.SpecifiedUserFlag;
 import com.eir.model.DashboardObject;
 import com.eir.model.EligibleReport;
+import com.eir.model.ViewEarlierEnquiresObject;
+import com.eir.model.ViewEnquiryObject;
 import com.eir.report.entity.AccountType;
 import com.eir.report.entity.Address;
 import com.eir.report.entity.AddressType;
@@ -68,4 +70,7 @@ public interface EirService {
 	List<Frequency> getFrequency();
 
 	DashboardObject getDashboardDetails(Integer userId);
+	List<ViewEarlierEnquiresObject> getEarlierRequest(Integer userID);
+	
+	ViewEnquiryObject getRequestByRequestId(Integer reqId);
 }

@@ -2,6 +2,7 @@ package com.eir.report.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.eir.report.entity.BirRequest;
 import com.eir.report.entity.MemberProductMapping;
@@ -23,5 +24,11 @@ public interface BirRequestRepository extends JpaRepository<BirRequest, Integer>
 
 	public List<BirRequest> findByStatus(Status status);
 	public List<BirRequest> getByStatus(Integer statusId);
+	
+	@Query(value = "select br.REQUEST_ID,s.STATUS_DESCRIPTION from BIR_REQUEST br inner join REQUEST r on r.REQUEST_ID = br.REQUEST_ID "
+			+"inner join STATUS s on br.STATUS_ID = s.STATUS_ID "
+			+ "inner join USER_DETAILS ud on r.USER_ID = ud.USER_ID where r.USER_ID =:userId",
+			nativeQuery=true)
+	public List<Object[]> getBirRequestByUserId(@Param("userId") Integer userId);
 
 }
