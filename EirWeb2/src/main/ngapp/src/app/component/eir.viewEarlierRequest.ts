@@ -2,6 +2,7 @@ import { Component,Input } from '@angular/core';
 import { Router} from '@angular/router';
 //import{DataService} from '../services/eir.getData';
 import{AppService} from '../services/eir.callController';
+import { DatePickerOptions, DateModel } from 'ng2-datepicker';
 
 @Component({
   selector: 'viewEarlierRequest',
@@ -25,6 +26,9 @@ public earlierRequestList =<any>[];
 private requestStatus =<any>[];
 data =<any>{};
 private requestIdFromUser: number;
+options: DatePickerOptions;
+ currentDate : Date;
+dateExpires : Date;
   ngOnInit(){
     // debugger;
     // this._dataService.getEarlierRequestData(this.userId).subscribe((earlierRequestData) => {
@@ -42,7 +46,11 @@ private requestIdFromUser: number;
     //     });
 
   }
-  constructor(private router: Router,private _appService:AppService){ }
+  constructor(private router: Router,private _appService:AppService){ 
+    this.options = new DatePickerOptions();
+    this.currentDate = new Date();
+      this.dateExpires = this.currentDate;
+  }
 
    back()
     {

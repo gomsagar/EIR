@@ -13,11 +13,15 @@
 						   <div class="form-group col-md-1"><span class="or">OR</span></div>
 						  <div class="form-group col-md-3">
 							<label for="exampleInputName2">From</label>
-							<input type="text" class="form-control" id="exampleInputName2" placeholder="Enter From Date"  [(ngModel)]="data.fromDate" name="fromDate">
+							<br>
+							<ng2-datepicker id="fromdate" name="fromDate"  [options]="{maxDate: dateExpires,format:MM-DD-YYYY}" [(ngModel)]="data.fromDate"></ng2-datepicker>
+							<!--<input type="text" class="form-control" id="exampleInputName2" placeholder="Enter From Date"  [(ngModel)]="data.fromDate" name="fromDate">-->
 						  </div>						
 						  <div class="form-group  col-md-3">
 							<label for="exampleInputName2">To</label>
-							<input type="text" class="form-control" id="exampleInputName2" placeholder="Enter To Date"  [(ngModel)]="data.toDate" name="toDate">						
+							<br>
+							<ng2-datepicker id="todate" name="toDate"  [options]="{maxDate: dateExpires,format:MM-DD-YYYY}" [(ngModel)]="data.toDate"></ng2-datepicker>
+							<!--<input type="text" class="form-control" id="exampleInputName2" placeholder="Enter To Date"  [(ngModel)]="data.toDate" name="toDate">						-->
 						  </div>		
 						  <div class="form-group col-md-2">	
 								<label for="" style="visibility: hidden;" class="hidden-sm hidden-xs">Click to Search</label>						  
