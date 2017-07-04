@@ -23,11 +23,11 @@ export class AppComponent {
     this.router.navigate(['viewEarlierRequest']);
   }
 
-  goToTrackDisput(){
+  goToTrackDispute(){
 
   }
 
-  goToRaiseDisput(){
+  goToRaiseDispute(){
     
   }
   goToDashboard()

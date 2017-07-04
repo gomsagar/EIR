@@ -31,8 +31,9 @@
         <div class="col-sm-3 col-md-2 sidebar">
      
         <div class="list-group panel">
-         <a href="#Dashboard" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu">Dashboard <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span> </a>
-		     <a href="#aboutus" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu">About us</a>    
+         <!--<a href="goToDashboard()" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu">Dashboard <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span> </a>-->
+		     <label (click)="goToDashboard()" style="color: whitesmoke; font-weight: normal;">&nbsp;Dashboard</label>
+         <a href="#aboutus" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu">About us</a>    
           
           <a href="#Service" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu">Service <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span> </a>
           <div class="collapse" id="Service">
@@ -45,9 +46,9 @@
             <!--<a href="#" class="list-group-item">Raise A Dispute</a>
             <a href="" class="list-group-item">Track A Dispute</a>            -->
             	<label for="view" style="color: whitesmoke; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Raise A Dispute</label>
-            <button (click)="goToRaiseDisput()" type="submit" name="View Earlier Request" class="hidden" id="view"></button>	
+            <button (click)="goToRaiseDispute()" type="submit" name="View Earlier Request" class="hidden" id="view"></button>	
             	<label for="view" style="color: whitesmoke; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Track A Dispute</label>
-            <button (click)="goToTrackDisput()" type="submit" name="View Earlier Request" class="hidden" id="view"></button>	
+            <button (click)="goToTrackDispute()" type="submit" name="View Earlier Request" class="hidden" id="view"></button>	
           </div>
 		    <a href="#cust-supp" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu">Custmore Support</a>    
         </div>

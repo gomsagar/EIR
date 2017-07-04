@@ -25,7 +25,7 @@ private requestStatus =<any>[];
 data =<any>[];
 
   ngOnInit(){
-    debugger;
+    //debugger;
     this._dataService.getEarlierRequestData(this.userId).subscribe((earlierRequestData) => {
           
           if(null != earlierRequestData){

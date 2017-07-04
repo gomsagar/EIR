@@ -26,7 +26,12 @@
 										<td></td>
 										<td></td>
 										<td>Final Consolidated Report</td>
-										<td><img src="assets/img/save.png"></td>
+										<td>
+										<!--	<button (click)="submit()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button>
+											<div *ngIf="({{cirWithScoreObject.cirWithScoreReportStatus}}=='Completed')">
+												<button (click)="download()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Download</button>
+											</div>-->
+										</td>
 									</tr>
 									<tr>
 										<!--<td></td>-->
@@ -36,7 +41,14 @@
 										<td>{{cirWithScoreObject.cirWithScoreResponseDate}}</td>
 										<td>REAL TIME</td>
 										<td>{{cirWithScoreObject.cirWithScoreMessage}}</td>
-										<td><img src="assets/img/save.png"></td>
+										<td>
+											<div *ngIf="cirWithScoreObject.cirWithScoreReportStatus != 'not-select'">
+												<button (click)="submit(btnCIRWS)" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">{{btnCIRWS}}</button>
+												<div *ngIf="cirWithScoreObject.cirWithScoreReportStatus == 'Completed'">
+													<button (click)="download()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Download</button>
+												</div>
+											</div>
+										</td>
 									</tr>
 									<tr>
 										<!--<td></td>-->
@@ -46,7 +58,14 @@
 										<td>{{cirWithOutScoreObject.cirWithOutScoreResponseDate}}</td>
 										<td>REAL TIME</td>
 										<td>{{cirWithOutScoreObject.cirWithOutScoreMessage}}</td>
-										<td><img src="assets/img/save.png"></td>
+										<td>
+											<div *ngIf="cirWithOutScoreObject.cirWithOutScoreReportStatus != 'not-select'">
+												<button (click)="submit(btnCIRWOS)" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">{{btnCIRWOS}}</button>
+												<div *ngIf="cirWithOutScoreObject.cirWithOutScoreReportStatus == 'Completed'">
+													<button (click)="download()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Download</button>
+												</div>
+											</div>
+										</td>
 									</tr>
 									<tr>
 										<!--<td></td>-->
@@ -56,7 +75,14 @@
 										<td>{{comboWithScoreObject.comboWithScoreResponseDate}}</td>
 										<td>REAL TIME</td>
 										<td>{{comboWithScoreObject.comboWithScoreMessage}}</td>
-										<td><img src="assets/img/save.png"></td>
+										<td>
+											<div *ngIf="comboWithScoreObject.comboWithScoreReportStatus != 'not-select'">
+												<button (click)="submit(btnCOMBOWS)" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">{{btnCOMBOWS}}</button>
+												<div *ngIf="comboWithScoreObject.comboWithScoreReportStatus == 'Completed'">
+													<button (click)="download()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Download</button>
+												</div>
+											</div>
+										</td>
 									</tr>
 									<tr>
 										<!--<td></td>-->
@@ -67,7 +93,14 @@
 										<td>REAL TIME</td>
 										<td>{{comboWithOutScoreObject.comboWithOutScoreMessage}}</td>
 										<!--<td><button href="#" type="button" class="btn btn-primary">Report Created & Ready to View</button></td>-->
-										<td><img src="assets/img/save.png"></td>							
+										<td>
+											<div *ngIf="comboWithOutScoreObject.comboWithoutScoreReportStatus != 'not-select'">
+												<button (click)= "submit(btnCOMBOWOS)" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">{{btnCOMBOWOS}}</button>
+												<div *ngIf="comboWithOutScoreObject.comboWithoutScoreReportStatus == 'Completed'">
+													<button (click)="download()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Download</button>
+												</div>
+											</div>
+										</td>							
 									</tr>
 									<tr>
 										<!--<td></td>-->
@@ -78,37 +111,73 @@
 										<td>{{birObject.birTats}}</td>
 										<td>{{birObject.birMessage}}</td>
 										<!--<td><button href="#" type="button" class="btn btn-primary">Report Created & Ready to View</button></td>-->
-										<td><img src="assets/img/save.png"></td>					
+										<td>
+											<div *ngIf="!(birObject.birReportStatus == 'not-select' || birObject.birReportStatus == 'In Process')">
+												<button (click)="submit(btnBIR)" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">{{btnBIR}}</button>
+												<div *ngIf="birObject.birReportStatus == 'Completed'">
+													<button (click)="download()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Download</button>
+												</div>
+											</div>
+										</td>					
 									</tr>
-									<tr>
-										<!--<td></td>-->
+									<!--<tr>
 										<td>News Feed</td>								
 										<td><img src="assets/img/not-avail.png"></td>	
 										<td></td>	
 										<td></td>
 										<td><button href="#" type="button" class="btn btn-primary">5 Days</button></td>
 										<td></td>
-										<td><img src="assets/img/save.png"></td>							
+										<td><button (click)="submit()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button></td>							
 									</tr>
 									<tr>
-										<!--<td></td>-->
+									
 										<td>CIBIL SME</td>							
 										<td><img src="assets/img/select.png"></td>	
 										<td>01/05/2017</td>
 										<td>01/05/2017</td>
 										<td><button href="#" type="button" class="btn btn-primary">5 Days</button></td>
 										<td><button href="#" type="button" class="btn btn-primary">Report Created & Ready to View</button></td>
-										<td><img src="assets/img/save.png"></td>
+										<td><button (click)="submit()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button></td>
 									</tr>
 									<tr>
-										<!--<td></td>-->
+										
 										<td>Legal Data</td>									
 										<td><img src="assets/img/loading.png"></td>
 										<td>01/05/2017</td>
 										<td>01/05/2017</td>
 										<td><button href="#" type="button" class="btn btn-primary">5 Days</button></td>
 										<td><button href="#" type="button" class="btn btn-primary">Response timeout</button></td>
-										<td><img src="assets/img/save.png"></td>									
+										<td><button (click)="submit()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button></td>									
+									</tr>-->
+									<tr>
+										<!--<td></td>-->
+										<td>News Feed</td>								
+										<td>-</td>
+										<td>-</td>
+										<td>-</td>
+										<td>-</td>
+										<td>-</td>
+										<td>-</td>	
+									</tr>
+									<tr>
+										<!--<td></td>-->
+										<td>CIBIL SME</td>							
+										<td>-</td>
+										<td>-</td>
+										<td>-</td>
+										<td>-</td>
+										<td>-</td>
+										<td>-</td>	
+									</tr>
+									<tr>
+										<!--<td></td>-->
+										<td>Legal Data</td>									
+										<td>-</td>
+										<td>-</td>
+										<td>-</td>
+										<td>-</td>
+										<td>-</td>
+										<td>-</td>									
 									</tr>
 								</tbody>
 							</table>

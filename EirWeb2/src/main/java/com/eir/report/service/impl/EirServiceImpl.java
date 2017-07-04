@@ -7,9 +7,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.text.DateFormat;
 import java.text.Format;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,8 +24,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -1087,8 +1092,8 @@ public class EirServiceImpl implements EirService{
 				//ProductMaster master = productMasterRepository.findByproductId(reportSelection.getProductId());
 				
 				birObject.setBirReportStatus(request.getBirRequests().getStatus().getStatusDescription());
-				birObject.setBirRequestDate(request.getBirRequests().getCreateUserDate().toString());
-				birObject.setBirResponseDate(request.getBirRequests().getUpdateUserDate().toString());
+				birObject.setBirRequestDate(formatDate(request.getBirRequests().getCreateUserDate().toString()));
+				birObject.setBirResponseDate(formatDate(request.getBirRequests().getUpdateUserDate().toString()));
 				birObject.setBirMessage("Report Created and Ready to View");
 				birObject.setBirTats(birProduct[0].toString());
 			}
@@ -1097,29 +1102,30 @@ public class EirServiceImpl implements EirService{
 			//consumerRequests  = request.getConsumerRequets();
 			if(null != request.getConsumerRequets() && !request.getConsumerRequets().isEmpty()){
 				if(null == score || score.equalsIgnoreCase(Constant.CONS_N) ){
+					
 					comboWithoutScoreObject.setComboWithoutScoreReportStatus(request.getCirRequets().getStatus().getStatusDescription());
-					comboWithoutScoreObject.setComboWithOutScoreRequestDate(request.getCirRequets().getCreateUserDate().toString());
-					comboWithoutScoreObject.setComboWithOutScoreResponseDate(request.getCirRequets().getUpdateUserDate().toString());
+					comboWithoutScoreObject.setComboWithOutScoreRequestDate(formatDate(request.getCirRequets().getCreateUserDate().toString()));
+					comboWithoutScoreObject.setComboWithOutScoreResponseDate(formatDate(request.getCirRequets().getUpdateUserDate().toString()));
 					comboWithoutScoreObject.setComboWithOutScoreMessage("Report Created and Ready to View");
 					
 				}else{
 					comboWithScoreObject.setComboWithScoreReportStatus(request.getCirRequets().getStatus().getStatusDescription());
-					comboWithScoreObject.setComboWithScoreRequestDate(request.getCirRequets().getCreateUserDate().toString());
-					comboWithScoreObject.setComboWithScoreResponseDate(request.getCirRequets().getUpdateUserDate().toString());
+					comboWithScoreObject.setComboWithScoreRequestDate(formatDate(request.getCirRequets().getCreateUserDate().toString()));
+					comboWithScoreObject.setComboWithScoreResponseDate(formatDate(request.getCirRequets().getUpdateUserDate().toString()));
 					comboWithScoreObject.setComboWithScoreMessage("Report Created and Ready to View");
 				}
 			}else if(null != request.getCirRequets().getCirRequestId()){	
 				// set cir details			
 				if(null == score || score.equalsIgnoreCase(Constant.CONS_N) ){
 					cirWithOutScoreObject.setCirWithOutScoreReportStatus(request.getCirRequets().getStatus().getStatusDescription());
-					cirWithOutScoreObject.setCirWithOutScoreRequestDate(request.getCirRequets().getCreateUserDate().toString());
-					cirWithOutScoreObject.setCirWithOutScoreResponseDate(request.getCirRequets().getUpdateUserDate().toString());
+					cirWithOutScoreObject.setCirWithOutScoreRequestDate(formatDate(request.getCirRequets().getCreateUserDate().toString()));
+					cirWithOutScoreObject.setCirWithOutScoreResponseDate(formatDate(request.getCirRequets().getUpdateUserDate().toString()));
 					cirWithOutScoreObject.setCirWithOutScoreMessage("Report Created and Ready to View");
 					
 				}else{
 				cirWithScoreObject.setCirWithScoreReportStatus(request.getCirRequets().getStatus().getStatusDescription());
-				cirWithScoreObject.setCirWithScoreRequestDate(request.getCirRequets().getCreateUserDate().toString());
-				cirWithScoreObject.setCirWithScoreResponseDate(request.getCirRequets().getUpdateUserDate().toString());
+				cirWithScoreObject.setCirWithScoreRequestDate(formatDate(request.getCirRequets().getCreateUserDate().toString()));
+				cirWithScoreObject.setCirWithScoreResponseDate(formatDate(request.getCirRequets().getUpdateUserDate().toString()));
 				cirWithScoreObject.setCirWithScoreMessage("Report Created and Ready to View");
 				}
 			}
@@ -1134,6 +1140,19 @@ public class EirServiceImpl implements EirService{
 		ViewEnquiryObject viewEnquiryObjectToReturn = setViewEnqStatus(viewEnquiryObject);
 		
 		return viewEnquiryObjectToReturn;
+	}
+
+	private String formatDate(String strdate) {
+		// TODO Auto-generated method stub
+		String customFormat = "dd-MM-yyyy HH:mm";
+
+        org.joda.time.format.DateTimeFormatter dtf = ISODateTimeFormat.dateTime();
+        org.joda.time.LocalDateTime parsedDate = dtf.parseLocalDateTime(strdate);
+
+        String dateWithCustomFormat = parsedDate.toString(DateTimeFormat.forPattern(customFormat));
+		
+		
+		return dateWithCustomFormat;
 	}
 
 	private ViewEnquiryObject setViewEnqStatus(ViewEnquiryObject viewEnquiryObject) {
