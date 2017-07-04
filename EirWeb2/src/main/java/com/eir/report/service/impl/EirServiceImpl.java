@@ -948,17 +948,37 @@ public class EirServiceImpl implements EirService{
 	}
 	
 	@Override
-	public List<ViewEarlierEnquiresObject> getEarlierRequest(Integer userID) {
+	public List<ViewEarlierEnquiresObject> getRequestedData(Integer requestID,String fromDate,String toDate) {
 		
 		Map<Integer,ViewEarlierEnquiresObject> reportStatus = new HashMap<Integer, ViewEarlierEnquiresObject>();
 		List<ViewEarlierEnquiresObject> enquiresObjects = new ArrayList<ViewEarlierEnquiresObject>();
-				
-		//ViewEnquiresObject viewEnquiresObject  = new ViewEnquiresObject();	
-		List<Object[]> cirRequests = cirReqRepository.getCirRequestByUserId(userID);
-	 
-		List<Object[]> birRequests = birRequestRepository.getBirRequestByUserId(userID);
+		List<Object[]> cirRequests = new ArrayList<>();
+		List<Object[]> birRequests = new ArrayList<>();
+		List<Object[]> consumerRequests= new ArrayList<>();
 		
-		List<Object[]> consumerRequests = consumerListRepository.getConsumerRequestByUserId(userID);
+		if(null != requestID && (null != fromDate && fromDate != "") && (null != toDate && toDate != "")){
+			
+			cirRequests = cirReqRepository.getCirRequestByDateAndRequestId(fromDate, toDate, requestID);
+			 
+			birRequests = birRequestRepository.getBirRequestByDateAndRequestId(fromDate, toDate, requestID);
+			
+		    consumerRequests = consumerListRepository.getConsumerRequestByDateAndRequestId(fromDate, toDate, requestID);
+			
+		}else if(null == requestID && null != fromDate && null != toDate){
+			
+			cirRequests = cirReqRepository.getCirRequestByDate(fromDate, toDate);
+			 
+			birRequests = birRequestRepository.getBirRequestByDate(fromDate, toDate);
+			
+		    consumerRequests = consumerListRepository.getConsumerRequestByDate(fromDate, toDate);
+			
+		}else if(null != requestID && (null == fromDate || fromDate == "") && (null == toDate || toDate == "")){
+			cirRequests = cirReqRepository.getCirRequestByRequestId(requestID);
+		 
+			birRequests = birRequestRepository.getBirRequestByRequestId(requestID);
+			
+		    consumerRequests = consumerListRepository.getConsumerRequestByRequestId(requestID);
+		}
 		ViewEarlierEnquiresObject viewEnquiresObject;
 		String withScore;
 		Integer reqId =0;

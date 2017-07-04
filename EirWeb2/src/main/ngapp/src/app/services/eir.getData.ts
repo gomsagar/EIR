@@ -24,12 +24,4 @@ export class DataService {
        return this._http.get('http://localhost:8080/EirWeb2/eir/getUserFlag')
             .map((res:Response) => res.json());            
     }
-
-    getEarlierRequestData(userID)
-    {
-             return this._http.get('http://localhost:8080/EirWeb2/eir/getEarlierRequest?userID=' + userID)
-            .map((res:Response) => res.json());
-    }
-
-    
 }

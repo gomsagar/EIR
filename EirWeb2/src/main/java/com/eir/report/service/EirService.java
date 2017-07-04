@@ -70,7 +70,9 @@ public interface EirService {
 	List<Frequency> getFrequency();
 
 	DashboardObject getDashboardDetails(Integer userId);
-	List<ViewEarlierEnquiresObject> getEarlierRequest(Integer userID);
+	//List<ViewEarlierEnquiresObject> getEarlierRequest(Integer userID);
 	
 	ViewEnquiryObject getRequestByRequestId(Integer reqId);
+
+	List<ViewEarlierEnquiresObject> getRequestedData(Integer requestID,String fromDate,String toDate);
 }

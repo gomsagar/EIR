@@ -47,4 +47,17 @@ static count : number=1;
     .map(res=>res.json());
     }
     
+
+    getRequestData(viewEarlierEnqData)
+    {
+        debugger;
+        var head = new Headers();
+        head.append('Content-Type', 'application/json');
+         
+         return this._http.post('http://localhost:8080/EirWeb2/eir/getRequestedData',
+             JSON.stringify(viewEarlierEnqData),{
+                    headers:head
+             })
+            .map(res=>res.json());
+    }
 }

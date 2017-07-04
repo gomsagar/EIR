@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.velocity.runtime.directive.Parse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import com.eir.bir.request.model.MultipleRequest;
 import com.eir.bir.request.model.SpecifiedUserFlag;
 import com.eir.model.DashboardObject;
 import com.eir.model.EligibleReport;
+import com.eir.model.ViewEarlierEnqRequestObject;
 import com.eir.model.ViewEarlierEnquiresObject;
 import com.eir.model.ViewEnquiryObject;
 import com.eir.report.constant.Constant;
@@ -276,12 +278,18 @@ public class EirController {
 		nextGenWebService.getEIRReport(requestId, reportType);
 		logger.debug("EirController - getEIRReport(): report generated");
 	}
-		@CrossOrigin("*")
-	@RequestMapping(value = "/getEarlierRequest", method = RequestMethod.GET,produces="application/json")
-	public @ResponseBody List<ViewEarlierEnquiresObject> getEarlierRequest(@RequestParam("userID") Integer userID) 
+	
+	@CrossOrigin("*")
+	@RequestMapping(value = "/getRequestedData", method = RequestMethod.POST,produces="application/json")
+	public @ResponseBody List<ViewEarlierEnquiresObject> getRequestedData(@RequestBody ViewEarlierEnqRequestObject input , HttpServletRequest request) 
 	{
-		userID = 1;		
-		List<ViewEarlierEnquiresObject> viewEnquiresObjectList = eirService.getEarlierRequest(userID);		
+		Integer requestID = null;
+		if(null != input.getRequestId() && input.getRequestId() !=""){
+			requestID = Integer.parseInt(input.getRequestId());
+		}
+		String fromDate = input.getFromDate();
+		String toDate = input.getToDate();
+		List<ViewEarlierEnquiresObject> viewEnquiresObjectList = eirService.getRequestedData(requestID,fromDate,toDate);		
 		return viewEnquiresObjectList;
 	}
 	
