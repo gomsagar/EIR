@@ -1,11 +1,12 @@
 import { Component,Input } from '@angular/core';
 import { Router} from '@angular/router';
 import{AppService} from '../services/eir.callController';
+import{DataService} from '../services/eir.getData';
 
 @Component({
   selector: 'viewEnquiryComponent',
   templateUrl: '../html/ViewEnquiry.html',
-  providers:[AppService]
+  providers:[AppService,DataService]
 })
 export class ViewEnquiryComponent 
 {
@@ -23,6 +24,9 @@ export class ViewEnquiryComponent
     private btnCOMBOWOS;
     private btnBIR;
     public btnStatus:String;
+    private reportType;
+    private isPDF:Boolean;
+    private htmlString;
 
 
     ngOnInit(){
@@ -47,8 +51,8 @@ export class ViewEnquiryComponent
 
     });
 
-    }
-    constructor(private router: Router,private _appService:AppService){
+}
+    constructor(private router: Router,private _appService:AppService,private _dataService:DataService){
        
      this.birObject = [];
      this.cirWithScoreObject = <any>[];
@@ -71,7 +75,11 @@ export class ViewEnquiryComponent
 
     download()
     {
+        this.isPDF = true;
         console.log("Download called");
+        this._dataService.getRequestedPDFReport(this.requestId,this.reportType,this.isPDF).subscribe(() => 
+         {      
+        });
     }
 
     RESUBMIT()
@@ -81,7 +89,11 @@ export class ViewEnquiryComponent
 
     VIEW()
     {
+        this.isPDF = false;
          console.log("VIEW called");
+         this._dataService.getRequestedHTMLReport(this.requestId,this.reportType,this.isPDF).subscribe((htmlString) => {
+             this.htmlString = htmlString;      
+        });
     }
 
     submit(value)

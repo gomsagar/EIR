@@ -78,6 +78,7 @@ public class CommonUtilityService {
 	      pd4ml.render(new StringReader(inputHtmlFile), baos);
 	      FileOutputStream fos2 = new FileOutputStream(new File(outFileName));
 			fos2.write(baos.toByteArray());
+			System.out.println("PDF File Created");
 			fos2.flush();
 			fos2.close();
 		

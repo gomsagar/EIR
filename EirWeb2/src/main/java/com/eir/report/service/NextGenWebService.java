@@ -17,7 +17,7 @@ public interface NextGenWebService {
 
 	List<ResponseInfo> getConsumerReport(List<ConsumerRequest> consumerRequests);
 	
-	void getEIRReport(Integer requestId, String reportType);
+	String getEIRReport(Integer requestId, String reportType,Boolean isPdf);
 
 //	CommercialReportDetails getCIRReport(com.eir.bir.request.model.CirRequest cirRequest);
 }

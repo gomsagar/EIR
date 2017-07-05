@@ -1,5 +1,6 @@
 package com.eir.report.controller;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,7 @@ import com.eir.bir.request.model.Frequency;
 import com.eir.bir.request.model.Gender;
 import com.eir.bir.request.model.MultipleRequest;
 import com.eir.bir.request.model.SpecifiedUserFlag;
+import com.eir.commercial.domains.CommonUtilityService;
 import com.eir.model.DashboardObject;
 import com.eir.model.EligibleReport;
 import com.eir.model.ViewEarlierEnqRequestObject;
@@ -41,6 +43,7 @@ import com.eir.report.entity.ReportType;
 import com.eir.report.entity.Request;
 import com.eir.report.entity.State;
 import com.eir.report.entity.UserDetails;
+import com.eir.report.nextgen.service.mapper.CreateReport;
 import com.eir.report.service.BirReportService;
 import com.eir.report.service.EirService;
 import com.eir.report.service.NextGenWebService;
@@ -272,26 +275,40 @@ public class EirController {
 	}
 	
 	@Transactional
-	@RequestMapping(value="/getReport", method = RequestMethod.GET)
-	public void getEIRReport(@RequestParam(required= true) Integer requestId, @RequestParam(required= true) String reportType)
+	@RequestMapping(value="/getHTMLReport", method = RequestMethod.GET)
+	public String getEIRReport(@RequestParam(required= true) Integer requestId, @RequestParam(required= true) String reportType,@RequestParam(required= true) Boolean isPdf)
 	{
-		nextGenWebService.getEIRReport(requestId, reportType);
+		
+		String htmlString = nextGenWebService.getEIRReport(requestId, reportType,isPdf);
+		logger.debug("EirController - getEIRReport(): report generated");
+		
+		return htmlString;
+	}
+	@Transactional
+	@RequestMapping(value="/getPDFReport", method = RequestMethod.GET)
+	public void getEIRPDFReport(@RequestParam(required= true) Integer requestId, @RequestParam(required= true) String reportType,@RequestParam(required= true) Boolean isPdf)
+	{
+		
+		String pdfString = nextGenWebService.getEIRReport(requestId, reportType,isPdf);
+		CommonUtilityService commonUtilityService = new CommonUtilityService();
+	    ByteArrayOutputStream htmlToPdfFile = commonUtilityService.htmlToPdfFile(pdfString, "D:/output/PDFReport.pdf", "");
+	    
 		logger.debug("EirController - getEIRReport(): report generated");
 	}
-	
 	@CrossOrigin("*")
-	@RequestMapping(value = "/getRequestedData", method = RequestMethod.POST,produces="application/json")
-	public @ResponseBody List<ViewEarlierEnquiresObject> getRequestedData(@RequestBody ViewEarlierEnqRequestObject input , HttpServletRequest request) 
-	{
-		Integer requestID = null;
-		if(null != input.getRequestId() && input.getRequestId() !=""){
-			requestID = Integer.parseInt(input.getRequestId());
-		}
-		String fromDate = input.getFromDate();
-		String toDate = input.getToDate();
-		List<ViewEarlierEnquiresObject> viewEnquiresObjectList = eirService.getRequestedData(requestID,fromDate,toDate);		
-		return viewEnquiresObjectList;
-	}
+    @RequestMapping(value = "/getRequestedData", method = RequestMethod.POST,produces="application/json")
+    public @ResponseBody List<ViewEarlierEnquiresObject> getRequestedData(@RequestBody ViewEarlierEnqRequestObject input , HttpServletRequest request) 
+    {
+           Integer requestID = null;
+           if(null != input.getRequestId() && input.getRequestId() !=""){
+                  requestID = Integer.parseInt(input.getRequestId());
+           }
+           String fromDate = input.getFromDate();
+           String toDate = input.getToDate();
+           List<ViewEarlierEnquiresObject> viewEnquiresObjectList = eirService.getRequestedData(requestID,fromDate,toDate);              
+           return viewEnquiresObjectList;
+    }
+
 	
 	@Transactional
 	@CrossOrigin("*")

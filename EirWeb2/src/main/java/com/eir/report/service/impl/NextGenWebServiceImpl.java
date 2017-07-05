@@ -749,7 +749,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 	}
 	
 	@Override
-	public void getEIRReport(@RequestParam Integer requestId,@RequestParam String reportType)
+	public String getEIRReport(@RequestParam Integer requestId,@RequestParam String reportType,@RequestParam Boolean isPdf)
 	{
 		if(requestId != null && reportType!= null && !reportType.isEmpty())
 		{
@@ -769,9 +769,10 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 				eirDomain.setComboDomain(comboDomain);
 			}
 			
-			createReport.generatestring(eirDomain, reportType);
+			return createReport.generatestring(eirDomain, reportType,isPdf);
 			//return eirDomain;
 		}
+		return null;
 	}
 	
 	public BIRDomain getBirReprot(Integer requestId)

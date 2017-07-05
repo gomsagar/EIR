@@ -21,12 +21,12 @@ import com.experian.nextgen.ind.model.consumer.uofpojo.Bpaygrid;
 public class CreateReport {
 	
 	//public void generatestring(ResponseInfo responseInfoCons,CommercialReportDetails reportDetails )
-	public void generatestring(EIRDomain eirDomain, String reportType)
+	public String generatestring(EIRDomain eirDomain, String reportType,Boolean isPdf)
 	{
 		
 		try
 		{
-		
+			
 			VelocityEngine velocityEngine = new VelocityEngine();
 			Properties properties = new Properties();
 			properties.setProperty("resource.loader", "file");
@@ -36,12 +36,6 @@ public class CreateReport {
 			Template template = velocityEngine.getTemplate("/vmFiles/Combo.vm");
 			VelocityContext context = new VelocityContext();
 			
-			
-			/*context.put("responseInfo", responseInfoCons);
-			context.put("reportDetails", reportDetails);
-			context.put("isCombo",isCombo);
-			context.put("isEIR",isEIR);*/
-			
 			context.put("bpGrid", Bpaygrid.class);
 			context.put("eirDomain",eirDomain);
 			context.put("StringUtils", StringUtils.class);
@@ -49,28 +43,38 @@ public class CreateReport {
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");	
 			SimpleDateFormat sdf2 = new SimpleDateFormat("MMM/yyyy");
+			
 			context.put("sdf", sdf);
 			context.put("sdf2", sdf2);
-	
+			
+			if(!isPdf)
+			{
 			StringWriter writer = new StringWriter();
 			template.merge(context, writer);
 			String htmlConsOutput = writer.toString();
 			createHtml(htmlConsOutput);
 			
-			Boolean isPdf = true;
-			context.put("isPdf", isPdf);
-			StringWriter writer1 = new StringWriter();
-			template.merge(context, writer1);
-			String pdfConsOutput = writer1.toString();
-			//createHtml(pdfConsOutput);
-			createPdf(pdfConsOutput);
+			return htmlConsOutput;
+			
+			}
+			else
+			{
+				context.put("isPdf", isPdf);
+				StringWriter writer1 = new StringWriter();
+				template.merge(context, writer1);
+				String pdfConsOutput = writer1.toString();
+				//createHtml(pdfConsOutput);
+				//createPdf(pdfConsOutput);
+				return pdfConsOutput;
+			}
 		
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
-		
+		 
+		return null;
 	}
 	
 	public void createHtml(String value)
@@ -133,42 +137,5 @@ public class CreateReport {
 	       System.out.println("PDF File Created");
 		
 	}
- /*public static void main(String args[])
- {
-	 File file;
-	 FileReader f = null;
-	 try
-     {
-     	 file = new File("D:/output/HTMLReport.html");
-			fileWriter = new FileWriter(file);
-			fileWriter.write(value);
-			System.out.println("Html File Created");
-     	f = new FileReader(file);
-     	createPdf(f.toString());
-		} 
-     catch (IOException e) 
-     {
-			e.printStackTrace();
-		} 
-     catch (Exception e) 
-     {
-			e.printStackTrace();
-		}
-     
-     finally
-     {
-			try 
-			{
-				if (f != null) 
-				{
-					f.close();
-				}
-			} 
-			catch (IOException e) 
-			{
-				e.printStackTrace();
-			}
-		}
- }
-*/
+
 }
