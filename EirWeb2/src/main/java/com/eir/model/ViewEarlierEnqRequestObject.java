@@ -1,10 +1,12 @@
 package com.eir.model;
 
+import org.joda.time.DateTime;
+
 public class ViewEarlierEnqRequestObject {
 	
 	String requestId;
-	String fromDate;
-	String toDate;
+	DateCustomFormatter fromDate;
+	DateCustomFormatter toDate;
 	
 	public String getRequestId() {
 		return requestId;
@@ -12,16 +14,16 @@ public class ViewEarlierEnqRequestObject {
 	public void setRequestId(String requestId) {
 		this.requestId = requestId;
 	}
-	public String getFromDate() {
+	public DateCustomFormatter getFromDate() {
 		return fromDate;
 	}
-	public void setFromDate(String fromDate) {
+	public void setFromDate(DateCustomFormatter fromDate) {
 		this.fromDate = fromDate;
 	}
-	public String getToDate() {
+	public DateCustomFormatter getToDate() {
 		return toDate;
 	}
-	public void setToDate(String toDate) {
+	public void setToDate(DateCustomFormatter toDate) {
 		this.toDate = toDate;
 	}
 	

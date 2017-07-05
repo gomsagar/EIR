@@ -46,6 +46,7 @@ import com.eir.model.ComboWithScoreObject;
 import com.eir.model.ComboWithoutScoreObject;
 import com.eir.model.EIRDataConstant;
 import com.eir.model.EligibleReport;
+import com.eir.model.ViewEarlierEnqRequestObject;
 import com.eir.model.ViewEarlierEnquiresObject;
 import com.eir.model.ViewEnquiryObject;
 import com.eir.report.constant.Constant;
@@ -336,6 +337,10 @@ public class EirServiceImpl implements EirService{
 			for(Consumer consumerInput: consumerInputList)
 			{
 				ConsumerRequest consumerEntity = new ConsumerRequest();
+				
+				DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+				DateTime dob = formatter.parseDateTime(consumerInput.getBirthDate().getFormatted());
+				
 				consumerEntity.setRequest(requestEntity);
 				consumerEntity.setCirRequest(cirRequestEntity);
 				//consumerEntity.setErnNumber(consumerInput.getErnNumber());
@@ -359,7 +364,7 @@ public class EirServiceImpl implements EirService{
 				consumerEntity.setHomeTelephoneNo(consumerInput.getHomeTelephoneNo());
 				consumerEntity.setOfficeTelephoneNo(consumerInput.getOfficeTelephoneNo());
 				consumerEntity.setMobileNo(consumerInput.getMobileNo());
-				consumerEntity.setDateOfBirth(consumerInput.getBirthDate());
+				consumerEntity.setDateOfBirth(dob);
 				consumerEntity.setMaritalStatus(consumerInput.getMaritalStatus());
 				consumerEntity.setGenderId(consumerInput.getGender().getId());
 				consumerEntity.setFrequencyId(consumerInput.getFrequency().getFrequencyId());
@@ -946,17 +951,41 @@ public class EirServiceImpl implements EirService{
 		
 		return null;
 	}
+	private String dateFormatter(DateTime date)
+	{
+		//set Date format in ddMMyyyy form for NExtgen request
+		//DateTimeFormatter formatter = DateTimeFormat.forPattern("ddMMyyyy");
+		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+		String dateFormat = formatter.print(date);
+		//end dateformat here
+		return dateFormat;
+	}
 	
 	@Override
-	public List<ViewEarlierEnquiresObject> getRequestedData(Integer requestID,String fromDate,String toDate) {
+	public List<ViewEarlierEnquiresObject> getRequestedData(ViewEarlierEnqRequestObject input) {
 		
+		  Integer requestID = null;
+		  String fromDate  =null;
+		  String toDate  =null;
+		  if(null != input){
+		       if(null != input.getRequestId() && input.getRequestId() !="")
+		       {
+		              requestID = Integer.parseInt(input.getRequestId());
+		       }
+		       if(null != input.getFromDate()){
+		    	   fromDate = input.getFromDate().getFormatted();
+		       }
+		       if(null != input.getToDate()){
+		    	   toDate = input.getToDate().getFormatted();
+		       }
+		  }
 		Map<Integer,ViewEarlierEnquiresObject> reportStatus = new HashMap<Integer, ViewEarlierEnquiresObject>();
 		List<ViewEarlierEnquiresObject> enquiresObjects = new ArrayList<ViewEarlierEnquiresObject>();
 		List<Object[]> cirRequests = new ArrayList<>();
 		List<Object[]> birRequests = new ArrayList<>();
 		List<Object[]> consumerRequests= new ArrayList<>();
 		
-		if(null != requestID && (null != fromDate && fromDate != "") && (null != toDate && toDate != "")){
+		if(null != requestID && (null != fromDate ) && (null != toDate)){
 			
 			cirRequests = cirReqRepository.getCirRequestByDateAndRequestId(fromDate, toDate, requestID);
 			 
@@ -972,7 +1001,7 @@ public class EirServiceImpl implements EirService{
 			
 		    consumerRequests = consumerListRepository.getConsumerRequestByDate(fromDate, toDate);
 			
-		}else if(null != requestID && (null == fromDate || fromDate == "") && (null == toDate || toDate == "")){
+		}else if(null != requestID && (null == fromDate) && (null == toDate )){
 			cirRequests = cirReqRepository.getCirRequestByRequestId(requestID);
 		 
 			birRequests = birRequestRepository.getBirRequestByRequestId(requestID);

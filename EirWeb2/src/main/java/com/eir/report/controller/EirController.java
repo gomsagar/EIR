@@ -299,13 +299,8 @@ public class EirController {
     @RequestMapping(value = "/getRequestedData", method = RequestMethod.POST,produces="application/json")
     public @ResponseBody List<ViewEarlierEnquiresObject> getRequestedData(@RequestBody ViewEarlierEnqRequestObject input , HttpServletRequest request) 
     {
-           Integer requestID = null;
-           if(null != input.getRequestId() && input.getRequestId() !=""){
-                  requestID = Integer.parseInt(input.getRequestId());
-           }
-           String fromDate = input.getFromDate();
-           String toDate = input.getToDate();
-           List<ViewEarlierEnquiresObject> viewEnquiresObjectList = eirService.getRequestedData(requestID,fromDate,toDate);              
+         
+           List<ViewEarlierEnquiresObject> viewEnquiresObjectList = eirService.getRequestedData(input);              
            return viewEnquiresObjectList;
     }
 

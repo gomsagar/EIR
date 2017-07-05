@@ -11,6 +11,7 @@ import com.eir.bir.request.model.MultipleRequest;
 import com.eir.bir.request.model.SpecifiedUserFlag;
 import com.eir.model.DashboardObject;
 import com.eir.model.EligibleReport;
+import com.eir.model.ViewEarlierEnqRequestObject;
 import com.eir.model.ViewEarlierEnquiresObject;
 import com.eir.model.ViewEnquiryObject;
 import com.eir.report.entity.AccountType;
@@ -74,5 +75,5 @@ public interface EirService {
 	
 	ViewEnquiryObject getRequestByRequestId(Integer reqId);
 
-	List<ViewEarlierEnquiresObject> getRequestedData(Integer requestID,String fromDate,String toDate);
+	List<ViewEarlierEnquiresObject> getRequestedData(ViewEarlierEnqRequestObject input);
 }

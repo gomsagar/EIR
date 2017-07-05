@@ -5,6 +5,8 @@ import java.util.Date;
 
 import org.joda.time.DateTime;
 
+import com.eir.model.DateCustomFormatter;
+
 public class Consumer {
 	String ernNumber;
 	String score;
@@ -25,7 +27,7 @@ public class Consumer {
 	String homeTelephoneNo;
 	String officeTelephoneNo;
 	String mobileNo;
-	DateTime birthDate;
+	DateCustomFormatter birthDate;
 	String maritalStatus;
 	Gender gender;
 	String personAddrLine1;
@@ -159,10 +161,10 @@ public String getErnNumber() {
 	public void setMobileNo(String mobileNo) {
 		this.mobileNo = mobileNo;
 	}
-	public DateTime getBirthDate() {
+	public DateCustomFormatter getBirthDate() {
 		return birthDate;
 	}
-	public void setBirthDate(DateTime birthDate) {
+	public void setBirthDate(DateCustomFormatter birthDate) {
 		this.birthDate = birthDate;
 	}
 	public String getMaritalStatus() {
