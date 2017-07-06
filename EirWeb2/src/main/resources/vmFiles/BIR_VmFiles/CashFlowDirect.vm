@@ -1,0 +1,464 @@
+<div class="container" style="page-break-after: always;">
+        <div>
+	        <div class="alert alert-success" style="margin-top: 50px;">
+	            <h4 style="padding-top:4px">Cash Flow Direct</h4>
+	        </div>
+	        <div>
+	            <table class="table table-striped">
+				
+					<tbody><tr>
+						<th>For the year</th>
+													<th>2013-03-31</th> 
+							<th>2014-03-31</th> 
+							<th>2012-03-31</th> 
+							<th>2015-03-31</th> 
+	    						</tr><tr>
+	    							<td>InterestPaidClassifiedAsOperatingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>IncreaseDecreaseInCashAndCashEquivalentsBeforeEffectOfExchangeRateChanges</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>CashFlowsFromUsedInInvestingActivitiesBeforeExtraordinaryItems</td>
+	    							
+	    									<td>-151024</td>
+	    									<td>-76324</td>
+	    									<td>-74567</td>
+	    									<td>-39287</td>
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>OtherInflowsOutflowsOfCashClassifiedAsFinancingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>DividendsPaidClassifiedAsFinancingActivities</td>
+	    							
+	    									<td>84635</td>
+	    									<td>42034</td>
+	    									<td>41713</td>
+	    									<td>31356</td>
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>EffectOfExchangeRateChangesOnCashAndCashEquivalents</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>InterestReceivedClassifiedAsInvestingActivities</td>
+	    							
+	    									<td>30826</td>
+	    									<td>18816</td>
+	    									<td>16975</td>
+	    									<td>9595</td>
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>PaymentForExtraordinaryItemsClassifiedAsOperatingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>IncomeTaxesPaidRefundClassifiedAsInvestingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>OtherCashPaymentsToAcquireInterestsInJointVenturesClassifiedAsInvestingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>ReceiptsFromSalesOfGoodsAndRenderingOfServices</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>CashReceiptsFromShareOfProfitsOfPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>ProceedsFromGovernmentGrantsClassifiedAsInvestingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>PurchaseOfTangibleAssetsClassifiedAsInvestingActivities</td>
+	    							
+	    									<td>153519</td>
+	    									<td>77489</td>
+	    									<td>62829</td>
+	    									<td>65065</td>
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>PaymentsToAndOnBehalfOfEmployees</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>IncreaseDecreaseInCashAndCashEquivalents</td>
+	    							
+	    									<td>126266</td>
+	    									<td>135601</td>
+	    									<td>-24433</td>
+	    									<td>100560</td>
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>CashFlowsFromUsedInFinancingActivitiesBeforeExtraordinaryItems</td>
+	    							
+	    									<td>-76932</td>
+	    									<td>-43098</td>
+	    									<td>-54922</td>
+	    									<td>-38127</td>
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>ProceedsFromIssuingDebenturesNotesBondsEtc</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>CashFlowsFromLosingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>InterestReceivedClassifiedAsOperatingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>OtherCashPaymentsFromOperatingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>ProceedsFromBorrowingsClassifiedAsFinancingActivities</td>
+	    							
+	    									<td>10607</td>
+	    									<td>0</td>
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>CashAndCashEquivalentsCashFlowStatement</td>
+	    							
+	    									<td>514422</td>
+	    									<td>388155</td>
+	    									<td>252554</td>
+	    									<td>276987</td>
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>CashAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>CashFlowsFromUsedInFinancingActivities</td>
+	    							
+	    									<td>-76932</td>
+	    									<td>-43098</td>
+	    									<td>-54922</td>
+	    									<td>-38127</td>
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>OtherCashPaymentsToAcquireEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>OtherCashReceiptsFromSalesOfEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>ProceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>CashFlowsUsedInObtainingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>ProceedsFromExtraordinaryItemsClassifiedAsInvestingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>OtherInflowsOutflowsOfCashClassifiedAsInvestingActivities</td>
+	    							
+	    									<td>-378</td>
+	    									<td>-5417</td>
+	    									<td>-1300</td>
+	    									<td>-2267</td>
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>ProceedsFromIssuingShares</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>ReceiptsFromFutureContractsForwardContractsOptionsContractsAndSwapContractsHeldForDealingOrTradingPurpose</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>ReceiptsFromRoyaltiesFeesCommissionsAndOtherRevenue</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>PaymentForExtraordinaryItemsClassifiedAsInvestingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>IncomeTaxesPaidRefundClassifiedAsFinancingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>OtherCashReceiptsFromSalesOfInterestsInJointVenturesClassifiedAsInvestingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>CashReceiptsFromRepaymentOfAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>PaymentForExtraordinaryItemsClassifiedAsFinancingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>CashPaymentsForFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>ReceiptsFromPremiumsAndClaimsAnnuitiesAndOtherPolicyBenefits</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>PaymentsToFutureContractsForwardContractsOptionsContractsAndSwapContractsHeldForDealingOrTradingPurpose</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>CashFlowsFromUsedInOperatingActivities</td>
+	    							
+	    									<td>354223</td>
+	    									<td>255025</td>
+	    									<td>105056</td>
+	    									<td>177974</td>
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>CashFlowsFromUsedInOperatingActivitiesBeforeExtraordinaryItems</td>
+	    							
+	    									<td>354223</td>
+	    									<td>255025</td>
+	    									<td>105056</td>
+	    									<td>177974</td>
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>RepaymentsOfBorrowingsClassifiedAsFinancingActivities</td>
+	    							
+	    									<td>0</td>
+	    									<td>11191</td>
+	    									<td>6266</td>
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>ProceedsFromExtraordinaryItemsClassifiedAsFinancingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>OtherCashReceiptsFromOperatingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>PaymentsToSuppliersForGoodsAndServices</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>DividendsReceivedClassifiedAsOperatingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>ProceedsFromSalesOfTangibleAssetsClassifiedAsInvestingActivities</td>
+	    							
+	    									<td>281</td>
+	    									<td>304</td>
+	    									<td>328</td>
+	    									<td>2037</td>
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>OtherInflowsOutflowsOfCashClassifiedAsOperatingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>IncomeTaxesPaidRefundClassifiedAsOperatingActivities</td>
+	    							
+	    									<td>158019</td>
+	    									<td>129130</td>
+	    									<td>116129</td>
+	    									<td>90171</td>
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>PurchaseOfIntangibleAssetsClassifiedAsInvestingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>ProceedsFromIssuingOtherEquityInstruments</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>CashReceiptsFromFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>InterestPaidClassifiedAsFinancingActivities</td>
+	    							
+	    									<td>2904</td>
+	    									<td>1064</td>
+	    									<td>2018</td>
+	    									<td>504</td>
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>CashPaymentForInvestmentInPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>DividendsReceivedClassifiedAsInvestingActivities</td>
+	    							
+	    									<td>122</td>
+	    									<td>1234</td>
+	    									<td>1073</td>
+	    									<td>2396</td>
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>PaymentsForPremiumsAndClaimsAnnuitiesAndOtherPolicyBenefits</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>CashFlowsFromUsedInOperations</td>
+	    							
+	    									<td>512242</td>
+	    									<td>384155</td>
+	    									<td>221185</td>
+	    									<td>268146</td>
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>ProceedsFromExtraordinaryItemsClassifiedAsOperatingActivities</td>
+	    							
+	
+	     						</tr>
+	     						
+	    						<tr>
+	    							<td>CashFlowsFromUsedInInvestingActivities</td>
+	    							
+	    									<td>-151024</td>
+	    									<td>-76324</td>
+	    									<td>-74567</td>
+	    									<td>-39287</td>
+	
+	     						</tr>
+	     						
+	                
+	             </tbody></table>   
+	        </div>        
+		</div>
+</div>

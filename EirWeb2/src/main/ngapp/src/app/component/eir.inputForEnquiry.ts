@@ -228,7 +228,6 @@ export class InputForEnquiryComponent implements OnInit
     }
 
     onChange(newValue) {
-        debugger;
              console.log("Inside Onchange method........"+newValue);
              this.commonArray.cir.companyName = newValue.entityName;
              console.log("Inside Onchange method commonArray.bir.companyName........"+this.commonArray.cir.companyName);
@@ -237,7 +236,7 @@ export class InputForEnquiryComponent implements OnInit
     validate()
     {
          console.log("request id from input page::::"+EirCreateComponent.reqId);
-        //debugger;
+        debugger;
   // console.log("request id from input page::::"+this._dataService.getRequestId());
         var isValidationComplete : boolean = true ;
 	

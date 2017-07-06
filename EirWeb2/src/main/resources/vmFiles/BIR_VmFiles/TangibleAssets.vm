@@ -1,0 +1,86 @@
+<div class="container" style="page-break-after: always;">
+        <div>
+        <div class="alert alert-success" style="margin-top: 50px;">
+            <h4 style="padding-top:4px">Tangible Assets</h4>
+        </div>
+            <table class="table table-condensed">
+			
+				<tbody><tr>
+					<th>For the year</th>
+											<th>2012-03-31</th> 
+						<th>2013-03-31</th> 
+						<th>2014-03-31</th> 
+						<th>2015-03-31</th> 
+    						</tr><tr>
+    							<td><h3>Buildings Member</h3></td>
+    						</tr>	
+    								<tr>
+    									<td style="padding-left:25px;">Owned Assets Member</td>
+    										<td>22103066.00</td>
+    										<td>20020428.00</td>
+    										<td>20840796.00</td>
+    										<td>19903878.00</td>
+    								</tr>
+    						<tr>
+    							<td><h3>Furniture And Fixers Member</h3></td>
+    						</tr>	
+    								<tr>
+    									<td style="padding-left:25px;">Owned Assets Member</td>
+    										<td>1979854.00</td>
+    										<td>1897913.00</td>
+    										<td>2256732.00</td>
+    										<td>2230144.00</td>
+    								</tr>
+    						<tr>
+    							<td><h3>Land Member</h3></td>
+    						</tr>	
+    								<tr>
+    									<td style="padding-left:25px;">Owned Assets Member</td>
+    										<td>19922871.00</td>
+    										<td>19760212.00</td>
+    										<td>19597553.00</td>
+    										<td>19434894.00</td>
+    								</tr>
+    						<tr>
+    							<td><h3>OfficeEquipmentMember</h3></td>
+    						</tr>	
+    								<tr>
+    									<td style="padding-left:25px;">Owned Assets Member</td>
+    										<td>0.00</td>
+    										<td>0.00</td>
+    										<td>0.00</td>
+    										<td>926454.00</td>
+    								</tr>
+    						<tr>
+    							<td><h3>OtherTangibleAssetsMember</h3></td>
+    						</tr>	
+    								<tr>
+    									<td style="padding-left:25px;">Owned Assets Member</td>
+    										<td>0.00</td>
+    										<td>0.00</td>
+    										<td>0.00</td>
+    										<td>0.00</td>
+    								</tr>
+    						<tr>
+    							<td><h3>PlantAndEquipmentMember</h3></td>
+    						</tr>	
+    								<tr>
+    									<td style="padding-left:25px;">Owned Assets Member</td>
+    										<td>135979777.00</td>
+    										<td>151687541.00</td>
+    										<td>178255048.00</td>
+    										<td>223933296.00</td>
+    								</tr>
+    						<tr>
+    							<td><h3>VehiclesMember</h3></td>
+    						</tr>	
+    								<tr>
+    									<td style="padding-left:25px;">Owned Assets Member</td>
+    										<td>21950466.00</td>
+    										<td>21296552.00</td>
+    										<td>19861745.00</td>
+    										<td>25643891.00</td>
+    								</tr>
+                
+            </tbody></table>
+		</div>

@@ -1,0 +1,66 @@
+<div id="header3"><iframe class="chartjs-hidden-iframe" tabindex="-1" style="display: block; overflow: hidden; border: 0px; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;" src="./Zauba report_files/saved_resource.html"></iframe>
+        <div class="alert alert-success" style="margin-top: 50px;">
+            <h4 style="padding-top:4px">Credit Risk Rating</h4>
+        </div>
+        <canvas id="doughnut-chart" width="1140" height="380" style="display: block; width: 1140px; height: 380px;"></canvas>
+    </div>
+	<div id="chartdiv"></div>
+
+    <footer>
+        <script>
+            var ctx = document.getElementById("doughnut-chart");
+
+            console.log(ctx);
+            var mychart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ["Excellent", "Good", "Satisfactory", "Fair", "Poor", "NA"],
+                    datasets: [{
+                        label: "Population (millions)",
+                        backgroundColor: ["#336600", "green", "yellow", "orange", "red", "#bfbfbf"],
+                        data: [16, 16, 16, 16, 16, 16]
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Rating DashBoard'
+                    }
+                }
+            });
+        </script>
+
+		<script>
+			var chart = AmCharts.makeChart( "chartdiv", {
+			  "type": "pie",
+			  "theme": "light",
+			  "dataProvider": [ {
+			    "country": "Lithuania",
+			    "value": 260
+			  }, {
+			    "country": "Ireland",
+			    "value": 201
+			  }, {
+			    "country": "Germany",
+			    "value": 65
+			  }, {
+			    "country": "Australia",
+			    "value": 39
+			  }, {
+			    "country": "UK",
+			    "value": 19
+			  }, {
+			    "country": "Latvia",
+			    "value": 10
+			  } ],
+			  "valueField": "value",
+			  "titleField": "country",
+			  "outlineAlpha": 0.4,
+			  "depth3D": 15,
+			  "balloonText": "[[title]]</br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+			  "angle": 30,
+			});
+		</script>        
+    </footer>
+    
+</div>

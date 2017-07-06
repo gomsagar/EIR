@@ -64,7 +64,7 @@ public interface EirService {
 	
 	List<com.eir.bir.request.model.ConsumerFinancialPurpose> findConsumerFinancialPurposeByPurposeId(Integer purposeId);
 
-	boolean saveSelectedProduct(EligibleReport selection);
+	Integer saveSelectedProduct(EligibleReport selection);
 	
 	List<Gender> getGender();
 	SpecifiedUserFlag getSpecifiedUserFlag();

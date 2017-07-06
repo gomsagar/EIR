@@ -255,7 +255,7 @@ public class EirController {
 	
 	@CrossOrigin("*")
 	@RequestMapping(value="/saveProductSelection", method = RequestMethod.POST,produces="application/json")
-	public Boolean saveProductSelection(@RequestBody EligibleReport selection )
+	public @ResponseBody Integer saveProductSelection(@RequestBody EligibleReport selection )
 	{
 		return eirService.saveSelectedProduct(selection);
 	}

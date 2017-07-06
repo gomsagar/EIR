@@ -15,6 +15,8 @@ public class ScheduledJob {
 	@Autowired
 	BirReportService birSchedulerService;
 	
+	public ScheduledJob(){System.out.println("ScheduledJob called");};
+	
 	Logger logger = LoggerFactory.getLogger(ScheduledJob.class);
 	//Scheduler call repeatedly after every 1 hour
 	@Scheduled(cron="* * 1 * * ?")

@@ -1,0 +1,534 @@
+<div class="container" style="page-break-after: always;">
+        <div>
+        <div class="alert alert-success" style="margin-top: 50px;">
+            <h4 style="padding-top:4px">Litigation</h4>
+        </div>            
+					<table class="table table-condensed">
+						<tbody><tr>
+							<th>CaseNo</th>
+							<th>CaseType</th>
+							<th>CaseYear</th>
+							<th>Court</th>
+							<th>District</th>
+							<th>Petitioner</th>
+							<th>Respondent</th>
+							<th>State</th>
+						</tr>
+												     <tr>
+						     		<th>1100285</th>
+						     		<th>Criminal Revision</th>
+						     		<th>2015</th>
+						     		<th>District and Session Judge</th>
+						     		<th>Kanpur Nagar</th>
+						     		<th>THE INDIA THERMIT CORPORATION</th>
+						     		<th>TAHSILDAR YADAV</th>
+						     		<th>Uttar Pradesh</th>
+						     </tr>			
+						     <tr>
+						     		<th>5100130</th>
+						     		<th>Complaint ULP</th>
+						     		<th>2010</th>
+						     		<th>Labour Court,Nagpur</th>
+						     		<th>Maharashtra Industrial and Lab</th>
+						     		<th>Ashokkumar Jaiswal</th>
+						     		<th>India thermit Corporation Ltd.,</th>
+						     		<th>Maharashtra</th>
+						     </tr>			
+						     <tr>
+						     		<th>300734</th>
+						     		<th>S.C.C.</th>
+						     		<th>2008</th>
+						     		<th>Chief Judicial Magistrate , Ratnagiri</th>
+						     		<th>Ratnagiri</th>
+						     		<th>State represented by Dhanraj S.Jadhav</th>
+						     		<th>Ms.India Thermit Corporation Ltd.Thr.Alok Nagori</th>
+						     		<th>Maharashtra</th>
+						     </tr>			
+						     <tr>
+						     		<th>600169</th>
+						     		<th>S.C.C.</th>
+						     		<th>2006</th>
+						     		<th>Civil Judge Junior Division , Warora</th>
+						     		<th>Chandrapur</th>
+						     		<th>State through L.E.O.Chandrapur</th>
+						     		<th>M\s.India Thermit Corporation Ltd through Alok Nag</th>
+						     		<th>Maharashtra</th>
+						     </tr>			
+						     <tr>
+						     		<th>29705</th>
+						     		<th>C R Case</th>
+						     		<th>2014</th>
+						     		<th>Additional Chief Judicial Magistrate, Alipurduar, Jalpaiguri</th>
+						     		<th>Jalpaiguri</th>
+						     		<th>State of West Bengal</th>
+						     		<th>M/S India Thermit Corporation Ltd. and other</th>
+						     		<th>West Bengal</th>
+						     </tr>			
+						     <tr>
+						     		<th>200086</th>
+						     		<th>Reg Dkst</th>
+						     		<th>2014</th>
+						     		<th>Civil Court Senior Division , Nagpur</th>
+						     		<th>Nagpur</th>
+						     		<th>Sunita R. Gupta and 1</th>
+						     		<th>India Thermit Corporation Ltd.</th>
+						     		<th>Maharashtra</th>
+						     </tr>			
+						     <tr>
+						     		<th>5100048</th>
+						     		<th>Complaint ULP</th>
+						     		<th>2012</th>
+						     		<th>Labour Court,Nagpur</th>
+						     		<th>Maharashtra Industrial and Lab</th>
+						     		<th>Kishor Ramteke</th>
+						     		<th>India Thermit Corporation Ltd.</th>
+						     		<th>Maharashtra</th>
+						     </tr>			
+						     <tr>
+						     		<th>5100047</th>
+						     		<th>Complaint ULP</th>
+						     		<th>2012</th>
+						     		<th>Labour Court,Nagpur</th>
+						     		<th>Maharashtra Industrial and Lab</th>
+						     		<th>Kishor Chaudhary</th>
+						     		<th>India Thermit Corporation Ltd.</th>
+						     		<th>Maharashtra</th>
+						     </tr>			
+						     <tr>
+						     		<th>5100046</th>
+						     		<th>Complaint ULP</th>
+						     		<th>2012</th>
+						     		<th>Labour Court,Nagpur</th>
+						     		<th>Maharashtra Industrial and Lab</th>
+						     		<th>Santosh Gaur</th>
+						     		<th>India Thermit Corporation Ltd.</th>
+						     		<th>Maharashtra</th>
+						     </tr>			
+						     <tr>
+						     		<th>5100045</th>
+						     		<th>Complaint ULP</th>
+						     		<th>2012</th>
+						     		<th>Labour Court,Nagpur</th>
+						     		<th>Maharashtra Industrial and Lab</th>
+						     		<th>Sandesh Bhaisare</th>
+						     		<th>India Thermit Corporation Ltd.</th>
+						     		<th>Maharashtra</th>
+						     </tr>			
+						     <tr>
+						     		<th>5100044</th>
+						     		<th>Complaint ULP</th>
+						     		<th>2012</th>
+						     		<th>Labour Court,Nagpur</th>
+						     		<th>Maharashtra Industrial and Lab</th>
+						     		<th>Ankush Neware</th>
+						     		<th>India Thermit Corporation Ltd.</th>
+						     		<th>Maharashtra</th>
+						     </tr>			
+						     <tr>
+						     		<th>4001486</th>
+						     		<th>Original Suit</th>
+						     		<th>2001</th>
+						     		<th>Judge Small Cause Court</th>
+						     		<th>Kanpur Nagar</th>
+						     		<th>M/S The India Thermit Corporation L.t.d</th>
+						     		<th>M/s The Mysore Kirloskar L.t.d</th>
+						     		<th>Uttar Pradesh</th>
+						     </tr>			
+						     <tr>
+						     		<th>5100131</th>
+						     		<th>Complaint ULP</th>
+						     		<th>2010</th>
+						     		<th>Labour Court,Nagpur</th>
+						     		<th>Maharashtra Industrial and Lab</th>
+						     		<th>Dinesh Shinde</th>
+						     		<th>India thermit Corporation Ltd.,</th>
+						     		<th>Maharashtra</th>
+						     </tr>			
+						     <tr>
+						     		<th>5100129</th>
+						     		<th>Complaint ULP</th>
+						     		<th>2010</th>
+						     		<th>Labour Court,Nagpur</th>
+						     		<th>Maharashtra Industrial and Lab</th>
+						     		<th>Siyaram Pingare</th>
+						     		<th>India thermit Corporation Ltd.,</th>
+						     		<th>Maharashtra</th>
+						     </tr>			
+						     <tr>
+						     		<th>5100096</th>
+						     		<th>Complaint ULP</th>
+						     		<th>2010</th>
+						     		<th>Labour Court,Nagpur</th>
+						     		<th>Maharashtra Industrial and Lab</th>
+						     		<th>Siyaram Pingare</th>
+						     		<th>India thermit Corporation Ltd.,</th>
+						     		<th>Maharashtra</th>
+						     </tr>			
+						     <tr>
+						     		<th>289</th>
+						     		<th></th>
+						     		<th>2008</th>
+						     		<th>High Court of Allahabad</th>
+						     		<th></th>
+						     		<th>M/S INDIA THERMIT CORPORATION LTD.</th>
+						     		<th>M/S INDIA SUPPLY ENGINEERING WORKS PVT. LTD.  and  OTHERS</th>
+						     		<th>High Court of Allahabad</th>
+						     </tr>			
+						     <tr>
+						     		<th>290</th>
+						     		<th></th>
+						     		<th>2006</th>
+						     		<th>High Court of Rajasthan (Jodhpur)</th>
+						     		<th></th>
+						     		<th>A.C.T.O., A/E-I, JODHPUR</th>
+						     		<th>M/S INDIA THERMIT CORPORATION LTD.</th>
+						     		<th>High Court of Rajasthan (Jodhpur)</th>
+						     </tr>			
+						     <tr>
+						     		<th>22</th>
+						     		<th></th>
+						     		<th>2006</th>
+						     		<th>High Court of Karnataka (Bangalore)</th>
+						     		<th></th>
+						     		<th>M/S INDIA THERMIT CORPORATION LIMITED</th>
+						     		<th>AUTHORITY FOR CLARIFICATION AND ADVANCE RULINGS</th>
+						     		<th>High Court of Karnataka (Bangalore)</th>
+						     </tr>			
+						     <tr>
+						     		<th>409</th>
+						     		<th></th>
+						     		<th>2014</th>
+						     		<th>High Court of MP (Indore)</th>
+						     		<th></th>
+						     		<th>INDIA THERMIT CORPORATION</th>
+						     		<th>ASHARANI S/D/W/Thru:- SHRI BUDDHALAL RAJ 
+
+BUDDHALAL RAJ S/D/W/Thru:- BHANWARLAL 
+
+DIVISIONAL RAILWAY MANAGER CENTRAL RAILWAY</th>
+						     		<th>High Court of MP (Indore)</th>
+						     </tr>			
+						     <tr>
+						     		<th>3500589</th>
+						     		<th>Original Suit</th>
+						     		<th>2007</th>
+						     		<th>Civil Judge Senior Division</th>
+						     		<th>Kanpur Nagar</th>
+						     		<th>The India Thermit Corp. Ltd.</th>
+						     		<th>I.D.B.I Bank  and amp; Others</th>
+						     		<th>Uttar Pradesh</th>
+						     </tr>			
+						     <tr>
+						     		<th>3500588</th>
+						     		<th>Original Suit</th>
+						     		<th>2007</th>
+						     		<th>Civil Judge Senior Division</th>
+						     		<th>Kanpur Nagar</th>
+						     		<th>The India Thermit Corp. Ltd</th>
+						     		<th>Ing Vysya Bank Ltd.</th>
+						     		<th>Uttar Pradesh</th>
+						     </tr>			
+						     <tr>
+						     		<th>4300647</th>
+						     		<th>Original Suit</th>
+						     		<th>1999</th>
+						     		<th>Civil Judge Senior Division</th>
+						     		<th>Kanpur Nagar</th>
+						     		<th>The India Thermit Co. Ltd.</th>
+						     		<th>M/S. Duplex Ingeniyaring Works</th>
+						     		<th>Uttar Pradesh</th>
+						     </tr>			
+						     <tr>
+						     		<th>1100285</th>
+						     		<th>Criminal Revision</th>
+						     		<th>2014</th>
+						     		<th>District and Session Judge</th>
+						     		<th>Kanpur Nagar</th>
+						     		<th>the india thermit corporation ltd.</th>
+						     		<th>tehsildar yadav and others</th>
+						     		<th>Uttar Pradesh</th>
+						     </tr>			
+						     <tr>
+						     		<th>3500024</th>
+						     		<th>Misc. 74</th>
+						     		<th>2008</th>
+						     		<th>Civil Judge Senior Division</th>
+						     		<th>Kanpur Nagar</th>
+						     		<th>The India Thermit Coporation Ltd.</th>
+						     		<th>Ram Lalit Pandey</th>
+						     		<th>Uttar Pradesh</th>
+						     </tr>			
+						     <tr>
+						     		<th>3801428</th>
+						     		<th>Original Suit</th>
+						     		<th>2006</th>
+						     		<th>Judge Small Cause Court</th>
+						     		<th>Kanpur Nagar</th>
+						     		<th>The India Thermit Corpn.Ltd.</th>
+						     		<th>Bhagwan Sharma</th>
+						     		<th>Uttar Pradesh</th>
+						     </tr>			
+						     <tr>
+						     		<th>202096</th>
+						     		<th>R.C.S.</th>
+						     		<th>2012</th>
+						     		<th>Civil Court Senior Division , Nagpur</th>
+						     		<th>Nagpur</th>
+						     		<th>Sunita Ratnesh Gupta</th>
+						     		<th>The India Thermit Corp. Ltd.</th>
+						     		<th>Maharashtra</th>
+						     </tr>			
+						     <tr>
+						     		<th>100386</th>
+						     		<th>REG. CRI. CASE</th>
+						     		<th>2005</th>
+						     		<th>ACJM Mavli Taluka</th>
+						     		<th>Udaipur</th>
+						     		<th>STATE (C/O MINISTRY OF LABOUR)</th>
+						     		<th>M/S THE INDIA THERMIT COR.LTD.</th>
+						     		<th>Rajasthan</th>
+						     </tr>			
+						     <tr>
+						     		<th>3</th>
+						     		<th>FEMA</th>
+						     		<th>2009</th>
+						     		<th>High Court of MP (Gwalior)</th>
+						     		<th></th>
+						     		<th>COMMISSIONER OF INCOME TAX S/D/W/Thru:- DELHI-VI,NEW DELHI</th>
+						     		<th>THE INDIA THERMIT CORPN.LTD. S/D/W/Thru:- SHREE BHAWAN,SARAFA ROAD,GWALIOR</th>
+						     		<th>High Court of MP (Gwalior)</th>
+						     </tr>			
+						     <tr>
+						     		<th>2</th>
+						     		<th>FEMA</th>
+						     		<th>2009</th>
+						     		<th>High Court of MP (Gwalior)</th>
+						     		<th></th>
+						     		<th>COMMISSIONER OF INCOME TAX S/D/W/Thru:- DELHI-VI,NEW DELHI</th>
+						     		<th>THE INDIA THERMIT CORPN.LTD. S/D/W/Thru:- SHREE BHAWAN,SARAFA ROAD,GWALIOR</th>
+						     		<th>High Court of MP (Gwalior)</th>
+						     </tr>			
+						     <tr>
+						     		<th>2</th>
+						     		<th>CIVIL REVIEW[C. REV.]</th>
+						     		<th>2006</th>
+						     		<th>High Court of MP (Gwalior)</th>
+						     		<th></th>
+						     		<th>COMMISSIONER OF INCOME TAX S/D/W/Thru:- GWALIOR</th>
+						     		<th>THE INDIA THERMIT CORP. LTD. S/D/W/Thru:- SHRI BHAWAN,SARAFA ROAD,GWALIOR</th>
+						     		<th>High Court of MP (Gwalior)</th>
+						     </tr>			
+						     <tr>
+						     		<th>8</th>
+						     		<th>CIVIL REVIEW[C. REV.]</th>
+						     		<th>2005</th>
+						     		<th>High Court of MP (Gwalior)</th>
+						     		<th></th>
+						     		<th>COMMISSIONER OF INCOME TAX, GWALIOR S/D/W/Thru:-</th>
+						     		<th>THE INDIA THERMIT CORP. LTD. S/D/W/Thru:-</th>
+						     		<th>High Court of MP (Gwalior)</th>
+						     </tr>			
+						     <tr>
+						     		<th>4</th>
+						     		<th>FEMA</th>
+						     		<th>2009</th>
+						     		<th>High Court of MP (Gwalior)</th>
+						     		<th></th>
+						     		<th>COMMISSIONER OF INCOME TAX S/D/W/Thru:- DELHI-VI,NEW DELHI</th>
+						     		<th>THE INDIA THERMIT CORPN.LTD. S/D/W/Thru:- SHREE BHAWAN,SARAFA ROAD,GWALIOR</th>
+						     		<th>High Court of MP (Gwalior)</th>
+						     </tr>			
+						     <tr>
+						     		<th>137</th>
+						     		<th></th>
+						     		<th>2010</th>
+						     		<th>High Court of Andhra Pradesh</th>
+						     		<th></th>
+						     		<th>K.Udayananda Reddy S/o. Rami Reddy 
+
+Sagar Thermit Corporation Ltd., Rep. by its Managing Director, K.Udayananda Reddy, 
+
+SAGAR THERMIT CORPORATION LTD.,REP.BY ITS M.D., HYD AND ANR</th>
+						     		<th>B.Surender Reddy S/o. Amrutha Reddy 
+
+B.SURENDER REDDY, KOTHAPET, HYDERABAD</th>
+						     		<th>High Court of Andhra Pradesh</th>
+						     </tr>			
+						     <tr>
+						     		<th>5100098</th>
+						     		<th>Complaint ULP</th>
+						     		<th>2010</th>
+						     		<th>Labour Court,Nagpur</th>
+						     		<th>Maharashtra Industrial and Lab</th>
+						     		<th>Ashokkumar Jaiswal</th>
+						     		<th>The India Thermit CorporationLtd.,</th>
+						     		<th>Maharashtra</th>
+						     </tr>			
+						     <tr>
+						     		<th>4002035</th>
+						     		<th>Original Suit</th>
+						     		<th>2008</th>
+						     		<th>Judge Small Cause Court</th>
+						     		<th>Kanpur Nagar</th>
+						     		<th>India thermit corporesation ltd.</th>
+						     		<th>Union of india  and amp; other</th>
+						     		<th>Uttar Pradesh</th>
+						     </tr>			
+						     <tr>
+						     		<th>5000129</th>
+						     		<th>Revn. Appln. ULP</th>
+						     		<th>2011</th>
+						     		<th>Industrial Court, Nagpur</th>
+						     		<th>Maharashtra Industrial and Lab</th>
+						     		<th>India Thermit Corpo. Ltd</th>
+						     		<th>Ashok Jaiswal</th>
+						     		<th>Maharashtra</th>
+						     </tr>			
+						     <tr>
+						     		<th>5000128</th>
+						     		<th>Revn. Appln. ULP</th>
+						     		<th>2011</th>
+						     		<th>Industrial Court, Nagpur</th>
+						     		<th>Maharashtra Industrial and Lab</th>
+						     		<th>India Thermit Corpo. Ltd</th>
+						     		<th>Siyaram Pinjare</th>
+						     		<th>Maharashtra</th>
+						     </tr>			
+						     <tr>
+						     		<th>5000127</th>
+						     		<th>Revn. Appln. ULP</th>
+						     		<th>2011</th>
+						     		<th>Industrial Court, Nagpur</th>
+						     		<th>Maharashtra Industrial and Lab</th>
+						     		<th>India Thermit Corpo. Ltd</th>
+						     		<th>Dinesh Shinde</th>
+						     		<th>Maharashtra</th>
+						     </tr>			
+						     <tr>
+						     		<th>602942</th>
+						     		<th>Mcop</th>
+						     		<th>2008</th>
+						     		<th>Principal Sub Court, Cuddalore</th>
+						     		<th>Cuddalore</th>
+						     		<th>S. Sekar</th>
+						     		<th>Sagar Thermit co.Ltd. and New India Ass Co.Ltd, DO</th>
+						     		<th>Tamil Nadu</th>
+						     </tr>			
+						     <tr>
+						     		<th>602941</th>
+						     		<th>Mcop</th>
+						     		<th>2008</th>
+						     		<th>Principal Sub Court, Cuddalore</th>
+						     		<th>Cuddalore</th>
+						     		<th>C. Devaraj</th>
+						     		<th>Sagar Thermit co.Ltd. and New India Ass Co.Ltd, DO</th>
+						     		<th>Tamil Nadu</th>
+						     </tr>			
+						     <tr>
+						     		<th>353</th>
+						     		<th>Complain</th>
+						     		<th>2015</th>
+						     		<th>Naugachia CJM Division</th>
+						     		<th>Bhagalpur</th>
+						     		<th>state of bihar</th>
+						     		<th>India Thermit Corporetion Ltd</th>
+						     		<th>Bihar</th>
+						     </tr>			
+						     <tr>
+						     		<th>200296</th>
+						     		<th>Spl.C.S.</th>
+						     		<th>2010</th>
+						     		<th>Civil Court Senior Division , Nagpur</th>
+						     		<th>Nagpur</th>
+						     		<th>Sunita R. Gupta 1</th>
+						     		<th>India Thermit Corpn. 1</th>
+						     		<th>Maharashtra</th>
+						     </tr>			
+						     <tr>
+						     		<th>13167</th>
+						     		<th>CR</th>
+						     		<th>2015</th>
+						     		<th>High Court of Bihar</th>
+						     		<th></th>
+						     		<th>Ram Autar Prasad</th>
+						     		<th>Bhartiya Rail Bijal Company Ltd. through its Chairman, New Delhi. 
+
+Chairman, National Thermal Power Corporation New Delhi 
+
+Chief Executive Officer, N.T.P.C. Dalmia Nagar, District Rohtas 
+
+District Land Acquisition Officer, Aurangabad. 
+
+The District Magistrate, Aurangabad. 
+
+The General Manager, East Control Railway, Hajipur. 
+
+The Union of India through the Secretary, Energy Department, Govt. of India, New Delhi.</th>
+						     		<th>High Court of Bihar</th>
+						     </tr>			
+						     <tr>
+						     		<th>5100097</th>
+						     		<th>Complaint ULP</th>
+						     		<th>2010</th>
+						     		<th>Labour Court,Nagpur</th>
+						     		<th>Maharashtra Industrial and Lab</th>
+						     		<th>Dinesh Shinde</th>
+						     		<th>The India Thermit CorporationLtd.,</th>
+						     		<th>Maharashtra</th>
+						     </tr>			
+						     <tr>
+						     		<th>519</th>
+						     		<th></th>
+						     		<th>2010</th>
+						     		<th>High Court of MP (Jabalpur)</th>
+						     		<th></th>
+						     		<th>THE INDIA THERMIT CORPORATION LIMITED</th>
+						     		<th>DASHRATH SINGH S/D/W/Thru:- GOVIND SINGH THAKUR 
+
+GENERAL MANAGER MADHYA RAILWAY, MUMBAI 
+
+KU. PREETI S/D/W/Thru:- GOVIND SINGH THAKUR 
+
+RAJPAL SINGH S/D/W/Thru:- GOVIND SINGH THAKUR 
+
+SHAILESH SINGH S/D/W/Thru:- GOVIND SINGH THAKUR 
+
+SHRI. GOVIND SINGH THAKUR S/D/W/Thru:- GANDHARV SINGH THAKUR 
+
+SMT. KRISHNA BAI S/D/W/Thru:- GOVIND SINGH THAKUR</th>
+						     		<th>High Court of MP (Jabalpur)</th>
+						     </tr>			
+						     <tr>
+						     		<th>789</th>
+						     		<th></th>
+						     		<th>2006</th>
+						     		<th>High Court of Allahabad</th>
+						     		<th></th>
+						     		<th>THE COMMISSIONER TRADE TAX U.P. LUCKNOW</th>
+						     		<th>THE INDIA THERMIT CORPORATION LTD., KANPUR</th>
+						     		<th>High Court of Allahabad</th>
+						     </tr>			
+						     <tr>
+						     		<th>790</th>
+						     		<th></th>
+						     		<th>2006</th>
+						     		<th>High Court of Allahabad</th>
+						     		<th></th>
+						     		<th>THE COMMISSIONER TRADE TAX U.P. LUCKNOW</th>
+						     		<th>THE INDIA THERMIT CORPORATION LTD., KANPUR</th>
+						     		<th>High Court of Allahabad</th>
+						     </tr>			
+						     <tr>
+						     		<th>5000001</th>
+						     		<th>Appeal IC</th>
+						     		<th>2010</th>
+						     		<th>Industrial Court, Nagpur</th>
+						     		<th>Maharashtra Industrial and Lab</th>
+						     		<th>India Thermit Corporation Ltd other</th>
+						     		<th>Asstt Registrar Exercising the powers other</th>
+						     		<th>Maharashtra</th>
+						     </tr>			
+	    			</tbody></table>	
+  					
+		</div>
+</div>

@@ -1,0 +1,62 @@
+<div class="container" style="page-break-after: always;">
+        <div>
+        <div class="alert alert-success" style="margin-top: 50px;">
+            <h4 style="padding-top:4px">Allotment Of New Equity</h4>
+        </div>
+            <table class="table table-striped">
+			
+				<tbody><tr>
+					<th>For the year</th>
+									</tr>
+                
+             </tbody></table>   
+		</div>
+</div>
+<div class="container" style="page-break-after: always;">
+        <div>
+        <div class="alert alert-success" style="margin-top: 50px;">
+            <h4 style="padding-top:4px">Share Capital</h4>
+        </div>
+            <table class="table table-striped">
+			
+				<tbody><tr>
+					<th>For the year</th>
+											<th>Subscribed Capital</th> 
+						<th>PaidUp Capital</th> 
+						<th>Issued Capital</th> 
+						<th>Authorised Capital</th> 
+				</tr>
+    						<tr>
+    							<td>NominalValuePerShare</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>NumberOfShares</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>TotalAmountOfShares</td>
+    							
+
+     						</tr>
+     						
+             </tbody></table>
+		</div>
+</div>
+<div class="container" style="page-break-after: always;">
+        <div>
+        <div class="alert alert-success" style="margin-top: 50px;">
+            <h4 style="padding-top:4px">Share Holding Pattern</h4>
+        </div>            
+									<table class="table table-condensed">
+						<tbody><tr><td style="font-size:24px;font-weight: lighter;">Promoter</td></tr> 					
+	    			</tbody></table>	
+					<table class="table table-condensed">
+						<tbody><tr><td style="font-size:24px;font-weight: lighter;">NonPromoter</td></tr> 					
+	    			</tbody></table>	
+		</div>
+</div>

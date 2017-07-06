@@ -4,6 +4,7 @@ public class EIRDomain {
 	
 	private ComboDomain comboDomain;
 	private BIRDomain birDomain;
+	
 	public ComboDomain getComboDomain() {
 		return comboDomain;
 	}

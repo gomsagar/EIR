@@ -44,14 +44,6 @@ public class UserDetails implements Serializable {
 	@Column(name = "user_name", length = 45)
 	@XmlElement
 	String userName;
-
-	
-	/**
-	 */
-	/*@Column(name = "password", length = 45)
-	@XmlElement
-	String password;*/
-
 	
 	@Column(name = "first_name", length = 45)
 	
@@ -131,18 +123,6 @@ public class UserDetails implements Serializable {
 	public Integer getUserId() {
 		return this.userId;
 	}
-
-/*public void setPassword(String password) {
-		this.password = password;
-	}
-
-	*//**
-	 *//*
-	public String getPassword() {
-		return this.password;
-	}*/
-	/**
-	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}

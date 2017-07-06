@@ -25,12 +25,15 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPMessage;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.w3c.dom.Document;
@@ -46,6 +49,20 @@ import com.eir.domain.ComboDomain;
 import com.eir.domain.EIRDomain;
 import com.eir.model.EIRDataConstant;
 import com.eir.bir.request.model.Consumer;
+import com.eir.model.bir.AllotmentOfNewEquityType;
+import com.eir.model.bir.AllotmentType;
+import com.eir.model.bir.BalanceSheetType;
+import com.eir.model.bir.CashFlowDirectType;
+import com.eir.model.bir.CashFlowInDirectType;
+import com.eir.model.bir.CompanyReportType;
+import com.eir.model.bir.FinancialRatios;
+import com.eir.model.bir.IntangibleAssetsType;
+import com.eir.model.bir.LawsuitType;
+import com.eir.model.bir.LawsuitsType;
+import com.eir.model.bir.ProfitAndLossType;
+import com.eir.model.bir.SnapshotType;
+import com.eir.report.constant.BIRReportConstant;
+import com.eir.report.entity.BirRequest;
 import com.eir.report.constant.Constant;
 import com.eir.report.entity.CirRequest;
 import com.eir.report.entity.ConsumerRequest;
@@ -78,11 +95,15 @@ import com.experian.nextgen.ind.model.consumer.uofpojo.Perinpidc;
 import com.experian.nextgen.ind.model.consumer.uofpojo.ResponseInfo;
 
 @Service
+@PropertySource("classpath:zaubaConfig.properties")
 public class NextGenWebServiceImpl implements NextGenWebService{
 
 
 	
 	Logger logger = LoggerFactory.getLogger(NextGenWebServiceImpl.class);
+	
+	@Value("${outputXml.path}")
+	private String xmlOutputPath;
 
 	ExperianHttpDirectClient experianHttDirectClient;
 	
@@ -118,8 +139,12 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 						 String reportStatus = cirRequest.getStatus().getStatusDescription();
 						 if(com.eir.report.constant.Status.COMPLETED.status().equals(reportStatus))
 						 {
-							 byte[] reportXml = cirRequest.getXmlOutput();
-							 ByteArrayInputStream in = new ByteArrayInputStream(reportXml);
+							 /*byte[] reportXml = cirRequest.getXmlOutput();
+							 ByteArrayInputStream in = new ByteArrayInputStream(reportXml);*/
+							 
+							 File fileOutput = new File(cirRequest.getXmlOutputPath());
+							 ByteArrayInputStream in = new ByteArrayInputStream(FileUtils.readFileToByteArray(fileOutput));
+								
 							 //FileInputStream  fileInputStream  =  new FileInputStream(reportXml.toString());
 							  
 				             SOAPMessage message = MessageFactory.newInstance().createMessage(null, in );
@@ -282,8 +307,13 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 						 
 						 if(com.eir.report.constant.Status.COMPLETED.status().equals(xmlStatus))
 						 {
-							byte[] requestedConsXml = consumerRequest.getXmlOutput();
-							ByteArrayInputStream bais = new ByteArrayInputStream(requestedConsXml);
+							/*byte[] requestedConsXml = consumerRequest.getXmlOutput();
+							ByteArrayInputStream bais = new ByteArrayInputStream(requestedConsXml);*/ //read file from folder instate of database
+							 
+							 File fileOutput = new File(consumerRequest.getXmlOutputPath());
+							 ByteArrayInputStream bais = new ByteArrayInputStream(FileUtils.readFileToByteArray(fileOutput));
+								
+							 
 							//FileInputStream  fileInputStream  =  new FileInputStream(requestedConsXml.toString());
 							
 				            SOAPMessage message = MessageFactory.newInstance().createMessage(null, bais );
@@ -640,10 +670,22 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		logger.info("NextGenWebServiceImpl: - createCIRReport() Start");
 		try 
 		{
+			String statusStr = com.eir.report.constant.Status.ERROR.status();
 			String cirRequestXML = getCIRRequestXML(cirRequest);
 			NextGenResponseWrapper nextGenResponseWrapper = experianHttDirectClient.getNextgenReport(cirRequestXML);
 			
-			String statusStr = com.eir.report.constant.Status.ERROR.status();
+			if(getRequestStatusStr(nextGenResponseWrapper).equals(com.eir.report.constant.Status.ERROR.status()))
+			{
+				for (int i = 0; i < Constant.RETRY_COUNT; i++) 
+				{
+					nextGenResponseWrapper = experianHttDirectClient.getNextgenReport(cirRequestXML);
+					if(getRequestStatusStr(nextGenResponseWrapper).equals(com.eir.report.constant.Status.COMPLETED.status()))
+					{
+						break;
+					}
+				}
+			}
+			
 			
 			if(nextGenResponseWrapper != null)
 			{
@@ -656,20 +698,25 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 						statusStr = com.eir.report.constant.Status.ERROR.status();
 					}*/
 				}
-				cirRequest.setXmlOutput(nextGenResponseWrapper.getResponse().getBytes());
+				//cirRequest.setXmlOutput(nextGenResponseWrapper.getResponse().getBytes()); //commented reason -- writing into file
+				Integer xmlOutputFolderReqId = cirRequest.getRequest().getRequestId();
+				cirRequest.setXmlOutputPath(writeXmlOutputToFile(nextGenResponseWrapper.getResponse() , cirRequest.getRequest().getRequestId()));
 			}
 			else
 			{
-				//statusStr = com.eir.report.constant.Status.ERROR.status();
 				//cirRequest.setXmlOutput("NextGen response is null".getBytes());
-				/*File f = new File("C:/Experian/EIR/getBusinessProductRespnse.xml");
+				
+				File f = new File("D:/BIReport/bir/6/getBusinessProductRespnse.xml");
 				
 				byte[] bytesArray = new byte[(int) f.length()];
+				
+				Integer xmlOutputFolderReqId = cirRequest.getRequest().getRequestId();
+				cirRequest.setXmlOutputPath(writeXmlOutputToFile(bytesArray.toString() , cirRequest.getRequest().getRequestId()));
 
-				FileInputStream fis = new FileInputStream(f);
-				fis.read(bytesArray); //read file into bytes[]
-				cirRequest.setXmlOutput(bytesArray);
-*/			}
+				//FileInputStream fis = new FileInputStream(f); 
+				//fis.read(bytesArray); //read file into bytes[]
+				//cirRequest.setXmlOutput(bytesArray);
+			}
 			
 			Status reqStatus = getStatusByDescription(statusStr);
 			cirRequest.setStatus(reqStatus);
@@ -681,15 +728,50 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		return null;
 	}
 
+	private String writeXmlOutputToFile(String xmlOutputResponse,Integer xmlOutputFolderReqId) 
+	{
+			//responceData write into file
+		FileWriter fr = null;
+		try 
+		{
+			String fileName = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss'.txt'").format(new Date());
+			
+			File file = new File(xmlOutputPath+xmlOutputFolderReqId+"/"+fileName);
+			file.getParentFile().mkdirs();
+			String writePath = file.getAbsolutePath();
+            fr = new FileWriter(file);
+            fr.write(xmlOutputResponse);
+            return writePath;
+	    } 
+		catch (IOException e) 
+		{
+	          e.printStackTrace();
+	    }
+		finally
+		{
+            //close resources
+            try {
+                fr.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        //end write data here
+		return null;
+	}
 	private String getRequestStatusStr(NextGenResponseWrapper nextGenResponseWrapper )
 			throws ParserConfigurationException, SAXException, IOException 
 	{
 		String statusStr = com.eir.report.constant.Status.ERROR.status();
 		
-		if(nextGenResponseWrapper.getResponse().contains("BURERROR") || nextGenResponseWrapper.getResponse().contains("Error") 
-				|| nextGenResponseWrapper.getResponse().contains("ERROR"))
-		{
-			statusStr = com.eir.report.constant.Status.COMPLETED.status();
+		if (nextGenResponseWrapper != null && nextGenResponseWrapper.getResponse() != null && !nextGenResponseWrapper.getResponse().isEmpty()) 
+		{			
+			if(nextGenResponseWrapper.getResponse().contains("BURERROR") || nextGenResponseWrapper.getResponse().contains("Error") 
+					|| nextGenResponseWrapper.getResponse().contains("ERROR"))
+			{
+				statusStr = com.eir.report.constant.Status.COMPLETED.status();
+			}
+			
 		}
 		return statusStr;
 	}
@@ -715,19 +797,21 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 						{
 							statusStr = getRequestStatusStr(nextGenResponseWrapper);
 						}
-						consumerEntityRequest.setXmlOutput(nextGenResponseWrapper.getResponse().getBytes());
+						//consumerEntityRequest.setXmlOutput(nextGenResponseWrapper.getResponse().getBytes()); //commented reason -- writing into file
+						consumerEntityRequest.setXmlOutputPath(writeXmlOutputToFile(nextGenResponseWrapper.getResponse(),consumerEntityRequest.getRequest().getRequestId()));
 					}
 					else
 					{
 						//consumerEntityRequest.setXmlOutput("NextGen response is null".getBytes());
-						/*File f = new File("C:/Experian/EIR/getConsumerProductRespnse.xml");
+						File f = new File("D:/BIReport/bir/6/getConsumerProductRespnse.xml");
 						
 						byte[] bytesArray = new byte[(int) f.length()];
 
-						FileInputStream fis = new FileInputStream(f);
-						fis.read(bytesArray); //read file into bytes[]
-						consumerEntityRequest.setXmlOutput(bytesArray);
-						 */
+						consumerEntityRequest.setXmlOutputPath(writeXmlOutputToFile(new String(bytesArray, "UTF-8"),consumerEntityRequest.getRequest().getRequestId()));
+						//FileInputStream fis = new FileInputStream(f);
+						//fis.read(bytesArray); //read file into bytes[]
+						//consumerEntityRequest.setXmlOutput(bytesArray);
+
 					}
 					Status consumerReqStatusSuccess = getStatusByDescription(statusStr);
 					consumerEntityRequest.setStatusId(consumerReqStatusSuccess);
@@ -755,11 +839,22 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		{
 			EIRDomain eirDomain = new EIRDomain();
 			CreateReport  createReport = new CreateReport();
+			Request request = null;
+			BirRequest birRequest = null;
 			
 			if(reportType.equals(EIRDataConstant.EIR) || reportType.equals(EIRDataConstant.BIR))
 			{
-				BIRDomain birDomain = getBirReprot(requestId);
-				eirDomain.setBirDomain(birDomain);
+				request= requestRepository.findByRequestId(requestId);
+				if(request != null)
+				{
+					 birRequest = request.getBirRequests();
+					 if(birRequest != null)
+					 {
+						 CompanyReportType companyReportType = getBirReport(birRequest);
+						 eirDomain.getBirDomain().setCompanyReportType(companyReportType);
+					 }
+				}
+				
 			}
 			if(reportType.equals(EIRDataConstant.COMBOWITHSCORE) ||reportType.equals(EIRDataConstant.COMBOWITHOUTSCORE)|| 
 					reportType.equals(EIRDataConstant.EIR) || reportType.equals(EIRDataConstant.CIRWITHSCORE) || 
@@ -775,11 +870,2837 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		return null;
 	}
 	
-	public BIRDomain getBirReprot(Integer requestId)
+	public CompanyReportType getBirReport(BirRequest birRequest)
 	{
-		BIRDomain birDomain = null;
+		CompanyReportType companyReportType = null;
+		try
+		{
+		if(birRequest.getStatus() != null)
+		{
+			String xmlStatus = birRequest.getStatus().getStatusDescription();
+			 
+			 if(com.eir.report.constant.Status.COMPLETED.status().equals(xmlStatus))
+			 {
+				//byte[] requestedBIRXml = birRequest.getXmlOutput();//commented reason -- get file path from database
+				
+				File fileOutput = new File(birRequest.getXmlOutputPath());
+				ByteArrayInputStream bais = new ByteArrayInputStream(FileUtils.readFileToByteArray(fileOutput));
+				
+	            SOAPMessage message = MessageFactory.newInstance().createMessage(null, bais );
+	            Unmarshaller unmarshaller = JAXBContext.newInstance(CompanyReportType.class).createUnmarshaller();
+	            companyReportType = (CompanyReportType)unmarshaller.unmarshal(message.getSOAPBody().extractContentAsDocument());
+	            
+	            setAllTableMapping(companyReportType);
+			 }
+			 else
+			 {
+				 logger.debug("Report is in " + xmlStatus + " state.");
+			 }
+		}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		
-		return birDomain;
+		return companyReportType;
+	}
+	
+		private void setAllTableMapping(CompanyReportType companyReportType) 
+	{
+		if (companyReportType.getBalanceSheet() != null && companyReportType.getBalanceSheet().getSnapshotType() !=null && !companyReportType.getBalanceSheet().getSnapshotType().isEmpty() ) 
+		{
+			setBalanceSheetTable(companyReportType.getBalanceSheet());
+		}
+		if (companyReportType.getProfitAndLoss() != null && companyReportType.getProfitAndLoss().getSnapshot() !=null && !companyReportType.getProfitAndLoss().getSnapshot().isEmpty() ) 
+		{
+			setProfitAndLossTable(companyReportType.getProfitAndLoss());
+		}
+		if (companyReportType.getCashFlowDirect() != null && companyReportType.getCashFlowDirect().getSnapshot() !=null && !companyReportType.getCashFlowDirect().getSnapshot().isEmpty() ) 
+		{
+			setCashFlowDirectTable(companyReportType.getCashFlowDirect());
+		}
+		if (companyReportType.getCashFlowInDirect() != null && companyReportType.getCashFlowInDirect().getSnapshot() !=null && !companyReportType.getCashFlowInDirect().getSnapshot().isEmpty() ) 
+		{
+			setCashFlowInDirectTable(companyReportType.getCashFlowInDirect());
+		}
+		if (companyReportType.getIntangibleAssets() != null && companyReportType.getIntangibleAssets().getSnapshot() !=null && !companyReportType.getIntangibleAssets().getSnapshot().isEmpty() ) 
+		{
+			setIntangibleAssetsTable(companyReportType.getIntangibleAssets());
+		}
+		if (companyReportType.getAllotmentOfNewEquity() != null && companyReportType.getAllotmentOfNewEquity().getAllotment() !=null && !companyReportType.getAllotmentOfNewEquity().getAllotment().isEmpty() ) 
+		{
+			setAllotmentOfNewEquityTable(companyReportType.getAllotmentOfNewEquity());
+		}
+		if (companyReportType.getLawsuits() != null && companyReportType.getLawsuits().getLawsuit() !=null && !companyReportType.getLawsuits().getLawsuit().isEmpty() ) 
+		{
+			setLawsuitsTable(companyReportType.getLawsuits());
+		}
+		if (companyReportType.getFinacialRatios() != null && !companyReportType.getFinacialRatios().isEmpty() ) 
+		{
+			setFinacialRatiosTable(companyReportType.getFinacialRatios());
+		}
+				
+	}
+
+	private void setFinacialRatiosTable(List<FinancialRatios> finacialRatios) 
+	{
+		for (FinancialRatios finacialRatio : finacialRatios)
+		{
+			ArrayList<String> pushDataList = null;
+			Map<String, ArrayList<String>> finacialRatiosMap= new HashMap<String, ArrayList<String>>();
+			if (finacialRatiosMap.containsKey(BIRReportConstant.FOR_THE_YEAR)) 
+			{
+				pushDataList = finacialRatiosMap.get(BIRReportConstant.FOR_THE_YEAR);
+				pushDataList.add(finacialRatio.getAsOf().toString());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(finacialRatio.getAsOf().toString());
+				finacialRatiosMap.put(BIRReportConstant.FOR_THE_YEAR, pushDataList);	
+			}
+			if (finacialRatiosMap.containsKey(BIRReportConstant.CURRENT_RATIO)) 
+			{
+				pushDataList = finacialRatiosMap.get(BIRReportConstant.CURRENT_RATIO);
+				pushDataList.add(finacialRatio.getSolvencyRatios().getCurrentRatio());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(finacialRatio.getSolvencyRatios().getCurrentRatio());
+				finacialRatiosMap.put(BIRReportConstant.CURRENT_RATIO, pushDataList);	
+			}
+			if (finacialRatiosMap.containsKey(BIRReportConstant.QUICK_RATIO)) 
+			{
+				pushDataList = finacialRatiosMap.get(BIRReportConstant.QUICK_RATIO);
+				pushDataList.add(finacialRatio.getSolvencyRatios().getQuickRatio());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(finacialRatio.getSolvencyRatios().getQuickRatio());
+				finacialRatiosMap.put(BIRReportConstant.QUICK_RATIO, pushDataList);	
+			}
+			if (finacialRatiosMap.containsKey(BIRReportConstant.DEBT_RATIO)) 
+			{
+				pushDataList = finacialRatiosMap.get(BIRReportConstant.DEBT_RATIO);
+				pushDataList.add(finacialRatio.getLeverageRatios().getDebtRatio());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(finacialRatio.getLeverageRatios().getDebtRatio());
+				finacialRatiosMap.put(BIRReportConstant.DEBT_RATIO, pushDataList);	
+			}
+			if (finacialRatiosMap.containsKey(BIRReportConstant.DEBT_EQUITY_RATIO)) 
+			{
+				pushDataList = finacialRatiosMap.get(BIRReportConstant.DEBT_EQUITY_RATIO);
+				pushDataList.add(finacialRatio.getLeverageRatios().getDebtEquityRatio());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(finacialRatio.getLeverageRatios().getDebtRatio());
+				finacialRatiosMap.put(BIRReportConstant.DEBT_EQUITY_RATIO, pushDataList);	
+			}
+			if (finacialRatiosMap.containsKey(BIRReportConstant.CURRENT_LIABILITIES_TO_NETWORTH)) 
+			{
+				pushDataList = finacialRatiosMap.get(BIRReportConstant.CURRENT_LIABILITIES_TO_NETWORTH);
+				pushDataList.add(finacialRatio.getLeverageRatios().getCurrentLiabilitiesToNetWorth());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(finacialRatio.getLeverageRatios().getCurrentLiabilitiesToNetWorth());
+				finacialRatiosMap.put(BIRReportConstant.CURRENT_LIABILITIES_TO_NETWORTH, pushDataList);	
+			}
+			if (finacialRatiosMap.containsKey(BIRReportConstant.FIXED_ASSETS_TO_NETWORTH)) 
+			{
+				pushDataList = finacialRatiosMap.get(BIRReportConstant.FIXED_ASSETS_TO_NETWORTH);
+				pushDataList.add(finacialRatio.getLeverageRatios().getFixedAssetsToNetWorth());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(finacialRatio.getLeverageRatios().getFixedAssetsToNetWorth());
+				finacialRatiosMap.put(BIRReportConstant.FIXED_ASSETS_TO_NETWORTH, pushDataList);	
+			}
+			if (finacialRatiosMap.containsKey(BIRReportConstant.INTEREST_COVERAGE_RATIO)) 
+			{
+				pushDataList = finacialRatiosMap.get(BIRReportConstant.INTEREST_COVERAGE_RATIO);
+				pushDataList.add(finacialRatio.getLeverageRatios().getInterestCoverageRatio());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(finacialRatio.getLeverageRatios().getInterestCoverageRatio());
+				finacialRatiosMap.put(BIRReportConstant.INTEREST_COVERAGE_RATIO, pushDataList);	
+			}
+			if (finacialRatiosMap.containsKey(BIRReportConstant.AVERAGE_COLLECTION_DAYS)) 
+			{
+				pushDataList = finacialRatiosMap.get(BIRReportConstant.AVERAGE_COLLECTION_DAYS);
+				pushDataList.add(finacialRatio.getEffeciencyRatios().getAverageCollectionDays());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(finacialRatio.getEffeciencyRatios().getAverageCollectionDays());
+				finacialRatiosMap.put(BIRReportConstant.AVERAGE_COLLECTION_DAYS, pushDataList);	
+			}
+			if (finacialRatiosMap.containsKey(BIRReportConstant.ACCOUNT_RECEIVABLE_TURNOVER)) 
+			{
+				pushDataList = finacialRatiosMap.get(BIRReportConstant.ACCOUNT_RECEIVABLE_TURNOVER);
+				pushDataList.add(finacialRatio.getEffeciencyRatios().getAccountRecievableTurnover());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(finacialRatio.getEffeciencyRatios().getAccountRecievableTurnover());
+				finacialRatiosMap.put(BIRReportConstant.ACCOUNT_RECEIVABLE_TURNOVER, pushDataList);	
+			}
+			if (finacialRatiosMap.containsKey(BIRReportConstant.AVERAGE_PAYMENT_DAYS)) 
+			{
+				pushDataList = finacialRatiosMap.get(BIRReportConstant.AVERAGE_PAYMENT_DAYS);
+				pushDataList.add(finacialRatio.getEffeciencyRatios().getAveragePaymentDays());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(finacialRatio.getEffeciencyRatios().getAveragePaymentDays());
+				finacialRatiosMap.put(BIRReportConstant.AVERAGE_PAYMENT_DAYS, pushDataList);	
+			}
+			if (finacialRatiosMap.containsKey(BIRReportConstant.INVENTORY_TURNOVER_RATIO)) 
+			{
+				pushDataList = finacialRatiosMap.get(BIRReportConstant.INVENTORY_TURNOVER_RATIO);
+				pushDataList.add(finacialRatio.getEffeciencyRatios().getInventoryTurnoverRatio());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(finacialRatio.getEffeciencyRatios().getInventoryTurnoverRatio());
+				finacialRatiosMap.put(BIRReportConstant.INVENTORY_TURNOVER_RATIO, pushDataList);	
+			}
+			if (finacialRatiosMap.containsKey(BIRReportConstant.ASSET_TURNOVER_RATIO)) 
+			{
+				pushDataList = finacialRatiosMap.get(BIRReportConstant.ASSET_TURNOVER_RATIO);
+				pushDataList.add(finacialRatio.getEffeciencyRatios().getAssetTurnoverRatio());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(finacialRatio.getEffeciencyRatios().getAssetTurnoverRatio());
+				finacialRatiosMap.put(BIRReportConstant.ASSET_TURNOVER_RATIO, pushDataList);	
+			}
+			if (finacialRatiosMap.containsKey(BIRReportConstant.PAT_TO_TOTAL_INCOME_RATIO)) 
+			{
+				pushDataList = finacialRatiosMap.get(BIRReportConstant.PAT_TO_TOTAL_INCOME_RATIO);
+				pushDataList.add(finacialRatio.getProfitabilityRatios().getpATToTotalIncomeRatio());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(finacialRatio.getProfitabilityRatios().getpATToTotalIncomeRatio());
+				finacialRatiosMap.put(BIRReportConstant.PAT_TO_TOTAL_INCOME_RATIO, pushDataList);	
+			}
+			if (finacialRatiosMap.containsKey(BIRReportConstant.NET_PROFIT_MARGIN)) 
+			{
+				pushDataList = finacialRatiosMap.get(BIRReportConstant.NET_PROFIT_MARGIN);
+				pushDataList.add(finacialRatio.getProfitabilityRatios().getNetProfitMargin());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(finacialRatio.getProfitabilityRatios().getNetProfitMargin());
+				finacialRatiosMap.put(BIRReportConstant.NET_PROFIT_MARGIN, pushDataList);	
+			}
+			if (finacialRatiosMap.containsKey(BIRReportConstant.RETURN_ON_ASSETS)) 
+			{
+				pushDataList = finacialRatiosMap.get(BIRReportConstant.RETURN_ON_ASSETS);
+				pushDataList.add(finacialRatio.getProfitabilityRatios().getReturnOnAssets());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(finacialRatio.getProfitabilityRatios().getReturnOnAssets());
+				finacialRatiosMap.put(BIRReportConstant.RETURN_ON_ASSETS, pushDataList);	
+			}
+			if (finacialRatiosMap.containsKey(BIRReportConstant.RETURN_ON_INVESTMENTS)) 
+			{
+				pushDataList = finacialRatiosMap.get(BIRReportConstant.RETURN_ON_INVESTMENTS);
+				pushDataList.add(finacialRatio.getProfitabilityRatios().getReturnOnInvestments());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(finacialRatio.getProfitabilityRatios().getReturnOnInvestments());
+				finacialRatiosMap.put(BIRReportConstant.RETURN_ON_INVESTMENTS, pushDataList);	
+			}
+			
+		}
+		
+	}
+
+	private void setLawsuitsTable(LawsuitsType lawsuits) 
+	{
+		List<LawsuitType> lawsuitsTypeList = lawsuits.getLawsuit();
+		for (LawsuitType lawsuit : lawsuitsTypeList)
+		{
+			ArrayList<String> pushDataList = null;
+			Map<String, ArrayList<String>> lawsuitsMap= new HashMap<String, ArrayList<String>>();
+			if (lawsuitsMap.containsKey(BIRReportConstant.STATE)) 
+			{
+				pushDataList = lawsuitsMap.get(BIRReportConstant.STATE);
+				pushDataList.add(lawsuit.getState());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(lawsuit.getState());
+				lawsuitsMap.put(BIRReportConstant.STATE, pushDataList);	
+			}
+			if (lawsuitsMap.containsKey(BIRReportConstant.DISTRICT)) 
+			{
+				pushDataList = lawsuitsMap.get(BIRReportConstant.DISTRICT);
+				pushDataList.add(lawsuit.getDistrict());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(lawsuit.getDistrict());
+				lawsuitsMap.put(BIRReportConstant.DISTRICT, pushDataList);	
+			}
+			if (lawsuitsMap.containsKey(BIRReportConstant.COURT)) 
+			{
+				pushDataList = lawsuitsMap.get(BIRReportConstant.COURT);
+				pushDataList.add(lawsuit.getCourt());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(lawsuit.getCourt());
+				lawsuitsMap.put(BIRReportConstant.COURT, pushDataList);	
+			}
+			if (lawsuitsMap.containsKey(BIRReportConstant.CASE_YEAR)) 
+			{
+				pushDataList = lawsuitsMap.get(BIRReportConstant.CASE_YEAR);
+				pushDataList.add(String.valueOf(lawsuit.getCaseYear()));
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(String.valueOf(lawsuit.getCaseYear()));
+				lawsuitsMap.put(BIRReportConstant.CASE_YEAR, pushDataList);	
+			}
+			if (lawsuitsMap.containsKey(BIRReportConstant.CASE_NO)) 
+			{
+				pushDataList = lawsuitsMap.get(BIRReportConstant.CASE_NO);
+				pushDataList.add(String.valueOf(lawsuit.getCaseNo()));
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(String.valueOf(lawsuit.getCaseNo()));
+				lawsuitsMap.put(BIRReportConstant.CASE_NO, pushDataList);	
+			}
+			if (lawsuitsMap.containsKey(BIRReportConstant.CASE_TYPE)) 
+			{
+				pushDataList = lawsuitsMap.get(BIRReportConstant.CASE_TYPE);
+				pushDataList.add(lawsuit.getCaseType());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(lawsuit.getCaseType());
+				lawsuitsMap.put(BIRReportConstant.CASE_TYPE, pushDataList);	
+			}
+			if (lawsuitsMap.containsKey(BIRReportConstant.PETITIONER)) 
+			{
+				pushDataList = lawsuitsMap.get(BIRReportConstant.PETITIONER);
+				pushDataList.add(lawsuit.getPetitioner());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(lawsuit.getPetitioner());
+				lawsuitsMap.put(BIRReportConstant.PETITIONER, pushDataList);	
+			}
+			if (lawsuitsMap.containsKey(BIRReportConstant.RESPONDENT)) 
+			{
+				pushDataList = lawsuitsMap.get(BIRReportConstant.RESPONDENT);
+				pushDataList.add(lawsuit.getRespondent());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(lawsuit.getRespondent());
+				lawsuitsMap.put(BIRReportConstant.RESPONDENT, pushDataList);	
+			}
+			
+		}
+	}
+
+	private void setAllotmentOfNewEquityTable(AllotmentOfNewEquityType allotmentOfNewEquityType) 
+	{
+		List<AllotmentType> allotmentTypeList = allotmentOfNewEquityType.getAllotment();
+		for (AllotmentType allotment : allotmentTypeList)
+		{
+			ArrayList<String> pushDataList = null;
+			Map<String, ArrayList<String>> allotmentMap= new HashMap<String, ArrayList<String>>();
+			if (allotmentMap.containsKey(BIRReportConstant.FOR_THE_YEAR)) 
+			{
+				pushDataList = allotmentMap.get(BIRReportConstant.FOR_THE_YEAR);
+				pushDataList.add(allotment.getDateOfAllotment().toString());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(allotment.getDateOfAllotment().toString());
+				allotmentMap.put(BIRReportConstant.FOR_THE_YEAR, pushDataList);	
+			}
+			if (allotmentMap.containsKey(BIRReportConstant.ALLOTMENT_OF)) 
+			{
+				pushDataList = allotmentMap.get(BIRReportConstant.ALLOTMENT_OF);
+				pushDataList.add(allotment.getAllotmentOf());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(allotment.getAllotmentOf());
+				allotmentMap.put(BIRReportConstant.ALLOTMENT_OF, pushDataList);	
+			}
+			if (allotmentMap.containsKey(BIRReportConstant.PARTICULARS)) 
+			{
+				pushDataList = allotmentMap.get(BIRReportConstant.PARTICULARS);
+				pushDataList.add(allotment.getParticulars());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(allotment.getParticulars());
+				allotmentMap.put(BIRReportConstant.PARTICULARS, pushDataList);	
+			}
+			if (allotmentMap.containsKey(BIRReportConstant.NO_OF_SECURITY_ALLOTED)) 
+			{
+				pushDataList = allotmentMap.get(BIRReportConstant.NO_OF_SECURITY_ALLOTED);
+				pushDataList.add(String.valueOf(allotment.getNumberOfSecuritiesAllotted()));
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(String.valueOf(allotment.getNumberOfSecuritiesAllotted()));
+				allotmentMap.put(BIRReportConstant.NO_OF_SECURITY_ALLOTED, pushDataList);	
+			}
+			if (allotmentMap.containsKey(BIRReportConstant.NOMINAL_AMOUNT_PER_SECURITY)) 
+			{
+				pushDataList = allotmentMap.get(BIRReportConstant.NOMINAL_AMOUNT_PER_SECURITY);
+				pushDataList.add(allotment.getNominalAmountPerSecurity().toString());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(allotment.getNominalAmountPerSecurity().toString());
+				allotmentMap.put(BIRReportConstant.NOMINAL_AMOUNT_PER_SECURITY, pushDataList);	
+			}
+			if (allotmentMap.containsKey(BIRReportConstant.PREMIUM_AMOUNT_PER_SECURITY)) 
+			{
+				pushDataList = allotmentMap.get(BIRReportConstant.PREMIUM_AMOUNT_PER_SECURITY);
+				pushDataList.add(allotment.getPremiumAmountPerSecurity().toString());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(allotment.getPremiumAmountPerSecurity().toString());
+				allotmentMap.put(BIRReportConstant.PREMIUM_AMOUNT_PER_SECURITY, pushDataList);	
+			}
+			
+		}
+	}
+
+	private void setIntangibleAssetsTable(IntangibleAssetsType intangibleAssets) 
+	{
+		List<SnapshotType> snapShotTypeList = intangibleAssets.getSnapshot();
+		for (SnapshotType snapshotType : snapShotTypeList)
+		{
+			ArrayList<String> pushDataList = null;
+			Map<String, ArrayList<String>> snapShotMap= new HashMap<String, ArrayList<String>>();
+			if (snapShotMap.containsKey(BIRReportConstant.FOR_THE_YEAR)) 
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.FOR_THE_YEAR);
+				pushDataList.add(snapshotType.getDataAsOf());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(snapshotType.getDataAsOf());
+				snapShotMap.put(BIRReportConstant.FOR_THE_YEAR, pushDataList);	
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.COMPUTER_EQUIPMENTS_MEMBER))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.COMPUTER_EQUIPMENTS_MEMBER);
+				pushDataList.add(getDividebyLakh(Math.round(Double.parseDouble(snapshotType.getComputerEquipmentsMember().getOwnedAssetsMember()))).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getDividebyLakh(Math.round(Double.parseDouble(snapshotType.getComputerEquipmentsMember().getOwnedAssetsMember()))).toString());
+				snapShotMap.put(BIRReportConstant.COMPUTER_EQUIPMENTS_MEMBER, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OFFICE_EQUIPMENTS_MEMBER))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OFFICE_EQUIPMENTS_MEMBER);
+				pushDataList.add(getDividebyLakh(Math.round(Double.parseDouble(snapshotType.getOfficeEquipmentsMember().getOwnedAssetsMember()))).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getDividebyLakh(Math.round(Double.parseDouble(snapshotType.getOfficeEquipmentsMember().getOwnedAssetsMember()))).toString());
+				snapShotMap.put(BIRReportConstant.OFFICE_EQUIPMENTS_MEMBER, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.BUILDINGS_MEMBER))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.BUILDINGS_MEMBER);
+				pushDataList.add(getDividebyLakh(Math.round(Double.parseDouble(snapshotType.getBuildingsMember().getOwnedAssetsMember()))).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getDividebyLakh(Math.round(Double.parseDouble(snapshotType.getBuildingsMember().getOwnedAssetsMember()))).toString());
+				snapShotMap.put(BIRReportConstant.BUILDINGS_MEMBER, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.FURNITURE_AND_FIXERS_MEMBER))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.FURNITURE_AND_FIXERS_MEMBER);
+				pushDataList.add(getDividebyLakh(Math.round(Double.parseDouble(snapshotType.getFurnitureAndFixturesMember().getOwnedAssetsMember()))).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getDividebyLakh(Math.round(Double.parseDouble(snapshotType.getFurnitureAndFixturesMember().getOwnedAssetsMember()))).toString());
+				snapShotMap.put(BIRReportConstant.FURNITURE_AND_FIXERS_MEMBER, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.LAND_MEMBER))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.LAND_MEMBER);
+				pushDataList.add(getDividebyLakh(Math.round(Double.parseDouble(snapshotType.getLandMember().getOwnedAssetsMember()))).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getDividebyLakh(Math.round(Double.parseDouble(snapshotType.getLandMember().getOwnedAssetsMember()))).toString());
+				snapShotMap.put(BIRReportConstant.LAND_MEMBER, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OTHER_TANGIBLE_ASSETS_MEMBER))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OTHER_TANGIBLE_ASSETS_MEMBER);
+				pushDataList.add(getDividebyLakh(Math.round(Double.parseDouble(snapshotType.getOtherTangibleAssetsMember().getOwnedAssetsMember()))).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getDividebyLakh(Math.round(Double.parseDouble(snapshotType.getOtherTangibleAssetsMember().getOwnedAssetsMember()))).toString());
+				snapShotMap.put(BIRReportConstant.OTHER_TANGIBLE_ASSETS_MEMBER, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.VEHICLES_MEMBER))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.VEHICLES_MEMBER);
+				pushDataList.add(getDividebyLakh(Math.round(Double.parseDouble(snapshotType.getVehiclesMember().getOwnedAssetsMember()))).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getDividebyLakh(Math.round(Double.parseDouble(snapshotType.getVehiclesMember().getOwnedAssetsMember()))).toString());
+				snapShotMap.put(BIRReportConstant.VEHICLES_MEMBER, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PLANT_AND_EQUIPMENT_MEMBER))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PLANT_AND_EQUIPMENT_MEMBER);
+				pushDataList.add(getDividebyLakh(Math.round(Double.parseDouble(snapshotType.getPlantAndEquipmentMember().getOwnedAssetsMember()))).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getDividebyLakh(Math.round(Double.parseDouble(snapshotType.getPlantAndEquipmentMember().getOwnedAssetsMember()))).toString());
+				snapShotMap.put(BIRReportConstant.PLANT_AND_EQUIPMENT_MEMBER, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.LEASEHOLD_IMPROVEMENTS_MEMBER))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.LEASEHOLD_IMPROVEMENTS_MEMBER);
+				pushDataList.add(getDividebyLakh(Math.round(Double.parseDouble(snapshotType.getLeaseholdImprovementsMember().getOwnedAssetsMember()))).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getDividebyLakh(Math.round(Double.parseDouble(snapshotType.getLeaseholdImprovementsMember().getOwnedAssetsMember()))).toString());
+				snapShotMap.put(BIRReportConstant.LEASEHOLD_IMPROVEMENTS_MEMBER, pushDataList);				
+			}
+			
+		}
+	}
+
+	private void setCashFlowInDirectTable(CashFlowInDirectType cashFlowInDirect) 
+	{
+		List<SnapshotType> snapShotTypeList = cashFlowInDirect.getSnapshot();
+		for (SnapshotType snapshotType : snapShotTypeList)
+		{
+			ArrayList<String> pushDataList = null;
+			Map<String, ArrayList<String>> snapShotMap= new HashMap<String, ArrayList<String>>();
+			if(snapShotMap.containsKey(BIRReportConstant.PROFIT_BEFORE_EXTRAORDINARY_ITEMS_AND_TAX))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PROFIT_BEFORE_EXTRAORDINARY_ITEMS_AND_TAX);
+				pushDataList.add(getReadyValue(snapshotType.getProfitBeforeExtraordinaryItemsAndTax()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getProfitBeforeExtraordinaryItemsAndTax()).toString());
+				snapShotMap.put(BIRReportConstant.PROFIT_BEFORE_EXTRAORDINARY_ITEMS_AND_TAX, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.ADJUSTMENTS_FOR_FINANCE_COSTS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.ADJUSTMENTS_FOR_FINANCE_COSTS);
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForFinanceCosts()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForFinanceCosts()).toString());
+				snapShotMap.put(BIRReportConstant.ADJUSTMENTS_FOR_FINANCE_COSTS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.ADJUSTMENTS_FOR_DEPRECIATION_AND_AMORTISATION_EXPENSE))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.ADJUSTMENTS_FOR_DEPRECIATION_AND_AMORTISATION_EXPENSE);
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForDepreciationAndAmortisationExpense()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForDepreciationAndAmortisationExpense()).toString());
+				snapShotMap.put(BIRReportConstant.ADJUSTMENTS_FOR_DEPRECIATION_AND_AMORTISATION_EXPENSE, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.ADJUSTMENTS_FOR_IMPAIRMENT_LOSS_REVERSAL_OF_IMPAIRMENT_LOSS_RECOGNISED_IN_PROFIT_OR_LOSS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.ADJUSTMENTS_FOR_IMPAIRMENT_LOSS_REVERSAL_OF_IMPAIRMENT_LOSS_RECOGNISED_IN_PROFIT_OR_LOSS);
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForImpairmentLossReversalOfImpairmentLossRecognisedInProfitOrLoss()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForImpairmentLossReversalOfImpairmentLossRecognisedInProfitOrLoss()).toString());
+				snapShotMap.put(BIRReportConstant.ADJUSTMENTS_FOR_IMPAIRMENT_LOSS_REVERSAL_OF_IMPAIRMENT_LOSS_RECOGNISED_IN_PROFIT_OR_LOSS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.ADJUSTMENTS_FOR_UNREALISED_FOREIGN_EXCHANGE_LOSSES_GAINS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.ADJUSTMENTS_FOR_UNREALISED_FOREIGN_EXCHANGE_LOSSES_GAINS);
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForUnrealisedForeignExchangeLossesGains()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForUnrealisedForeignExchangeLossesGains()).toString());
+				snapShotMap.put(BIRReportConstant.ADJUSTMENTS_FOR_UNREALISED_FOREIGN_EXCHANGE_LOSSES_GAINS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.ADJUSTMENTS_FOR_DIVIDEND_INCOME))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.ADJUSTMENTS_FOR_DIVIDEND_INCOME);
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForDividendIncome()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForDividendIncome()).toString());
+				snapShotMap.put(BIRReportConstant.ADJUSTMENTS_FOR_DIVIDEND_INCOME, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.ADJUSTMENTS_FOR_SHAREBASED_PAYMENTS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.ADJUSTMENTS_FOR_SHAREBASED_PAYMENTS);
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForSharebasedPayments()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForSharebasedPayments()).toString());
+				snapShotMap.put(BIRReportConstant.ADJUSTMENTS_FOR_SHAREBASED_PAYMENTS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OTHER_ADJUSTMENTS_FOR_WHICH_CASH_EFFECTS_ARE_INVESTING_OR_FINANCING_CASHFLOW))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OTHER_ADJUSTMENTS_FOR_WHICH_CASH_EFFECTS_ARE_INVESTING_OR_FINANCING_CASHFLOW);
+				pushDataList.add(getReadyValue(snapshotType.getOtherAdjustmentsForWhichCashEffectsAreInvestingOrFinancingCashFlow()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getOtherAdjustmentsForWhichCashEffectsAreInvestingOrFinancingCashFlow()).toString());
+				snapShotMap.put(BIRReportConstant.OTHER_ADJUSTMENTS_FOR_WHICH_CASH_EFFECTS_ARE_INVESTING_OR_FINANCING_CASHFLOW, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OTHER_ADJUSTMENTS_TO_RECONCILE_PROFIT_LOSS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OTHER_ADJUSTMENTS_TO_RECONCILE_PROFIT_LOSS);
+				pushDataList.add(getReadyValue(snapshotType.getOtherAdjustmentsToReconcileProfitLoss()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getOtherAdjustmentsToReconcileProfitLoss()).toString());
+				snapShotMap.put(BIRReportConstant.OTHER_ADJUSTMENTS_TO_RECONCILE_PROFIT_LOSS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OTHER_ADJUSTMENTS_FOR_NON_CASH_ITEMS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OTHER_ADJUSTMENTS_FOR_NON_CASH_ITEMS);
+				pushDataList.add(getReadyValue(snapshotType.getOtherAdjustmentsForNoncashItems()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getOtherAdjustmentsForNoncashItems()).toString());
+				snapShotMap.put(BIRReportConstant.OTHER_ADJUSTMENTS_FOR_NON_CASH_ITEMS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASH_RECEIPTS_FROM_SHARE_OF_PROFITS_OF_PARTNERSHIP_FIRM_OR_ASSOCIATION_OF_PERSONS_OR_LIMITED_LIABILITY_PARTNERSHIPS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASH_RECEIPTS_FROM_SHARE_OF_PROFITS_OF_PARTNERSHIP_FIRM_OR_ASSOCIATION_OF_PERSONS_OR_LIMITED_LIABILITY_PARTNERSHIPS);
+				pushDataList.add(getReadyValue(snapshotType.getShareOfProfitAndLossFromPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getShareOfProfitAndLossFromPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships()).toString());
+				snapShotMap.put(BIRReportConstant.CASH_RECEIPTS_FROM_SHARE_OF_PROFITS_OF_PARTNERSHIP_FIRM_OR_ASSOCIATION_OF_PERSONS_OR_LIMITED_LIABILITY_PARTNERSHIPS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.ADJUSTMENTS_TO_PROFIT_LOSS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.ADJUSTMENTS_TO_PROFIT_LOSS);
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsToProfitLoss()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsToProfitLoss()).toString());
+				snapShotMap.put(BIRReportConstant.ADJUSTMENTS_TO_PROFIT_LOSS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.ADJUSTMENTS_FOR_DECREASE_INCREASE_IN_INVENTORIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.ADJUSTMENTS_FOR_DECREASE_INCREASE_IN_INVENTORIES);
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForDecreaseIncreaseInInventories()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForDecreaseIncreaseInInventories()).toString());
+				snapShotMap.put(BIRReportConstant.ADJUSTMENTS_FOR_DECREASE_INCREASE_IN_INVENTORIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.ADJUSTMENTS_FOR_INCREASE_DECREASE_IN_TRADE_PAYABLES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.ADJUSTMENTS_FOR_INCREASE_DECREASE_IN_TRADE_PAYABLES);
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForDecreaseIncreaseInTradeReceivables()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForDecreaseIncreaseInTradeReceivables()).toString());
+				snapShotMap.put(BIRReportConstant.ADJUSTMENTS_FOR_INCREASE_DECREASE_IN_TRADE_PAYABLES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.ADJUSTMENTS_FOR_DECREASE_INCREASE_IN_OTHER_CURRENT_AND_NONCURRENT_ASSETS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.ADJUSTMENTS_FOR_DECREASE_INCREASE_IN_OTHER_CURRENT_AND_NONCURRENT_ASSETS);
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForDecreaseIncreaseInOtherCurrentAndNoncurrentAssets()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForDecreaseIncreaseInOtherCurrentAndNoncurrentAssets()).toString());
+				snapShotMap.put(BIRReportConstant.ADJUSTMENTS_FOR_DECREASE_INCREASE_IN_OTHER_CURRENT_AND_NONCURRENT_ASSETS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.ADJUSTMENTS_FOR_DECREASE_INCREASE_IN_OTHER_CURRENT_ASSETS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.ADJUSTMENTS_FOR_DECREASE_INCREASE_IN_OTHER_CURRENT_ASSETS);
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForDecreaseIncreaseInOtherCurrentAssets()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForDecreaseIncreaseInOtherCurrentAssets()).toString());
+				snapShotMap.put(BIRReportConstant.ADJUSTMENTS_FOR_DECREASE_INCREASE_IN_OTHER_CURRENT_ASSETS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.ADJUSTMENTS_FOR_INCREASE_DECREASE_IN_TRADE_PAYABLES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.ADJUSTMENTS_FOR_INCREASE_DECREASE_IN_TRADE_PAYABLES);
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForIncreaseDecreaseInTradePayables()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForIncreaseDecreaseInTradePayables()).toString());
+				snapShotMap.put(BIRReportConstant.ADJUSTMENTS_FOR_INCREASE_DECREASE_IN_TRADE_PAYABLES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.ADJUSTMENTS_FOR_INCREASE_DECREASE_IN_OTHER_CURRENT_AND_NONCURRENT_LIABILITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.ADJUSTMENTS_FOR_INCREASE_DECREASE_IN_OTHER_CURRENT_AND_NONCURRENT_LIABILITIES);
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForIncreaseDecreaseInOtherCurrentAndNoncurrentLiabilities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForIncreaseDecreaseInOtherCurrentAndNoncurrentLiabilities()).toString());
+				snapShotMap.put(BIRReportConstant.ADJUSTMENTS_FOR_INCREASE_DECREASE_IN_OTHER_CURRENT_AND_NONCURRENT_LIABILITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.ADJUSTMENTS_FOR_INCREASE_DECREASE_IN_OTHER_CURRENT_LIABILITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.ADJUSTMENTS_FOR_INCREASE_DECREASE_IN_OTHER_CURRENT_LIABILITIES);
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForIncreaseDecreaseInOtherCurrentLiabilities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForIncreaseDecreaseInOtherCurrentLiabilities()).toString());
+				snapShotMap.put(BIRReportConstant.ADJUSTMENTS_FOR_INCREASE_DECREASE_IN_OTHER_CURRENT_LIABILITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.ADJUSTMENTS_FOR_PROVISIONS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.ADJUSTMENTS_FOR_PROVISIONS);
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForProvisions()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForProvisions()).toString());
+				snapShotMap.put(BIRReportConstant.ADJUSTMENTS_FOR_PROVISIONS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.ADJUSTMENTS_FOR_WORKING_CAPITAL))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.ADJUSTMENTS_FOR_WORKING_CAPITAL);
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForWorkingCapital()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForWorkingCapital()).toString());
+				snapShotMap.put(BIRReportConstant.ADJUSTMENTS_FOR_WORKING_CAPITAL, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.ADJUSTMENTS_FOR_RECONCILE_PROFIT_LOSS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.ADJUSTMENTS_FOR_RECONCILE_PROFIT_LOSS);
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForReconcileProfitLoss()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getAdjustmentsForReconcileProfitLoss()).toString());
+				snapShotMap.put(BIRReportConstant.ADJUSTMENTS_FOR_RECONCILE_PROFIT_LOSS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASHFLOWS_FROM_USED_IN_OPERATIONS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASHFLOWS_FROM_USED_IN_OPERATIONS);
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInOperations()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInOperations()).toString());
+				snapShotMap.put(BIRReportConstant.CASHFLOWS_FROM_USED_IN_OPERATIONS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.DIVIDENDS_RECEIVED_CLASSIFIED_AS_OPERATING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.DIVIDENDS_RECEIVED_CLASSIFIED_AS_OPERATING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getDividendsReceivedClassifiedAsOperatingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getDividendsReceivedClassifiedAsOperatingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.DIVIDENDS_RECEIVED_CLASSIFIED_AS_OPERATING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.INTEREST_PAID_CLASSIFIED_AS_OPERATING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.INTEREST_PAID_CLASSIFIED_AS_OPERATING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getInterestPaidClassifiedAsOperatingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getInterestPaidClassifiedAsOperatingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.INTEREST_PAID_CLASSIFIED_AS_OPERATING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.INTEREST_RECEIVED_CLASSIFIED_AS_OPERATING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.INTEREST_RECEIVED_CLASSIFIED_AS_OPERATING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getInterestReceivedClassifiedAsOperatingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getInterestReceivedClassifiedAsOperatingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.INTEREST_RECEIVED_CLASSIFIED_AS_OPERATING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.INCOME_TAXES_PAID_REFUND_CLASSIFIED_AS_OPERATING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.INCOME_TAXES_PAID_REFUND_CLASSIFIED_AS_OPERATING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getIncomeTaxesPaidRefundClassifiedAsOperatingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getIncomeTaxesPaidRefundClassifiedAsOperatingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.INCOME_TAXES_PAID_REFUND_CLASSIFIED_AS_OPERATING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OTHER_INFLOWS_OUTFLOWS_OF_CASH_CLASSIFIED_AS_OPERATING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OTHER_INFLOWS_OUTFLOWS_OF_CASH_CLASSIFIED_AS_OPERATING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getOtherInflowsOutflowsOfCashClassifiedAsOperatingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getOtherInflowsOutflowsOfCashClassifiedAsOperatingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.OTHER_INFLOWS_OUTFLOWS_OF_CASH_CLASSIFIED_AS_OPERATING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASHFLOWS_FROM_USED_IN_OPERATING_ACTIVITIES_BEFORE_EXTRAORDINARY_ITEMS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASHFLOWS_FROM_USED_IN_OPERATING_ACTIVITIES_BEFORE_EXTRAORDINARY_ITEMS);
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInOperatingActivitiesBeforeExtraordinaryItems()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInOperatingActivitiesBeforeExtraordinaryItems()).toString());
+				snapShotMap.put(BIRReportConstant.CASHFLOWS_FROM_USED_IN_OPERATING_ACTIVITIES_BEFORE_EXTRAORDINARY_ITEMS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PROCEEDS_FROM_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_OPERATING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PROCEEDS_FROM_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_OPERATING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromExtraordinaryItemsClassifiedAsOperatingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromExtraordinaryItemsClassifiedAsOperatingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.PROCEEDS_FROM_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_OPERATING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PAYMENT_FOR_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_OPERATING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PAYMENT_FOR_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_OPERATING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getPaymentForExtraordinaryItemsClassifiedAsOperatingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getPaymentForExtraordinaryItemsClassifiedAsOperatingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.PAYMENT_FOR_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_OPERATING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASHFLOWS_FROM_USED_IN_OPERATING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASHFLOWS_FROM_USED_IN_OPERATING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInOperatingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInOperatingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.CASHFLOWS_FROM_USED_IN_OPERATING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASHFLOWS_FROM_LOSING_CONTROL_OF_SUBSIDIARIES_OR_OTHER_BUSINESSES_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASHFLOWS_FROM_LOSING_CONTROL_OF_SUBSIDIARIES_OR_OTHER_BUSINESSES_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromLosingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromLosingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.CASHFLOWS_FROM_LOSING_CONTROL_OF_SUBSIDIARIES_OR_OTHER_BUSINESSES_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASHFLOWS_USED_IN_OBTAINING_CONTROL_OF_SUBSIDIARIES_OR_OTHER_BUSINESSES_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASHFLOWS_USED_IN_OBTAINING_CONTROL_OF_SUBSIDIARIES_OR_OTHER_BUSINESSES_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsUsedInObtainingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsUsedInObtainingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.CASHFLOWS_USED_IN_OBTAINING_CONTROL_OF_SUBSIDIARIES_OR_OTHER_BUSINESSES_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OTHER_CASH_RECEIPTS_FROM_SALES_OF_EQUITY_OR_DEBT_INSTRUMENTS_OF_OTHER_ENTITIES_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OTHER_CASH_RECEIPTS_FROM_SALES_OF_EQUITY_OR_DEBT_INSTRUMENTS_OF_OTHER_ENTITIES_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getOtherCashReceiptsFromSalesOfEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getOtherCashReceiptsFromSalesOfEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.OTHER_CASH_RECEIPTS_FROM_SALES_OF_EQUITY_OR_DEBT_INSTRUMENTS_OF_OTHER_ENTITIES_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OTHER_CASH_PAYMENTS_TO_ACQUIRE_EQUITY_OR_DEBT_INSTRUMENTS_OF_OTHER_ENTITIES_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OTHER_CASH_PAYMENTS_TO_ACQUIRE_EQUITY_OR_DEBT_INSTRUMENTS_OF_OTHER_ENTITIES_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getOtherCashPaymentsToAcquireEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getOtherCashPaymentsToAcquireEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.OTHER_CASH_PAYMENTS_TO_ACQUIRE_EQUITY_OR_DEBT_INSTRUMENTS_OF_OTHER_ENTITIES_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OTHER_CASH_RECEIPTS_FROM_SALES_OF_INTERESTS_IN_JOINT_VENTURES_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OTHER_CASH_RECEIPTS_FROM_SALES_OF_INTERESTS_IN_JOINT_VENTURES_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getOtherCashReceiptsFromSalesOfInterestsInJointVenturesClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getOtherCashReceiptsFromSalesOfInterestsInJointVenturesClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.OTHER_CASH_RECEIPTS_FROM_SALES_OF_INTERESTS_IN_JOINT_VENTURES_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OTHER_CASH_PAYMENTS_TO_ACQUIRE_INTERESTS_IN_JOINT_VENTURES_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OTHER_CASH_PAYMENTS_TO_ACQUIRE_INTERESTS_IN_JOINT_VENTURES_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getOtherCashPaymentsToAcquireInterestsInJointVenturesClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getOtherCashPaymentsToAcquireInterestsInJointVenturesClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.OTHER_CASH_PAYMENTS_TO_ACQUIRE_INTERESTS_IN_JOINT_VENTURES_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASH_RECEIPTS_FROM_SHARE_OF_PROFITS_OF_PARTNERSHIP_FIRM_OR_ASSOCIATION_OF_PERSONS_OR_LIMITED_LIABILITY_PARTNERSHIPS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASH_RECEIPTS_FROM_SHARE_OF_PROFITS_OF_PARTNERSHIP_FIRM_OR_ASSOCIATION_OF_PERSONS_OR_LIMITED_LIABILITY_PARTNERSHIPS);
+				pushDataList.add(getReadyValue(snapshotType.getCashReceiptsFromShareOfProfitsOfPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashReceiptsFromShareOfProfitsOfPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships()).toString());
+				snapShotMap.put(BIRReportConstant.CASH_RECEIPTS_FROM_SHARE_OF_PROFITS_OF_PARTNERSHIP_FIRM_OR_ASSOCIATION_OF_PERSONS_OR_LIMITED_LIABILITY_PARTNERSHIPS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASH_PAYMENT_FOR_INVESTMENT_IN_PARTNERSHIP_FIRM_OR_ASSOCIATION_OF_PERSONS_OR_LIMITED_LIABILITY_PARTNERSHIPS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASH_PAYMENT_FOR_INVESTMENT_IN_PARTNERSHIP_FIRM_OR_ASSOCIATION_OF_PERSONS_OR_LIMITED_LIABILITY_PARTNERSHIPS);
+				pushDataList.add(getReadyValue(snapshotType.getCashPaymentForInvestmentInPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashPaymentForInvestmentInPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships()).toString());
+				snapShotMap.put(BIRReportConstant.CASH_PAYMENT_FOR_INVESTMENT_IN_PARTNERSHIP_FIRM_OR_ASSOCIATION_OF_PERSONS_OR_LIMITED_LIABILITY_PARTNERSHIPS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PROCEEDS_FROM_SALES_OF_TANGIBLE_ASSETS_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PROCEEDS_FROM_SALES_OF_TANGIBLE_ASSETS_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromSalesOfTangibleAssetsClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromSalesOfTangibleAssetsClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.PROCEEDS_FROM_SALES_OF_TANGIBLE_ASSETS_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PURCHASE_OF_TANGIBLE_ASSETS_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PURCHASE_OF_TANGIBLE_ASSETS_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getPurchaseOfTangibleAssetsClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getPurchaseOfTangibleAssetsClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.PURCHASE_OF_TANGIBLE_ASSETS_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PROCEEDS_FROM_SALES_OF_INTANGIBLE_ASSETS_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PROCEEDS_FROM_SALES_OF_INTANGIBLE_ASSETS_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.PROCEEDS_FROM_SALES_OF_INTANGIBLE_ASSETS_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PURCHASE_OF_INTANGIBLE_ASSETS_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PURCHASE_OF_INTANGIBLE_ASSETS_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getPurchaseOfIntangibleAssetsClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getPurchaseOfIntangibleAssetsClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.PURCHASE_OF_INTANGIBLE_ASSETS_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASH_RECEIPTS_FROM_REPAYMENT_OF_ADVANCES_AND_LOANS_MADE_TO_OTHER_PARTIES_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASH_RECEIPTS_FROM_REPAYMENT_OF_ADVANCES_AND_LOANS_MADE_TO_OTHER_PARTIES_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getCashAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.CASH_RECEIPTS_FROM_REPAYMENT_OF_ADVANCES_AND_LOANS_MADE_TO_OTHER_PARTIES_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASH_RECEIPTS_FROM_REPAYMENT_OF_ADVANCES_AND_LOANS_MADE_TO_OTHER_PARTIES_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASH_RECEIPTS_FROM_REPAYMENT_OF_ADVANCES_AND_LOANS_MADE_TO_OTHER_PARTIES_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getCashReceiptsFromRepaymentOfAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashReceiptsFromRepaymentOfAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.CASH_RECEIPTS_FROM_REPAYMENT_OF_ADVANCES_AND_LOANS_MADE_TO_OTHER_PARTIES_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASH_PAYMENTS_FOR_FUTURE_CONTRACTS_FORWARD_CONTRACTS_OPTION_CONTRACTS_AND_SWAP_CONTRACTS_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASH_PAYMENTS_FOR_FUTURE_CONTRACTS_FORWARD_CONTRACTS_OPTION_CONTRACTS_AND_SWAP_CONTRACTS_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getCashPaymentsForFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashPaymentsForFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.CASH_PAYMENTS_FOR_FUTURE_CONTRACTS_FORWARD_CONTRACTS_OPTION_CONTRACTS_AND_SWAP_CONTRACTS_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASH_RECEIPTS_FROM_FUTURE_CONTRACTS_FORWARD_CONTRACTS_OPTION_CONTRACTS_AND_SWAP_CONTRACTS_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASH_RECEIPTS_FROM_FUTURE_CONTRACTS_FORWARD_CONTRACTS_OPTION_CONTRACTS_AND_SWAP_CONTRACTS_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getCashReceiptsFromFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashReceiptsFromFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.CASH_RECEIPTS_FROM_FUTURE_CONTRACTS_FORWARD_CONTRACTS_OPTION_CONTRACTS_AND_SWAP_CONTRACTS_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.DIVIDENDS_RECEIVED_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.DIVIDENDS_RECEIVED_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getDividendsReceivedClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getDividendsReceivedClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.DIVIDENDS_RECEIVED_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.INTEREST_RECEIVED_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.INTEREST_RECEIVED_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getInterestReceivedClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getInterestReceivedClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.INTEREST_RECEIVED_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.INCOME_TAXES_PAID_REFUND_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.INCOME_TAXES_PAID_REFUND_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getIncomeTaxesPaidRefundClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getIncomeTaxesPaidRefundClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.INCOME_TAXES_PAID_REFUND_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OTHER_INFLOWS_OUTFLOWS_OF_CASH_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OTHER_INFLOWS_OUTFLOWS_OF_CASH_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getOtherInflowsOutflowsOfCashClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getOtherInflowsOutflowsOfCashClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.OTHER_INFLOWS_OUTFLOWS_OF_CASH_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PROCEEDS_FROM_GOVERNMENT_GRANTS_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PROCEEDS_FROM_GOVERNMENT_GRANTS_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromGovernmentGrantsClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromGovernmentGrantsClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.PROCEEDS_FROM_GOVERNMENT_GRANTS_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASHFLOWS_FROM_USED_IN_INVESTING_ACTIVITIES_BEFORE_EXTRAORDINARY_ITEMS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASHFLOWS_FROM_USED_IN_INVESTING_ACTIVITIES_BEFORE_EXTRAORDINARY_ITEMS);
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInInvestingActivitiesBeforeExtraordinaryItems()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInInvestingActivitiesBeforeExtraordinaryItems()).toString());
+				snapShotMap.put(BIRReportConstant.CASHFLOWS_FROM_USED_IN_INVESTING_ACTIVITIES_BEFORE_EXTRAORDINARY_ITEMS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PROCEEDS_FROM_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PROCEEDS_FROM_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromExtraordinaryItemsClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromExtraordinaryItemsClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.PROCEEDS_FROM_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PAYMENT_FOR_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PAYMENT_FOR_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getPaymentForExtraordinaryItemsClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getPaymentForExtraordinaryItemsClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.PAYMENT_FOR_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASHFLOWS_FROM_USED_IN_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASHFLOWS_FROM_USED_IN_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.CASHFLOWS_FROM_USED_IN_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PROCEEDS_FROM_ISSUING_SHARES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PROCEEDS_FROM_ISSUING_SHARES);
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromIssuingShares()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromIssuingShares()).toString());
+				snapShotMap.put(BIRReportConstant.PROCEEDS_FROM_ISSUING_SHARES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PROCEEDS_FROM_ISSUING_OTHER_EQUITY_INSTRUMENTS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PROCEEDS_FROM_ISSUING_OTHER_EQUITY_INSTRUMENTS);
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromIssuingOtherEquityInstruments()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromIssuingOtherEquityInstruments()).toString());
+				snapShotMap.put(BIRReportConstant.PROCEEDS_FROM_ISSUING_OTHER_EQUITY_INSTRUMENTS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PROCEEDS_FROM_ISSUING_DEBENTURES_NOTES_BONDS_ETC))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PROCEEDS_FROM_ISSUING_DEBENTURES_NOTES_BONDS_ETC);
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromIssuingDebenturesNotesBondsEtc()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromIssuingDebenturesNotesBondsEtc()).toString());
+				snapShotMap.put(BIRReportConstant.PROCEEDS_FROM_ISSUING_DEBENTURES_NOTES_BONDS_ETC, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PROCEEDS_FROM_BORROWINGS_CLASSIFIED_AS_FINANCING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PROCEEDS_FROM_BORROWINGS_CLASSIFIED_AS_FINANCING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromBorrowingsClassifiedAsFinancingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromBorrowingsClassifiedAsFinancingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.PROCEEDS_FROM_BORROWINGS_CLASSIFIED_AS_FINANCING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.REPAYMENTS_OF_BORROWINGS_CLASSIFIED_AS_FINANCING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.REPAYMENTS_OF_BORROWINGS_CLASSIFIED_AS_FINANCING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getRepaymentsOfBorrowingsClassifiedAsFinancingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getRepaymentsOfBorrowingsClassifiedAsFinancingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.REPAYMENTS_OF_BORROWINGS_CLASSIFIED_AS_FINANCING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.DIVIDENDS_PAID_CLASSIFIED_AS_FINANCING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.DIVIDENDS_PAID_CLASSIFIED_AS_FINANCING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getDividendsPaidClassifiedAsFinancingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getDividendsPaidClassifiedAsFinancingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.DIVIDENDS_PAID_CLASSIFIED_AS_FINANCING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.INTEREST_PAID_CLASSIFIED_AS_FINANCING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.INTEREST_PAID_CLASSIFIED_AS_FINANCING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getInterestPaidClassifiedAsFinancingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getInterestPaidClassifiedAsFinancingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.INTEREST_PAID_CLASSIFIED_AS_FINANCING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.INCOME_TAXES_PAID_REFUND_CLASSIFIED_AS_FINANCING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.INCOME_TAXES_PAID_REFUND_CLASSIFIED_AS_FINANCING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getIncomeTaxesPaidRefundClassifiedAsFinancingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getIncomeTaxesPaidRefundClassifiedAsFinancingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.INCOME_TAXES_PAID_REFUND_CLASSIFIED_AS_FINANCING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OTHER_INFLOWS_OUTFLOWS_OF_CASH_CLASSIFIED_AS_FINANCING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OTHER_INFLOWS_OUTFLOWS_OF_CASH_CLASSIFIED_AS_FINANCING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getOtherInflowsOutflowsOfCashClassifiedAsFinancingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getOtherInflowsOutflowsOfCashClassifiedAsFinancingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.OTHER_INFLOWS_OUTFLOWS_OF_CASH_CLASSIFIED_AS_FINANCING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASHFLOWS_FROM_USED_IN_FINANCING_ACTIVITIES_BEFORE_EXTRAORDINARY_ITEMS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASHFLOWS_FROM_USED_IN_FINANCING_ACTIVITIES_BEFORE_EXTRAORDINARY_ITEMS);
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInFinancingActivitiesBeforeExtraordinaryItems()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInFinancingActivitiesBeforeExtraordinaryItems()).toString());
+				snapShotMap.put(BIRReportConstant.CASHFLOWS_FROM_USED_IN_FINANCING_ACTIVITIES_BEFORE_EXTRAORDINARY_ITEMS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PROCEEDS_FROM_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_FINANCING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PROCEEDS_FROM_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_FINANCING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromExtraordinaryItemsClassifiedAsFinancingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromExtraordinaryItemsClassifiedAsFinancingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.PROCEEDS_FROM_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_FINANCING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PAYMENT_FOR_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_FINANCING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PAYMENT_FOR_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_FINANCING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getPaymentForExtraordinaryItemsClassifiedAsFinancingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getPaymentForExtraordinaryItemsClassifiedAsFinancingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.PAYMENT_FOR_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_FINANCING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASHFLOWS_FROM_USEDIN_FINANCING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASHFLOWS_FROM_USEDIN_FINANCING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInFinancingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInFinancingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.CASHFLOWS_FROM_USEDIN_FINANCING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.INCREASE_DECREASE_IN_CASH_AND_CASH_EQUIVALENTS_BEFORE_EFFECT_OF_EXCHANGE_RATE_CHANGES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.INCREASE_DECREASE_IN_CASH_AND_CASH_EQUIVALENTS_BEFORE_EFFECT_OF_EXCHANGE_RATE_CHANGES);
+				pushDataList.add(getReadyValue(snapshotType.getIncreaseDecreaseInCashAndCashEquivalentsBeforeEffectOfExchangeRateChanges()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getIncreaseDecreaseInCashAndCashEquivalentsBeforeEffectOfExchangeRateChanges()).toString());
+				snapShotMap.put(BIRReportConstant.INCREASE_DECREASE_IN_CASH_AND_CASH_EQUIVALENTS_BEFORE_EFFECT_OF_EXCHANGE_RATE_CHANGES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.EFFECT_OF_EXCHANGE_RATE_CHANGES_ON_CASH_AND_CASH_EQUIVALENTS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.EFFECT_OF_EXCHANGE_RATE_CHANGES_ON_CASH_AND_CASH_EQUIVALENTS);
+				pushDataList.add(getReadyValue(snapshotType.getEffectOfExchangeRateChangesOnCashAndCashEquivalents()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getEffectOfExchangeRateChangesOnCashAndCashEquivalents()).toString());
+				snapShotMap.put(BIRReportConstant.EFFECT_OF_EXCHANGE_RATE_CHANGES_ON_CASH_AND_CASH_EQUIVALENTS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.INCREASE_DECREASE_IN_CASH_AND_CASH_EQUIVALENTS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.INCREASE_DECREASE_IN_CASH_AND_CASH_EQUIVALENTS);
+				pushDataList.add(getReadyValue(snapshotType.getIncreaseDecreaseInCashAndCashEquivalents()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getIncreaseDecreaseInCashAndCashEquivalents()).toString());
+				snapShotMap.put(BIRReportConstant.INCREASE_DECREASE_IN_CASH_AND_CASH_EQUIVALENTS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASH_EQUIVALENTS_CASHFLOW_STATEMENT))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASH_EQUIVALENTS_CASHFLOW_STATEMENT);
+				pushDataList.add(getReadyValue(snapshotType.getCashAndCashEquivalentsCashFlowStatement()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashAndCashEquivalentsCashFlowStatement()).toString());
+				snapShotMap.put(BIRReportConstant.CASH_EQUIVALENTS_CASHFLOW_STATEMENT, pushDataList);				
+			}
+			
+		}
+	}
+
+	private void setCashFlowDirectTable(CashFlowDirectType cashFlowDirect) 
+	{
+		List<SnapshotType> snapShotTypeList = cashFlowDirect.getSnapshot();
+		for (SnapshotType snapshotType : snapShotTypeList)
+		{
+			ArrayList<String> pushDataList = null;
+			Map<String, ArrayList<String>> snapShotMap= new HashMap<String, ArrayList<String>>();
+			
+			if (snapShotMap.containsKey(BIRReportConstant.FOR_THE_YEAR)) 
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.FOR_THE_YEAR);
+				pushDataList.add(snapshotType.getCashFlowAsOf().toString());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(snapshotType.getCashFlowAsOf().toString());
+				snapShotMap.put(BIRReportConstant.FOR_THE_YEAR, pushDataList);	
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.RECEIPTS_FROM_SALES_OF_GOODS_AND_RENDERING_OF_SERVICES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.RECEIPTS_FROM_SALES_OF_GOODS_AND_RENDERING_OF_SERVICES);
+				pushDataList.add(getReadyValue(snapshotType.getReceiptsFromSalesOfGoodsAndRenderingOfServices()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getReceiptsFromSalesOfGoodsAndRenderingOfServices()).toString());
+				snapShotMap.put(BIRReportConstant.RECEIPTS_FROM_SALES_OF_GOODS_AND_RENDERING_OF_SERVICES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.RECEIPTS_FROM_ROYALTIES_FEES_COMMISSIONS_AND_OTHER_REVENUE))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.RECEIPTS_FROM_ROYALTIES_FEES_COMMISSIONS_AND_OTHER_REVENUE);
+				pushDataList.add(getReadyValue(snapshotType.getReceiptsFromRoyaltiesFeesCommissionsAndOtherRevenue()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getReceiptsFromRoyaltiesFeesCommissionsAndOtherRevenue()).toString());
+				snapShotMap.put(BIRReportConstant.RECEIPTS_FROM_ROYALTIES_FEES_COMMISSIONS_AND_OTHER_REVENUE, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.RECEIPTS_FROM_FUTURE_CONTRACTS_FORWARD_CONTRACTS_OPTIONS_CONTRACTS_AND_SWAP_CONTRACTS_HELD_FOR_DEALING_OR_TRADING_PURPOSE))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.RECEIPTS_FROM_FUTURE_CONTRACTS_FORWARD_CONTRACTS_OPTIONS_CONTRACTS_AND_SWAP_CONTRACTS_HELD_FOR_DEALING_OR_TRADING_PURPOSE);
+				pushDataList.add(getReadyValue(snapshotType.getReceiptsFromFutureContractsForwardContractsOptionsContractsAndSwapContractsHeldForDealingOrTradingPurpose()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getReceiptsFromFutureContractsForwardContractsOptionsContractsAndSwapContractsHeldForDealingOrTradingPurpose()).toString());
+				snapShotMap.put(BIRReportConstant.RECEIPTS_FROM_FUTURE_CONTRACTS_FORWARD_CONTRACTS_OPTIONS_CONTRACTS_AND_SWAP_CONTRACTS_HELD_FOR_DEALING_OR_TRADING_PURPOSE, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.RECEIPTS_FROM_PREMIUMS_AND_CLAIMS_ANNUITIES_AND_OTHER_POLICY_BENEFITS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.RECEIPTS_FROM_PREMIUMS_AND_CLAIMS_ANNUITIES_AND_OTHER_POLICY_BENEFITS);
+				pushDataList.add(getReadyValue(snapshotType.getReceiptsFromPremiumsAndClaimsAnnuitiesAndOtherPolicyBenefits()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getReceiptsFromPremiumsAndClaimsAnnuitiesAndOtherPolicyBenefits()).toString());
+				snapShotMap.put(BIRReportConstant.RECEIPTS_FROM_PREMIUMS_AND_CLAIMS_ANNUITIES_AND_OTHER_POLICY_BENEFITS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OTHER_CASH_RECEIPTS_FROM_OPERATING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OTHER_CASH_RECEIPTS_FROM_OPERATING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getOtherCashReceiptsFromOperatingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getOtherCashReceiptsFromOperatingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.OTHER_CASH_RECEIPTS_FROM_OPERATING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PAYMENTS_TO_SUPPLIERS_FOR_GOODS_AND_SERVICES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PAYMENTS_TO_SUPPLIERS_FOR_GOODS_AND_SERVICES);
+				pushDataList.add(getReadyValue(snapshotType.getPaymentsToSuppliersForGoodsAndServices()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getPaymentsToSuppliersForGoodsAndServices()).toString());
+				snapShotMap.put(BIRReportConstant.PAYMENTS_TO_SUPPLIERS_FOR_GOODS_AND_SERVICES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PAYMENTS_TO_FUTURE_CONTRACTS_FORWARD_CONTRACTS_OPTIONS_CONTRACTS_AND_SWAP_CONTRACTS_HELD_FOR_DEALING_OR_TRADING_PURPOSE))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PAYMENTS_TO_FUTURE_CONTRACTS_FORWARD_CONTRACTS_OPTIONS_CONTRACTS_AND_SWAP_CONTRACTS_HELD_FOR_DEALING_OR_TRADING_PURPOSE);
+				pushDataList.add(getReadyValue(snapshotType.getPaymentsToFutureContractsForwardContractsOptionsContractsAndSwapContractsHeldForDealingOrTradingPurpose()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getPaymentsToFutureContractsForwardContractsOptionsContractsAndSwapContractsHeldForDealingOrTradingPurpose()).toString());
+				snapShotMap.put(BIRReportConstant.PAYMENTS_TO_FUTURE_CONTRACTS_FORWARD_CONTRACTS_OPTIONS_CONTRACTS_AND_SWAP_CONTRACTS_HELD_FOR_DEALING_OR_TRADING_PURPOSE, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PAYMENTS_TO_AND_ON_BEHALF_OF_EMPLOYEES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PAYMENTS_TO_AND_ON_BEHALF_OF_EMPLOYEES);
+				pushDataList.add(getReadyValue(snapshotType.getPaymentsToAndOnBehalfOfEmployees()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getPaymentsToAndOnBehalfOfEmployees()).toString());
+				snapShotMap.put(BIRReportConstant.PAYMENTS_TO_AND_ON_BEHALF_OF_EMPLOYEES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PAYMENTS_FOR_PREMIUMS_AND_CLAIMS_ANNUITIES_AND_OTHER_POLICY_BENEFITS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PAYMENTS_FOR_PREMIUMS_AND_CLAIMS_ANNUITIES_AND_OTHER_POLICY_BENEFITS);
+				pushDataList.add(getReadyValue(snapshotType.getPaymentsForPremiumsAndClaimsAnnuitiesAndOtherPolicyBenefits()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getPaymentsForPremiumsAndClaimsAnnuitiesAndOtherPolicyBenefits()).toString());
+				snapShotMap.put(BIRReportConstant.PAYMENTS_FOR_PREMIUMS_AND_CLAIMS_ANNUITIES_AND_OTHER_POLICY_BENEFITS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OTHER_CASH_PAYMENTS_FROM_OPERATING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OTHER_CASH_PAYMENTS_FROM_OPERATING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getOtherCashPaymentsFromOperatingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getOtherCashPaymentsFromOperatingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.OTHER_CASH_PAYMENTS_FROM_OPERATING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASH_FLOW_FROM_USED_IN_OPERATIONS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASH_FLOW_FROM_USED_IN_OPERATIONS);
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInOperations()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInOperations()).toString());
+				snapShotMap.put(BIRReportConstant.CASH_FLOW_FROM_USED_IN_OPERATIONS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.DIVIDENDS_RECEIVED_CLASSIFIED_AS_OPERATING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.DIVIDENDS_RECEIVED_CLASSIFIED_AS_OPERATING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getDividendsReceivedClassifiedAsOperatingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getDividendsReceivedClassifiedAsOperatingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.DIVIDENDS_RECEIVED_CLASSIFIED_AS_OPERATING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.INTEREST_PAID_CLASSIFIED_AS_OPERATING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.INTEREST_PAID_CLASSIFIED_AS_OPERATING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getInterestPaidClassifiedAsOperatingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getInterestPaidClassifiedAsOperatingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.INTEREST_PAID_CLASSIFIED_AS_OPERATING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.INTEREST_RECEIVED_CLASSIFIED_AS_OPERATING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.INTEREST_RECEIVED_CLASSIFIED_AS_OPERATING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getInterestReceivedClassifiedAsOperatingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getInterestReceivedClassifiedAsOperatingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.INTEREST_RECEIVED_CLASSIFIED_AS_OPERATING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.INCOME_TAXES_PAID_REFUND_CLASSIFIED_AS_OPERATING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.INCOME_TAXES_PAID_REFUND_CLASSIFIED_AS_OPERATING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getIncomeTaxesPaidRefundClassifiedAsOperatingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getIncomeTaxesPaidRefundClassifiedAsOperatingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.INCOME_TAXES_PAID_REFUND_CLASSIFIED_AS_OPERATING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OTHER_INFLOWS_OUTFLOWS_OF_CASH_CLASSIFIED_AS_OPERATING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OTHER_INFLOWS_OUTFLOWS_OF_CASH_CLASSIFIED_AS_OPERATING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getOtherInflowsOutflowsOfCashClassifiedAsOperatingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getOtherInflowsOutflowsOfCashClassifiedAsOperatingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.OTHER_INFLOWS_OUTFLOWS_OF_CASH_CLASSIFIED_AS_OPERATING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASHFLOWS_FROM_USED_IN_INVESTING_ACTIVITIES_BEFORE_EXTRAORDINARY_ITEMS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASHFLOWS_FROM_USED_IN_INVESTING_ACTIVITIES_BEFORE_EXTRAORDINARY_ITEMS);
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInOperatingActivitiesBeforeExtraordinaryItems()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInOperatingActivitiesBeforeExtraordinaryItems()).toString());
+				snapShotMap.put(BIRReportConstant.CASHFLOWS_FROM_USED_IN_INVESTING_ACTIVITIES_BEFORE_EXTRAORDINARY_ITEMS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PROCEEDS_FROM_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_OPERATING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PROCEEDS_FROM_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_OPERATING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromExtraordinaryItemsClassifiedAsOperatingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromExtraordinaryItemsClassifiedAsOperatingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.PROCEEDS_FROM_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_OPERATING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PAYMENT_FOR_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_OPERATING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PAYMENT_FOR_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_OPERATING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getPaymentForExtraordinaryItemsClassifiedAsOperatingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getPaymentForExtraordinaryItemsClassifiedAsOperatingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.PAYMENT_FOR_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_OPERATING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASHFLOWS_FROM_USED_IN_OPERATING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASHFLOWS_FROM_USED_IN_OPERATING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInOperatingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInOperatingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.CASHFLOWS_FROM_USED_IN_OPERATING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASHFLOWS_FROM_LOSING_CONTROL_OF_SUBSIDIARIES_OR_OTHER_BUSINESSES_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASHFLOWS_FROM_LOSING_CONTROL_OF_SUBSIDIARIES_OR_OTHER_BUSINESSES_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromLosingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromLosingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.CASHFLOWS_FROM_LOSING_CONTROL_OF_SUBSIDIARIES_OR_OTHER_BUSINESSES_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASHFLOWS_USED_IN_OBTAINING_CONTROL_OF_SUBSIDIARIES_OR_OTHER_BUSINESSES_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASHFLOWS_USED_IN_OBTAINING_CONTROL_OF_SUBSIDIARIES_OR_OTHER_BUSINESSES_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsUsedInObtainingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsUsedInObtainingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.CASHFLOWS_USED_IN_OBTAINING_CONTROL_OF_SUBSIDIARIES_OR_OTHER_BUSINESSES_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OTHER_CASH_RECEIPTS_FROM_SALES_OF_EQUITY_OR_DEBT_INSTRUMENTS_OF_OTHER_ENTITIES_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OTHER_CASH_RECEIPTS_FROM_SALES_OF_EQUITY_OR_DEBT_INSTRUMENTS_OF_OTHER_ENTITIES_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getOtherCashReceiptsFromSalesOfEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getOtherCashReceiptsFromSalesOfEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.OTHER_CASH_RECEIPTS_FROM_SALES_OF_EQUITY_OR_DEBT_INSTRUMENTS_OF_OTHER_ENTITIES_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OTHER_CASH_PAYMENTS_TO_ACQUIRE_EQUITY_OR_DEBT_INSTRUMENTS_OF_OTHER_ENTITIES_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OTHER_CASH_PAYMENTS_TO_ACQUIRE_EQUITY_OR_DEBT_INSTRUMENTS_OF_OTHER_ENTITIES_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getOtherCashPaymentsToAcquireEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getOtherCashPaymentsToAcquireEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.OTHER_CASH_PAYMENTS_TO_ACQUIRE_EQUITY_OR_DEBT_INSTRUMENTS_OF_OTHER_ENTITIES_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OTHER_CASH_RECEIPTS_FROM_SALES_OF_INTERESTS_IN_JOINT_VENTURES_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OTHER_CASH_RECEIPTS_FROM_SALES_OF_INTERESTS_IN_JOINT_VENTURES_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getOtherCashReceiptsFromSalesOfInterestsInJointVenturesClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getOtherCashReceiptsFromSalesOfInterestsInJointVenturesClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.OTHER_CASH_RECEIPTS_FROM_SALES_OF_INTERESTS_IN_JOINT_VENTURES_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OTHER_CASH_PAYMENTS_TO_ACQUIRE_EQUITY_OR_DEBT_INSTRUMENTS_OF_OTHER_ENTITIES_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OTHER_CASH_PAYMENTS_TO_ACQUIRE_EQUITY_OR_DEBT_INSTRUMENTS_OF_OTHER_ENTITIES_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getOtherCashPaymentsToAcquireInterestsInJointVenturesClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getOtherCashPaymentsToAcquireInterestsInJointVenturesClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.OTHER_CASH_PAYMENTS_TO_ACQUIRE_EQUITY_OR_DEBT_INSTRUMENTS_OF_OTHER_ENTITIES_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASH_RECEIPTS_FROM_SHARE_OF_PROFITS_OF_PARTNERSHIP_FIRM_OR_ASSOCIATION_OF_PERSONS_OR_LIMITED_LIABILITY_PARTNERSHIPS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASH_RECEIPTS_FROM_SHARE_OF_PROFITS_OF_PARTNERSHIP_FIRM_OR_ASSOCIATION_OF_PERSONS_OR_LIMITED_LIABILITY_PARTNERSHIPS);
+				pushDataList.add(getReadyValue(snapshotType.getCashReceiptsFromShareOfProfitsOfPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashReceiptsFromShareOfProfitsOfPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships()).toString());
+				snapShotMap.put(BIRReportConstant.CASH_RECEIPTS_FROM_SHARE_OF_PROFITS_OF_PARTNERSHIP_FIRM_OR_ASSOCIATION_OF_PERSONS_OR_LIMITED_LIABILITY_PARTNERSHIPS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASH_PAYMENT_FOR_INVESTMENT_IN_PARTNERSHIP_FIRM_OR_ASSOCIATION_OF_PERSONS_OR_LIMITED_LIABILITY_PARTNERSHIPS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASH_PAYMENT_FOR_INVESTMENT_IN_PARTNERSHIP_FIRM_OR_ASSOCIATION_OF_PERSONS_OR_LIMITED_LIABILITY_PARTNERSHIPS);
+				pushDataList.add(getReadyValue(snapshotType.getCashPaymentForInvestmentInPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashPaymentForInvestmentInPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships()).toString());
+				snapShotMap.put(BIRReportConstant.CASH_PAYMENT_FOR_INVESTMENT_IN_PARTNERSHIP_FIRM_OR_ASSOCIATION_OF_PERSONS_OR_LIMITED_LIABILITY_PARTNERSHIPS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PURCHASE_OF_TANGIBLE_ASSETS_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PURCHASE_OF_TANGIBLE_ASSETS_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getPurchaseOfTangibleAssetsClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getPurchaseOfTangibleAssetsClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.PURCHASE_OF_TANGIBLE_ASSETS_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PROCEEDS_FROM_SALES_OF_INTANGIBLE_ASSETS_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PROCEEDS_FROM_SALES_OF_INTANGIBLE_ASSETS_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.PROCEEDS_FROM_SALES_OF_INTANGIBLE_ASSETS_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PURCHASE_OF_INTANGIBLE_ASSETS_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PURCHASE_OF_INTANGIBLE_ASSETS_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getPurchaseOfIntangibleAssetsClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getPurchaseOfIntangibleAssetsClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.PURCHASE_OF_INTANGIBLE_ASSETS_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASH_RECEIPTS_FROM_REPAYMENT_OF_ADVANCES_AND_LOANS_MADE_TO_OTHER_PARTIES_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASH_RECEIPTS_FROM_REPAYMENT_OF_ADVANCES_AND_LOANS_MADE_TO_OTHER_PARTIES_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getCashAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.CASH_RECEIPTS_FROM_REPAYMENT_OF_ADVANCES_AND_LOANS_MADE_TO_OTHER_PARTIES_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASH_RECEIPTS_FROM_REPAYMENT_OF_ADVANCES_AND_LOANS_MADE_TO_OTHER_PARTIES_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASH_RECEIPTS_FROM_REPAYMENT_OF_ADVANCES_AND_LOANS_MADE_TO_OTHER_PARTIES_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getCashReceiptsFromRepaymentOfAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashReceiptsFromRepaymentOfAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.CASH_RECEIPTS_FROM_REPAYMENT_OF_ADVANCES_AND_LOANS_MADE_TO_OTHER_PARTIES_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASH_PAYMENTS_FOR_FUTURE_CONTRACTS_FORWARD_CONTRACTS_OPTION_CONTRACTS_AND_SWAP_CONTRACTS_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASH_PAYMENTS_FOR_FUTURE_CONTRACTS_FORWARD_CONTRACTS_OPTION_CONTRACTS_AND_SWAP_CONTRACTS_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getCashPaymentsForFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashPaymentsForFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.CASH_PAYMENTS_FOR_FUTURE_CONTRACTS_FORWARD_CONTRACTS_OPTION_CONTRACTS_AND_SWAP_CONTRACTS_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASH_RECEIPTS_FROM_FUTURE_CONTRACTS_FORWARD_CONTRACTS_OPTION_CONTRACTS_AND_SWAP_CONTRACTS_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASH_RECEIPTS_FROM_FUTURE_CONTRACTS_FORWARD_CONTRACTS_OPTION_CONTRACTS_AND_SWAP_CONTRACTS_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getCashReceiptsFromFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashReceiptsFromFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.CASH_RECEIPTS_FROM_FUTURE_CONTRACTS_FORWARD_CONTRACTS_OPTION_CONTRACTS_AND_SWAP_CONTRACTS_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.DIVIDENDS_RECEIVED_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.DIVIDENDS_RECEIVED_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getDividendsReceivedClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getDividendsReceivedClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.DIVIDENDS_RECEIVED_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.INTEREST_RECEIVED_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.INTEREST_RECEIVED_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getInterestReceivedClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getInterestReceivedClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.INTEREST_RECEIVED_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.INCOME_TAXES_PAID_REFUND_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.INCOME_TAXES_PAID_REFUND_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getIncomeTaxesPaidRefundClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getIncomeTaxesPaidRefundClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.INCOME_TAXES_PAID_REFUND_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OTHER_INFLOWS_OUTFLOWS_OF_CASH_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OTHER_INFLOWS_OUTFLOWS_OF_CASH_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getOtherInflowsOutflowsOfCashClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getOtherInflowsOutflowsOfCashClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.OTHER_INFLOWS_OUTFLOWS_OF_CASH_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PROCEEDS_FROM_GOVERNMENT_GRANTS_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PROCEEDS_FROM_GOVERNMENT_GRANTS_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromGovernmentGrantsClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromGovernmentGrantsClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.PROCEEDS_FROM_GOVERNMENT_GRANTS_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASHFLOWS_FROM_USED_IN_INVESTING_ACTIVITIES_BEFORE_EXTRAORDINARY_ITEMS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASHFLOWS_FROM_USED_IN_INVESTING_ACTIVITIES_BEFORE_EXTRAORDINARY_ITEMS);
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInInvestingActivitiesBeforeExtraordinaryItems()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInInvestingActivitiesBeforeExtraordinaryItems()).toString());
+				snapShotMap.put(BIRReportConstant.CASHFLOWS_FROM_USED_IN_INVESTING_ACTIVITIES_BEFORE_EXTRAORDINARY_ITEMS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PROCEEDS_FROM_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PROCEEDS_FROM_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromExtraordinaryItemsClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromExtraordinaryItemsClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.PROCEEDS_FROM_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PAYMENT_FOR_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PAYMENT_FOR_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getPaymentForExtraordinaryItemsClassifiedAsInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getPaymentForExtraordinaryItemsClassifiedAsInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.PAYMENT_FOR_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASHFLOWS_FROM_USED_IN_INVESTING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASHFLOWS_FROM_USED_IN_INVESTING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInInvestingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInInvestingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.CASHFLOWS_FROM_USED_IN_INVESTING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PROCEEDS_FROM_ISSUING_SHARES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PROCEEDS_FROM_ISSUING_SHARES);
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromIssuingShares()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromIssuingShares()).toString());
+				snapShotMap.put(BIRReportConstant.PROCEEDS_FROM_ISSUING_SHARES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PROCEEDS_FROM_ISSUING_OTHER_EQUITY_INSTRUMENTS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PROCEEDS_FROM_ISSUING_OTHER_EQUITY_INSTRUMENTS);
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromIssuingOtherEquityInstruments()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromIssuingOtherEquityInstruments()).toString());
+				snapShotMap.put(BIRReportConstant.PROCEEDS_FROM_ISSUING_OTHER_EQUITY_INSTRUMENTS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PROCEEDS_FROM_ISSUING_DEBENTURES_NOTES_BONDS_ETC))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PROCEEDS_FROM_ISSUING_DEBENTURES_NOTES_BONDS_ETC);
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromIssuingDebenturesNotesBondsEtc()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromIssuingDebenturesNotesBondsEtc()).toString());
+				snapShotMap.put(BIRReportConstant.PROCEEDS_FROM_ISSUING_DEBENTURES_NOTES_BONDS_ETC, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PROCEEDS_FROM_BORROWINGS_CLASSIFIED_AS_FINANCING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PROCEEDS_FROM_BORROWINGS_CLASSIFIED_AS_FINANCING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromBorrowingsClassifiedAsFinancingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromBorrowingsClassifiedAsFinancingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.PROCEEDS_FROM_BORROWINGS_CLASSIFIED_AS_FINANCING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.REPAYMENTS_OF_BORROWINGS_CLASSIFIED_AS_FINANCING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.REPAYMENTS_OF_BORROWINGS_CLASSIFIED_AS_FINANCING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getRepaymentsOfBorrowingsClassifiedAsFinancingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getRepaymentsOfBorrowingsClassifiedAsFinancingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.REPAYMENTS_OF_BORROWINGS_CLASSIFIED_AS_FINANCING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.DIVIDENDS_PAID_CLASSIFIED_AS_FINANCING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.DIVIDENDS_PAID_CLASSIFIED_AS_FINANCING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getDividendsPaidClassifiedAsFinancingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getDividendsPaidClassifiedAsFinancingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.DIVIDENDS_PAID_CLASSIFIED_AS_FINANCING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.INTEREST_PAID_CLASSIFIED_AS_FINANCING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.INTEREST_PAID_CLASSIFIED_AS_FINANCING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getInterestPaidClassifiedAsFinancingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getInterestPaidClassifiedAsFinancingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.INTEREST_PAID_CLASSIFIED_AS_FINANCING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.INCOME_TAXES_PAID_REFUND_CLASSIFIED_AS_FINANCING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.INCOME_TAXES_PAID_REFUND_CLASSIFIED_AS_FINANCING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getIncomeTaxesPaidRefundClassifiedAsFinancingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getIncomeTaxesPaidRefundClassifiedAsFinancingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.INCOME_TAXES_PAID_REFUND_CLASSIFIED_AS_FINANCING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OTHER_INFLOWS_OUTFLOWS_OF_CASH_CLASSIFIED_AS_FINANCING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OTHER_INFLOWS_OUTFLOWS_OF_CASH_CLASSIFIED_AS_FINANCING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getOtherInflowsOutflowsOfCashClassifiedAsFinancingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getOtherInflowsOutflowsOfCashClassifiedAsFinancingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.OTHER_INFLOWS_OUTFLOWS_OF_CASH_CLASSIFIED_AS_FINANCING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASHFLOWS_FROM_USEDIN_FINANCING_ACTIVITIES_BEFORE_EXTRAORDINARY_ITEMS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASHFLOWS_FROM_USEDIN_FINANCING_ACTIVITIES_BEFORE_EXTRAORDINARY_ITEMS);
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInFinancingActivitiesBeforeExtraordinaryItems()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInFinancingActivitiesBeforeExtraordinaryItems()).toString());
+				snapShotMap.put(BIRReportConstant.CASHFLOWS_FROM_USEDIN_FINANCING_ACTIVITIES_BEFORE_EXTRAORDINARY_ITEMS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PROCEEDS_FROM_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_FINANCING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PROCEEDS_FROM_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_FINANCING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromExtraordinaryItemsClassifiedAsFinancingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getProceedsFromExtraordinaryItemsClassifiedAsFinancingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.PROCEEDS_FROM_EXTRAORDINARY_ITEMS_CLASSIFIED_AS_FINANCING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASHFLOWS_FROM_USEDIN_FINANCING_ACTIVITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASHFLOWS_FROM_USEDIN_FINANCING_ACTIVITIES);
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInFinancingActivities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashFlowsFromUsedInFinancingActivities()).toString());
+				snapShotMap.put(BIRReportConstant.CASHFLOWS_FROM_USEDIN_FINANCING_ACTIVITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.INCREASE_DECREASE_IN_CASH_AND_CASH_EQUIVALENTS_BEFORE_EFFECT_OF_EXCHANGE_RATE_CHANGES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.INCREASE_DECREASE_IN_CASH_AND_CASH_EQUIVALENTS_BEFORE_EFFECT_OF_EXCHANGE_RATE_CHANGES);
+				pushDataList.add(getReadyValue(snapshotType.getIncreaseDecreaseInCashAndCashEquivalentsBeforeEffectOfExchangeRateChanges()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getIncreaseDecreaseInCashAndCashEquivalentsBeforeEffectOfExchangeRateChanges()).toString());
+				snapShotMap.put(BIRReportConstant.INCREASE_DECREASE_IN_CASH_AND_CASH_EQUIVALENTS_BEFORE_EFFECT_OF_EXCHANGE_RATE_CHANGES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.EFFECT_OF_EXCHANGE_RATE_CHANGES_ON_CASH_AND_CASH_EQUIVALENTS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.EFFECT_OF_EXCHANGE_RATE_CHANGES_ON_CASH_AND_CASH_EQUIVALENTS);
+				pushDataList.add(getReadyValue(snapshotType.getEffectOfExchangeRateChangesOnCashAndCashEquivalents()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getEffectOfExchangeRateChangesOnCashAndCashEquivalents()).toString());
+				snapShotMap.put(BIRReportConstant.EFFECT_OF_EXCHANGE_RATE_CHANGES_ON_CASH_AND_CASH_EQUIVALENTS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.INCREASE_DECREASE_IN_CASH_AND_CASH_EQUIVALENTS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.INCREASE_DECREASE_IN_CASH_AND_CASH_EQUIVALENTS);
+				pushDataList.add(getReadyValue(snapshotType.getIncreaseDecreaseInCashAndCashEquivalents()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getIncreaseDecreaseInCashAndCashEquivalents()).toString());
+				snapShotMap.put(BIRReportConstant.INCREASE_DECREASE_IN_CASH_AND_CASH_EQUIVALENTS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CASH_EQUIVALENTS_CASHFLOW_STATEMENT))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASH_EQUIVALENTS_CASHFLOW_STATEMENT);
+				pushDataList.add(getReadyValue(snapshotType.getCashAndCashEquivalentsCashFlowStatement()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashAndCashEquivalentsCashFlowStatement()).toString());
+				snapShotMap.put(BIRReportConstant.CASH_EQUIVALENTS_CASHFLOW_STATEMENT, pushDataList);				
+			}
+						
+		}
+	}
+
+	private void setProfitAndLossTable(ProfitAndLossType profitAndLoss)
+	{
+		List<SnapshotType> snapShotTypeList = profitAndLoss.getSnapshot();
+		for (SnapshotType snapshotType : snapShotTypeList)
+		{
+			ArrayList<String> pushDataList = null;
+			Map<String, ArrayList<String>> snapShotMap= new HashMap<String, ArrayList<String>>();
+			
+			if (snapShotMap.containsKey(BIRReportConstant.FOR_THE_YEAR)) 
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.FOR_THE_YEAR);
+				pushDataList.add(snapshotType.getProfitAndLossAsOf().toString());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(snapshotType.getProfitAndLossAsOf().toString());
+				snapShotMap.put(BIRReportConstant.FOR_THE_YEAR, pushDataList);	
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.REVENUE_FROM_SALE_OF_PRODUCTS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.REVENUE_FROM_SALE_OF_PRODUCTS);
+				pushDataList.add(getReadyValue(snapshotType.getRevenueFromSaleOfProducts()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getRevenueFromSaleOfProducts()).toString());
+				snapShotMap.put(BIRReportConstant.REVENUE_FROM_SALE_OF_PRODUCTS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.REVENUE_FROM_SALE_OF_SERVICES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.REVENUE_FROM_SALE_OF_SERVICES);
+				pushDataList.add(getReadyValue(snapshotType.getRevenueFromSaleOfServices()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getRevenueFromSaleOfServices()).toString());
+				snapShotMap.put(BIRReportConstant.REVENUE_FROM_SALE_OF_SERVICES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OTHER_OPERATING_REVENUES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OTHER_OPERATING_REVENUES);
+				pushDataList.add(getReadyValue(snapshotType.getOtherOperatingRevenues()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getOtherOperatingRevenues()).toString());
+				snapShotMap.put(BIRReportConstant.OTHER_OPERATING_REVENUES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.REVENUE_FROM_OPERATIONS_OTHER_THAN_FINANCE_COMPANY))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.REVENUE_FROM_OPERATIONS_OTHER_THAN_FINANCE_COMPANY);
+				pushDataList.add(getReadyValue(snapshotType.getRevenueFromOperationsOtherThanFinanceCompany()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getRevenueFromOperationsOtherThanFinanceCompany()).toString());
+				snapShotMap.put(BIRReportConstant.REVENUE_FROM_OPERATIONS_OTHER_THAN_FINANCE_COMPANY, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.REVENUE_FROM_OPERATIONS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.REVENUE_FROM_OPERATIONS);
+				pushDataList.add(getReadyValue(snapshotType.getRevenueFromOperations()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getRevenueFromOperations()).toString());
+				snapShotMap.put(BIRReportConstant.REVENUE_FROM_OPERATIONS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OTHER_INCOME))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OTHER_INCOME);
+				pushDataList.add(getReadyValue(snapshotType.getOtherIncome()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getOtherIncome()).toString());
+				snapShotMap.put(BIRReportConstant.OTHER_INCOME, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.REVENUE))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.REVENUE);
+				pushDataList.add(getReadyValue(snapshotType.getRevenue()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getRevenue()).toString());
+				snapShotMap.put(BIRReportConstant.REVENUE, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.COST_OF_MATERIAL_CONSUMED))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.COST_OF_MATERIAL_CONSUMED);
+				pushDataList.add(getReadyValue(snapshotType.getCostOfMaterialsConsumed()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCostOfMaterialsConsumed()).toString());
+				snapShotMap.put(BIRReportConstant.COST_OF_MATERIAL_CONSUMED, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.EMPLOYEE_BENIFIT_EXPENSES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.EMPLOYEE_BENIFIT_EXPENSES);
+				pushDataList.add(getReadyValue(snapshotType.getEmployeeBenefitExpense()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getEmployeeBenefitExpense()).toString());
+				snapShotMap.put(BIRReportConstant.EMPLOYEE_BENIFIT_EXPENSES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CURRENT_MANAGERIAL_REM))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CURRENT_MANAGERIAL_REM);
+				pushDataList.add(getReadyValue(snapshotType.getCurManagerialRem()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCurManagerialRem()).toString());
+				snapShotMap.put(BIRReportConstant.CURRENT_MANAGERIAL_REM, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CURRENT_PAYMENT_AUDITORS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CURRENT_PAYMENT_AUDITORS);
+				pushDataList.add(getReadyValue(snapshotType.getCurPaymentAuditors()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCurPaymentAuditors()).toString());
+				snapShotMap.put(BIRReportConstant.CURRENT_PAYMENT_AUDITORS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CURRENT_INSURANCE_EXPENSES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CURRENT_INSURANCE_EXPENSES);
+				pushDataList.add(getReadyValue(snapshotType.getCurInsuranceExp()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCurInsuranceExp()).toString());
+				snapShotMap.put(BIRReportConstant.CURRENT_INSURANCE_EXPENSES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.FINANCE_COSTS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.FINANCE_COSTS);
+				pushDataList.add(getReadyValue(snapshotType.getFinanceCosts()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getFinanceCosts()).toString());
+				snapShotMap.put(BIRReportConstant.FINANCE_COSTS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.DEPRECIATION_EXPENSE))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.DEPRECIATION_EXPENSE);
+				pushDataList.add(getReadyValue(snapshotType.getDepreciationExpense()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getDepreciationExpense()).toString());
+				snapShotMap.put(BIRReportConstant.DEPRECIATION_EXPENSE, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.AMORTISATION_EXPENSE))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.AMORTISATION_EXPENSE);
+				pushDataList.add(getReadyValue(snapshotType.getAmortisationExpense()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getAmortisationExpense()).toString());
+				snapShotMap.put(BIRReportConstant.AMORTISATION_EXPENSE, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.DEPRECIATION_DEPLETION_AND_AMORTISATION_EXPENSE))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.DEPRECIATION_DEPLETION_AND_AMORTISATION_EXPENSE);
+				pushDataList.add(getReadyValue(snapshotType.getDepreciationDepletionAndAmortisationExpense()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getDepreciationDepletionAndAmortisationExpense()).toString());
+				snapShotMap.put(BIRReportConstant.DEPRECIATION_DEPLETION_AND_AMORTISATION_EXPENSE, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OTHER_EXPENSE))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OTHER_EXPENSE);
+				pushDataList.add(getReadyValue(snapshotType.getOtherExpenses()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getOtherExpenses()).toString());
+				snapShotMap.put(BIRReportConstant.OTHER_EXPENSE, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.EXPENSES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.EXPENSES);
+				pushDataList.add(getReadyValue(snapshotType.getExpenses()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getExpenses()).toString());
+				snapShotMap.put(BIRReportConstant.EXPENSES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PROFIT_BEFORE_PRIOR_PERIOD_ITEMS_EXCEPTIONAL_ITEMS_EXTRAORDINARY_ITEMS_AND_TAX))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PROFIT_BEFORE_PRIOR_PERIOD_ITEMS_EXCEPTIONAL_ITEMS_EXTRAORDINARY_ITEMS_AND_TAX);
+				pushDataList.add(getReadyValue(snapshotType.getProfitBeforePriorPeriodItemsExceptionalItemsExtraordinaryItemsAndTax()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getProfitBeforePriorPeriodItemsExceptionalItemsExtraordinaryItemsAndTax()).toString());
+				snapShotMap.put(BIRReportConstant.PROFIT_BEFORE_PRIOR_PERIOD_ITEMS_EXCEPTIONAL_ITEMS_EXTRAORDINARY_ITEMS_AND_TAX, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PROFIT_BEFORE_EXTRAORDINARY_ITEMS_AND_TAX))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PROFIT_BEFORE_EXTRAORDINARY_ITEMS_AND_TAX);
+				pushDataList.add(getReadyValue(snapshotType.getProfitBeforeExtraordinaryItemsAndTax()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getProfitBeforeExtraordinaryItemsAndTax()).toString());
+				snapShotMap.put(BIRReportConstant.PROFIT_BEFORE_EXTRAORDINARY_ITEMS_AND_TAX, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PROFIT_BEFORE_TAX))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PROFIT_BEFORE_TAX);
+				pushDataList.add(getReadyValue(snapshotType.getProfitBeforeTax()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getProfitBeforeTax()).toString());
+				snapShotMap.put(BIRReportConstant.PROFIT_BEFORE_TAX, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CURRENT_TAX))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CURRENT_TAX);
+				pushDataList.add(getReadyValue(snapshotType.getCurrentTax()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCurrentTax()).toString());
+				snapShotMap.put(BIRReportConstant.CURRENT_TAX, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.DEFFERED_TAX))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.DEFFERED_TAX);
+				pushDataList.add(getReadyValue(snapshotType.getDeferredTax()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getDeferredTax()).toString());
+				snapShotMap.put(BIRReportConstant.DEFFERED_TAX, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.TAX_EXPENSE))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.TAX_EXPENSE);
+				pushDataList.add(getReadyValue(snapshotType.getTaxExpense()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getTaxExpense()).toString());
+				snapShotMap.put(BIRReportConstant.TAX_EXPENSE, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PROFIT_LOSS_FOR_PERIOD_FROM_CONTINUING_OPERATIONS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PROFIT_LOSS_FOR_PERIOD_FROM_CONTINUING_OPERATIONS);
+				pushDataList.add(getReadyValue(snapshotType.getProfitLossForPeriodFromContinuingOperations()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getProfitLossForPeriodFromContinuingOperations()).toString());
+				snapShotMap.put(BIRReportConstant.PROFIT_LOSS_FOR_PERIOD_FROM_CONTINUING_OPERATIONS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PROFIT_LOSS_FOR_PERIOD_BEFORE_MINORITY_INTEREST))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PROFIT_LOSS_FOR_PERIOD_BEFORE_MINORITY_INTEREST);
+				pushDataList.add(getReadyValue(snapshotType.getProfitLossForPeriodBeforeMinorityInterest()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getProfitLossForPeriodBeforeMinorityInterest()).toString());
+				snapShotMap.put(BIRReportConstant.PROFIT_LOSS_FOR_PERIOD_BEFORE_MINORITY_INTEREST, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.PROFIT_LOSS_FOR_PERIOD))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.PROFIT_LOSS_FOR_PERIOD);
+				pushDataList.add(getReadyValue(snapshotType.getProfitLossForPeriod()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getProfitLossForPeriod()).toString());
+				snapShotMap.put(BIRReportConstant.PROFIT_LOSS_FOR_PERIOD, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.BASIC_EARNING_PER_EQUITY_SHARE))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.BASIC_EARNING_PER_EQUITY_SHARE);
+				pushDataList.add(snapshotType.getBasicEarningPerEquityShare());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(snapshotType.getBasicEarningPerEquityShare());
+				snapShotMap.put(BIRReportConstant.BASIC_EARNING_PER_EQUITY_SHARE, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.DILUTED_EARNINGS_PER_EQUITY_SHARE))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.DILUTED_EARNINGS_PER_EQUITY_SHARE);
+				pushDataList.add(snapshotType.getDilutedEarningsPerEquityShare());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(snapshotType.getDilutedEarningsPerEquityShare());
+				snapShotMap.put(BIRReportConstant.DILUTED_EARNINGS_PER_EQUITY_SHARE, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.BASIC_EARNING_PER_EQUITY_SHARE_BEFORE_EXTRAORDINARY_ITEMS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.BASIC_EARNING_PER_EQUITY_SHARE_BEFORE_EXTRAORDINARY_ITEMS);
+				pushDataList.add(snapshotType.getBasicEarningPerEquityShareBeforeExtraordinaryItems());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(snapshotType.getBasicEarningPerEquityShareBeforeExtraordinaryItems());
+				snapShotMap.put(BIRReportConstant.BASIC_EARNING_PER_EQUITY_SHARE_BEFORE_EXTRAORDINARY_ITEMS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.DILUTED_EARNING_PER_EQUITY_SHARE_BEFORE_EXTRAORDINARY_ITEMS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.DILUTED_EARNING_PER_EQUITY_SHARE_BEFORE_EXTRAORDINARY_ITEMS);
+				pushDataList.add(snapshotType.getDilutedEarningsPerEquityShareBeforeExtraordinaryItems());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(snapshotType.getDilutedEarningsPerEquityShareBeforeExtraordinaryItems());
+				snapShotMap.put(BIRReportConstant.DILUTED_EARNING_PER_EQUITY_SHARE_BEFORE_EXTRAORDINARY_ITEMS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.NOMINAL_VALUE_OF_PER_EQUITY_SHARE))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.NOMINAL_VALUE_OF_PER_EQUITY_SHARE);
+				pushDataList.add(snapshotType.getNominalValueOfPerEquityShare());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(snapshotType.getNominalValueOfPerEquityShare());
+				snapShotMap.put(BIRReportConstant.NOMINAL_VALUE_OF_PER_EQUITY_SHARE, pushDataList);				
+			}
+		}
+	}
+
+	private void setBalanceSheetTable(BalanceSheetType balanceSheet) 
+	{
+
+		List<SnapshotType> snapShotTypeList = balanceSheet.getSnapshotType();
+		for (SnapshotType snapshotType : snapShotTypeList)
+		{
+			ArrayList<String> pushDataList = null;
+			Map<String, ArrayList<String>> snapShotMap= new HashMap<String, ArrayList<String>>();
+			
+			if (snapShotMap.containsKey(BIRReportConstant.FOR_THE_YEAR)) 
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.FOR_THE_YEAR);
+				pushDataList.add(snapshotType.getBalanceSheetAsOf().toString());
+			}
+			else
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(snapshotType.getBalanceSheetAsOf().toString());
+				snapShotMap.put(BIRReportConstant.FOR_THE_YEAR, pushDataList);	
+			}
+			
+			if(snapShotMap.containsKey(BIRReportConstant.SHARE_CAPITAL))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.SHARE_CAPITAL);
+				pushDataList.add(getReadyValue(snapshotType.getShareCapital()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getShareCapital()).toString());
+				snapShotMap.put(BIRReportConstant.SHARE_CAPITAL, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.RESERVE_AND_SURPLUS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.RESERVE_AND_SURPLUS);
+				pushDataList.add(getReadyValue(snapshotType.getReservesAndSurplus()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getReservesAndSurplus()).toString());
+				snapShotMap.put(BIRReportConstant.RESERVE_AND_SURPLUS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.SHARE_HOLDERS_FUNDS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.SHARE_HOLDERS_FUNDS);
+				pushDataList.add(getReadyValue(snapshotType.getShareholdersFunds()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getShareholdersFunds()).toString());
+				snapShotMap.put(BIRReportConstant.SHARE_HOLDERS_FUNDS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.SHARE_APPLICATION_MONEY))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.SHARE_APPLICATION_MONEY);
+				pushDataList.add(getReadyValue(snapshotType.getShareApplicationMoneyPendingAllotment()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getShareApplicationMoneyPendingAllotment()).toString());
+				snapShotMap.put(BIRReportConstant.SHARE_APPLICATION_MONEY, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.MINORITY_INTEREST))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.MINORITY_INTEREST);
+				pushDataList.add(getReadyValue(snapshotType.getMinorityInterest()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getMinorityInterest()).toString());
+				snapShotMap.put(BIRReportConstant.MINORITY_INTEREST, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.LONG_TERM_BORROWINGS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.LONG_TERM_BORROWINGS);
+				pushDataList.add(getReadyValue(snapshotType.getLongTermBorrowings()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getLongTermBorrowings()).toString());
+				snapShotMap.put(BIRReportConstant.LONG_TERM_BORROWINGS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OTHER_LONG_TERM_LIABILITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OTHER_LONG_TERM_LIABILITIES);
+				pushDataList.add(getReadyValue(snapshotType.getOtherLongTermLiabilities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getOtherLongTermLiabilities()).toString());
+				snapShotMap.put(BIRReportConstant.OTHER_LONG_TERM_LIABILITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.LONG_TERM_PROVISIONS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.LONG_TERM_PROVISIONS);
+				pushDataList.add(getReadyValue(snapshotType.getLongTermProvisions()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getLongTermProvisions()).toString());
+				snapShotMap.put(BIRReportConstant.LONG_TERM_PROVISIONS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.NON_CURRENT_LIABILITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.NON_CURRENT_LIABILITIES);
+				pushDataList.add(getReadyValue(snapshotType.getNoncurrentLiabilities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getNoncurrentLiabilities()).toString());
+				snapShotMap.put(BIRReportConstant.NON_CURRENT_LIABILITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.SHORT_TERM_BORROWINGS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.SHORT_TERM_BORROWINGS);
+				pushDataList.add(getReadyValue(snapshotType.getShortTermBorrowings()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getShortTermBorrowings()).toString());
+				snapShotMap.put(BIRReportConstant.SHORT_TERM_BORROWINGS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.TRADE_PAYABLES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.TRADE_PAYABLES);
+				pushDataList.add(getReadyValue(snapshotType.getTradePayables()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getTradePayables()).toString());
+				snapShotMap.put(BIRReportConstant.TRADE_PAYABLES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OTHER_CURRENT_LIABILITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OTHER_CURRENT_LIABILITIES);
+				pushDataList.add(getReadyValue(snapshotType.getOtherCurrentLiabilities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getOtherCurrentLiabilities()).toString());
+				snapShotMap.put(BIRReportConstant.OTHER_CURRENT_LIABILITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.SHORT_TERM_PROVISIONS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.SHORT_TERM_PROVISIONS);
+				pushDataList.add(getReadyValue(snapshotType.getShortTermProvisions()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getShortTermProvisions()).toString());
+				snapShotMap.put(BIRReportConstant.SHORT_TERM_PROVISIONS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CURRENT_LIABILITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CURRENT_LIABILITIES);
+				pushDataList.add(getReadyValue(snapshotType.getCurrentLiabilities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCurrentLiabilities()).toString());
+				snapShotMap.put(BIRReportConstant.CURRENT_LIABILITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.EQUITY_AND_LIABILITIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.EQUITY_AND_LIABILITIES);
+				pushDataList.add(getReadyValue(snapshotType.getEquityAndLiabilities()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getEquityAndLiabilities()).toString());
+				snapShotMap.put(BIRReportConstant.EQUITY_AND_LIABILITIES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.TANGIBLE_ASSETS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.TANGIBLE_ASSETS);
+				pushDataList.add(getReadyValue(snapshotType.getTangibleAssets()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getOtherLongTermLiabilities()).toString());
+				snapShotMap.put(BIRReportConstant.TANGIBLE_ASSETS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.INTANGIBLE_ASSETS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.INTANGIBLE_ASSETS);
+				pushDataList.add(getReadyValue(snapshotType.getIntangibleAssets()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getIntangibleAssets()).toString());
+				snapShotMap.put(BIRReportConstant.INTANGIBLE_ASSETS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.TANGIBLE_ASSETS_CAPITAL_WORK_IN_PROGRESS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.TANGIBLE_ASSETS_CAPITAL_WORK_IN_PROGRESS);
+				pushDataList.add(getReadyValue(snapshotType.getTangibleAssetsCapitalWorkInProgress()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getTangibleAssetsCapitalWorkInProgress()).toString());
+				snapShotMap.put(BIRReportConstant.TANGIBLE_ASSETS_CAPITAL_WORK_IN_PROGRESS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.FIXED_ASSETS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.FIXED_ASSETS);
+				pushDataList.add(getReadyValue(snapshotType.getFixedAssets()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getFixedAssets()).toString());
+				snapShotMap.put(BIRReportConstant.FIXED_ASSETS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.NON_CURRENT_INVESTMENTS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.NON_CURRENT_INVESTMENTS);
+				pushDataList.add(getReadyValue(snapshotType.getNoncurrentInvestments()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getNoncurrentInvestments()).toString());
+				snapShotMap.put(BIRReportConstant.NON_CURRENT_INVESTMENTS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.LONG_TERM_LOANS_AND_ADVANCE))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.LONG_TERM_LOANS_AND_ADVANCE);
+				pushDataList.add(getReadyValue(snapshotType.getLongTermLoansAndAdvances()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getLongTermLoansAndAdvances()).toString());
+				snapShotMap.put(BIRReportConstant.LONG_TERM_LOANS_AND_ADVANCE, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OTHER_NON_CURRENT_ASSETS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OTHER_NON_CURRENT_ASSETS);
+				pushDataList.add(getReadyValue(snapshotType.getOtherNoncurrentAssets()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getOtherNoncurrentAssets()).toString());
+				snapShotMap.put(BIRReportConstant.OTHER_NON_CURRENT_ASSETS, pushDataList);				
+			}
+			
+			if(snapShotMap.containsKey(BIRReportConstant.NON_CURRENT_ASSETS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.NON_CURRENT_ASSETS);
+				pushDataList.add(getReadyValue(snapshotType.getNoncurrentAssets()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getNoncurrentAssets()).toString());
+				snapShotMap.put(BIRReportConstant.NON_CURRENT_ASSETS, pushDataList);				
+			}
+			
+			if(snapShotMap.containsKey(BIRReportConstant.CURRENT_INVESTMENTS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CURRENT_INVESTMENTS);
+				pushDataList.add(getReadyValue(snapshotType.getCurrentInvestments()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCurrentInvestments()).toString());
+				snapShotMap.put(BIRReportConstant.CURRENT_INVESTMENTS, pushDataList);				
+			}
+			
+			if(snapShotMap.containsKey(BIRReportConstant.INVENTORIES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.INVENTORIES);
+				pushDataList.add(getReadyValue(snapshotType.getInventories()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getInventories()).toString());
+				snapShotMap.put(BIRReportConstant.INVENTORIES, pushDataList);				
+			}
+			
+			if(snapShotMap.containsKey(BIRReportConstant.TRADE_RECEIVABLES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.TRADE_RECEIVABLES);
+				pushDataList.add(getReadyValue(snapshotType.getTradeReceivables()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getTradeReceivables()).toString());
+				snapShotMap.put(BIRReportConstant.TRADE_RECEIVABLES, pushDataList);				
+			}
+			
+			if(snapShotMap.containsKey(BIRReportConstant.CASH_AND_BANK_BALANCES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CASH_AND_BANK_BALANCES);
+				pushDataList.add(getReadyValue(snapshotType.getCashAndBankBalances()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCashAndBankBalances()).toString());
+				snapShotMap.put(BIRReportConstant.CASH_AND_BANK_BALANCES, pushDataList);				
+			}
+			
+			if(snapShotMap.containsKey(BIRReportConstant.SHORT_TERM_LOANS_AND_ADVANCES))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.SHORT_TERM_LOANS_AND_ADVANCES);
+				pushDataList.add(getReadyValue(snapshotType.getShortTermLoansAndAdvances()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getShortTermLoansAndAdvances()).toString());
+				snapShotMap.put(BIRReportConstant.SHORT_TERM_LOANS_AND_ADVANCES, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.OTHER_CURRENT_ASSETS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.OTHER_CURRENT_ASSETS);
+				pushDataList.add(getReadyValue(snapshotType.getOtherCurrentAssets()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getOtherCurrentAssets()).toString());
+				snapShotMap.put(BIRReportConstant.OTHER_CURRENT_ASSETS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.CURRENT_ASSETS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.CURRENT_ASSETS);
+				pushDataList.add(getReadyValue(snapshotType.getCurrentAssets()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getCurrentAssets()).toString());
+				snapShotMap.put(BIRReportConstant.CURRENT_ASSETS, pushDataList);				
+			}
+			if(snapShotMap.containsKey(BIRReportConstant.ASSETS))
+			{
+				pushDataList = snapShotMap.get(BIRReportConstant.ASSETS);
+				pushDataList.add(getReadyValue(snapshotType.getAssets()).toString());
+			}
+			else 
+			{
+				pushDataList = new ArrayList<>();
+				pushDataList.add(getReadyValue(snapshotType.getAssets()).toString());
+				snapShotMap.put(BIRReportConstant.ASSETS, pushDataList);				
+			}				
+		}		
+	
+	}
+
+	private Long getReadyValue(String str)
+	{
+		Long val = getDividebyLakh(Math.round(Double.parseDouble(str)));
+		return val;
+	}
+	private Long getDividebyLakh(Long val)
+	{
+		Long updatedVal = val/1000;
+		return updatedVal;
 	}
 
 	public ComboDomain getComboReport(Integer requestId)
@@ -791,9 +3712,11 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		Request request =null;
 		CirRequest cirRequest = null;
 		List<ConsumerRequest> consumerRequests = null;
-		 
+		
+		
 		if(requestId != null)
 		{
+			
 			request= requestRepository.findByRequestId(requestId);
 			if(request != null)
 			{

@@ -1,0 +1,40 @@
+<div class="container" style="page-break-after: always;">
+		<div class="alert alert-success" style="margin-top: 50px;">
+			<table>
+	            <tbody><tr><th style="font-size:24px;font-weight: lighter;padding-top:4px">HYPOTHECATION DETAILS</th><th style="font-size:8px;font-weight: lighter;padding-left:700px;">(All figures in INR '000)</th></tr>
+			</tbody></table>	
+        </div>
+		<div>
+			<table class="table table-striped table-condensed">
+				#set($charges = $!companyReportType.Charges)
+	        	#if($charges.size() > 0)
+					<tbody><tr>
+						<th>Charge Holder</th>
+						<th>Charge ID</th>
+						<th>Assets Charged</th>
+						<th>Date of Creation</th>
+						<th>Date of Modification</th>
+						<th>Date of Satisfaction</th>
+						<th>Charge Amount</th>
+					</tr>
+					
+					<tr>
+					#set($chargeList = $!companyReportType.Charges.Charge)
+        				#if($chargeList.size() > 0)
+					 		#foreach($charge in $chargeList)
+								<td>#set($value="#emptyDataCheck($!charge.ChargeHolder)")$value</td>
+								<td>#set($value="#emptyDataCheck($!charge.ChargeID)")$value</td>
+								<td>#set($value="#emptyDataCheck($!charge.AssetsCharged)")$value</td>
+								<td>#set($value="#emptyDataCheck($!charge.DateOfCreation)")$value</td>
+								<td>#set($value="#emptyDataCheck($!charge.DateOfModification)")$value</td>
+								<td>#set($value="#emptyDataCheck($!charge.DateOfSatisfaction)")$value</td>
+								<td>#set($value="#emptyDataCheck($!charge.ChargeAmount)")$value</td>
+					</tr>
+					#end
+					#end
+				</tbody>
+				#end
+			</table>
+		</div>
+		
+	</div>    

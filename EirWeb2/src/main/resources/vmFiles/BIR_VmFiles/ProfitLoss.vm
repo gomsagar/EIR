@@ -1,0 +1,510 @@
+<div class="container" style="page-break-after: always;">
+        <div>
+        <div class="alert alert-success" style="margin-top: 50px;">
+            <h4 style="padding-top:4px">Profit And Loss</h4>
+        </div>
+            <table class="table table-striped">
+			
+				<tbody><tr>
+					<th>For the year</th>
+											<th>2011-03-31</th> 
+						<th>2012-03-31</th> 
+						<th>2013-03-31</th> 
+						<th>2014-03-31</th> 
+						<th>2015-03-31</th> 
+				 </tr>
+    						<tr>
+    							<td>ProfitLossOfMinorityInterest</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>EmployeeBenefitExpense</td>
+    							
+    									<td>126503</td>
+    									<td>148410</td>
+    									<td>168932</td>
+    									<td>149326</td>
+    									<td>174709</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>BasicEarningPerEquityShareBeforeExtraordinaryItems</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>DepreciationDepletionAndAmortisationExpense</td>
+    							
+    									<td>44570</td>
+    									<td>46005</td>
+    									<td>56187</td>
+    									<td>52521</td>
+    									<td>75676</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>NominalValueOfPerEquityShare</td>
+    							
+    									<td>0</td>
+    									<td>0</td>
+    									<td>0</td>
+    									<td>0</td>
+    									<td>0</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>TaxExpense</td>
+    							
+    									<td>81953</td>
+    									<td>90351</td>
+    									<td>104936</td>
+    									<td>135500</td>
+    									<td>194201</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>ChangesInInventoriesOfFinishedGoodsWorkInProgressAndStockInTrade</td>
+    							
+    									<td>-21347</td>
+    									<td>-3838</td>
+    									<td>-3248</td>
+    									<td>-19192</td>
+    									<td>-5571</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>Expenses</td>
+    							
+    									<td>747753</td>
+    									<td>863725</td>
+    									<td>889094</td>
+    									<td>913163</td>
+    									<td>1003738</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>ProfitLossForPeriod</td>
+    							
+    									<td>243486</td>
+    									<td>296920</td>
+    									<td>244275</td>
+    									<td>304327</td>
+    									<td>366773</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>PriorPeriodItemsBeforeTax</td>
+    							
+    									<td>-2159</td>
+    									<td>-735</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>DilutedEarningsPerEquityShareBeforeExtraordinaryItems</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>BasicEarningPerEquityShare</td>
+    							
+    									<td>0</td>
+    									<td>0</td>
+    									<td>0</td>
+    									<td>0</td>
+    									<td>0</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>ProfitLossFromDiscontinuingOperationAfterTax</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>CurInsuranceExp</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>OtherIncome</td>
+    							
+    									<td>15596</td>
+    									<td>29610</td>
+    									<td>39735</td>
+    									<td>48700</td>
+    									<td>59889</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>FinanceCosts</td>
+    							
+    									<td>130</td>
+    									<td>2126</td>
+    									<td>2018</td>
+    									<td>1064</td>
+    									<td>2904</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>TaxExpenseOfDiscontinuingOperations</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>DeferredTax</td>
+    							
+    									<td>-2933</td>
+    									<td>-3648</td>
+    									<td>-5063</td>
+    									<td>-4499</td>
+    									<td>-5798</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>CurPaymentAuditors</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>CurExpSalegoodsMan</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>RevenueFromSaleOfServices</td>
+    							
+    									<td>734249</td>
+    									<td>787748</td>
+    									<td>843987</td>
+    									<td>866652</td>
+    									<td>1019168</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>PreTaxGOLRecognisedOnDOAOrSOLAttributableToDO</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>RevenueFromInterest</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>Revenue</td>
+    							
+    									<td>1075352</td>
+    									<td>1250998</td>
+    									<td>1238306</td>
+    									<td>1352991</td>
+    									<td>1564713</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>DilutedEarningsPerEquityShare</td>
+    							
+    									<td>0</td>
+    									<td>0</td>
+    									<td>0</td>
+    									<td>0</td>
+    									<td>0</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>OtherOperatingRevenues</td>
+    							
+    									<td>1270</td>
+    									<td>938</td>
+    									<td>1826</td>
+    									<td>1265</td>
+    									<td>2566</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>CurPowerFuel</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>AmortisationExpense</td>
+    							
+    									<td>247</td>
+    									<td>357</td>
+    									<td>469</td>
+    									<td>500</td>
+    									<td>416</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>ProfitBeforeExtraordinaryItemsAndTax</td>
+    							
+    									<td>325439</td>
+    									<td>387272</td>
+    									<td>349212</td>
+    									<td>439827</td>
+    									<td>560974</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>RevenueFromOperationsFinanceCompany</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>CostOfMaterialsConsumed</td>
+    							
+    									<td>221329</td>
+    									<td>248445</td>
+    									<td>212336</td>
+    									<td>234098</td>
+    									<td>220896</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>CurrentTax</td>
+    							
+    									<td>84887</td>
+    									<td>94000</td>
+    									<td>110000</td>
+    									<td>140000</td>
+    									<td>200000</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>ProfitLossForPeriodFromContinuingOperations</td>
+    							
+    									<td>243486</td>
+    									<td>296920</td>
+    									<td>244275</td>
+    									<td>304327</td>
+    									<td>366773</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>ProfitBeforeTax</td>
+    							
+    									<td>325439</td>
+    									<td>387272</td>
+    									<td>349212</td>
+    									<td>439827</td>
+    									<td>560974</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>ExceptionalItemsBeforeTax</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>ExpenditureOnProductionTransportationAndOtherExpenditure</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>OtherExpenses</td>
+    							
+    									<td>376565</td>
+    									<td>422575</td>
+    									<td>452868</td>
+    									<td>495346</td>
+    									<td>534902</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>ShareOfProfitLossOfAssociates</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>CSRExpenditure</td>
+    							
+    									<td>0</td>
+    									<td>220</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>ProfitBeforePriorPeriodItemsExceptionalItemsExtraordinaryItemsAndTax</td>
+    							
+    									<td>327599</td>
+    									<td>387272</td>
+    									<td>349212</td>
+    									<td>439827</td>
+    									<td>560974</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>ProfitLossFromDiscontinuingOperationsBeforeTax</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>RevenueFromOperationsOtherThanFinanceCompany</td>
+    							
+    									<td>1059755</td>
+    									<td>1221388</td>
+    									<td>1198570</td>
+    									<td>1304290</td>
+    									<td>1504824</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>DepletionExpense</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>DepreciationExpense</td>
+    							
+    									<td>44322</td>
+    									<td>45647</td>
+    									<td>55717</td>
+    									<td>52020</td>
+    									<td>75260</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>CurExpSalegoodsTrade</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>ProfitLossForPeriodBeforeMinorityInterest</td>
+    							
+    									<td>243486</td>
+    									<td>296920</td>
+    									<td>244275</td>
+    									<td>304327</td>
+    									<td>366773</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>PurchasesOfStockInTrade</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>ExtraordinaryItemsBeforeTax</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>ServiceTaxCollected</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>RevenueFromSaleOfProducts</td>
+    							
+    									<td>351684</td>
+    									<td>459619</td>
+    									<td>378835</td>
+    									<td>460981</td>
+    									<td>518839</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>ExciseDuty</td>
+    							
+    									<td>27448</td>
+    									<td>26918</td>
+    									<td>26078</td>
+    									<td>24608</td>
+    									<td>35750</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>RevenueFromOtherFinancialServices</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>RevenueFromOperations</td>
+    							
+    									<td>1059755</td>
+    									<td>1221388</td>
+    									<td>1198570</td>
+    									<td>1304290</td>
+    									<td>1504824</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>CurDomSalegoodsTrade</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>CurExpSaleSupServ</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>CurManagerialRem</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>OtherDutiesTaxesCollected</td>
+    							
+
+     						</tr>
+     						
+               
+            </tbody></table>    
+		</div>
+</div>

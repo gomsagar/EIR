@@ -186,6 +186,9 @@ public class CirRequest implements Serializable {
 	/**
 	 */
 	
+	@Column(name = "XML_OUTPUT_PATH", length = 45)
+	String xmlOutputPath;
+	
 	@Column(name = "create_user_id", length = 45)
 	@CreatedBy
 	String createUserId;
@@ -561,5 +564,13 @@ public class CirRequest implements Serializable {
 
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+
+	public String getXmlOutputPath() {
+		return xmlOutputPath;
+	}
+
+	public void setXmlOutputPath(String xmlOutputPath) {
+		this.xmlOutputPath = xmlOutputPath;
 	}
 }

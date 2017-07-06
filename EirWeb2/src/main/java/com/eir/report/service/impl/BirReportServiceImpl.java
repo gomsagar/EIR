@@ -1,9 +1,12 @@
 package com.eir.report.service.impl;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -91,6 +94,9 @@ public class BirReportServiceImpl implements BirReportService {
 
 	@Value("${report.url}")
 	private String reportURL;
+	
+	@Value("${outputXml.path}")
+	private String xmlOutputPath;
 	
 	Logger logger = LoggerFactory.getLogger(BirReportServiceImpl.class);
 
@@ -372,8 +378,11 @@ public class BirReportServiceImpl implements BirReportService {
 			
 			File folder = new File("D:/EIR Docs/MANJEET COTTON PRIVATE LIMITED(22-03-2017).xml");
 			String respoceObj = FileUtils.readFileToString(folder);
-			birRequest.setXmlOutput(respoceObj.getBytes());
-
+			
+			//birRequest.setXmlOutput(respoceObj.getBytes()); // commented reason -- we are not save output xml in database
+			birRequest.setXmlOutputPath(writeXmlOutputToFile(respoceObj));
+			
+			
 			if (respoceObj.contains("Expired")) {
 				logger.debug("Expired Access token.Getting Fresh Access Token And Sending request again. : "+respoceObj);
 				System.out.println("Expired Access token.Getting Fresh Access Token And Sending request again.");//
@@ -427,6 +436,32 @@ public class BirReportServiceImpl implements BirReportService {
 			logger.info(e.getMessage());
 			e.printStackTrace();
 		}
+	}
+	private String writeXmlOutputToFile(String xmlOutputResponse) 
+	{
+			//responceData write into file 
+			Integer xmlOutputFolderReqId = 8;//birRequest.getRequest().getRequestId();
+			String fileName = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss'.txt'").format(new Date());
+			
+			File file = new File(xmlOutputPath+xmlOutputFolderReqId+"/"+fileName);
+			file.getParentFile().mkdirs();
+			String writePath = file.getAbsolutePath();
+	        FileWriter fr = null;
+	        try {
+	            fr = new FileWriter(file);
+	            fr.write(xmlOutputResponse);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }finally{
+	            //close resources
+	            try {
+	                fr.close();
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	        //end write data here
+			return writePath;
 	}
 
 	@Override

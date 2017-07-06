@@ -751,7 +751,7 @@ public class EirServiceImpl implements EirService{
 	}
 
 	@Override
-	public boolean saveSelectedProduct(EligibleReport selection) 
+	public Integer saveSelectedProduct(EligibleReport selection) 
 	{
 		Request reqEntity = new Request();
 		reqEntity.setUserDetails(getUserDetails(Constant.HARDCOADED_USERID));
@@ -760,6 +760,7 @@ public class EirServiceImpl implements EirService{
 		reqEntity.setStatus(getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.status()));
 		reqEntity.setAdminHit(1);//TODO save according to admin hit
 		reqEntity.setType(Constant.SPECIFIED);//TODO change according to FE flag
+		reqEntity.setMemberId(1);
 		
  		requestRepository.save(reqEntity);
  		
@@ -838,7 +839,7 @@ public class EirServiceImpl implements EirService{
 			}
 			
 			reportSelectionRepository.save(addintoList);
-			return true;
+			return reqEntity.getRequestId();
 	}
 	
 	public Status getStatusByDescription(String statusDesc)

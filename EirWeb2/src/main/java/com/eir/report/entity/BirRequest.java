@@ -136,6 +136,9 @@ public class BirRequest implements Serializable {
 	@Column(name = "admin_hit", length = 45)
 	String adminHit;
 	
+	@Column(name = "XML_OUTPUT_PATH", length = 45)
+	String xmlOutputPath;
+	
 	/**
 	 */
 	public void setBirRequestId(Integer birRequestId) {
@@ -286,7 +289,6 @@ public class BirRequest implements Serializable {
 		buffer.append("xmlOutput=[").append(xmlOutput).append("] ");
 		buffer.append("score=[").append(score).append("] ");
 		buffer.append("ernNumber=[").append(ernNumber).append("] ");
-		buffer.append("status=[").append(status).append("] ");
 		buffer.append("createUserId=[").append(createUserId).append("] ");
 		buffer.append("createUserDate=[").append(createUserDate).append("] ");
 		buffer.append("updateUserId=[").append(updateUserId).append("] ");
@@ -341,5 +343,13 @@ public class BirRequest implements Serializable {
 
 	public void setAdminHit(String adminHit) {
 		this.adminHit = adminHit;
+	}
+
+	public String getXmlOutputPath() {
+		return xmlOutputPath;
+	}
+
+	public void setXmlOutputPath(String xmlOutputPath) {
+		this.xmlOutputPath = xmlOutputPath;
 	}
 }

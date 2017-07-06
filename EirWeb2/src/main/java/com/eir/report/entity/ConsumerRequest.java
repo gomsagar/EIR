@@ -315,6 +315,9 @@ public class ConsumerRequest implements Serializable {
 
 	@Column(name = "product_field", length = 45)
 	String productField;
+	
+	@Column(name = "XML_OUTPUT_PATH", length = 45)
+	String xmlOutputPath;
 
 	
 	@Column(name = "create_user_id", length = 45)
@@ -942,5 +945,13 @@ public class ConsumerRequest implements Serializable {
 
 	public void setEnquiryCreditPurposeId(Integer enquiryCreditPurposeId) {
 		this.enquiryCreditPurposeId = enquiryCreditPurposeId;
+	}
+
+	public String getXmlOutputPath() {
+		return xmlOutputPath;
+	}
+
+	public void setXmlOutputPath(String xmlOutputPath) {
+		this.xmlOutputPath = xmlOutputPath;
 	}
 }

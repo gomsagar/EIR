@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -59,7 +60,11 @@ public class Request implements Serializable {
 	Integer requestId;
 	/**
 	 */
+	@Column(name = "member_id", nullable = false)
+	@Basic(fetch = FetchType.EAGER)
 
+	Integer memberId;
+	
 		
 	@Column(name = "type", length = 45)
 	String type;
@@ -371,5 +376,13 @@ public class Request implements Serializable {
 
 	public void setUserDetails(UserDetails userDetails) {
 		this.userDetails = userDetails;
+	}
+
+	public Integer getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(Integer memberId) {
+		this.memberId = memberId;
 	}
 }

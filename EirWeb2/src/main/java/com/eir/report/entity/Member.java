@@ -29,19 +29,7 @@ import javax.persistence.*;
  */
 
 @Entity
-@NamedQueries({
-		@NamedQuery(name = "findAllMembers", query = "select myMember from Member myMember"),
-		@NamedQuery(name = "findMemberByMailid", query = "select myMember from Member myMember where myMember.mailid = ?1"),
-		@NamedQuery(name = "findMemberByMailidContaining", query = "select myMember from Member myMember where myMember.mailid like ?1"),
-		@NamedQuery(name = "findMemberByMemberid", query = "select myMember from Member myMember where myMember.memberid = ?1"),
-		@NamedQuery(name = "findMemberByName", query = "select myMember from Member myMember where myMember.name = ?1"),
-		@NamedQuery(name = "findMemberByNameContaining", query = "select myMember from Member myMember where myMember.name like ?1"),
-		@NamedQuery(name = "findMemberByPrimaryKey", query = "select myMember from Member myMember where myMember.memberid = ?1") })
-
 @Table(name = "member")
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = "entity2/com/eir/report/domain", name = "Member")
-@XmlRootElement(namespace = "entity2/com/eir/report/domain")
 public class Member implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -70,6 +58,9 @@ public class Member implements Serializable {
 
 	@XmlElement
 	String mailid;
+	
+    @Column(name = "MEMBER_TYPE", length = 45)
+	String memberType;
 
 	/**
 	 */
@@ -182,28 +173,11 @@ public class Member implements Serializable {
 		return buffer.toString();
 	}
 
-	/**
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = (int) (prime * result + ((memberid == null) ? 0 : memberid.hashCode()));
-		return result;
+	public String getMemberType() {
+		return memberType;
 	}
 
-	/**
-	 */
-	public boolean equals(Object obj) {
-		if (obj == this)
-			return true;
-		if (!(obj instanceof Member))
-			return false;
-		Member equalCheck = (Member) obj;
-		if ((memberid == null && equalCheck.memberid != null) || (memberid != null && equalCheck.memberid == null))
-			return false;
-		if (memberid != null && !memberid.equals(equalCheck.memberid))
-			return false;
-		return true;
+	public void setMemberType(String memberType) {
+		this.memberType = memberType;
 	}
 }

@@ -1,0 +1,16 @@
+<body>
+	<div class="container" style="page-break-after: always;">
+		#parse("/vmFiles/BIR_VmFiles/Identification.vm")
+		#parse("/vmFiles/BIR_VmFiles/CreditRisk.vm")
+		#parse("/vmFiles/BIR_VmFiles/CorporateData.vm")
+		#parse("/vmFiles/BIR_VmFiles/HypothecationDetails.vm")
+		#parse("/vmFiles/BIR_VmFiles/BalanceSheet.vm")
+		#parse("/vmFiles/BIR_VmFiles/ProfitLoss.vm")
+		#parse("/vmFiles/BIR_VmFiles/Allotment.vm")
+		#parse("/vmFiles/BIR_VmFiles/Litigation.vm")
+		#parse("/vmFiles/BIR_VmFiles/KeyPersons.vm")
+		#parse("/vmFiles/BIR_VmFiles/CashFlowDirect.vm")
+		#parse("/vmFiles/BIR_VmFiles/CashFlowInDirect.vm")
+		#parse("/vmFiles/BIR_VmFiles/TangibleAssets.vm")
+	</div>
+</body>

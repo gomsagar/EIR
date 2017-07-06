@@ -1,0 +1,324 @@
+<div class="container" style="page-break-after: always;">
+        <div>
+        <div class="alert alert-success" style="margin-top: 50px;">
+            <h4 style="padding-top:4px">Balance Sheet</h4>
+        </div>
+            <table class="table table-striped">
+			
+				<tbody><tr>
+					<th>For the year</th>
+											<th>2012-03-31</th> 
+						<th>2013-03-31</th> 
+						<th>2014-03-31</th> 
+						<th>2015-03-31</th> 
+				</tr>
+    						<tr>
+    							<td>CashAndBankBalances</td>
+    							
+    									<td>276987</td>
+    									<td>252554</td>
+    									<td>388155</td>
+    									<td>514422</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>OtherLongTermLiabilities</td>
+    							
+    									<td>0</td>
+    									<td>0</td>
+    									<td>0</td>
+    									<td>0</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>Assets</td>
+    							
+    									<td>1662226</td>
+    									<td>1882412</td>
+    									<td>2180172</td>
+    									<td>2572582</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>TangibleAssetsCapitalWorkInProgress</td>
+    							
+    									<td>40211</td>
+    									<td>33744</td>
+    									<td>32955</td>
+    									<td>59641</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>NoncurrentLiabilities</td>
+    							
+    									<td>0</td>
+    									<td>8585</td>
+    									<td>8159</td>
+    									<td>21671</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>OtherCurrentAssets</td>
+    							
+    									<td>86277</td>
+    									<td>101999</td>
+    									<td>143836</td>
+    									<td>193263</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>ShortTermBorrowings</td>
+    							
+    									<td>11191</td>
+    									<td>0</td>
+    									<td>0</td>
+    									<td>0</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>TangibleAssets</td>
+    							
+    									<td>201936</td>
+    									<td>214662</td>
+    									<td>240811</td>
+    									<td>292072</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>LongTermLoansAndAdvances</td>
+    							
+    									<td>80215</td>
+    									<td>157632</td>
+    									<td>192188</td>
+    									<td>225041</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>ShareholdersFunds</td>
+    							
+    									<td>1416509</td>
+    									<td>1618678</td>
+    									<td>1859828</td>
+    									<td>2161805</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>NoncurrentInvestments</td>
+    							
+    									<td>107249</td>
+    									<td>108828</td>
+    									<td>71630</td>
+    									<td>139467</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>TradeReceivables</td>
+    							
+    									<td>523877</td>
+    									<td>610935</td>
+    									<td>661468</td>
+    									<td>696739</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>NoncurrentAssets</td>
+    							
+    									<td>471964</td>
+    									<td>568277</td>
+    									<td>586280</td>
+    									<td>743471</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>OtherNoncurrentAssets</td>
+    							
+    									<td>31379</td>
+    									<td>37185</td>
+    									<td>28462</td>
+    									<td>1633</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>FixedAssets</td>
+    							
+    									<td>243338</td>
+    									<td>249785</td>
+    									<td>274655</td>
+    									<td>352184</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>LongTermBorrowings</td>
+    							
+    									<td>0</td>
+    									<td>0</td>
+    									<td>0</td>
+    									<td>10607</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>TradePayables</td>
+    							
+    									<td>32003</td>
+    									<td>40717</td>
+    									<td>32245</td>
+    									<td>34840</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>OtherCurrentLiabilities</td>
+    							
+    									<td>155252</td>
+    									<td>168447</td>
+    									<td>209112</td>
+    									<td>286103</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>CurrentInvestments</td>
+    							
+    									<td>38564</td>
+    									<td>65800</td>
+    									<td>116771</td>
+    									<td>77291</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>ShortTermProvisions</td>
+    							
+    									<td>47269</td>
+    									<td>45983</td>
+    									<td>70826</td>
+    									<td>68161</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>EquityAndLiabilities</td>
+    							
+    									<td>1662226</td>
+    									<td>1882412</td>
+    									<td>2180172</td>
+    									<td>2572582</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>Inventories</td>
+    							
+    									<td>198289</td>
+    									<td>231002</td>
+    									<td>229661</td>
+    									<td>276860</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>CurrentAssets</td>
+    							
+    									<td>1190262</td>
+    									<td>1314135</td>
+    									<td>1593891</td>
+    									<td>1829111</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>IntangibleAssets</td>
+    							
+    									<td>1191</td>
+    									<td>1378</td>
+    									<td>887</td>
+    									<td>470</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>ShortTermLoansAndAdvances</td>
+    							
+    									<td>66265</td>
+    									<td>51844</td>
+    									<td>53997</td>
+    									<td>70534</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>ShareApplicationMoneyPendingAllotment</td>
+    							
+    									<td>0</td>
+    									<td>0</td>
+    									<td>0</td>
+    									<td>0</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>ReservesAndSurplus</td>
+    							
+    									<td>1380509</td>
+    									<td>1582678</td>
+    									<td>1823828</td>
+    									<td>2125805</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>MinorityInterest</td>
+    							
+
+     						</tr>
+     						
+    						<tr>
+    							<td>CurrentLiabilities</td>
+    							
+    									<td>245716</td>
+    									<td>255148</td>
+    									<td>312184</td>
+    									<td>389106</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>LongTermProvisions</td>
+    							
+    									<td>0</td>
+    									<td>8585</td>
+    									<td>8159</td>
+    									<td>11063</td>
+
+     						</tr>
+     						
+    						<tr>
+    							<td>ShareCapital</td>
+    							
+    									<td>36000</td>
+    									<td>36000</td>
+    									<td>36000</td>
+    									<td>36000</td>
+
+     						</tr>
+     						
+                
+             </tbody></table>
+		</div>
+</div>

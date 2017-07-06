@@ -1,0 +1,58 @@
+<div id="header1">
+        <div class="alert alert-success" style="margin-top: 50px;">
+            <h4 style="padding-top:4px">Identification Data as Requested</h4>
+        </div>
+
+        <table class="table table-striped table-bordered">
+			            <tbody><tr>
+                <th>NAME</th>
+                <th>#set($value="#emptyDataCheck($!companyReportType.CompanyProfile.Name)")$value</th>
+            </tr>
+            <tr>
+                <th>ADDRESS</th>
+                <th>#set($value="#emptyDataCheck($!companyReportType.CompanyProfile.Address)")$value</th>
+            </tr>
+            <tr>
+                <th>COUNTRY</th>
+                <th>INDIA</th>
+            </tr>
+        </tbody></table>
+    </div>
+
+    <div id="header2">
+        <div class="alert alert-success" style="margin-top: 50px;">
+            <h4 style="padding-top:4px">Verified Identification Data</h4>
+        </div>
+
+        <table class="table table-striped table-condensed table-bordered">
+			<tbody><tr>
+                <th>NAME</th>
+                <th>#set($value="#emptyDataCheck($!companyReportType.CompanyProfile.Name)")$value</th>
+            </tr>
+            <tr>
+                <th>ADDRESS</th>
+                <th>#set($value="#emptyDataCheck($!companyReportType.CompanyProfile.Address)")$value</th>
+            </tr>
+            <tr>
+                <th>COUNTRY</th>
+                <th>INDIA</th>
+            </tr>
+            <tr>
+                <th>TELEPHONE</th>
+                <th>#set($value="#emptyDataCheck($!companyReportType.CompanyProfile.Telephone)")$value</th>
+            </tr>
+            <tr>
+                <th>FAX</th>
+                <th>-</th>
+            </tr>
+            <tr>
+                <th>EMAIL</th>
+                <th>#set($value="#emptyDataCheck($!companyReportType.CompanyProfile.EmailID)")$value</th>
+            </tr>
+            <tr>
+                <th>WEBSITE</th>
+                <th>-</th>
+            </tr>
+			
+        </tbody></table>
+    </div>

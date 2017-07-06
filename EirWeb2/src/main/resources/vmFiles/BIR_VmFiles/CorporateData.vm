@@ -1,0 +1,193 @@
+<div class="container" style="page-break-after: always;">
+    <div id="header4">
+        <div class="alert alert-success" style="margin-top: 50px;">
+            <h4 style="padding-top:4px">CORPORATE DATA</h4>
+        </div>
+        <div>
+            <table class="table table-condensed">        
+						            <tbody><tr>
+		                <th>SUBJECT NAME</th>
+		                <th>#set($value="#emptyDataCheck($!companyReportType.CompanyProfile.Name)")$value</th>
+		            </tr>
+					<tr>
+	                    <th>CIN</th>
+	                    <th>#set($value="#emptyDataCheck($!companyReportType.CompanyProfile.CIN)")$value</th>
+	                </tr>
+	                #set($previousNames = $!companyReportType.CompanyProfile.PreviousNames)
+	                #if($previousNames.size() > 0)
+					<tr>	
+						<th style="font-size:24px;font-weight: lighter;">Previous Name</th><th></th>
+					</tr>
+							<tr>
+								<th style="padding-left:50px;">#set($value="#emptyDataCheck($!companyReportType.CompanyProfile.PreviousNames)")$value</th><th></th>
+							</tr>							
+					<tr>
+	                    <th>Date Of Incorporation</th>
+	                    <th>#set($value="#emptyDataCheck($!companyReportType.CompanyProfile.DateOfIncorporation)")$value</th>
+	                </tr>
+	                <tr>
+	                    <th>Type</th>
+	                    <th>#set($value="#emptyDataCheck($!companyReportType.CompanyProfile.TypeOfCompany)")$value</th>
+	                </tr>
+	                <tr>
+	                    <th>Category</th>
+	                    <th>#set($value="#emptyDataCheck($!companyReportType.CompanyProfile.CategoryOfCompany)")$value</th>
+	                </tr>
+	                <tr>
+	                    <th>Sub-Category</th>
+	                    <th>#set($value="#emptyDataCheck($!companyReportType.CompanyProfile.SubCategoryOfCompany)")$value</th>
+	                </tr>
+	                <tr>
+	                    <th>PAN</th>
+	                    <th>#set($value="#emptyDataCheck($!companyReportType.CompanyProfile.PAN)")$value</th>
+	                </tr>
+	                #end
+	                #set($employmentDetails = $!companyReportType.CompanyProfile.EmploymentDetails)
+	                #if($employmentDetails.size() > 0)
+	                <tr><th style="font-size:24px;font-weight: lighter;">Employment Details</th><th></th></tr>
+					<tr>
+	                    <th>Data As Of</th>
+	                    <th>#set($value="#emptyDataCheck($!companyReportType.CompanyProfile.EmploymentDetails.DataAsOf)")$value</th>
+	                </tr>
+	                <tr>
+	                    <th>No Of Establishment</th>
+	                    <th>#set($value="#emptyDataCheck($!companyReportType.CompanyProfile.EmploymentDetails.NoOfEstablishments)")$value</th>
+	                </tr>
+	                <tr>
+	                    <th>Amount Of PF Paid</th>
+	                    <th>#set($value="#emptyDataCheck($!companyReportType.CompanyProfile.EmploymentDetails.AmountOfPFPaid)")$value</th>
+	                </tr>
+	                <tr>
+	                    <th>No of Employees</th>
+	                    <th>#set($value="#emptyDataCheck($!companyReportType.CompanyProfile.EmploymentDetails.NoOfEmployees)")$value</th>
+	                </tr>
+	                #end
+	                #set($companyStructure = $!companyReportType.CompanyProfile.CompanyStructure)
+	                #if($companyStructure.size() > 0)	                
+	                 <tr><th style="font-size:24px;font-weight: lighter;">Company Structure</th><th></th></tr>
+					<tr>
+	                    <th>Data As Of</th>
+	                    <th>#set($value="#emptyDataCheck($!companyReportType.CompanyStructure.DataAsOf)")$value</th>
+	                </tr>
+	                <tr>
+	                    <th>Name</th>
+	                    <th>#set($value="#emptyDataCheck($!companyReportType.CompanyStructure.HoldingCompany.Name)")$value</th>
+	                </tr>
+	                <tr>
+	                    <th>CIN</th>
+	                    <th>#set($value="#emptyDataCheck($!companyReportType.CompanyStructure.HoldingCompany.Cin)")$value</th>
+	                </tr>
+	                <tr>
+	                    <th>% Shares Hold</th>
+	                    <th>#set($value="#emptyDataCheck($!companyReportType.CompanyStructure.HoldingCompany.PercentageOfSharesHeld)")$value</th>
+	                </tr>
+	                #end     
+	                
+	                #set($stockExchangeList = $!companyReportType.CompanyProfile.StockExchangeDetails.StockExchange)
+	                #if($stockExchangeList.size() > 0)	                
+	                <tr><th style="font-size:24px;font-weight: lighter;">Stock Exchange Details</th><th></th></tr>
+	                #foreach($stockExchange in $stockExchangeList)
+					<tr>
+	                    <th>Stock Exchange Code</th>
+	                    <th>#set($value="#emptyDataCheck($stockExchange.StockExchangeCode)")$value</th>
+	                </tr>
+	                <tr>
+	                    <th>Stock Exchange Description</th>
+	                    <th>#set($value="#emptyDataCheck($stockExchange.StockExchangeDescription)")$value</th>
+	                </tr>
+	                #end
+	                <tr>
+	                    <th>RegistrarAndTransferAgent</th>
+	                    <th>#set($value="#emptyDataCheck($!companyReportType.CompanyProfile.RegistrarAndTransferAgent)")$value</th>
+	                </tr>
+	                #end	                
+	                
+	                #set($auditors = "#emptyDataCheck($!companyReportType.Auditors)")
+	                #if($auditors.size() > 0)
+	                <tr><th style="font-size:24px;font-weight: lighter;">Auditors</th><th></th></tr>
+	                #set($auditorList = $!companyReportType.Auditors.Auditor)
+	                #if($auditorList.size() > 0)
+					#foreach($auditor in $auditorList)
+	                <tr>
+	                    <th>Name Of Audit Firm</th>
+	                    <th>#set($value="#emptyDataCheck($!auditor.NameOfAuditFirm)")$value</th>
+	                </tr>
+	                <tr>
+	                    <th>Name Of Auditor</th>
+	                    <th>#set($value="#emptyDataCheck($!auditor.NameOfAuditor)")$value</th>
+	                </tr>
+	                <tr>
+	                    <th>Registration Number</th>
+	                    <th>#set($value="#emptyDataCheck($!auditor.RegistrationNumberOfAuditFirm)")$value</th>
+	                </tr>
+	                <tr>
+	                    <th>Membership Number</th>
+	                    <th>#set($value="#emptyDataCheck($!auditor.MembershipNumberOfAuditor)")$value</th>
+	                </tr>
+	                <tr>
+	                    <th>Financial Year</th>
+	                    <th>#set($value="#emptyDataCheck($!auditor.FinancialYearForWhichAppointed)")$value</th>
+	                </tr>
+	                #end
+	                #end
+	                #set($stockExchangeList = $!companyReportType.CompanyProfile.AuthorizedCapital)
+	                #if($stockExchangeList.size() > 0)
+	                <tr>
+	                    <th>For the Year</th>
+	                    <th>#set($value="#emptyDataCheck($!companyReportType.CompanyProfile.DataAsOf)")$value</th>
+	                </tr>
+	                <tr>
+	                    <th>Authorized Capital</th>
+	                    <th>#set($value="#emptyDataCheck($!companyReportType.CompanyProfile.AuthorizedCapital)")$value</th>
+	                </tr>
+	                #end
+	                #set($PaidUpCapitalList = $!companyReportType.CompanyProfile.PaidUpCapital)
+	                #if($PaidUpCapitalList.size() > 0)
+	                <tr>
+	                    <th>PaidUp Capital</th>
+	                    <th>#set($value="#emptyDataCheck($!companyReportType.CompanyProfile.PaidUpCapital)")$value</th>
+	                </tr>
+	                #end
+	                #end
+	                #set($principalProductOrServices = "#emptyDataCheck($!companyReportType.PrincipalProductOrServices)")
+	                #if($principalProductOrServices.size() > 0)
+	                <tr><th style="font-size:24px;font-weight: lighter;">Product/Services</th><th></th></tr>
+	                <tr>
+	                	<th>For the Year</th>
+						<th>#set($value="#emptyDataCheck($!companyReportType.PrincipalProductOrServices.DataAsOf)")$value</th>	
+	                </tr>
+	                #set($productOrServiceList = $!companyReportType.PrincipalProductOrServices.ProductOrService)
+	                #if($productOrServiceList.size() > 0)
+					#foreach($productOrServiceType in $productOrServiceList)
+	                <tr>
+	                	<th>Description</th><th></th>
+	                </tr>
+							<tr>
+							<th style="padding-left:50px;">#set($value="#emptyDataCheck($!productOrServiceType.ProductOrServiceDescription)")$value</th><th></th>
+							</tr>	
+	                <tr>
+	                	<th>ITC Code</th><th></th>
+	                </tr>
+							<tr>
+							<th style="padding-left:50px;">#set($value="#emptyDataCheck($!productOrServiceType.ITCCode)")
+															#set($value=$Math.round($value))
+															$value
+							</th><th></th>
+							</tr>	
+	                
+	                <tr>
+	                	<th>Contribution</th><th></th>
+	                </tr>	
+							<tr>
+							<th style="padding-left:50px;">#set($value="#emptyDataCheck($!productOrServiceType.ContributionToRevenue)")
+															#set($value=$Math.round($value))
+															$value
+											</th><th></th>
+							</tr>
+					#end
+					#end
+					#end
+            </tbody></table>
+        </div>
+    </div>
+</div>    

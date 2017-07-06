@@ -39,6 +39,8 @@ public class CreateReport {
 			context.put("bpGrid", Bpaygrid.class);
 			context.put("eirDomain",eirDomain);
 			context.put("StringUtils", StringUtils.class);
+			context.put("Math", Math.class);
+			context.put("Double", Double.class);
 			context.put("reportType",reportType);
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");	
