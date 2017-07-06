@@ -286,12 +286,13 @@ public class EirController {
 	}
 	@Transactional
 	@RequestMapping(value="/getPDFReport", method = RequestMethod.GET)
-	public void getEIRPDFReport(@RequestParam(required= true) Integer requestId, @RequestParam(required= true) String reportType,@RequestParam(required= true) Boolean isPdf)
+	public void getEIRPDFReport(@RequestParam(required= true) Integer requestId, @RequestParam(required= true) String reportType,@RequestParam(required= true) Boolean isPdf,HttpServletRequest request, HttpServletResponse response)
 	{
 		
 		String pdfString = nextGenWebService.getEIRReport(requestId, reportType,isPdf);
 		CommonUtilityService commonUtilityService = new CommonUtilityService();
-	    ByteArrayOutputStream htmlToPdfFile = commonUtilityService.htmlToPdfFile(pdfString, "D:/output/PDFReport.pdf", "");
+	    ByteArrayOutputStream htmlToPdfFile = commonUtilityService.htmlToPdfFile(pdfString, "", "");
+	    eirService.downloadPDF(htmlToPdfFile,request,response);
 	    
 		logger.debug("EirController - getEIRReport(): report generated");
 	}

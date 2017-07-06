@@ -80,7 +80,7 @@ export class InputForEnquiryComponent implements OnInit
 
   ngOnInit()
   {
-    if(this.comboVal == 'true')
+    if(this.comboVal == 'true' || this.cirVal == 'true')
     {
         this._stateListService.getStateList().subscribe((stateListSubs) => {
 
@@ -228,6 +228,7 @@ export class InputForEnquiryComponent implements OnInit
     }
 
     onChange(newValue) {
+        debugger;
              console.log("Inside Onchange method........"+newValue);
              this.commonArray.cir.companyName = newValue.entityName;
              console.log("Inside Onchange method commonArray.bir.companyName........"+this.commonArray.cir.companyName);

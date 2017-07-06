@@ -1,6 +1,7 @@
 package com.eir.report.service.impl;
 
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -1247,5 +1248,38 @@ public class EirServiceImpl implements EirService{
 		return viewEnquiryObject;
 	}
 	
+	public void downloadPDF( ByteArrayOutputStream byteArrayOutputStream,HttpServletRequest request, HttpServletResponse response)
+	{
+		OutputStream outStream = null;
+		try
+		{
+				// set headers for the response
+				String headerKey = "Content-Disposition";
+				String headerValue = String.format("attachment; filename=Report.pdf");
+				response.setContentType("application/pdf");
+				response.setHeader(headerKey, headerValue);
+		
+				// get output stream of the response
+				outStream = response.getOutputStream();
+				byteArrayOutputStream.writeTo(outStream);
+				outStream.flush();
+		} 
+		catch (Exception e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally 
+		{
+			try 
+			{
+				outStream.close();
+			}
+			catch (IOException e) 
+			{
+				e.printStackTrace();
+			}
+		}
+	}
 	
 }

@@ -1,5 +1,6 @@
 package com.eir.report.service;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -76,4 +77,6 @@ public interface EirService {
 	ViewEnquiryObject getRequestByRequestId(Integer reqId);
 
 	List<ViewEarlierEnquiresObject> getRequestedData(ViewEarlierEnqRequestObject input);
+	
+		void downloadPDF(ByteArrayOutputStream htmlToPdfFile, HttpServletRequest request, HttpServletResponse response);
 }
