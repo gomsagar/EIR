@@ -5,7 +5,10 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class DataService {
 
-    constructor(private _http: Http) {}
+    constructor(private _http: Http) {
+        //super();
+        //var window: Window; 
+    }
 
     getData() 
     {
@@ -31,13 +34,13 @@ export class DataService {
             .map((res:Response) => res.json());
     }
 
-     getRequestedHTMLReport(requestId,reporttype,isPDF){
-    return this._http.get('http://localhost:8080/EirWeb2/eir/getHTMLReport?requestId='+ requestId + ',reporttype=' + reporttype + ',isPDF=' + isPDF)
-    .map(res=>res.json());
+     getRequestedHTMLReport(requestId,reportType,isPdf){
+    return this._http.get('http://localhost:8080/EirWeb2/eir/getHTMLReport?requestId='+ requestId + '&reportType=' + reportType + '&isPdf=' + isPdf)
+    .map((res:Response) => res.json());
     }
     
-    getRequestedPDFReport(requestId,reporttype,isPDF){
-    return this._http.get('http://localhost:8080/EirWeb2/eir/getPDFReport?requestId='+ requestId + ',reporttype=' + reporttype + ',isPDF=' + isPDF)
-    .map(res=>res.json());
+    getRequestedPDFReport(requestId,reportType,isPdf){
+    return this._http.get('http://localhost:8080/EirWeb2/eir/getPDFReport?requestId='+ requestId + '&reportType=' + reportType + '&isPdf=' + isPdf)
+  //  .map(res=>res.json());
     }
 }

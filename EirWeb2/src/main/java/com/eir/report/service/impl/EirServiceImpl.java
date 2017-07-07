@@ -1131,8 +1131,7 @@ public class EirServiceImpl implements EirService{
 		ComboWithScoreObject comboWithScoreObject = new ComboWithScoreObject();
 		ComboWithoutScoreObject comboWithoutScoreObject = new ComboWithoutScoreObject();
 		Request request = requestRepository.findByRequestId(reqId);
-		String score = request.getCirRequets().getScore();
-		
+		String score  =null;
 		if(null != request){
 			
 			//set bir report details
@@ -1146,12 +1145,15 @@ public class EirServiceImpl implements EirService{
 				birObject.setBirRequestDate(formatDate(request.getBirRequests().getCreateUserDate().toString()));
 				birObject.setBirResponseDate(formatDate(request.getBirRequests().getUpdateUserDate().toString()));
 				birObject.setBirMessage("Report Created and Ready to View");
+				if(birProduct.length > 0)
 				birObject.setBirTats(birProduct[0].toString());
 			}
 			
 			//set combo details
 			//consumerRequests  = request.getConsumerRequets();
 			if(null != request.getConsumerRequets() && !request.getConsumerRequets().isEmpty()){
+				score = request.getCirRequets().getScore();
+
 				if(null == score || score.equalsIgnoreCase(Constant.CONS_N) ){
 					
 					comboWithoutScoreObject.setComboWithoutScoreReportStatus(request.getCirRequets().getStatus().getStatusDescription());
@@ -1166,6 +1168,7 @@ public class EirServiceImpl implements EirService{
 					comboWithScoreObject.setComboWithScoreMessage("Report Created and Ready to View");
 				}
 			}else if(null != request.getCirRequets().getCirRequestId()){	
+				score = request.getCirRequets().getScore();
 				// set cir details			
 				if(null == score || score.equalsIgnoreCase(Constant.CONS_N) ){
 					cirWithOutScoreObject.setCirWithOutScoreReportStatus(request.getCirRequets().getStatus().getStatusDescription());

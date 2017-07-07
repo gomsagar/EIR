@@ -36,4 +36,6 @@ public class Constant {
 	public static final String BIR_PRODUCT_CODE= "BIR";
 	
 	public static final Integer RETRY_COUNT = 3;
+	
+	public static final String HTML_FILE_PATH = "D:/output/HTMLReport.html";
 }

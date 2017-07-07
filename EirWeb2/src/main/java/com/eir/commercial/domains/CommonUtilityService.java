@@ -76,11 +76,11 @@ public class CommonUtilityService {
 	     // footer.setHtmlTemplate(hrd);
 	    //  pd4ml.setPageFooter(footer);
 	      pd4ml.render(new StringReader(inputHtmlFile), baos);
-	      FileOutputStream fos2 = new FileOutputStream(new File(outFileName));
+	     /* FileOutputStream fos2 = new FileOutputStream(new File(outFileName));
 			fos2.write(baos.toByteArray());
 			System.out.println("PDF File Created");
 			fos2.flush();
-			fos2.close();
+			fos2.close();*/
 		
 		} catch (InvalidParameterException e) {
 			e.printStackTrace();

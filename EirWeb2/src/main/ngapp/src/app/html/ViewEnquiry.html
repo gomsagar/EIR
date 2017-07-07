@@ -43,9 +43,9 @@
 										<td>{{cirWithScoreObject.cirWithScoreMessage}}</td>
 										<td>
 											<div *ngIf="cirWithScoreObject.cirWithScoreReportStatus != 'not-select'">
-												<button (click)="submit(btnCIRWS)" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">{{btnCIRWS}}</button>
+												<button (click)="submit(btnCIRWS,'CIRWS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">{{btnCIRWS}}</button>
 												<div *ngIf="cirWithScoreObject.cirWithScoreReportStatus == 'Completed'">
-													<button (click)="download()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Download</button>
+													<button (click)="download('CIRWS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Download</button>
 												</div>
 											</div>
 										</td>
@@ -60,9 +60,9 @@
 										<td>{{cirWithOutScoreObject.cirWithOutScoreMessage}}</td>
 										<td>
 											<div *ngIf="cirWithOutScoreObject.cirWithOutScoreReportStatus != 'not-select'">
-												<button (click)="submit(btnCIRWOS)" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">{{btnCIRWOS}}</button>
+												<button (click)="submit(btnCIRWOS,'CIRWOS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">{{btnCIRWOS}}</button>
 												<div *ngIf="cirWithOutScoreObject.cirWithOutScoreReportStatus == 'Completed'">
-													<button (click)="download()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Download</button>
+													<button (click)="download('CIRWOS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Download</button>
 												</div>
 											</div>
 										</td>
@@ -77,9 +77,9 @@
 										<td>{{comboWithScoreObject.comboWithScoreMessage}}</td>
 										<td>
 											<div *ngIf="comboWithScoreObject.comboWithScoreReportStatus != 'not-select'">
-												<button (click)="submit(btnCOMBOWS)" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">{{btnCOMBOWS}}</button>
+												<button (click)="submit(btnCOMBOWS,'CWS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">{{btnCOMBOWS}}</button>
 												<div *ngIf="comboWithScoreObject.comboWithScoreReportStatus == 'Completed'">
-													<button (click)="download()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Download</button>
+													<button (click)="download('CWS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Download</button>
 												</div>
 											</div>
 										</td>
@@ -95,9 +95,9 @@
 										<!--<td><button href="#" type="button" class="btn btn-primary">Report Created & Ready to View</button></td>-->
 										<td>
 											<div *ngIf="comboWithOutScoreObject.comboWithoutScoreReportStatus != 'not-select'">
-												<button (click)= "submit(btnCOMBOWOS)" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">{{btnCOMBOWOS}}</button>
+												<button (click)= "submit(btnCOMBOWOS,'CWOS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">{{btnCOMBOWOS}}</button>
 												<div *ngIf="comboWithOutScoreObject.comboWithoutScoreReportStatus == 'Completed'">
-													<button (click)="download()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Download</button>
+													<button (click)="download('CWOS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Download</button>
 												</div>
 											</div>
 										</td>							
@@ -113,9 +113,9 @@
 										<!--<td><button href="#" type="button" class="btn btn-primary">Report Created & Ready to View</button></td>-->
 										<td>
 											<div *ngIf="!(birObject.birReportStatus == 'not-select' || birObject.birReportStatus == 'In Process')">
-												<button (click)="submit(btnBIR)" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">{{btnBIR}}</button>
+												<button (click)="submit(btnBIR,'BIR')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">{{btnBIR}}</button>
 												<div *ngIf="birObject.birReportStatus == 'Completed'">
-													<button (click)="download()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Download</button>
+													<button (click)="download('BIR')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Download</button>
 												</div>
 											</div>
 										</td>					

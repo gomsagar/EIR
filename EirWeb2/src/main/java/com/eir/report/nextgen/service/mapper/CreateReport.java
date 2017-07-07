@@ -16,6 +16,7 @@ import org.apache.velocity.app.VelocityEngine;
 
 import com.eir.commercial.domains.CommonUtilityService;
 import com.eir.domain.EIRDomain;
+import com.eir.report.constant.Constant;
 import com.experian.nextgen.ind.model.consumer.uofpojo.Bpaygrid;
 
 public class CreateReport {
@@ -92,7 +93,7 @@ public class CreateReport {
 	        
 	        try
 	        {
-	        	file = new File("D:/output/HTMLReport.html");
+	        	file = new File(Constant.HTML_FILE_PATH);
 				fileWriter = new FileWriter(file);
 				fileWriter.write(value);
 				System.out.println("Html File Created");

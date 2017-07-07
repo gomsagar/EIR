@@ -246,63 +246,65 @@ export class InputForEnquiryComponent implements OnInit
             this.commonArray.requestId  = EirCreateComponent.reqId;          
             this.submitted=true;
             this.controlMessage.getValidator(this.submitted);
+
+             
+            this.commonArray.isBIRActive = this.birVal;
+            this.commonArray.isCIRActive = this.cirVal;
+            this.commonArray.isComboActive = this.comboVal;
+            
+            if(this.commonArray.isBIRActive == 'false')
+            {
+                this.commonArray.bir = null;
+            }
+
+            if(this.commonArray.isComboActive == 'false' )
+            {
+                this.commonArray.consumerList = null;
+                if(this.commonArray.isCIRActive == 'false')
+                {
+                    this.commonArray.cir = null;
+                }
+            }
+            
+            if(this.commonArray.isCIRActive == 'false' && this.commonArray.isComboActive == 'false' )
+            {
+                    this.commonArray.cir = null;
+            }
+
+            
+
            
-         if(this.issOnlyBIR){
-                if(this.birForm.valid )
-                {
-                   
-                    this.commonArray.isBIRActive = this.birVal;
-                    this.commonArray.isCIRActive = this.cirVal;
-                    this.commonArray.isComboActive = this.comboVal;
-                    if(this.commonArray.isBIRActive == 'false')
-                    {
-                        this.commonArray.bir = null;
-                    }
-                    if(this.commonArray.isComboActive == 'false')
-                    {
-                        this.commonArray.cir = null;
-                        this.commonArray.consumerList = null;
-                    }
-                    this.router.navigate(['viewEnquiryComponent']);
-                }
-                else
-                {
-	            isValidationComplete = false;
-                    alert("Fill all the mandatory fields!!!");
-                }
-         }
+        if(this.issOnlyBIR && !this.birForm.valid )
+        {
+            isValidationComplete = false;
+            
+        }
+         
 
-          if(this.isCir || this.isCombo){
-                if(this.cirForm.valid && this.consumerValid)
-                { 
-                    this.commonArray.isBIRActive = this.birVal;
-                    this.commonArray.isCIRActive = this.cirVal;
-                    this.commonArray.isComboActive = this.comboVal;
-                     if(this.commonArray.isBIRActive == 'false')
-                    {
-                        this.commonArray.bir = null;
-                    }
-                    if(this.commonArray.isComboActive == 'false')
-                    {
-                        this.commonArray.cir = null;
-                        this.commonArray.consumerList = null;
-                    }
-                   // this._appService.submitInfo(this.commonArray).subscribe(this.data);
+        if(this.isCir && !this.cirForm.valid)
+        {
+                isValidationComplete = false;
+                
+        }
 
-                     this.router.navigate(['viewEnquiryComponent']);
-                }
-                else
-                {
-	  	    isValidationComplete = false;
-                    alert("Fill all the mandatory fields!!!");
-                }
-         }
+
+        if(this.isCombo && !this.consumerValid && !this.cirForm.valid)
+        {
+            isValidationComplete = false;
+        }
+
 		 if(isValidationComplete)
-		 {
+		 {    
+             debugger;
 			 this._appService.createEnquiry(this.commonArray).subscribe(this.data);
 			 alert("Data Submitted Successfully!!!");
-			 this.router.navigate(['viewEnquiryComponent']);
+        
+			 this.router.navigate(['viewEnquiryComponent'],{queryParams: { requestId: EirCreateComponent.reqId}});
 		 }
+         else
+         {
+             alert("Fill all the mandatory fields!!!");
+         }
     }
 
     getCompanyList()

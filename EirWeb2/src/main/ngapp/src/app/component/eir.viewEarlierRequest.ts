@@ -20,7 +20,7 @@ private comboWOSReportStatus:string;
 private birReportStatus:string;
 private commWOSReportStatus:string;
 private commWSReportStatus:string;
-private reqId : number;
+public reqId : number;
 private userId:number=1;
 public earlierRequestList =<any>[];
 private requestStatus =<any>[];
@@ -59,14 +59,14 @@ dateExpires : Date;
   
   submit()
   {
-    console.log("Inside submit method.....");
-    this.router.navigate(['viewEnquiryComponent']);
+    console.log("Inside submit method....."+this.reqId);
+    this.router.navigate(['viewEnquiryComponent'],{queryParams: { requestId: this.reqId}});
   }
 
   
   ViewEarlierEnq()
   {
-    debugger;
+    //debugger;
     console.log("Inside ViewEarlierEnq........");
     console.log("Data........"+ this.data);
     this._appService.getRequestData(this.data).subscribe((earlierRequestData) => {
@@ -74,7 +74,7 @@ dateExpires : Date;
           if(null != earlierRequestData){
             this.earlierRequestList = earlierRequestData;
             for(var i=0;i<this.earlierRequestList.length;i++){
-                this.reqId = this.earlierRequestList[i].requestId;
+               this.reqId = this.earlierRequestList[i].requestId;
             }
           }          
         });

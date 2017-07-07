@@ -11,6 +11,9 @@ static count : number=1;
 
     }
 
+    getNativeWindow() {
+        return window;
+    }
     submit(data) {
         console.log(data);
        
@@ -50,7 +53,6 @@ static count : number=1;
 
     getRequestData(viewEarlierEnqData)
     {
-        debugger;
         var head = new Headers();
         head.append('Content-Type', 'application/json');
          

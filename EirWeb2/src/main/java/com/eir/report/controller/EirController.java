@@ -275,16 +275,18 @@ public class EirController {
 	}
 	
 	@Transactional
+	@CrossOrigin("*")
 	@RequestMapping(value="/getHTMLReport", method = RequestMethod.GET)
-	public String getEIRReport(@RequestParam(required= true) Integer requestId, @RequestParam(required= true) String reportType,@RequestParam(required= true) Boolean isPdf)
+	public @ResponseBody String getEIRReport(@RequestParam(required= true) Integer requestId, @RequestParam(required= true) String reportType,@RequestParam(required= true) Boolean isPdf)
 	{
 		
-		String htmlString = nextGenWebService.getEIRReport(requestId, reportType,isPdf);
+		nextGenWebService.getEIRReport(requestId, reportType,isPdf);
 		logger.debug("EirController - getEIRReport(): report generated");
 		
-		return htmlString;
+		return Constant.HTML_FILE_PATH;
 	}
 	@Transactional
+	@CrossOrigin("*")
 	@RequestMapping(value="/getPDFReport", method = RequestMethod.GET)
 	public void getEIRPDFReport(@RequestParam(required= true) Integer requestId, @RequestParam(required= true) String reportType,@RequestParam(required= true) Boolean isPdf,HttpServletRequest request, HttpServletResponse response)
 	{
@@ -311,7 +313,7 @@ public class EirController {
 	@RequestMapping(value = "/getViewRequest", method = RequestMethod.GET,produces="application/json")
 	public @ResponseBody ViewEnquiryObject getViewRequest(@RequestParam("requestId") Integer requestId) 
 	{
-		requestId =145;		
+		//requestId =145;		
 		ViewEnquiryObject viewEnquiresObject = eirService.getRequestByRequestId(requestId);		
 		return viewEnquiresObject;
 	}
