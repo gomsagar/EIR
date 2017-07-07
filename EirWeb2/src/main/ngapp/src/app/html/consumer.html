@@ -21,15 +21,12 @@
 				<label for="exampleInputName2">Individual First Name *</label>
 				<input type="text" class="form-control" id="exampleInputName2" placeholder="Individual First Name" [(ngModel)]="consumerData[i].firstName"
 				 name="firstName{{i}}" formControlName="firstName{{i}}">				
-				<control-messages [control]="requisitionForm.controls['firstName'+i]" [label]="'First Name'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
-
-
-			</div>
-			<div class="form-group col-md-4" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['middleName'+i].valid && requisitionForm.controls['middleName'+i].touched)||(!requisitionForm.controls['middleName'+i].valid && submitted))}">
-				<label for="exampleInputName2">Individual Middle Name *</label> <input type="text" class="form-control" id="exampleInputName2"
-				 placeholder="Individual Middle Name" name="middleName{{i}}" formControlName="middleName{{i}}" [(ngModel)]="consumerData[i].middleName">
-				<control-messages [control]="requisitionForm.controls['middleName'+i]" [label]="'Middle Name'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
-			</div>
+				<control-messages [control]="requisitionForm.controls['firstName'+i]" [label]="'First Name'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>			</div>
+			
+			<div class="form-group col-md-4">
+				<label for="exampleInputName2">Individual Middle Name </label> <input type="text" id="exampleInputName2"  class="form-control"
+				 placeholder="Individual Middle Name" name="middleName{{i}}" [(ngModel)]="consumerData[i].middleName">			
+		   </div>
 			<div class="form-group col-md-4" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['lastName'+i].valid && requisitionForm.controls['lastName'+i].touched)||(!requisitionForm.controls['lastName'+i].valid && submitted))}">
 				<label for="exampleInputName2">Individual Last Name * </label> 
 				<input type="text" class="form-control" id="exampleInputName2" placeholder="Individual Last Name" name="lastName{{i}}" formControlName="lastName{{i}}" [(ngModel)]="consumerData[i].lastName">

@@ -296,9 +296,7 @@ public class Request implements Serializable {
 	/**
 	 */
 	public BirRequest getBirRequests() {
-		if (birRequest == null) {
-			birRequest = new com.eir.report.entity.BirRequest();
-		}
+		
 		return birRequest;
 	}
 
@@ -323,9 +321,7 @@ public class Request implements Serializable {
 	/**
 	 */
 	public CirRequest getCirRequets() {
-		if (cirRequest == null) {
-			cirRequest = new com.eir.report.entity.CirRequest();
-		}
+		
 		return cirRequest;
 	}
 
@@ -338,9 +334,7 @@ public class Request implements Serializable {
 	/**
 	 */
 	public List<ConsumerRequest> getConsumerRequets() {
-		if (consumerRequests == null) {
-			consumerRequests = new ArrayList<ConsumerRequest>();
-		}
+		
 		return consumerRequests;
 	}
 

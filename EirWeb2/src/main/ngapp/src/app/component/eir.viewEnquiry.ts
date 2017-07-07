@@ -29,13 +29,10 @@ export class ViewEnquiryComponent
     nativeWindow: any;
     
     ngOnInit(){
-          debugger;
-        this._appService.getViewRequest(this.requestId).subscribe((viewRequestData) =>{          
+          this._appService.getViewRequest(this.requestId).subscribe((viewRequestData) =>{          
             
             console.log("Inside view enq constructor::::::"+this.requestId);
-           // console.log("viewRequestData BIR:::::"+viewRequestData.birObject.birReportStatus);
-           // console.log("viewRequestData CIR:::::"+viewRequestData.cirWithScoreObject.cirWithScoreReportStatus);
-             
+                        
              this.birObject = viewRequestData.birObject;
              this.cirWithScoreObject = viewRequestData.cirWithScoreObject;
              this.cirWithOutScoreObject = viewRequestData.cirWithOutScoreObject;
@@ -77,9 +74,11 @@ export class ViewEnquiryComponent
     {
         this.isPDF = true;
         console.log("Download called");
-        this._dataService.getRequestedPDFReport(this.requestId,reportType,this.isPDF).subscribe(() => 
-         {      
-        });
+        var url = "http://localhost:8080/EirWeb2/eir/getPDFReport?requestId="+this.requestId +"&reportType=" + reportType +"&isPdf=" + this.isPDF;
+        var newWindow = this.nativeWindow.open(url);   
+        // this._dataService.getRequestedPDFReport(this.requestId,reportType,this.isPDF).subscribe(() => 
+        //  {      
+        // });
     }
 
     RESUBMIT()
@@ -90,15 +89,12 @@ export class ViewEnquiryComponent
 
     VIEW(reportType)
     {
-       
         console.log("Inside view method");        
         this.isPDF = false;
          console.log("VIEW called");
-         this._dataService.getRequestedHTMLReport(this.requestId,reportType,this.isPDF).subscribe((htmlString) => {
-             this.htmlString = htmlString;      
-        });   
-
-        var newWindow = this.nativeWindow.open("");   
+               
+        var url = "http://localhost:8080/EirWeb2/eir/getHTMLReport?requestId="+this.requestId +"&reportType=" + reportType +"&isPdf=" + this.isPDF;
+        var newWindow = this.nativeWindow.open(url);   
     }
 
     submit(value,reportType)

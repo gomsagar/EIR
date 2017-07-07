@@ -159,7 +159,7 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
   			action = "removeControl";
   		} 
   		this.requisitionForm[action]('firstName' + i, new FormControl('', [Validators.required,Validators.pattern('[A-Za-z]*')]));
-      this.requisitionForm[action]('middleName' + i, new FormControl('', [Validators.required,Validators.pattern('[A-Za-z]*')]));
+     // this.requisitionForm[action]('middleName' + i, new FormControl('', [Validators.required,Validators.pattern('[A-Za-z]*')]));
       this.requisitionForm[action]('lastName' + i, new FormControl('', [Validators.required,Validators.pattern('[A-Za-z]*')]));
       this.requisitionForm[action]('mobileNo' + i, new FormControl('', [Validators.required,Validators.pattern('[0-9]{10}')]));
       this.requisitionForm[action]('gender' + i, new FormControl('', [Validators.required]));

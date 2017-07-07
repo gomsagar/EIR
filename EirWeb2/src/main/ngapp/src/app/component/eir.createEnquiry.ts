@@ -107,7 +107,7 @@ public static reqId : number;
               console.log("Only Cir:"+this.isCir);
           }
        
-        debugger;
+        //debugger;
           this._appService.submit(this.data).subscribe((reqId) => {
               EirCreateComponent.reqId=reqId;     
               console.log("reqID"+EirCreateComponent.reqId);
@@ -122,7 +122,7 @@ public static reqId : number;
         //   }else {
         //       this.router.navigate(['inputForEnquiry'],{queryParams: { isOnlyBir: this.isOnlyBir, isCombo: this.isCombo, isCir: this.isCir}});
         //   }
-debugger;
+//debugger;
         
          this.router.navigate(['inputForEnquiry'],{queryParams: { isOnlyBir: this.isOnlyBir, isCombo: this.isCombo, isCir: this.isCir, reqId: EirCreateComponent.reqId}});
     }

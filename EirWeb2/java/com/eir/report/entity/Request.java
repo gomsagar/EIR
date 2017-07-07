@@ -289,9 +289,7 @@ public class Request implements Serializable {
 	/**
 	 */
 	public Set<BirRequest> getBirRequests() {
-		if (birRequests == null) {
-			birRequests = new java.util.LinkedHashSet<com.eir.report.entity.BirRequest>();
-		}
+		
 		return birRequests;
 	}
 
@@ -316,9 +314,7 @@ public class Request implements Serializable {
 	/**
 	 */
 	public Set<CirRequet> getCirRequets() {
-		if (cirRequets == null) {
-			cirRequets = new java.util.LinkedHashSet<com.eir.report.entity.CirRequet>();
-		}
+		
 		return cirRequets;
 	}
 
@@ -331,9 +327,7 @@ public class Request implements Serializable {
 	/**
 	 */
 	public Set<ConsumerRequet> getConsumerRequets() {
-		if (consumerRequets == null) {
-			consumerRequets = new java.util.LinkedHashSet<com.eir.report.entity.ConsumerRequet>();
-		}
+		
 		return consumerRequets;
 	}
 

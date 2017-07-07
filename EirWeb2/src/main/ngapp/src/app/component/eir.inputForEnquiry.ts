@@ -210,7 +210,7 @@ export class InputForEnquiryComponent implements OnInit
           'personPin'   : [null,  Validators.compose([Validators.required,Validators.pattern('[0-9]{6}')])],
           'mobile'      : [null,  Validators.compose([Validators.required,Validators.pattern('[0-9]{10}')])],
           'fname'       : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z]*')])],
-          'mname'       : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z]*')])],
+         // 'mname'       : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z]*')])],
           'lname'       : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z]*')])],         
           'personCity'  : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z]*')])],
           'personAddr'  : [null,  Validators.required],
@@ -236,7 +236,7 @@ export class InputForEnquiryComponent implements OnInit
     validate()
     {
          console.log("request id from input page::::"+EirCreateComponent.reqId);
-        debugger;
+       // debugger;
   // console.log("request id from input page::::"+this._dataService.getRequestId());
         var isValidationComplete : boolean = true ;
 	
@@ -265,7 +265,7 @@ export class InputForEnquiryComponent implements OnInit
                     this.commonArray.cir = null;
                 }
             }
-            
+
             if(this.commonArray.isCIRActive == 'false' && this.commonArray.isComboActive == 'false' )
             {
                     this.commonArray.cir = null;
@@ -295,7 +295,7 @@ export class InputForEnquiryComponent implements OnInit
 
 		 if(isValidationComplete)
 		 {    
-             debugger;
+            // debugger;
 			 this._appService.createEnquiry(this.commonArray).subscribe(this.data);
 			 alert("Data Submitted Successfully!!!");
         

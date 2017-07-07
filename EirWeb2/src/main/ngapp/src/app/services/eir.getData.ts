@@ -33,14 +33,4 @@ export class DataService {
              return this._http.get('http://localhost:8080/EirWeb2/eir/getEarlierRequest?userID=' + userID)
             .map((res:Response) => res.json());
     }
-
-     getRequestedHTMLReport(requestId,reportType,isPdf){
-    return this._http.get('http://localhost:8080/EirWeb2/eir/getHTMLReport?requestId='+ requestId + '&reportType=' + reportType + '&isPdf=' + isPdf)
-    .map((res:Response) => res.json());
-    }
-    
-    getRequestedPDFReport(requestId,reportType,isPdf){
-    return this._http.get('http://localhost:8080/EirWeb2/eir/getPDFReport?requestId='+ requestId + '&reportType=' + reportType + '&isPdf=' + isPdf)
-  //  .map(res=>res.json());
-    }
 }

@@ -277,13 +277,17 @@ public class EirController {
 	@Transactional
 	@CrossOrigin("*")
 	@RequestMapping(value="/getHTMLReport", method = RequestMethod.GET)
-	public @ResponseBody String getEIRReport(@RequestParam(required= true) Integer requestId, @RequestParam(required= true) String reportType,@RequestParam(required= true) Boolean isPdf)
+	public ModelAndView getEIRReport(@RequestParam(required= true) Integer requestId, @RequestParam(required= true) String reportType,@RequestParam(required= true) Boolean isPdf)
 	{
 		
-		nextGenWebService.getEIRReport(requestId, reportType,isPdf);
+		String htmlReport = nextGenWebService.getEIRReport(requestId, reportType,isPdf);
 		logger.debug("EirController - getEIRReport(): report generated");
 		
-		return Constant.HTML_FILE_PATH;
+		//return Constant.HTML_FILE_PATH;
+		ModelAndView modelAndView = new ModelAndView("ViewReport");
+		modelAndView.addObject("htmlReport", htmlReport);
+ 
+		return modelAndView;
 	}
 	@Transactional
 	@CrossOrigin("*")

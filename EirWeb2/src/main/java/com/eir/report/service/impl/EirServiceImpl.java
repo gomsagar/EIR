@@ -1135,7 +1135,7 @@ public class EirServiceImpl implements EirService{
 		if(null != request){
 			
 			//set bir report details
-			if(null != request.getBirRequests().getBirRequestId()){
+			if(null != request.getBirRequests() && null != request.getBirRequests().getBirRequestId()){
 				//get product id from product selection 
 				Object[] birProduct = productMasterRepository.getBIRProductByRequestId(reqId, Constant.BIR_PRODUCT_CODE);
 				//get tats from product master table
@@ -1167,7 +1167,7 @@ public class EirServiceImpl implements EirService{
 					comboWithScoreObject.setComboWithScoreResponseDate(formatDate(request.getCirRequets().getUpdateUserDate().toString()));
 					comboWithScoreObject.setComboWithScoreMessage("Report Created and Ready to View");
 				}
-			}else if(null != request.getCirRequets().getCirRequestId()){	
+			}else if(null != request.getCirRequets() && null != request.getCirRequets().getCirRequestId()){	
 				score = request.getCirRequets().getScore();
 				// set cir details			
 				if(null == score || score.equalsIgnoreCase(Constant.CONS_N) ){
