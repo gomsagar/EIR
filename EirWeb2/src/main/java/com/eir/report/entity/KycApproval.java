@@ -33,7 +33,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 
-@Table(name = "kyc_approval")
+@Table(name = "kyc_approval", schema = "eir")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "eir/com/eir/report/entity", name = "KycApproval")
 
@@ -51,7 +51,7 @@ public class KycApproval implements Serializable {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="request_seq")
 	@SequenceGenerator(
 		name="request_seq",
-		sequenceName="kyc_sequence",
+		sequenceName="eir.kyc_sequence",
 		allocationSize=1
 	)
 	@XmlElement

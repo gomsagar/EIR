@@ -20,7 +20,7 @@ import javax.persistence.*;
  */
 @IdClass(com.eir.report.entity.UserRoleAccessPK.class)
 @Entity
-@Table(name = "user_role_access")
+@Table(name = "user_role_access", schema = "eir")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "entity2/com/eir/report/domain", name = "UserRoleAccess")
 

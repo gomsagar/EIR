@@ -88,6 +88,7 @@ import com.eir.report.repository.ConsumerRequetRepository;
 import com.eir.report.repository.RequestRepository;
 import com.eir.report.repository.StatusRepository;
 import com.eir.report.service.NextGenWebService;
+import com.eir.report.util.WriteFile;
 import com.experian.nextgen.ind.model.consumer.uofpojo.Bpaygrid;
 import com.experian.nextgen.ind.model.consumer.uofpojo.Conscred;
 import com.experian.nextgen.ind.model.consumer.uofpojo.ConsumerResponse;
@@ -95,7 +96,6 @@ import com.experian.nextgen.ind.model.consumer.uofpojo.Perinpidc;
 import com.experian.nextgen.ind.model.consumer.uofpojo.ResponseInfo;
 
 @Service
-@PropertySource("classpath:zaubaConfig.properties")
 public class NextGenWebServiceImpl implements NextGenWebService{
 
 
@@ -505,11 +505,13 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		consumerProductRequest.setENQHEADER(enqHeader);
 		
 		UserPref userPref = new UserPref();
-		userPref.setLanguage(consumerRequest.getLanguage());
+		//userPref.setLanguage(consumerRequest.getLanguage());
+		userPref.setLanguage("");
 		consumerProductRequest.setUSERPREF(userPref);
 		
 		AddlProd addlProd = new AddlProd();
-		addlProd.setEnquiryAddOnProduct(consumerRequest.getEnquiryAddOnProduct());
+		//addlProd.setEnquiryAddOnProduct(consumerRequest.getEnquiryAddOnProduct());
+		addlProd.setEnquiryAddOnProduct("");
 		consumerProductRequest.getADDLPROD().add(addlProd);
 		
 		//set Date format in ddMMyyyy form for NExtgen request
@@ -699,19 +701,21 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 					}*/
 				}
 				//cirRequest.setXmlOutput(nextGenResponseWrapper.getResponse().getBytes()); //commented reason -- writing into file
-				Integer xmlOutputFolderReqId = cirRequest.getRequest().getRequestId();
-				cirRequest.setXmlOutputPath(writeXmlOutputToFile(nextGenResponseWrapper.getResponse() , cirRequest.getRequest().getRequestId()));
+				//cirRequest.setXmlOutputPath(writeXmlOutputToFile(nextGenResponseWrapper.getResponse() , cirRequest.getRequest().getRequestId(), Constant.CIR));
+				WriteFile writeFile = new WriteFile();
+				String cirXMLOutPutFilePath = writeFile.writeXmlOutputToFile(xmlOutputPath, nextGenResponseWrapper.getResponse() , cirRequest.getRequest().getRequestId(), Constant.CIR);
+				cirRequest.setXmlOutputPath(cirXMLOutPutFilePath);
 			}
 			else
 			{
 				//cirRequest.setXmlOutput("NextGen response is null".getBytes());
 				
-				File f = new File("D:/BIReport/bir/6/getBusinessProductRespnse.xml");
+				//File f = new File("D:/BIReport/bir/6/getBusinessProductRespnse.xml");
 				
-				byte[] bytesArray = new byte[(int) f.length()];
+				//byte[] bytesArray = new byte[(int) f.length()];
 				
-				Integer xmlOutputFolderReqId = cirRequest.getRequest().getRequestId();
-				cirRequest.setXmlOutputPath(writeXmlOutputToFile(bytesArray.toString() , cirRequest.getRequest().getRequestId()));
+				//Integer xmlOutputFolderReqId = cirRequest.getRequest().getRequestId();
+				//cirRequest.setXmlOutputPath(writeXmlOutputToFile(bytesArray.toString() , cirRequest.getRequest().getRequestId(), Constant.CIR));
 
 				//FileInputStream fis = new FileInputStream(f); 
 				//fis.read(bytesArray); //read file into bytes[]
@@ -728,7 +732,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		return null;
 	}
 
-	private String writeXmlOutputToFile(String xmlOutputResponse,Integer xmlOutputFolderReqId) 
+	/*private String writeXmlOutputToFile(String xmlOutputResponse,Integer xmlOutputFolderReqId, String reportType) 
 	{
 			//responceData write into file
 		FileWriter fr = null;
@@ -736,7 +740,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		{
 			String fileName = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss'.txt'").format(new Date());
 			
-			File file = new File(xmlOutputPath+xmlOutputFolderReqId+"/"+fileName);
+			File file = new File(xmlOutputPath + Constant.SEPERATOR +  reportType + Constant.SEPERATOR  + xmlOutputFolderReqId + Constant.SEPERATOR + fileName);
 			file.getParentFile().mkdirs();
 			String writePath = file.getAbsolutePath();
             fr = new FileWriter(file);
@@ -759,17 +763,17 @@ public class NextGenWebServiceImpl implements NextGenWebService{
         //end write data here
 		return null;
 	}
-	private String getRequestStatusStr(NextGenResponseWrapper nextGenResponseWrapper )
+	*/private String getRequestStatusStr(NextGenResponseWrapper nextGenResponseWrapper )
 			throws ParserConfigurationException, SAXException, IOException 
 	{
-		String statusStr = com.eir.report.constant.Status.ERROR.status();
+		String statusStr = com.eir.report.constant.Status.COMPLETED.status();
 		
 		if (nextGenResponseWrapper != null && nextGenResponseWrapper.getResponse() != null && !nextGenResponseWrapper.getResponse().isEmpty()) 
 		{			
 			if(nextGenResponseWrapper.getResponse().contains("BURERROR") || nextGenResponseWrapper.getResponse().contains("Error") 
 					|| nextGenResponseWrapper.getResponse().contains("ERROR"))
 			{
-				statusStr = com.eir.report.constant.Status.COMPLETED.status();
+				statusStr = com.eir.report.constant.Status.ERROR.status();
 			}
 			
 		}
@@ -790,29 +794,45 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 				{
 					String consumerRequestXML = getConsumerRequestXML(consumerEntityRequest);
 					NextGenResponseWrapper nextGenResponseWrapper = experianHttDirectClient.getNextgenReport(consumerRequestXML);
-					//consumerEntityRequest.setStatusId(consumerReqStatusFailure);
+					
+					if(getRequestStatusStr(nextGenResponseWrapper).equals(com.eir.report.constant.Status.ERROR.status()))
+					{
+						for (int i = 0; i < Constant.RETRY_COUNT; i++) 
+						{
+							nextGenResponseWrapper = experianHttDirectClient.getNextgenReport(consumerRequestXML);
+							if(getRequestStatusStr(nextGenResponseWrapper).equals(com.eir.report.constant.Status.COMPLETED.status()))
+							{
+								break;
+							}
+						}
+					}
+					
+					WriteFile writeFile = new WriteFile();
 					if(nextGenResponseWrapper != null)
 					{
 						if(nextGenResponseWrapper.getResponseCode() == 200)
 						{
 							statusStr = getRequestStatusStr(nextGenResponseWrapper);
 						}
-						//consumerEntityRequest.setXmlOutput(nextGenResponseWrapper.getResponse().getBytes()); //commented reason -- writing into file
-						consumerEntityRequest.setXmlOutputPath(writeXmlOutputToFile(nextGenResponseWrapper.getResponse(),consumerEntityRequest.getRequest().getRequestId()));
+						
+						String consumerOutputXMLFilePath = writeFile.writeXmlOutputToFile(xmlOutputPath, nextGenResponseWrapper.getResponse(),consumerEntityRequest.getRequest().getRequestId(), Constant.CONSUMER);
+						consumerEntityRequest.setXmlOutputPath(consumerOutputXMLFilePath);
+						//consumerEntityRequest.setXmlOutputPath(writeXmlOutputToFile(nextGenResponseWrapper.getResponse(),consumerEntityRequest.getRequest().getRequestId(), Constant.CONSUMER));
 					}
 					else
 					{
 						//consumerEntityRequest.setXmlOutput("NextGen response is null".getBytes());
-						File f = new File("D:/BIReport/bir/6/getConsumerProductRespnse.xml");
+						//File f = new File("D:/BIReport/bir/6/getConsumerProductRespnse.xml");
 						
-						byte[] bytesArray = new byte[(int) f.length()];
-
-						consumerEntityRequest.setXmlOutputPath(writeXmlOutputToFile(new String(bytesArray, "UTF-8"),consumerEntityRequest.getRequest().getRequestId()));
+						//byte[] bytesArray = new byte[(int) f.length()];
+						//writeFile.writeXmlOutputToFile(xmlOutputPath, nextGenResponseWrapper.getResponse(),consumerEntityRequest.getRequest().getRequestId(), Constant.CONSUMER);
+						//consumerEntityRequest.setXmlOutputPath(writeXmlOutputToFile(new String(bytesArray, "UTF-8"),consumerEntityRequest.getRequest().getRequestId(), Constant.CONSUMER));
 						//FileInputStream fis = new FileInputStream(f);
 						//fis.read(bytesArray); //read file into bytes[]
 						//consumerEntityRequest.setXmlOutput(bytesArray);
 
 					}
+					
 					Status consumerReqStatusSuccess = getStatusByDescription(statusStr);
 					consumerEntityRequest.setStatusId(consumerReqStatusSuccess);
 					consumerRequetRepository.save(consumerEntityRequest);

@@ -12,7 +12,7 @@ public interface ProductMasterRepository extends JpaRepository<ProductMaster, In
 	
 	public ProductMaster findByproductCode(String productCode);
 	
-	@Query(value= "select pm.tat_in_hour from product_master pm inner join product_selection ps on ps.product_id = pm.product_id "
+	@Query(value= "select pm.tat_in_hour from eir.product_master pm inner join eir.product_selection ps on ps.product_id = pm.product_id "
 			+ "and ps.product_code=:BIRProductCode and ps.request_id=:requestId",nativeQuery=true)
 	public Object[] getBIRProductByRequestId(@Param("requestId") Integer requestId, 
 			@Param("BIRProductCode") String birProductCode);

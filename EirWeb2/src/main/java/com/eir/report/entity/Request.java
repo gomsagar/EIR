@@ -39,7 +39,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
  */
 
 @Entity
-@Table(name = "request")
+@Table(name = "request", schema = "eir")
 @EntityListeners(AuditingEntityListener.class)
 public class Request implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -54,7 +54,7 @@ public class Request implements Serializable {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="request_seq")
 	@SequenceGenerator(
 		name="request_seq",
-		sequenceName="request_sequence",
+		sequenceName="eir.request_sequence",
 		allocationSize=1
 	)
 	Integer requestId;

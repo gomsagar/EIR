@@ -353,6 +353,7 @@ public class EirServiceImpl implements EirService{
 				consumerEntity.setEnquiryAccountTypeId(consumerInput.getAccountType().getAccntTypeId());
 				consumerEntity.setEnquiryCreditPurposeId(consumerInput.getConsumerFinancialPurpose().getFinancialPurposeId());
 				consumerEntity.setPurposeId(consumerInput.getConsumerPurpose().getPurposeId());
+				consumerEntity.setPurposeOfInquiry(consumerInput.getConsumerPurpose().getPurposeId());
 				consumerEntity.setFirstName(consumerInput.getFirstName());
 				consumerEntity.setMiddleName(consumerInput.getMiddleName());
 				consumerEntity.setLastName(consumerInput.getLastName());
@@ -387,7 +388,7 @@ public class EirServiceImpl implements EirService{
 			addrsEntity.setAddressLine2(consumerReq.getPersonAddrLine2());
 			addrsEntity.setCity(consumerReq.getPersonCity());
 			addrsEntity.setStateId(consumerReq.getPersonState().getStateId());
-			addrsEntity.setPincode(consumerReq.getPersonPincode());
+			addrsEntity.setPincode(consumerReq.getPersonPinCode());
 			AddressType addressType = addressTypeRepository.findByAddressTypeId(consumerReq.getAddressType().getAddressTypeId());
 			addrsEntity.setAddressType(addressType);
 			addressRepository.save(addrsEntity);

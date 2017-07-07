@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Entity
 
-@Table(name = "consumer_purpose_of_enquiry")
+@Table(name = "consumer_purpose_of_enquiry", schema = "eir")
 @EntityListeners(AuditingEntityListener.class)
 public class ConsumerPurpose {
 	
@@ -34,7 +34,7 @@ public class ConsumerPurpose {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="purpose_seq")
 	@SequenceGenerator(
 		name="purpose_seq",
-		sequenceName="purpose_sequence",
+		sequenceName="eir.purpose_sequence",
 		allocationSize=1
 	)
 	Integer purposeId;

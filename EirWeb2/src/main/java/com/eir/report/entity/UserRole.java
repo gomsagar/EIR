@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 
 @Entity
-@Table(name = "user_role")
+@Table(name = "user_role", schema = "eir")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "entity2/com/eir/report/domain", name = "UserRole")
 @XmlRootElement(namespace = "entity2/com/eir/report/domain")

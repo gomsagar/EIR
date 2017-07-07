@@ -47,7 +47,7 @@ public dateExpires: any;
   @Input() consumerData = [
     {relationType:'',accountType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
                 rationCard:'',passportNo:'',homeTelephoneNo:'',officeTelephoneNo:'',mobileNo:'',birthDate:'',maritalStatus:'',gender:'',
-               addressType :'' , personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:'',amount:'',consumerPurpose:'',consumerFinancialPurpose:'',frequency:'',durationOfAgreement:''} 
+               addressType :'' , personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPinCode:'',amount:'',consumerPurpose:'',consumerFinancialPurpose:'',frequency:'',durationOfAgreement:''} 
  ];
 
  constructor(public fb1: FormBuilder, private _appService:AppService, private _newService:NewService, private _accntTypeList:AccountTyprList, private _relationTypeList:RelationTypeList,
@@ -181,7 +181,7 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
    this.consumerData.push({
      relationType:'',accountType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
                 rationCard:'',passportNo:'',homeTelephoneNo:'',officeTelephoneNo:'',mobileNo:'',birthDate:'',maritalStatus:'',gender:'',
-                addressType :'' , personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:'',amount:'',
+                addressType :'' , personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPinCode:'',amount:'',
                 consumerPurpose:'', consumerFinancialPurpose:'',frequency:'',durationOfAgreement:''})
    
     this.rowValidateForm(ConsumerComponent.iRow++, 'add');

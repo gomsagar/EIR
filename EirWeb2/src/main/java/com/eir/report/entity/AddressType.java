@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Entity
 
-@Table(name = "address_type")
+@Table(name = "address_type", schema = "eir")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "eir/com/eir/report/entity", name = "AddressType")
 
@@ -38,7 +38,7 @@ public class AddressType {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="addrType_seq")
 	@SequenceGenerator(
 		name="addrType_seq",
-		sequenceName="addressType_sequence",
+		sequenceName="eir.addressType_sequence",
 		allocationSize=1
 	)
 	@XmlElement

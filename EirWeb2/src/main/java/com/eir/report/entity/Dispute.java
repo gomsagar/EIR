@@ -24,7 +24,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Table(name = "dispute")
+@Table(name = "dispute", schema = "eir")
 @EntityListeners(AuditingEntityListener.class)
 public class Dispute implements Serializable {
 
@@ -39,7 +39,7 @@ public class Dispute implements Serializable {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="dispute_seq")
 	@SequenceGenerator(
 		name="dispute_seq",
-		sequenceName="dispute_sequence",
+		sequenceName="eir.dispute_sequence",
 		allocationSize=1
 	)
 	Integer disputeId;

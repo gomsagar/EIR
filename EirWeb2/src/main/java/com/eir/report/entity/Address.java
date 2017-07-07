@@ -32,7 +32,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Entity
 
-@Table(name = "address")
+@Table(name = "address", schema = "eir")
 @EntityListeners(AuditingEntityListener.class)
 public class Address implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -47,7 +47,7 @@ public class Address implements Serializable {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="addr_seq")
 	@SequenceGenerator(
 		name="addr_seq",
-		sequenceName="address_sequence",
+		sequenceName="eir.address_sequence",
 		allocationSize=1
 	)
 	Integer addressId;

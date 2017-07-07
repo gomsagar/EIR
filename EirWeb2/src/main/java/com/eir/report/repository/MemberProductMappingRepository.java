@@ -10,7 +10,7 @@ import com.eir.report.entity.MemberProductMapping;
 
 public interface MemberProductMappingRepository extends JpaRepository<MemberProductMapping, Integer>  {
 	
-	@Query(value = "select * from member_product_mapping mpm inner join member_user_mapping mum on mpm.member_id = mum.member_id where mum.user_id =:userID",
+	@Query(value = "select * from eir.member_product_mapping mpm inner join eir.member_user_mapping mum on mpm.member_id = mum.member_id where mum.user_id =:userID",
 			nativeQuery=true)
 	List<MemberProductMapping> findProductMappingForUserId(@Param("userID") Integer userId);
 }

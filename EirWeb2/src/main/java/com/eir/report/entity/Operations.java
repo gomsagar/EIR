@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 
 @Entity
-@Table(name = "operations")
+@Table(name = "operations", schema = "eir")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "entity2/com/eir/report/domain", name = "Operations")
 @XmlRootElement(namespace = "entity2/com/eir/report/domain")

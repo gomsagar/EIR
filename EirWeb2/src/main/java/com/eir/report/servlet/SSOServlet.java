@@ -13,6 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.eir.report.constant.Constant;
 import com.eir.report.web.service.EwacsData;
 //import com.experian.ewacs.contract.query.v1.QueryUserProductInfoFault;
 
@@ -77,4 +78,31 @@ public class SSOServlet extends HttpServlet {/*
 		request.getSession().setAttribute(IP_ADDRESS, request.getRemoteAddr());
 	}
 
-*/}
+*/
+
+	@Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+           doPost(request, response);
+    }
+
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+           String userID = request.getParameter("userId");
+           System.out.println("=============================================" + userID);
+           try {
+                  if (userID != null) {
+                        //UserDetails userDetails = eirService.getUserById(userID);
+                        //if (userDetails != null) {
+                               request.getSession().setAttribute(Constant.USER_ID, userID);
+                               response.sendRedirect("ng/index.html");
+                        //}
+                  }
+                  // logger.debug("EirController - callDashboard: Invalid User");
+                  response.sendRedirect("ng/error.html");
+           } catch (Exception e) {
+                  e.printStackTrace();
+           }
+    }
+
+
+}

@@ -17,7 +17,7 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(catalog = "eir", name = "error_messages")
+@Table(catalog = "eir", name = "error_messages", schema = "eir")
 
 public class ErrorMessages implements Serializable {
 	private static final long serialVersionUID = 1L;

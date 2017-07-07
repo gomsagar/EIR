@@ -72,11 +72,11 @@ export class InputForEnquiryComponent implements OnInit
          consumerList: [ 
                 {relationType:'',accountType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
                 rationCard:'',passportNo:'',homeTelephoneNo:'',officeTelephoneNo:'',mobileNo:'',birthDate:'',maritalStatus:'',gender:'',
-                addressType :'' ,personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:'',amount:'',consumerPurpose:'', consumerFinancialPurpose:''}]};
+                addressType :'' ,personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPinCode:'',amount:'',consumerPurpose:'', consumerFinancialPurpose:''}]};
 
         consumerData : any= [{relationType:'',accountType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
                 rationCard:'',passportNo:'',homeTelephoneNo:'',officeTelephoneNo:'',mobileNo:'',birthDate:'',maritalStatus:'',gender:'',
-                addressType :'' ,personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPincode:'',amount:'',consumerPurpose:'', consumerFinancialPurpose:''}]  ;
+                addressType :'' ,personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPinCode:'',amount:'',consumerPurpose:'', consumerFinancialPurpose:''}]  ;
 
   ngOnInit()
   {

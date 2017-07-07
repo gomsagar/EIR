@@ -21,7 +21,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @IdClass(com.eir.report.entity.ReportSelectionPK.class)
 @Entity
-@Table(name = "product_selection")
+@Table(name = "product_selection", schema = "eir")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "eir/com/eir/report/entity", name = "ReportSelection")
 

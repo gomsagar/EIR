@@ -36,7 +36,7 @@ public class Consumer {
 	State personState;
 	Frequency frequency;
 	String durationOfAgreement;
-	String personPincode;
+	String personPinCode;
 	AddressType addressType;
 	Double amount;
 	
@@ -203,11 +203,11 @@ public String getErnNumber() {
 	public void setPersonState(State personState) {
 		this.personState = personState;
 	}
-	public String getPersonPincode() {
-		return personPincode;
+	public String getPersonPinCode() {
+		return personPinCode;
 	}
-	public void setPersonPincode(String personPincode) {
-		this.personPincode = personPincode;
+	public void setPersonPinCode(String personPincode) {
+		this.personPinCode = personPincode;
 	}
 	
 	@Override
@@ -219,7 +219,7 @@ public String getErnNumber() {
 				+ ", homeTelephoneNo=" + homeTelephoneNo + ", officeTelephoneNo=" + officeTelephoneNo + ", mobileNo="
 				+ mobileNo + ", birthDate=" + ", maritalStatus=" + maritalStatus + ", gender=" + gender
 				+ ", personAddrLine1=" + personAddrLine1 + ", personAddrLine2=" + personAddrLine2 + ", personCity="
-				+ personCity + ", personState=" + personState + ", personPincode=" + personPincode + ", getErnNumber()="
+				+ personCity + ", personState=" + personState + ", personPincode=" + personPinCode + ", getErnNumber()="
 				+ getErnNumber() + ", getScore()=" + getScore() + ", getStatus()=" + getStatus()
 				+ ", getRelationType()=" + getRelationType() + ", getFirstName()=" + getFirstName()
 				+ ", getMiddleName()=" + getMiddleName() + ", getLastName()=" + getLastName() + ", getPersonPan()="
@@ -229,7 +229,7 @@ public String getErnNumber() {
 				+ getOfficeTelephoneNo() + ", getMobileNo()=" + getMobileNo() + ", getBirthDate()=" +  ", getMaritalStatus()=" + getMaritalStatus() + ", getGender()=" + getGender()
 				+ ", getPersonAddrLine1()=" + getPersonAddrLine1() + ", getPersonAddrLine2()=" + getPersonAddrLine2()
 				+ ", getPersonCity()=" + getPersonCity() + ", getPersonState()=" + getPersonState()
-				+ ", getPersonPincode()=" + getPersonPincode() + ", getClass()=" + getClass() + ", hashCode()="
+				+ ", getPersonPincode()=" + getPersonPinCode() + ", getClass()=" + getClass() + ", hashCode()="
 				+ hashCode() + ", toString()=" + super.toString() + "]";
 	}
 	public AddressType getAddressType() {

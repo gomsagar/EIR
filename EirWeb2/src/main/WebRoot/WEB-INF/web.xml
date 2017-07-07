@@ -8,7 +8,7 @@
 	<display-name>EirWeb2</display-name>
 
 	<welcome-file-list>
-		<welcome-file>ng/index.html</welcome-file>
+		<!-- <welcome-file>ng/index.html</welcome-file> -->
 		<!-- <welcome-file>index.htm</welcome-file>
 		<welcome-file>index.jsp</welcome-file>
 		<welcome-file>default.html</welcome-file>
@@ -55,7 +55,7 @@
 		<url-pattern>/eir/*</url-pattern>
 	</servlet-mapping>
 	
-	<!--<servlet>
+	<servlet>
         <servlet-name>sso</servlet-name>
         <servlet-class>com.eir.report.servlet.SSOServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
@@ -63,5 +63,5 @@
 	<servlet-mapping>
         <servlet-name>sso</servlet-name>
         <url-pattern>/sso</url-pattern>
-    </servlet-mapping> -->  
+    </servlet-mapping>  
 </web-app>

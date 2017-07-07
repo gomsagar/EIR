@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Entity
 
-@Table(name = "STATE_CODE")
+@Table(name = "STATE_CODE", schema = "eir")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "eir/com/eir/report/entity", name = "State")
 
@@ -39,7 +39,7 @@ public class State {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="state_seq")
 	@SequenceGenerator(
 		name="state_seq",
-		sequenceName="state_sequence",
+		sequenceName="eir.state_sequence",
 		allocationSize=1
 	)
 	@XmlElement

@@ -33,7 +33,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
  */
 
 @Entity
-@Table(name = "cir_request")
+@Table(name = "cir_request", schema = "eir")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "eir/com/eir/report/entity", name = "CirRequet")
 
@@ -51,7 +51,7 @@ public class CirRequest implements Serializable {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="cir_seq")
 	@SequenceGenerator(
 		name="cir_seq",
-		sequenceName="cir_sequence",
+		sequenceName="eir.cir_sequence",
 		allocationSize=1
 	)
 	Integer cirRequestId;

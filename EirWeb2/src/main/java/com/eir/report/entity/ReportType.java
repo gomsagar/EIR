@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Entity
 
-@Table(name = "report_type")
+@Table(name = "report_type", schema = "eir")
 @EntityListeners(AuditingEntityListener.class)
 public class ReportType {
 	@Column(name = "report_type_id", nullable = false)
@@ -33,7 +33,7 @@ public class ReportType {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="reportType_seq")
 	@SequenceGenerator(
 		name="reportType_seq",
-		sequenceName="reportType_sequence",
+		sequenceName="eir.reportType_sequence",
 		allocationSize=1
 	)
 	String reportTypeId;

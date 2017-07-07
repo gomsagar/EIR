@@ -18,7 +18,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user_details")
+@Table(name = "user_details", schema = "eir")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "entity2/com/eir/report/domain", name = "UserDetails")
 @XmlRootElement(namespace = "entity2/com/eir/report/domain")
@@ -33,7 +33,7 @@ public class UserDetails implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY, generator="userDetails_seq")
 	@SequenceGenerator(
 		name="userDetails_seq",
-		sequenceName="userDetails_sequence",
+		sequenceName="eir.userDetails_sequence",
 		allocationSize=1
 	)
 	Integer userId;

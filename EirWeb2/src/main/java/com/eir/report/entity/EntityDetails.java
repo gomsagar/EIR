@@ -32,7 +32,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
  */
 
 @Entity
-@Table(name = "entity_details")
+@Table(name = "entity_details", schema = "eir")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "eir/com/eir/report/entity", name = "EntityDetails")
 @XmlRootElement(namespace = "eir/com/eir/report/entity")
@@ -50,7 +50,7 @@ public class EntityDetails implements Serializable {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="entity_seq")
 	@SequenceGenerator(
 		name="entity_seq",
-		sequenceName="entity_sequence",
+		sequenceName="eir.entity_sequence",
 		allocationSize=1
 	)
 	@XmlElement

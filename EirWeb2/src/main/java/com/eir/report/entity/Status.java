@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Entity
 
-@Table(name = "status")
+@Table(name = "status", schema = "eir")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "eir/com/eir/report/entity", name = "Status")
 @EntityListeners(AuditingEntityListener.class)
@@ -38,7 +38,7 @@ public class Status {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="status_seq")
 	@SequenceGenerator(
 		name="status_seq",
-		sequenceName="status_sequence",
+		sequenceName="eir.status_sequence",
 		allocationSize=1
 	)
 	@XmlElement

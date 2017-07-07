@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Entity
 
-@Table(name = "account_type")
+@Table(name = "account_type", schema = "eir")
 @EntityListeners(AuditingEntityListener.class)
 public class AccountType {
 	
@@ -34,7 +34,7 @@ public class AccountType {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="accntType_seq")
 	@SequenceGenerator(
 		name="accntType_seq",
-		sequenceName="accntType_sequence",
+		sequenceName="eir.accntType_sequence",
 		allocationSize=1
 	)
 	Integer accntTypeId;

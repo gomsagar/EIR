@@ -33,7 +33,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
  */
 
 @Entity
-@Table(name = "bir_request")
+@Table(name = "bir_request", schema = "eir")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "eir/com/eir/report/entity", name = "BirRequest")
 @EntityListeners(AuditingEntityListener.class)
@@ -47,7 +47,7 @@ public class BirRequest implements Serializable {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="bir_seq")
 	@SequenceGenerator(
 		name="bir_seq",
-		sequenceName="bir_sequence",
+		sequenceName="eir.bir_sequence",
 		allocationSize=1
 	)
 	Integer birRequestId;

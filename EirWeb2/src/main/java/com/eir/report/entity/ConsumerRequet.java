@@ -34,7 +34,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
  */
 
 @Entity
-@Table(name = "consumer_requet")
+@Table(name = "consumer_requet", schema = "eir")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "eir/com/eir/report/entity", name = "ConsumerRequet")
 
@@ -52,7 +52,7 @@ public class ConsumerRequet implements Serializable {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="consumer_seq")
 	@SequenceGenerator(
 		name="consumer_seq",
-		sequenceName="consumerReq_seq",
+		sequenceName="eir.consumerReq_seq",
 		allocationSize=1
 	)
 	@XmlElement

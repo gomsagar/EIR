@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Entity
 
-@Table(name = "gender")
+@Table(name = "gender", schema = "eir")
 @EntityListeners(AuditingEntityListener.class)
 public class Gender implements Serializable {
 	private static final long serialVersionUID = 1L;

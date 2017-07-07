@@ -34,6 +34,9 @@ public class Constant {
 	public static final String CONS_N= "N";
 	public static final String CONS_NOT_SELECTED= "not-select";
 	public static final String BIR_PRODUCT_CODE= "BIR";
+	public static final String CIR = "CIR";
+	public static final String CONSUMER = "CONSUMER";	
+	public static final String SEPERATOR = "/";
 	
 	public static final Integer RETRY_COUNT = 3;
 	

@@ -35,7 +35,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
  */
 @IdClass(com.eir.report.entity.MemberProductMappingPK.class)
 @Entity
-@Table(name = "member_product_mapping")
+@Table(name = "member_product_mapping", schema = "eir")
 /*@NamedNativeQuery(name = "MemberProductMapping.findProductMappingForUserId",
 query="select * from member_product_mapping mpm inner join member_user_mapping mum on mpm.member_id = mum.member_id where mum.user_id =:userID",
 resultClass = MemberProductMapping.class
@@ -57,7 +57,7 @@ public class MemberProductMapping implements Serializable {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="memberProdMap_seq")
 	@SequenceGenerator(
 		name="memberProdMap_seq",
-		sequenceName="MemberProductMapping_sequence",
+		sequenceName="eir.MemberProductMapping_sequence",
 		allocationSize=1
 	)
 	@XmlElement

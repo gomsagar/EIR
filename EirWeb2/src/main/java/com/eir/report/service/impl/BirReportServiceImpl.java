@@ -58,10 +58,10 @@ import com.eir.report.repository.RequestRepository;
 import com.eir.report.repository.StatusRepository;
 import com.eir.report.service.BirReportService;
 import com.eir.report.util.GetStatus;
+import com.eir.report.util.WriteFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
-@PropertySource("classpath:zaubaConfig.properties")
 public class BirReportServiceImpl implements BirReportService {
 	
 	
@@ -380,8 +380,9 @@ public class BirReportServiceImpl implements BirReportService {
 			String respoceObj = FileUtils.readFileToString(folder);
 			
 			//birRequest.setXmlOutput(respoceObj.getBytes()); // commented reason -- we are not save output xml in database
-			birRequest.setXmlOutputPath(writeXmlOutputToFile(respoceObj));
-			
+			WriteFile writeFile = new WriteFile();
+			String birFilePath = writeFile.writeXmlOutputToFile(xmlOutputPath, respoceObj, birRequest.getRequest().getRequestId(), Constant.BIR_PRODUCT_CODE);
+			birRequest.setXmlOutputPath(birFilePath);
 			
 			if (respoceObj.contains("Expired")) {
 				logger.debug("Expired Access token.Getting Fresh Access Token And Sending request again. : "+respoceObj);
@@ -437,7 +438,7 @@ public class BirReportServiceImpl implements BirReportService {
 			e.printStackTrace();
 		}
 	}
-	private String writeXmlOutputToFile(String xmlOutputResponse) 
+	/*private String writeXmlOutputToFile(String xmlOutputResponse) 
 	{
 			//responceData write into file 
 			Integer xmlOutputFolderReqId = 8;//birRequest.getRequest().getRequestId();
@@ -463,7 +464,7 @@ public class BirReportServiceImpl implements BirReportService {
 	        //end write data here
 			return writePath;
 	}
-
+*/
 	@Override
 	public List<BirRequest> getPendingRecord() {
 		Integer pendingStatus = 1; //TODO status id of pending form status table

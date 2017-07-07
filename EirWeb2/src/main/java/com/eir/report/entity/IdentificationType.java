@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Table(name = "identification_type")
+@Table(name = "identification_type", schema = "eir")
 @EntityListeners(AuditingEntityListener.class)
 public class IdentificationType {
 	

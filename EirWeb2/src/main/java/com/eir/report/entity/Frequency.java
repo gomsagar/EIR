@@ -10,7 +10,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 
-@Table(name = "frequency")
+@Table(name = "frequency", schema = "eir")
 @EntityListeners(AuditingEntityListener.class)
 public class Frequency {
 

@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Entity
 
-@Table(name = "relation_type")
+@Table(name = "relation_type", schema = "eir")
 @EntityListeners(AuditingEntityListener.class)
 public class RelationType {
 	
@@ -34,7 +34,7 @@ public class RelationType {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="relationType_seq")
 	@SequenceGenerator(
 		name="relationType_seq",
-		sequenceName="relationType_sequence",
+		sequenceName="eir.relationType_sequence",
 		allocationSize=1
 	)
 	String relationTypeId;
