@@ -141,12 +141,10 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 						 {
 							 /*byte[] reportXml = cirRequest.getXmlOutput();
 							 ByteArrayInputStream in = new ByteArrayInputStream(reportXml);*/
-							 
-							 File fileOutput = new File(cirRequest.getXmlOutputPath());
+
+							 String filePath = xmlOutputPath + Constant.SEPERATOR + cirRequest.getXmlOutputPath();
+							 File fileOutput = new File(filePath);
 							 ByteArrayInputStream in = new ByteArrayInputStream(FileUtils.readFileToByteArray(fileOutput));
-								
-							 //FileInputStream  fileInputStream  =  new FileInputStream(reportXml.toString());
-							  
 				             SOAPMessage message = MessageFactory.newInstance().createMessage(null, in );
 				             Unmarshaller unmarshaller = JAXBContext.newInstance(com.experian.nextgen.ind.model.commercial.uofpojo.ResponseInfo.class).createUnmarshaller();
 				             com.experian.nextgen.ind.model.commercial.uofpojo.ResponseInfo responseInfo = (com.experian.nextgen.ind.model.commercial.uofpojo.ResponseInfo)unmarshaller.unmarshal(message.getSOAPBody().extractContentAsDocument());
@@ -399,7 +397,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 			xmlString.append(reqString);
 			xmlString.append("</soapenv:Body>			 </soapenv:Envelope>");
 		
-			createXml(xmlString.toString());
+			//createXml(xmlString.toString());
 			
 			return xmlString.toString(); 
 		} catch (JAXBException e) {
@@ -525,7 +523,15 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		srch.setMiddleName(consumerRequest.getMiddleName());
 		srch.setOtherMiddleNames(consumerRequest.getOtherMiddleNames());
 		srch.setFamilyName(consumerRequest.getLastName());
-		srch.setSuffix(consumerRequest.getSuffix());
+		
+		if(consumerRequest.getSuffix() != null)
+		{
+			srch.setSuffix(consumerRequest.getSuffix());	
+		}
+		else
+		{
+			srch.setSuffix("");
+		}
 		srch.setApplicationRole(consumerRequest.getApplicationRole());
 		srch.setDateOfBirth(dateFormat);
 		srch.setGender(checkNull(consumerRequest.getGenderId()));
@@ -599,8 +605,8 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		
 		List<PersAddr> persaddrList = new ArrayList<>();
 		PersAddr persAddr = new PersAddr();
-		persAddr.setLocalityName("MUMBAI");
-		persAddr.setRegionCode("27");
+		persAddr.setLocalityName(consumerRequest.getAddressId().getCity());
+		persAddr.setRegionCode(consumerRequest.getAddressId().getState().toString());
 		persAddr.setPostalCode(consumerRequest.getAddressId().getPincode());
 		persAddr.setAddressLine1(consumerRequest.getAddressId().getAddressLine1());
 		persAddr.setAddressLine2(consumerRequest.getAddressId().getAddressLine2());
@@ -3749,7 +3755,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 				 }
 				 
 				 consumerRequests = request.getConsumerRequets();
-				 if(consumerRequests != null)
+				 if(consumerRequests != null && !consumerRequests.isEmpty())
 				 {
 					responseInfoList = getConsumerReport(consumerRequests);
 					comboDomain.setResponseInfoList(responseInfoList);
@@ -3773,7 +3779,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		String ration = "";
 		String passport = "";
 		String aadhar = "";
-		String voterId = "";
+		String voterId = ""; 
 		String type = "";
 		String account = "";
 		

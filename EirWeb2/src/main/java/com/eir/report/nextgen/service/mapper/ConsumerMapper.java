@@ -34,7 +34,7 @@ import com.experian.nextgen.ind.model.consumer.uofpojo.ResponseInfo;
 
 public class ConsumerMapper {
 
-	public static ResponseInfo responseInfo = null;
+	public static ResponseInfo responseInfo = null; 
 	public static Bpaygrid bpaygrid = null;
 	public String mapConsData(ResponseInfo responseInfo) throws IOException
 	{

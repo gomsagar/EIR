@@ -530,12 +530,12 @@ public class CommercialMapper {
 		SimpleDateFormat format2 = new SimpleDateFormat("dd/mm/yy");
 		java.util.Date date;
 		String newDate="";
-		try {
-			if(!(str.equals(""))||!(str.equals(null)))
+		try 
+		{
+			if(str != null && !str.isEmpty())
 			{
-			date = format1.parse(str);
-			newDate = format2.format(date);
-			//System.out.println(format2.format(date));
+				date = format1.parse(str);
+				newDate = format2.format(date);
 			}
 			else
 			{
@@ -544,7 +544,6 @@ public class CommercialMapper {
 		} 
 		catch (Exception e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return newDate;

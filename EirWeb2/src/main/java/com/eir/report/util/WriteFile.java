@@ -16,9 +16,9 @@ public class WriteFile {
 		try {
 			String fileName = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss'.txt'").format(new Date());
 
-			File file = new File(xmlOutputPath + Constant.SEPERATOR + Constant.SEPERATOR + xmlOutputFolderReqId + reportType + Constant.SEPERATOR + fileName);
+			String filePath = xmlOutputFolderReqId + Constant.SEPERATOR + reportType + Constant.SEPERATOR + fileName;
+			File file = new File(xmlOutputPath + Constant.SEPERATOR + filePath);
 			file.getParentFile().mkdirs();
-			String filePath = file.getAbsolutePath();
 			fr = new FileWriter(file);
 			fr.write(xmlOutputResponse);
 			return filePath;
