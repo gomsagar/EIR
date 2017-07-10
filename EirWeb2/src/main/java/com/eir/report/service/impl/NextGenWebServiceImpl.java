@@ -307,8 +307,9 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 						 {
 							/*byte[] requestedConsXml = consumerRequest.getXmlOutput();
 							ByteArrayInputStream bais = new ByteArrayInputStream(requestedConsXml);*/ //read file from folder instate of database
+							 String filePath = xmlOutputPath + consumerRequest.getXmlOutputPath();
 							 
-							 File fileOutput = new File(consumerRequest.getXmlOutputPath());
+							 File fileOutput = new File(filePath);
 							 ByteArrayInputStream bais = new ByteArrayInputStream(FileUtils.readFileToByteArray(fileOutput));
 								
 							 
@@ -3965,6 +3966,8 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 	{
 		long totSancAmt=0;
 		long totOutAmt=0;
+		long highestCredit = 0;
+		long creditExtended = 0;
 		
 		ArrayList<String> amount = new ArrayList<String>();
 		
@@ -3974,39 +3977,46 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 			{
 				for (Conscred conscred : conscredlist) 
 				{
-					
-					String closeDate =  conscred.getAccountClosedDate();
-		            if (StringUtils.isBlank(closeDate) ) 
-		            {
-		            	String accType = conscred.getAccountType();
-		            	long highestCredit = Long.parseLong(conscred.getBpaygrid().get(0).getHDETAILS().getHighCreditAmt());
-		            	long creditExtended =  Long.parseLong(conscred.getBpaygrid().get(0).getHDETAILS().getCreditExtendedAmt()); 
-		            	
-		            	if(accType.toLowerCase().contains("credit card") || accType.toLowerCase().contains("fleet"))
-		            	{
-		            		 if(highestCredit > 0 && creditExtended <= 0)
-		            		 {
-		            			 totSancAmt = totSancAmt + highestCredit ;
-		            		 }
-		            		 else if(highestCredit <= 0 && creditExtended > 0)
-		            		 {
-		            			 totSancAmt = totSancAmt + creditExtended ;
-		            		 }
-		            	}
-		            	else
-		            	{
-		            		totSancAmt = totSancAmt + creditExtended ;
-		            	}
-		            	
-						int cur = Integer.parseInt(conscred.getCurrentBalance()); 
-						long curBal = Long.valueOf(cur); 
-						totOutAmt = totOutAmt + curBal;
+						
+						String closeDate =  conscred.getAccountClosedDate();
+			            if (StringUtils.isBlank(closeDate) ) 
+			            {
+			            	String accType = conscred.getAccountType();
+			            	if((!conscred.getBpaygrid().get(0).getHDETAILS().getHighCreditAmt().equals("") && !conscred.getBpaygrid().get(0).getHDETAILS().getHighCreditAmt().equals(null)) )
+				            {
+				            	 highestCredit = Long.parseLong(conscred.getBpaygrid().get(0).getHDETAILS().getHighCreditAmt());
+				            	
+				            }
+			            	if(!conscred.getBpaygrid().get(0).getHDETAILS().getCreditExtendedAmt().equals("") && !conscred.getBpaygrid().get(0).getHDETAILS().getCreditExtendedAmt().equals(null))
+			            	{
+			            		 creditExtended =  Long.parseLong(conscred.getBpaygrid().get(0).getHDETAILS().getCreditExtendedAmt()); 
+			            	}	
+				            	if(accType.toLowerCase().contains("credit card") || accType.toLowerCase().contains("fleet"))
+				            	{
+				            		 if(highestCredit > 0 && creditExtended <= 0)
+				            		 {
+				            			 totSancAmt = totSancAmt + highestCredit ;
+				            		 }
+				            		 else if(highestCredit <= 0 && creditExtended > 0)
+				            		 {
+				            			 totSancAmt = totSancAmt + creditExtended ;
+				            		 }
+				            	}
+				            	else
+				            	{
+				            		totSancAmt = totSancAmt + creditExtended ;
+				            	}
+				            	
+								int cur = Integer.parseInt(conscred.getCurrentBalance()); 
+								long curBal = Long.valueOf(cur); 
+								totOutAmt = totOutAmt + curBal;
+							
+					   }
+					   amount.add(String.valueOf(totSancAmt));
+					   amount.add(String.valueOf(totOutAmt));
+							 
+					   return amount ;     
 					}
-				}
-				amount.add(String.valueOf(totSancAmt));
-				amount.add(String.valueOf(totOutAmt));
-					 
-				return amount ;       
 			} 
 			catch (Exception e) 
 			{

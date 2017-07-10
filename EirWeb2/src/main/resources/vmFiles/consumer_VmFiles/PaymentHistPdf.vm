@@ -1,0 +1,65 @@
+ <!-- Payment Details Start -->
+                  
+                  <tr id=pr$count class="sublist">
+                  	#set($count = $count + 1)
+                    <td colspan="9"><div id="payment-grid" class="pymnthist">
+                        <div id="payment-details" class="payment-details-class" style="border:0px">
+                          <table id="payment-details-table" class="tabular_data_wrap  nomargin status" cellspacing="1" border="0">
+                            <tbody>
+                              <tr style="height: 20px;" class="list_header">
+                                <td colspan="37" style="padding-left:3px; background: #E8E8DB !important;">Payment History </td>
+                              </tr>
+							  #set($map = $conscred.paymentHistMap)
+							  #set($i=1)
+                              <tr class="list_header">
+							  #foreach($entry in $map.entrySet())
+							  #if($i == 1)
+                                <td style="text-align: left;padding-right:20px;padding-left:3px;background-color: #f5f0ec !important;">Year</td>
+								#set($i=0)
+							  #end
+                                <td style="text-align: center;background-color: #f5f0ec !important;" colspan=$entry.Value.size()> $entry.Key </td>
+                               #end
+							   #set($i=1)
+                              </tr>
+							  
+                              <tr class="list_header">
+							  #foreach($entry in $map.entrySet())
+							  #if($i == 1)
+                                <td style="padding-left:3px;">Month</td>
+								#set($i=0)
+							  #end
+							  
+								#foreach($bpGrid in $entry.Value)
+                                <td style="text-align:center; padding-left:3px;background-color: #f5f0ec !important;">$bpGrid.Monthvalue </td>
+                               #end
+							   #end
+							   #set($i=1)
+                              </tr>
+                              <tr class="list_header">
+							   #foreach($entry in $map.entrySet())
+							  #if($i == 1)
+                                <td style="padding-left:3px;background-color: #f5f0ec !important;">DPD</td>
+								#set($i=0)
+							  #end
+							  #foreach($bpGrid in $entry.Value)
+                                <td style="padding-left:3px;text-align:center;background-color: #f5f0ec !important;"><span style="color:#0094D9;">$bpGrid.DaysPastDue</span> <span class="daysPastDueCtClass"></span></td>
+                               #end
+							   #end
+                              </tr>
+                              
+                            </tbody>
+							
+                          </table>
+                        
+                        </div>
+                        <div id="negative-indicator"> 
+                          <!-- Start if --> 
+                          
+                          <!-- end If --> 
+                        </div>
+                      </div></td>
+                  </tr>
+                  <tr>
+                    <td style="color: #CC6600;;" colspan="9"></td>
+                  </tr>
+                  <!-- Payment Details End -->

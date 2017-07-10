@@ -51,7 +51,7 @@
 							  	###end
 							  
 					                 
-                 #parse("/vmFiles/consumer_VmFiles/PaymentHist.vm")
+                 #parse("/vmFiles/consumer_VmFiles/PaymentHistPdf.vm")
                   
                   
                   #set($bpaygrids = $conscred.BPAYGRID)
