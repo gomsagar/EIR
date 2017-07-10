@@ -975,10 +975,10 @@ public class EirServiceImpl implements EirService{
 		       {
 		              requestID = Integer.parseInt(input.getRequestId());
 		       }
-		       if(null != input.getFromDate()){
+		       if(null != input.getFromDate() && input.getFromDate().getFormatted() != null && !input.getFromDate().getFormatted().isEmpty()){
 		    	   fromDate = input.getFromDate().getFormatted();
 		       }
-		       if(null != input.getToDate()){
+		       if(null != input.getToDate() && input.getToDate().getFormatted() != null && !input.getToDate().getFormatted().isEmpty()){
 		    	   toDate = input.getToDate().getFormatted();
 		       }
 		  }

@@ -10,8 +10,8 @@ import com.eir.report.entity.ConsumerRequest;
 
 public interface ConsumerRequetRepository extends JpaRepository<ConsumerRequest, Integer> {
 	
-	@Query(value = "select con.REQUEST_ID, s.STATUS_DESCRIPTION from eir.CONSUMER_REQUEST con inner join REQUEST r on r.REQUEST_ID = con.REQUEST_ID "
-			+"inner join STATUS s on con.STATUS_ID = s.STATUS_ID where con.REQUEST_ID =:requestID",
+	@Query(value = "select con.REQUEST_ID, s.STATUS_DESCRIPTION from eir.CONSUMER_REQUEST con inner join eir.REQUEST r on r.REQUEST_ID = con.REQUEST_ID "
+			+"inner join eir.STATUS s on con.STATUS_ID = s.STATUS_ID where con.REQUEST_ID =:requestID",
 			nativeQuery=true)
 	public List<Object[]> getConsumerRequestByRequestId(@Param("requestID") Integer requestID);
 	
