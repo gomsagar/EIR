@@ -47,8 +47,14 @@ public class CreateReport {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");	
 			SimpleDateFormat sdf2 = new SimpleDateFormat("MMM/yyyy");
 			
+			SimpleDateFormat format1 = new SimpleDateFormat("ddmmyyyy");
+			SimpleDateFormat format2 = new SimpleDateFormat("dd/mm/yy");
+			
 			context.put("sdf", sdf);
 			context.put("sdf2", sdf2);
+			
+			context.put("format1", format1);
+			context.put("format2", format2);
 			
 			if(!isPdf)
 			{
@@ -66,7 +72,7 @@ public class CreateReport {
 				StringWriter writer1 = new StringWriter();
 				template.merge(context, writer1);
 				String pdfConsOutput = writer1.toString();
-				//createHtml(pdfConsOutput);
+				createHtml(pdfConsOutput);
 				//createPdf(pdfConsOutput);
 				return pdfConsOutput;
 			}
@@ -83,7 +89,7 @@ public class CreateReport {
 	public void createHtml(String value)
 	{
 	
-	        File file = new File("D:/output");
+	        File file = new File("J:/output");
 	        FileWriter fileWriter = null;
 			
 			if (!file.exists())

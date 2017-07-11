@@ -318,8 +318,8 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 				            SOAPMessage message = MessageFactory.newInstance().createMessage(null, bais );
 				            Unmarshaller unmarshaller = JAXBContext.newInstance(com.experian.nextgen.ind.model.consumer.uofpojo.ResponseInfo.class).createUnmarshaller();
 				            com.experian.nextgen.ind.model.consumer.uofpojo.ResponseInfo responseInfoCons = (com.experian.nextgen.ind.model.consumer.uofpojo.ResponseInfo)unmarshaller.unmarshal(message.getSOAPBody().extractContentAsDocument());
-				           
-						    setPaymentHistoryMap(responseInfoCons);
+				            
+				            setPaymentHistoryMap(responseInfoCons);
 							
 							responseInfoList.add(responseInfoCons);
 						

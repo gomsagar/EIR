@@ -18,13 +18,16 @@
                     <td><b>Bank Account</b></td>
                   </tr>
                   <tr>
-                    <!--<td width="15%">#set($value="#emptyDataCheck($!curDetails.dateTime)")$value&nbsp;&nbsp;
-                      <p></p></td>-->
-                      <td></td>
+                  
+                  #set($value="#emptyDataCheck($!responseInfo.ConsumerResponse.CONSBRPT.BurRptDate)")$value
+                  
+                  ##set($date="#formatdate($value)")
+                  #set($time="#emptyDataCheck($!responseInfo.ConsumerResponse.CONSBRPT.BurRptTime)")
+                  #set($dateTime= $date + " " + $time)
+                    <td width="15%">$dateTime</td>
                     <td>#set($value="#emptyDataCheck($!responseInfo.ConsumerResponse.NGINQUIRY.ClientEnquiryRefNumber)")$value</td>
                     <td>#set($value="#emptyDataCheck($!responseInfo.ConsumerResponse.NGINQUIRY.InqBureauMemberName)")$value</td>
-                   <!-- <td>#set($value="#emptyDataCheck($!responseInfo.ConsumerResponse.NGINQUIRY.ClientEnquiryRefNumber)")$value</td>-->
-                    <td></td>
+                    <td>#set($value="#emptyDataCheck($!responseInfo.ConsumerResponse.NGINQUIRY.InqBureauMemberId)")$value</td>
                     <td>#set($value="#emptyDataCheck($!responseInfo.ConsumerResponse.NGINQUIRY.InqAcctTypeCd)")$value</td>
                     <td class="txtright">#set($value="#emptyDataCheck($!responseInfo.ConsumerResponse.NGINQUIRY.InqAmt)")$value</td>
                     <td>#set($value="#emptyDataCheck($!responseInfo.ConsumerResponse.NGINQUIRY.InqFinRespCd)")$value</td>

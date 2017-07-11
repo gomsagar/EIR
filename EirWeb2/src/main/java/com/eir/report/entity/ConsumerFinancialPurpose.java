@@ -1,3 +1,4 @@
+
 package com.eir.report.entity;
 
 import javax.persistence.Basic;

@@ -21,10 +21,10 @@
                     <td style=width:12%>Click to View</td>
                   </tr>
                   <tr class="list listh" id="R0">
-                    <td style="width:11%">#set($value="#emptyDataCheck($enqrhist.dateTime)")$value</td>
+                    <td style="width:11%">#set($date="#emptyDataCheck($enqrhist.EnquiryDate)")$date</td>
                     <td style="width:08%">#set($value="#emptyDataCheck($enqrhist.EnquiryRefNum)")$value</td>
                     <td style="width:10%">#set($value="#emptyDataCheck($enqrhist.BureauMemberName)")$value</td>
-                    <td style="width:10%">#set($value="#emptyDataCheck($enqrhist.creditProvider)")$value</td>
+                    <td style="width:10%">#set($value="#emptyDataCheck($enqrhist.BureauMemberId)")$value</td>
                     <td style="width:10%">#set($value="#emptyDataCheck($enqrhist.EnquiryAccountType)")$value</td>
                     <td style="width:10%;text-align: right;">#set($value="#emptyDataCheck($enqrhist.EnquiryAmount)")$value</td>
                     <td style="width:10%">#set($value="#emptyDataCheck($enqrhist.EnquiryFinRespCd)")$value</td>

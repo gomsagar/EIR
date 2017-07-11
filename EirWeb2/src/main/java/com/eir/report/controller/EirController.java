@@ -56,7 +56,7 @@ public class EirController {
 	EirService eirService;
 	
 	@Autowired
-	BirReportService birService;
+	BirReportService birService; 
 	
 	@Autowired
 	NextGenWebService nextGenWebService; 

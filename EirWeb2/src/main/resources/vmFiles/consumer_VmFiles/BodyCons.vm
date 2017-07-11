@@ -1,9 +1,9 @@
 		##  Trim string ##
-	#macro(trimInput $date)
+	#macro(trimInput $var)
 	#set($str = "margin-left:~margin~px;")
 		#set($value=0.0)
-		#if($StringUtils.isNotEmpty($date))
-			#set($value=$Float.valueOf($date))
+		#if($StringUtils.isNotEmpty($var))
+			#set($value=$Float.valueOf($var))
 			#set($value=$value*2.9)
 			#set($align=$StringUtils.replace($str, "~margin~", $value.toString().trim()))
 			#set($align=$StringUtils.deleteWhitespace($align))
@@ -13,31 +13,42 @@
 		$align
 	#end
 	
-	#macro(emptyDataCheck $emptyDataIndicator)
-	  	#set($currenyByteArray="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAQBAMAAAACH4lsAAAAMFBMVEX/////wX4zMzMzfsH//9+gWjN+wf+gWlqg3//BfjP//8F+M37B//9aoN//36BaM34Y0ZRzAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAAAEgAAABIAEbJaz4AAAAqSURBVAjXY2AgHggpKcOYrgmYYu4NMDE1uJZpcNbqAzAW5wUYi+8PQTsBmU8GN1MaUKwAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTctMDEtMjRUMDQ6MzI6NDEtMDU6MDBWW/dcAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE3LTAxLTI0VDA0OjMyOjQxLTA1OjAwJwZP4AAAAABJRU5ErkJggg==")
-		#if($StringUtils.isEmpty($emptyDataIndicator))
-			#set($emptyDataIndicator="-")
-		#elseif($emptyDataIndicator=="0")
-			#set($emptyDataIndicator="-")
-		#end
-	$emptyDataIndicator
-	#end		
+#macro(emptyDataCheck $emptyDataIndicator)##
+#set($currenyByteArray="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAQBAMAAAACH4lsAAAAMFBMVEX/////wX4zMzMzfsH//9+gWjN+wf+gWlqg3//BfjP//8F+M37B//9aoN//36BaM34Y0ZRzAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAAAEgAAABIAEbJaz4AAAAqSURBVAjXY2AgHggpKcOYrgmYYu4NMDE1uJZpcNbqAzAW5wUYi+8PQTsBmU8GN1MaUKwAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTctMDEtMjRUMDQ6MzI6NDEtMDU6MDBWW/dcAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE3LTAxLTI0VDA0OjMyOjQxLTA1OjAwJwZP4AAAAABJRU5ErkJggg==")##
+#if($StringUtils.isEmpty($emptyDataIndicator))##
+#set($emptyDataIndicator="-")##
+#elseif($emptyDataIndicator=="0")##
+#set($emptyDataIndicator="-")##
+#end##
+$emptyDataIndicator##
+#end##	
 	
-	#macro(trimVar $value1)
-		#set($var=1)
-		#if($StringUtils.isNotEmpty($value1))
-			#set($value1=$value.trim())
-			#set($value1=$StringUtils.deleteWhitespace($value1))
-		#else
-			#set($value1="-")
-		#end
-		#if($value1 eq "-")
-			#set($var=0)
-		#else
-			#set($var=1)
-		#end
-	$var
-	#end
+#macro(trimVar $value1)
+#set($var=1)
+#if($StringUtils.isNotEmpty($value1))
+#set($value1=$value.trim())
+#set($value1=$StringUtils.deleteWhitespace($value1))
+#else
+#set($value1="-")
+#end
+#if($value1 eq "-")
+#set($var=0)
+#else
+#set($var=1)
+#end
+$var
+#end
+		
+##Format Date##
+#macro(formatdate $date)##
+#if($StringUtils.isNotEmpty($date))##
+#set($date=$sdf.format($date))##
+#else##
+#set($date="-")##
+#end##
+$date##
+#end##
+		
 		
 		#set($credit="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANgAAAAQCAYAAAB0m7E0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAE8SURBVGhD7ZohbsNAEEV9vsIeqecIDSyplIBKLrG0BpGWRHJAJRcEGBQsCFgQMJ0Z243CsnLM3pd+nsc2fVrb2UosV/+VfM0QwieyMrn6c5LdodcON7YQwmKqP/VE88oF23x28vpWy4sWQvgcbtWrKuesB/3/ybnMzMzLZvOqSpckm328uwlCuJzmVZVSku6kz4xNlN1XlPd98G4/IISltJpH5lN3shVMBet/eh06CYcgoQ1SN7WEBkJYTPXHPDKfzCsXbBgGP9Edb5JRSssa2zjKpR6ZT+aVv4PZwXBWyb7HC36DNh51mYMQPk7zRz0yn1ww+4qYL1nSb/K6bJNwEMJCameXzCv/H8wl09rjoq1oTkppeSd/ZqdcsHlbxywbhHAhp+1S7EWEcEWOghFCVgmCEbJiEIyQ1SLyB2oK4srxcuTXAAAAAElFTkSuQmCC")
 		
