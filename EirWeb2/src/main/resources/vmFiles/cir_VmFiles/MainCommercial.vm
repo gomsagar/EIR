@@ -364,8 +364,7 @@ $emptyDataIndicator
 	               
 	               #parse("/vmFiles/cir_VmFiles/CurrentApplicationDetails.vm")
 	               
-	               #set($chck = $reportDetails.score)
-	               #if($chck.isscore == 1)
+	               #if($reportType == "CIRWS" || $reportType == "CWS")
 	               #parse("/vmFiles/cir_VmFiles/Score.vm")
 	               #end
 	               
@@ -469,4 +468,5 @@ $emptyDataIndicator
                   <td height="25" bgcolor="#FFFFFF" class="paymentmodeData" style="text-align:center;">&copy; Experian Ltd, $year. All rights reserved.</td>
                </tr>
             </table>
+            <pd4ml:page.break/>
    </body>

@@ -17,6 +17,7 @@ import org.apache.velocity.app.VelocityEngine;
 import com.eir.commercial.domains.CommonUtilityService;
 import com.eir.domain.EIRDomain;
 import com.eir.report.constant.Constant;
+import com.eir.report.constant.IndustryType;
 import com.experian.nextgen.ind.model.consumer.uofpojo.Bpaygrid;
 
 public class CreateReport {
@@ -42,6 +43,7 @@ public class CreateReport {
 			context.put("StringUtils", StringUtils.class);
 			context.put("Math", Math.class);
 			context.put("Double", Double.class);
+			context.put("industryType",new IndustryType());
 			context.put("reportType",reportType);
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");	
@@ -61,7 +63,7 @@ public class CreateReport {
 			StringWriter writer = new StringWriter();
 			template.merge(context, writer);
 			String htmlConsOutput = writer.toString();
-			createHtml(htmlConsOutput);
+		//	createHtml(htmlConsOutput);
 			
 			return htmlConsOutput;
 			
@@ -72,7 +74,7 @@ public class CreateReport {
 				StringWriter writer1 = new StringWriter();
 				template.merge(context, writer1);
 				String pdfConsOutput = writer1.toString();
-				createHtml(pdfConsOutput);
+			    createHtml(pdfConsOutput);
 				//createPdf(pdfConsOutput);
 				return pdfConsOutput;
 			}

@@ -1143,8 +1143,11 @@ public class EirServiceImpl implements EirService{
 				//ProductMaster master = productMasterRepository.findByproductId(reportSelection.getProductId());
 				
 				birObject.setBirReportStatus(request.getBirRequests().getStatus().getStatusDescription());
+				if(null != request.getBirRequests().getCreateUserDate() && null != request.getBirRequests().getCreateUserDate()
+						&& null != request.getBirRequests().getUpdateUserDate() && null != request.getBirRequests().getUpdateUserDate()){
 				birObject.setBirRequestDate(formatDate(request.getBirRequests().getCreateUserDate().toString()));
 				birObject.setBirResponseDate(formatDate(request.getBirRequests().getUpdateUserDate().toString()));
+				}
 				birObject.setBirMessage("Report Created and Ready to View");
 				if(birProduct.length > 0)
 				birObject.setBirTats(birProduct[0].toString());
@@ -1158,14 +1161,20 @@ public class EirServiceImpl implements EirService{
 				if(null == score || score.equalsIgnoreCase(Constant.CONS_N) ){
 					
 					comboWithoutScoreObject.setComboWithoutScoreReportStatus(request.getCirRequets().getStatus().getStatusDescription());
+					if(null != request.getCirRequets().getCreateUserDate() && null != request.getCirRequets().getCreateUserDate()
+							&& null != request.getCirRequets().getUpdateUserDate() && null != request.getCirRequets().getUpdateUserDate()){
 					comboWithoutScoreObject.setComboWithOutScoreRequestDate(formatDate(request.getCirRequets().getCreateUserDate().toString()));
 					comboWithoutScoreObject.setComboWithOutScoreResponseDate(formatDate(request.getCirRequets().getUpdateUserDate().toString()));
+					}
 					comboWithoutScoreObject.setComboWithOutScoreMessage("Report Created and Ready to View");
 					
 				}else{
 					comboWithScoreObject.setComboWithScoreReportStatus(request.getCirRequets().getStatus().getStatusDescription());
+					if(null != request.getCirRequets().getCreateUserDate() && null != request.getCirRequets().getCreateUserDate()
+							&& null != request.getCirRequets().getUpdateUserDate() && null != request.getCirRequets().getUpdateUserDate()){
 					comboWithScoreObject.setComboWithScoreRequestDate(formatDate(request.getCirRequets().getCreateUserDate().toString()));
 					comboWithScoreObject.setComboWithScoreResponseDate(formatDate(request.getCirRequets().getUpdateUserDate().toString()));
+					}
 					comboWithScoreObject.setComboWithScoreMessage("Report Created and Ready to View");
 				}
 			}else if(null != request.getCirRequets() && null != request.getCirRequets().getCirRequestId()){	
@@ -1173,14 +1182,20 @@ public class EirServiceImpl implements EirService{
 				// set cir details			
 				if(null == score || score.equalsIgnoreCase(Constant.CONS_N) ){
 					cirWithOutScoreObject.setCirWithOutScoreReportStatus(request.getCirRequets().getStatus().getStatusDescription());
+					if(null != request.getCirRequets().getCreateUserDate() && null != request.getCirRequets().getCreateUserDate()
+							&& null != request.getCirRequets().getUpdateUserDate() && null != request.getCirRequets().getUpdateUserDate()){
 					cirWithOutScoreObject.setCirWithOutScoreRequestDate(formatDate(request.getCirRequets().getCreateUserDate().toString()));
 					cirWithOutScoreObject.setCirWithOutScoreResponseDate(formatDate(request.getCirRequets().getUpdateUserDate().toString()));
+					}
 					cirWithOutScoreObject.setCirWithOutScoreMessage("Report Created and Ready to View");
 					
 				}else{
 				cirWithScoreObject.setCirWithScoreReportStatus(request.getCirRequets().getStatus().getStatusDescription());
+				if(null != request.getCirRequets().getCreateUserDate() && null != request.getCirRequets().getCreateUserDate()
+						&& null != request.getCirRequets().getUpdateUserDate() && null != request.getCirRequets().getUpdateUserDate()){
 				cirWithScoreObject.setCirWithScoreRequestDate(formatDate(request.getCirRequets().getCreateUserDate().toString()));
 				cirWithScoreObject.setCirWithScoreResponseDate(formatDate(request.getCirRequets().getUpdateUserDate().toString()));
+				}
 				cirWithScoreObject.setCirWithScoreMessage("Report Created and Ready to View");
 				}
 			}

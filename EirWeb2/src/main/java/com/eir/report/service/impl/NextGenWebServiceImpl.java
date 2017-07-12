@@ -307,7 +307,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 						 {
 							/*byte[] requestedConsXml = consumerRequest.getXmlOutput();
 							ByteArrayInputStream bais = new ByteArrayInputStream(requestedConsXml);*/ //read file from folder instate of database
-							 String filePath = xmlOutputPath + consumerRequest.getXmlOutputPath();
+							 String filePath = xmlOutputPath + Constant.SEPERATOR + consumerRequest.getXmlOutputPath();
 							 
 							 File fileOutput = new File(filePath);
 							 ByteArrayInputStream bais = new ByteArrayInputStream(FileUtils.readFileToByteArray(fileOutput));
@@ -335,7 +335,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 			
 			catch (Exception e) 
 			{
-				logger.error("NextGenWebServiceImpl:getCIRReport(), Nextgen service call fail:  ", e);
+				logger.debug("NextGenWebServiceImpl:getCIRReport(), Nextgen service call fail:  ", e);
 			}
 		}
 		return null;
@@ -3788,7 +3788,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		
 		summaryDetails.setCompanyDetails(cirReportDetails.getCompanyDetails());
 		//summaryDetails.setScoreCom(score.getScore());
-		summaryDetails.setScoreCom(735);
+		summaryDetails.setScoreCom(cirReportDetails.getScore().getScore());
         //Boolean check = piData.isDelphiScoreChk();
 		boolean check = true;
         if(check)

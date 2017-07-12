@@ -3,6 +3,7 @@
     margin: 0px;
     padding: 0px;
     font: 12px arial;
+    font-family:DINNextLTPro-Regular; 
     color: #4D4D4D;
     border: 0px;
     text-decoration: none;
@@ -186,7 +187,7 @@ table tr td {
     padding: 25px 0 0 19px;
     font-size: 2.250em;
     color: #2982c7;
-    font-family: 'GrotesqueMTLight', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family:DINNextLTPro-Regular; 
 }
 #model-score .rate-dsp p {
     margin-left: 60px;

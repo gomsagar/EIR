@@ -69,8 +69,7 @@
 	
 		#parse("/vmFiles/combo_Vmfiles/header.vm")
 		
-		#set($delphiChck = $comboSummaryDetails.delphiChck)
-		#if($delphiChck == 1)
+		#if($reportType == "CWS")
 			#parse("/vmFiles/combo_Vmfiles/companyInfo.vm")
 			#parse("/vmFiles/combo_Vmfiles/identifiers.vm")
 		#else
