@@ -5,7 +5,14 @@ public class CIRWithOutScoreObject {
 	String cirWithOutScoreRequestDate;
 	String cirWithOutScoreResponseDate;
 	String cirWithOutScoreMessage;
+	Integer cirRequestId;
 	
+	public Integer getCirRequestId() {
+		return cirRequestId;
+	}
+	public void setCirRequestId(Integer cirRequestId) {
+		this.cirRequestId = cirRequestId;
+	}	
 	public String getCirWithOutScoreReportStatus() {
 		return cirWithOutScoreReportStatus;
 	}

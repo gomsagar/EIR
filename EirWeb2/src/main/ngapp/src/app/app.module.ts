@@ -16,6 +16,7 @@ import{ConsumerComponent} from './component/eir.consumer';
 import {ControlMessages} from './services/control.message.component';
 import { DatePickerModule } from 'ng2-datepicker';
 import { KycComponent } from './component/eir.KycComponent';
+import { APP_CONFIG, AppConfig } from './app.config';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -41,7 +42,7 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
      DatePickerModule
   ],
-  providers: [RouterModule,ReactiveFormsModule],
+  providers: [RouterModule,ReactiveFormsModule,{ provide: APP_CONFIG, useValue: AppConfig }],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

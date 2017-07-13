@@ -225,6 +225,17 @@ public class CirRequest implements Serializable {
 	@JoinColumns({ @JoinColumn(name = "request_id", referencedColumnName = "request_id") })
 	@XmlTransient
 	Request request;
+	
+	@Column(name = "with_score", length = 1)
+	String withScore;
+
+	public String getWithScore() {
+		return withScore;
+	}
+
+	public void setWithScore(String withScore) {
+		this.withScore = withScore;
+	}
 
 	/**
 	 */

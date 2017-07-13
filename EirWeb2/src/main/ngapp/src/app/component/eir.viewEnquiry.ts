@@ -1,8 +1,10 @@
-import { Component,Input } from '@angular/core';
+import { Component,Input,Inject } from '@angular/core';
 import { Router,ActivatedRoute} from '@angular/router';
 import{AppService} from '../services/eir.callController';
 import{DataService} from '../services/eir.getData';
 import {ViewEarlierRequestComponent} from './eir.viewEarlierRequest';
+import { APP_CONFIG, IAppConfig } from '../app.config';
+
 @Component({
   selector: 'viewEnquiryComponent',
   templateUrl: '../html/ViewEnquiry.html',
@@ -27,7 +29,11 @@ export class ViewEnquiryComponent
     private isPDF:Boolean;
     private htmlString;
     nativeWindow: any;
-    
+    private cirRequestId;
+    private birRequestId;
+    private consumerRequestId;
+    private reSubmitData = <any>[];
+    public serviceUrl : string;
     ngOnInit(){
           this._appService.getViewRequest(this.requestId).subscribe((viewRequestData) =>{          
             
@@ -38,17 +44,20 @@ export class ViewEnquiryComponent
              this.cirWithOutScoreObject = viewRequestData.cirWithOutScoreObject;
              this.comboWithScoreObject = viewRequestData.comboWithScoreObject;
              this.comboWithOutScoreObject = viewRequestData.comboWithOutScoreObject;
+//debugger;
+             
 
-            this.btnCIRWS    = this.statusButton(viewRequestData.cirWithScoreObject.cirWithScoreReportStatus);
-            this.btnCIRWOS   = this.statusButton(viewRequestData.cirWithOutScoreObject.cirWithOutScoreReportStatus);
-            this.btnCOMBOWS  = this.statusButton(viewRequestData.comboWithScoreObject.comboWithScoreReportStatus);
-            this.btnCOMBOWOS = this.statusButton(viewRequestData.comboWithOutScoreObject.comboWithoutScoreReportStatus);
-            this.btnBIR      = this.statusButton(viewRequestData.birObject.birReportStatus);
+            // this.btnCIRWS    = this.statusButton(viewRequestData.cirWithScoreObject.cirWithScoreReportStatus);
+            // this.btnCIRWOS   = this.statusButton(viewRequestData.cirWithOutScoreObject.cirWithOutScoreReportStatus);
+            // this.btnCOMBOWS  = this.statusButton(viewRequestData.comboWithScoreObject.comboWithScoreReportStatus);
+            // this.btnCOMBOWOS = this.statusButton(viewRequestData.comboWithOutScoreObject.comboWithoutScoreReportStatus);
+            // this.btnBIR      = this.statusButton(viewRequestData.birObject.birReportStatus);
 
     });
 
 }
-    constructor(private router: Router,private _appService:AppService,private _dataService:DataService,private _routeParams: ActivatedRoute){
+    constructor(private router: Router,private _appService:AppService,private _dataService:DataService,
+    private _routeParams: ActivatedRoute, @Inject(APP_CONFIG) private config: IAppConfig){
       this.nativeWindow = _appService.getNativeWindow();
         this._routeParams.queryParams.subscribe(params => {this.requestId = params['requestId'] || 1});  
      this.birObject = [];
@@ -63,6 +72,7 @@ export class ViewEnquiryComponent
      this.btnCOMBOWS = "";
      this.btnCOMBOWOS = "";
      this.btnBIR = "";
+     this.serviceUrl = this.config.apiEndpointForLocalHost;
 
   }
    back()
@@ -74,56 +84,81 @@ export class ViewEnquiryComponent
     {
         this.isPDF = true;
         console.log("Download called");
-        var url = "http://localhost:8080/EirWeb2/eir/getPDFReport?requestId="+this.requestId +"&reportType=" + reportType +"&isPdf=" + this.isPDF;
-        var newWindow = this.nativeWindow.open(url);   
-        // this._dataService.getRequestedPDFReport(this.requestId,reportType,this.isPDF).subscribe(() => 
-        //  {      
-        // });
+        var url = this.serviceUrl+ "getPDFReport?requestId="+this.requestId +"&reportType=" + reportType +"&isPdf=" + this.isPDF;
+        var newWindow = this.nativeWindow.open(url);           
     }
 
-    RESUBMIT()
+    resubmit(reportType)
     {
          console.log("RESUBMIT called");
         console.log("finised");
+        debugger;
+        if(reportType == 'CIRWS'){
+            this._appService.sendReSubmitRequestForCIR(this.cirWithScoreObject.cirRequestId,this.cirWithScoreObject).subscribe((cirWithScoreObject) => {
+                this.cirWithScoreObject = cirWithScoreObject;
+            });
+        }
+        if(reportType == 'CIRWOS'){
+            this._appService.sendReSubmitRequestForCIR(this.cirWithScoreObject.cirRequestId,this.cirWithOutScoreObject).subscribe((cirWithScoreObject) => {
+                     this.cirWithOutScoreObject =cirWithScoreObject;
+                        
+            });
+        }
+        if(reportType == 'CWS'){
+            this._appService.sendReSubmitRequestForCombo(this.requestId,this.comboWithScoreObject).subscribe((comboWithScoreObject) => {
+                this.comboWithScoreObject = comboWithScoreObject;
+                        
+            });
+        }
+        if(reportType == 'CWOS'){
+            this._appService.sendReSubmitRequestForCombo(this.requestId,this.comboWithOutScoreObject).subscribe((comboWithOutScoreObject) => {
+                console.log(comboWithOutScoreObject);
+                 this.comboWithOutScoreObject = comboWithOutScoreObject;                        
+            });
+        }
+        if(reportType == 'BIR'){
+            this._appService.sendReSubmitRequestForBIR(this.requestId,this.birObject.birRequestId).subscribe((earlierRequestData) => {
+            });
+        }
     }
 
-    VIEW(reportType)
+    view(reportType)
     {
         console.log("Inside view method");        
         this.isPDF = false;
          console.log("VIEW called");
                
-        var url = "http://localhost:8080/EirWeb2/eir/getHTMLReport?requestId="+this.requestId +"&reportType=" + reportType +"&isPdf=" + this.isPDF;
+        var url =this.serviceUrl+ "getHTMLReport?requestId="+this.requestId +"&reportType=" + reportType +"&isPdf=" + this.isPDF;
         var newWindow = this.nativeWindow.open(url);   
     }
 
-    submit(value,reportType)
-    {
-        if(value == "RESUBMIT")
-        {
-            this.RESUBMIT();
-        }
-        else if(value == "VIEW")
-        {
-            this.VIEW(reportType);
-        }
-    }
+    //submit(value,reportType)
+    //{
+        // if(value == "RESUBMIT")
+        // {
+        //     this.RESUBMIT(reportType);
+        // }
+        // else if(value == "VIEW")
+        // {
+        //     this.VIEW(reportType);
+        // }
+   // }
 
-    statusButton(status)
-    {
-        if(status =="Completed")
-        {
-           this.btnStatus = "VIEW";
-        }
-        else if(status=="In Process")
-        {
-            this.btnStatus = "";
-        }
-        else if(status=="Error")
-        {
-            this.btnStatus = "RESUBMIT";
-        }
+    // statusButton(status)
+    // {
+    //     if(status =="Completed")
+    //     {
+    //        this.btnStatus = "VIEW";
+    //     }
+    //     else if(status=="In Process")
+    //     {
+    //         this.btnStatus = "";
+    //     }
+    //     else if(status=="Error")
+    //     {
+    //         this.btnStatus = "RESUBMIT";
+    //     }
         
-        return this.btnStatus;
-    }
+    //     return this.btnStatus;
+    // }
 }

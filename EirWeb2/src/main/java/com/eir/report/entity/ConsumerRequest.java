@@ -56,7 +56,7 @@ public class ConsumerRequest implements Serializable {
 		allocationSize=1
 	)
 	@XmlElement
-	Integer consumerRequetId;
+	Integer consumerRequestId;
 	/**
 	 */
 
@@ -361,14 +361,14 @@ public class ConsumerRequest implements Serializable {
 	
 	/**
 	 */
-	public void setConsumerRequetId(Integer consumerRequetId) {
-		this.consumerRequetId = consumerRequetId;
+	public void setConsumerRequestId(Integer consumerRequetId) {
+		this.consumerRequestId = consumerRequetId;
 	}
 
 	/**
 	 */
-	public Integer getConsumerRequetId() {
-		return this.consumerRequetId;
+	public Integer getConsumerRequestId() {
+		return this.consumerRequestId;
 	}
 
 	/**
@@ -471,7 +471,7 @@ public class ConsumerRequest implements Serializable {
 
 		StringBuilder buffer = new StringBuilder();
 
-		buffer.append("consumerRequetId=[").append(consumerRequetId).append("] ");
+		buffer.append("consumerRequetId=[").append(consumerRequestId).append("] ");
 		buffer.append("xmlOutput=[").append(xmlOutput).append("] ");
 		buffer.append("score=[").append(score).append("] ");
 		buffer.append("status=[").append(statusId).append("] ");

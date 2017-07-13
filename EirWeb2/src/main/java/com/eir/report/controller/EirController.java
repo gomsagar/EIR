@@ -229,9 +229,10 @@ public class EirController {
 		return flag;		
 	}
 	
+	@Transactional
 	@CrossOrigin("*")
 	@RequestMapping(value="/createEnquiry", method = RequestMethod.POST,produces="application/json")
-	public String createEnquiry(@RequestBody MultipleRequest input , HttpServletRequest request ){
+	public @ResponseBody String createEnquiry(@RequestBody MultipleRequest input , HttpServletRequest request ){
 	
 		request.getSession().setAttribute("userId", "EIR");
 		System.out.println("session id - : "+request.getSession().getAttribute("userId"));
@@ -240,7 +241,7 @@ public class EirController {
 		
 		Request requestObj = eirService.createRequest(input , request);
 				
-	   return "" ;
+	   return requestObj.getStatus().getStatusDescription() ;
 	}
 	
 	@CrossOrigin("*")
@@ -321,5 +322,32 @@ public class EirController {
 		ViewEnquiryObject viewEnquiresObject = eirService.getRequestByRequestId(requestId);		
 		return viewEnquiresObject;
 	}
+	
+	@CrossOrigin("*")
+    @RequestMapping(value = "/reSubmitRequestForBIR", method = RequestMethod.GET)
+    public void getResubmitedDataForBIR(@RequestParam("birRequestId") Integer birRequestId) 
+    {
+         
+           eirService.getResubmitedBIRData(birRequestId);              
+          // return viewEnquiresObjectList;
+    }
+	
+	@Transactional
+	@CrossOrigin("*")
+    @RequestMapping(value = "/reSubmitRequestForCombo", method = RequestMethod.POST)
+    public @ResponseBody Object getReSubmitRequestForCombo(@RequestParam("requestId") Integer requestId) 
+    {
+		Object object = eirService.getResubmitedComboData(requestId);              
+		return object;
+    }
+
+	@Transactional
+	@CrossOrigin("*")
+    @RequestMapping(value = "/reSubmitRequestForCIR", method = RequestMethod.POST)
+    public @ResponseBody Object getReSubmitRequestForCIR(@RequestParam("cirRequestId") Integer cirRequestId) 
+    {
+         Object object = eirService.getResubmitedCIRData(cirRequestId);              
+        return object;
+    }
 	
 }

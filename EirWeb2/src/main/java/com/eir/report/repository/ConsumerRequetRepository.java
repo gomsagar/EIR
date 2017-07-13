@@ -6,9 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.eir.report.entity.CirRequest;
 import com.eir.report.entity.ConsumerRequest;
 
 public interface ConsumerRequetRepository extends JpaRepository<ConsumerRequest, Integer> {
+	
+	public List<ConsumerRequest> findByConsumerRequestId(Integer requestId);
 	
 	@Query(value = "select con.REQUEST_ID, s.STATUS_DESCRIPTION from eir.CONSUMER_REQUEST con inner join eir.REQUEST r on r.REQUEST_ID = con.REQUEST_ID "
 			+"inner join eir.STATUS s on con.STATUS_ID = s.STATUS_ID where con.REQUEST_ID =:requestID",

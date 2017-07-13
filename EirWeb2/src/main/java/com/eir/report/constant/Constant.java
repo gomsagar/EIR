@@ -41,4 +41,6 @@ public class Constant {
 	public static final Integer RETRY_COUNT = 3;
 	
 	public static final String HTML_FILE_PATH = "C:/output/HTMLReport.html";
+	
+	public static final String STATUS_DESCRIPTION_ERROR = "ERROR";
 }

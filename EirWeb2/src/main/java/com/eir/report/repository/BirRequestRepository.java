@@ -25,6 +25,8 @@ public interface BirRequestRepository extends JpaRepository<BirRequest, Integer>
 	public List<BirRequest> findByStatus(Status status);
 	public List<BirRequest> getByStatus(Integer statusId);
 	
+	public BirRequest findByBirRequestId(Integer birRequestId);
+	
 	@Query(value = "select br.REQUEST_ID,s.STATUS_DESCRIPTION from eir.BIR_REQUEST br inner join eir.REQUEST r on r.REQUEST_ID = br.REQUEST_ID "
 			+"inner join eir.STATUS s on br.STATUS_ID = s.STATUS_ID where br.REQUEST_ID =:requestID",
 			nativeQuery=true)

@@ -5,7 +5,14 @@ public class ComboWithScoreObject {
 	String comboWithScoreRequestDate;
 	String comboWithScoreResponseDate;
 	String comboWithScoreMessage;
+	Integer consumerRequestId;
 	
+	public Integer getConsumerRequestId() {
+		return consumerRequestId;
+	}
+	public void setConsumerRequestId(Integer consumerRequestId) {
+		this.consumerRequestId = consumerRequestId;
+	}
 	public String getComboWithScoreReportStatus() {
 		return comboWithScoreReportStatus;
 	}

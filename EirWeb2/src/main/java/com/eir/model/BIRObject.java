@@ -7,6 +7,14 @@ public class BIRObject {
 	String birResponseDate;
 	String birMessage;
 	String birTats;
+	Integer birRequestId;
+	
+	public Integer getBirRequestId() {
+		return birRequestId;
+	}
+	public void setBirRequestId(Integer birRequestId) {
+		this.birRequestId = birRequestId;
+	}
 	public String getBirReportStatus() {
 		return birReportStatus;
 	}

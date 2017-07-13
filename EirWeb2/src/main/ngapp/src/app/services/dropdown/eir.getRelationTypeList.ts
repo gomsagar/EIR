@@ -1,12 +1,13 @@
 import { Injectable, Inject } from '@angular/core';
 import {Http, Headers} from "@angular/http";
 import 'rxjs/add/operator/map';
+import { APP_CONFIG, IAppConfig } from '../../app.config';
 
 @Injectable()
 export class RelationTypeList {
-
-    constructor(private _http:Http) {
-
+    public serviceUrl : string;
+    constructor(private _http:Http, @Inject(APP_CONFIG) private config: IAppConfig) {
+        this.serviceUrl = this.config.apiEndpointForLocalHost;
     }
 
     getRelationTypeList() {
@@ -14,6 +15,6 @@ export class RelationTypeList {
         var headr = new Headers();
         headr.append('Content-Type', 'application/json');
          
-        return this._http.get('http://localhost:8080/EirWeb2/eir/getRelationTypeList').map(res=>res.json());
+        return this._http.get(this.serviceUrl+ 'getRelationTypeList').map(res=>res.json());
     }
 }

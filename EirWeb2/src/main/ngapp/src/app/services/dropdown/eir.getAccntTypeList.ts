@@ -1,12 +1,15 @@
 import { Injectable, Inject } from '@angular/core';
 import {Http, Headers} from "@angular/http";
 import 'rxjs/add/operator/map';
+import { APP_CONFIG, IAppConfig } from '../../app.config';
 
 @Injectable()
 export class AccountTyprList {
 
-    constructor(private _http:Http) {
+public serviceUrl : string;
 
+    constructor(private _http:Http, @Inject(APP_CONFIG) private config: IAppConfig) {
+        this.serviceUrl = this.config.apiEndpointForLocalHost;
     }
 
     getAccnTypeList() {
@@ -14,6 +17,6 @@ export class AccountTyprList {
         var headr = new Headers();
         headr.append('Content-Type', 'application/json');
          
-        return this._http.get('http://localhost:8080/EirWeb2/eir/getAccountTypeList').map(res=>res.json());
+        return this._http.get(this.serviceUrl+ 'getAccountTypeList').map(res=>res.json());
     }
 }

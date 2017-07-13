@@ -27,6 +27,7 @@ export class ConsumerComponent implements OnDestroy, OnInit {
  private list: number[] = [];
  private hasList:boolean=false;
  private jsonResponse: string;
+ private counter : number=1;
  data =<any> {};
  accntTypeList = <any>[];
  relationTypeList = <any>[];
@@ -152,7 +153,7 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
 
   }
 
- rowValidateForm(i: number, scenario?: string) {
+   rowValidateForm(i: number, scenario?: string) {
 
   		let action = "addControl";
   		if (scenario == 'remove') {
@@ -178,13 +179,15 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
   	}
 
  addMore(){
-   this.consumerData.push({
-     relationType:'',accountType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
-                rationCard:'',passportNo:'',homeTelephoneNo:'',officeTelephoneNo:'',mobileNo:'',birthDate:'',maritalStatus:'',gender:'',
-                addressType :'' , personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPinCode:'',amount:'',
-                consumerPurpose:'', consumerFinancialPurpose:'',frequency:'',durationOfAgreement:''})
-   
-    this.rowValidateForm(ConsumerComponent.iRow++, 'add');
+   if(ConsumerComponent.iRow < 10){
+      this.consumerData.push({
+        relationType:'',accountType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
+                    rationCard:'',passportNo:'',homeTelephoneNo:'',officeTelephoneNo:'',mobileNo:'',birthDate:'',maritalStatus:'',gender:'',
+                    addressType :'' , personAddrLine1:'',personAddrLine2:'',personCity:'',personState:'',personPinCode:'',amount:'',
+                    consumerPurpose:'', consumerFinancialPurpose:'',frequency:'',durationOfAgreement:''})
+      
+        this.rowValidateForm(ConsumerComponent.iRow++, 'add');
+   }
  }
 
  remove(){

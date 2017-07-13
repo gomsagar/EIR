@@ -2,13 +2,15 @@ import { Injectable, Inject } from '@angular/core';
 import {Http, Headers} from "@angular/http";
 import 'rxjs/add/operator/map';
 import { Subject }    from 'rxjs/Subject';
+import { APP_CONFIG, IAppConfig } from '../app.config';
 
 @Injectable()
 export class AppService {
-static count : number=1;
+@Inject('configuration') configuration:any;
+public serviceUrl : string;
 
-    constructor(private _http:Http) {
-
+    constructor(private _http:Http, @Inject(APP_CONFIG) private config: IAppConfig) {
+        this.serviceUrl = this.config.apiEndpointForLocalHost;
     }
 
     getNativeWindow() {
@@ -20,7 +22,7 @@ static count : number=1;
         var head = new Headers();
         head.append('Content-Type', 'application/json');
          
-        return this._http.post('http://localhost:8080/EirWeb2/eir/saveProductSelection',
+        return this._http.post(this.serviceUrl+ 'saveProductSelection',
         JSON.stringify(data), { 
            headers:head
         })
@@ -28,7 +30,7 @@ static count : number=1;
     }
     createEnquiry(info) {
         console.log(info);
-        debugger;
+       
         if(info.isBIRActive == 'true')
         {
             info.bir.cinNumber = info.bir.Cin;
@@ -38,15 +40,15 @@ static count : number=1;
         var head = new Headers();
         head.append('Content-Type', 'application/json');
          
-        return this._http.post('http://localhost:8080/EirWeb2/eir/createEnquiry',
-        JSON.stringify(info), { 
+        return this._http.post(this.serviceUrl+ 'createEnquiry',
+        JSON.stringify(info || null ), { 
            headers:head
         })
-        .map(res=>res.json());
+        .map(res=>res.toString);
     }
 
     getViewRequest(requestId){
-    return this._http.get('http://localhost:8080/EirWeb2/eir/getViewRequest?requestId='+ requestId)
+    return this._http.get(this.serviceUrl+ 'getViewRequest?requestId='+ requestId)
     .map(res=>res.json());
     }
     
@@ -56,10 +58,41 @@ static count : number=1;
         var head = new Headers();
         head.append('Content-Type', 'application/json');
          
-         return this._http.post('http://localhost:8080/EirWeb2/eir/getRequestedData',
+         return this._http.post(this.serviceUrl+ 'getRequestedData',
              JSON.stringify(viewEarlierEnqData),{
                     headers:head
              })
+            .map(res=>res.json());
+    }
+
+    sendReSubmitRequestForBIR(requestId,birRequestId){
+          return this._http.get(this.serviceUrl+ 'reSubmitRequestForBIR?birRequestId='+birRequestId)
+        .map(res=>res.json());
+    }
+    
+     sendReSubmitRequestForCombo(requestId,comboRequest){
+         var head = new Headers();
+        head.append('Content-Type', 'application/json');
+         debugger;
+          return this._http.post(this.serviceUrl+ 'reSubmitRequestForCombo?requestId='+requestId,
+            JSON.stringify(comboRequest),{
+                headers:head
+            }
+          )
+        .map(res=>res.json());
+    }
+     
+     sendReSubmitRequestForCIR(cirRequestId,cirRequest){
+          var head = new Headers();
+        head.append('Content-Type', 'application/json');
+        debugger;
+        return this._http.post(this.serviceUrl+ 'reSubmitRequestForCIR?cirRequestId='+cirRequestId,
+        
+             JSON.stringify(cirRequest),{
+             headers:head
+        }
+        
+        )
             .map(res=>res.json());
     }
 }

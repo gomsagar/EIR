@@ -32,10 +32,7 @@
 							<div class="row">		
 								<div class="col-md-2">
 									
-								</div>
-								<div class="col-md-8 text-center">
-									<p>Select anyone company to show details.
-								</div>
+								</div>							
 								<div class="col-md-2">
 									
 								</div>
@@ -76,7 +73,7 @@
 										<td></td>
 										<td>
 										  <!--<input type="checkbox" value="None" id="squaredThree" name="check" checked />-->
-										<button (click)="submit()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button>
+										<button (click)="submit(earlierRequestList[i].requestId)" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button>
 										  <label for="squaredThree"></label>
 										</td>
 									</tr>
@@ -123,6 +120,5 @@
 
 		  <div class="row">
 			<div class="back-btn pull-left"><button (click)="back()" type="submit" class="btn btn-primary">Back</button></div>
-			<div class="next-btn pull-right"><button (click)="submit()" type="submit" class="btn btn-primary">Submit</button></div>
 		  </div> 
     

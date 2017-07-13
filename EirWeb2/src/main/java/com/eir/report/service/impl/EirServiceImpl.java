@@ -1044,18 +1044,22 @@ public class EirServiceImpl implements EirService{
 				if(reportStatus.containsKey(reqId)){
 					viewEnquiresObject = reportStatus.get(reqId);
 					
-					if(null == withScore || withScore.equalsIgnoreCase(Constant.CONS_N) ){
-							viewEnquiresObject.setComboWithoutScoreStatus(statusDesc);
-					}else{
+					if(null != withScore && Constant.CONS_Y.equalsIgnoreCase(withScore)){
 						viewEnquiresObject.setComboWithScoreStatus(statusDesc);
+							
+					}else{
+						viewEnquiresObject.setComboWithoutScoreStatus(statusDesc);
 					}
 				}else{
 					viewEnquiresObject = new ViewEarlierEnquiresObject();
 					
-					if(null == withScore || withScore.equalsIgnoreCase(Constant.CONS_N) ){
-						viewEnquiresObject.setCommWithoutScoreStatus(statusDesc);
-					}else{
+					if(null != withScore && Constant.CONS_Y.equalsIgnoreCase(withScore)){
+						
 						viewEnquiresObject.setCommWithScoreStatus(statusDesc);
+						
+					}else{
+						
+						viewEnquiresObject.setCommWithoutScoreStatus(statusDesc);
 					}
 					reportStatus.put((reqId), viewEnquiresObject);
 				}
@@ -1134,20 +1138,22 @@ public class EirServiceImpl implements EirService{
 		Request request = requestRepository.findByRequestId(reqId);
 		String score  =null;
 		if(null != request){
-			
-			//set bir report details
-			if(null != request.getBirRequests() && null != request.getBirRequests().getBirRequestId()){
+			BirRequest birRequest = request.getBirRequests();
+			//set bir report details			
+			if(null != birRequest && null != birRequest.getBirRequestId()){
 				//get product id from product selection 
 				Object[] birProduct = productMasterRepository.getBIRProductByRequestId(reqId, Constant.BIR_PRODUCT_CODE);
 				//get tats from product master table
 				//ProductMaster master = productMasterRepository.findByproductId(reportSelection.getProductId());
 				
-				birObject.setBirReportStatus(request.getBirRequests().getStatus().getStatusDescription());
-				if(null != request.getBirRequests().getCreateUserDate() && null != request.getBirRequests().getCreateUserDate()
-						&& null != request.getBirRequests().getUpdateUserDate() && null != request.getBirRequests().getUpdateUserDate()){
-				birObject.setBirRequestDate(formatDate(request.getBirRequests().getCreateUserDate().toString()));
-				birObject.setBirResponseDate(formatDate(request.getBirRequests().getUpdateUserDate().toString()));
+				birObject.setBirReportStatus(birRequest.getStatus().getStatusDescription());
+				if(null != birRequest.getCreateUserDate()){
+					birObject.setBirRequestDate(formatDate(birRequest.getCreateUserDate().toString()));
 				}
+				if(null != birRequest.getUpdateUserDate()){
+					birObject.setBirResponseDate(formatDate(birRequest.getUpdateUserDate().toString()));
+				}
+				birObject.setBirRequestId(birRequest.getBirRequestId());
 				birObject.setBirMessage("Report Created and Ready to View");
 				if(birProduct.length > 0)
 				birObject.setBirTats(birProduct[0].toString());
@@ -1155,48 +1161,56 @@ public class EirServiceImpl implements EirService{
 			
 			//set combo details
 			//consumerRequests  = request.getConsumerRequets();
+			CirRequest cirRequet = request.getCirRequets();
 			if(null != request.getConsumerRequets() && !request.getConsumerRequets().isEmpty()){
-				score = request.getCirRequets().getScore();
+				score = cirRequet.getWithScore();
 
-				if(null == score || score.equalsIgnoreCase(Constant.CONS_N) ){
-					
-					comboWithoutScoreObject.setComboWithoutScoreReportStatus(request.getCirRequets().getStatus().getStatusDescription());
-					if(null != request.getCirRequets().getCreateUserDate() && null != request.getCirRequets().getCreateUserDate()
-							&& null != request.getCirRequets().getUpdateUserDate() && null != request.getCirRequets().getUpdateUserDate()){
-					comboWithoutScoreObject.setComboWithOutScoreRequestDate(formatDate(request.getCirRequets().getCreateUserDate().toString()));
-					comboWithoutScoreObject.setComboWithOutScoreResponseDate(formatDate(request.getCirRequets().getUpdateUserDate().toString()));
+				if(null != score && Constant.CONS_Y.equalsIgnoreCase(score)) {
+					comboWithScoreObject.setComboWithScoreReportStatus(cirRequet.getStatus().getStatusDescription());
+					if(null != cirRequet.getCreateUserDate()){
+						comboWithScoreObject.setComboWithScoreRequestDate(formatDate(cirRequet.getCreateUserDate().toString()));
 					}
+					if(null != cirRequet.getUpdateUserDate()){
+						comboWithScoreObject.setComboWithScoreResponseDate(formatDate(cirRequet.getUpdateUserDate().toString()));
+					}
+					comboWithScoreObject.setConsumerRequestId(cirRequet.getCirRequestId());
+					comboWithScoreObject.setComboWithScoreMessage("Report Created and Ready to View");
+				}else{
+					
+					comboWithoutScoreObject.setComboWithoutScoreReportStatus(cirRequet.getStatus().getStatusDescription());
+					if(null != cirRequet.getCreateUserDate()){
+						comboWithoutScoreObject.setComboWithOutScoreRequestDate(formatDate(cirRequet.getCreateUserDate().toString()));
+					}
+					if(null != cirRequet.getUpdateUserDate()){
+						comboWithoutScoreObject.setComboWithOutScoreResponseDate(formatDate(cirRequet.getUpdateUserDate().toString()));
+					}
+					comboWithoutScoreObject.setConsumerRequestId(cirRequet.getCirRequestId());
 					comboWithoutScoreObject.setComboWithOutScoreMessage("Report Created and Ready to View");
 					
-				}else{
-					comboWithScoreObject.setComboWithScoreReportStatus(request.getCirRequets().getStatus().getStatusDescription());
-					if(null != request.getCirRequets().getCreateUserDate() && null != request.getCirRequets().getCreateUserDate()
-							&& null != request.getCirRequets().getUpdateUserDate() && null != request.getCirRequets().getUpdateUserDate()){
-					comboWithScoreObject.setComboWithScoreRequestDate(formatDate(request.getCirRequets().getCreateUserDate().toString()));
-					comboWithScoreObject.setComboWithScoreResponseDate(formatDate(request.getCirRequets().getUpdateUserDate().toString()));
-					}
-					comboWithScoreObject.setComboWithScoreMessage("Report Created and Ready to View");
 				}
-			}else if(null != request.getCirRequets() && null != request.getCirRequets().getCirRequestId()){	
-				score = request.getCirRequets().getScore();
+			}else if(null != cirRequet && null != cirRequet.getCirRequestId()){	
+				score = cirRequet.getWithScore();
 				// set cir details			
-				if(null == score || score.equalsIgnoreCase(Constant.CONS_N) ){
-					cirWithOutScoreObject.setCirWithOutScoreReportStatus(request.getCirRequets().getStatus().getStatusDescription());
-					if(null != request.getCirRequets().getCreateUserDate() && null != request.getCirRequets().getCreateUserDate()
-							&& null != request.getCirRequets().getUpdateUserDate() && null != request.getCirRequets().getUpdateUserDate()){
-					cirWithOutScoreObject.setCirWithOutScoreRequestDate(formatDate(request.getCirRequets().getCreateUserDate().toString()));
-					cirWithOutScoreObject.setCirWithOutScoreResponseDate(formatDate(request.getCirRequets().getUpdateUserDate().toString()));
+				 if(null != score && Constant.CONS_Y.equalsIgnoreCase(score)){
+					cirWithScoreObject.setCirWithScoreReportStatus(cirRequet.getStatus().getStatusDescription());
+					if(null != cirRequet.getCreateUserDate()){
+						cirWithScoreObject.setCirWithScoreRequestDate(formatDate(cirRequet.getCreateUserDate().toString()));
 					}
-					cirWithOutScoreObject.setCirWithOutScoreMessage("Report Created and Ready to View");
-					
+					if(null != cirRequet.getUpdateUserDate()){
+						cirWithScoreObject.setCirWithScoreResponseDate(formatDate(cirRequet.getUpdateUserDate().toString()));
+					}
+					cirWithScoreObject.setCirRequestId(cirRequet.getCirRequestId());
+					cirWithScoreObject.setCirWithScoreMessage("Report Created and Ready to View");
 				}else{
-				cirWithScoreObject.setCirWithScoreReportStatus(request.getCirRequets().getStatus().getStatusDescription());
-				if(null != request.getCirRequets().getCreateUserDate() && null != request.getCirRequets().getCreateUserDate()
-						&& null != request.getCirRequets().getUpdateUserDate() && null != request.getCirRequets().getUpdateUserDate()){
-				cirWithScoreObject.setCirWithScoreRequestDate(formatDate(request.getCirRequets().getCreateUserDate().toString()));
-				cirWithScoreObject.setCirWithScoreResponseDate(formatDate(request.getCirRequets().getUpdateUserDate().toString()));
-				}
-				cirWithScoreObject.setCirWithScoreMessage("Report Created and Ready to View");
+					cirWithOutScoreObject.setCirWithOutScoreReportStatus(cirRequet.getStatus().getStatusDescription());
+					if(null != cirRequet.getCreateUserDate()){
+						cirWithOutScoreObject.setCirWithOutScoreRequestDate(formatDate(cirRequet.getCreateUserDate().toString()));
+					}
+					if(null != cirRequet.getUpdateUserDate()){
+						cirWithOutScoreObject.setCirWithOutScoreResponseDate(formatDate(cirRequet.getUpdateUserDate().toString()));
+					}
+					cirWithOutScoreObject.setCirRequestId(cirRequet.getCirRequestId());
+					cirWithOutScoreObject.setCirWithOutScoreMessage("Report Created and Ready to View");
 				}
 			}
 		}
@@ -1300,6 +1314,96 @@ public class EirServiceImpl implements EirService{
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public void getResubmitedBIRData(Integer birRequestId) {
+		BirRequest birRequest = birRequestRepository.findByBirRequestId(birRequestId);
+		
+		//CirRequest cirRequestEntity = nextGenWebService.cre(birRequest);
+	}
+
+	@Override
+	public Object getResubmitedComboData(Integer requestId) {
+		
+		Request request = requestRepository.findByRequestId(requestId);
+		CirRequest cirRequestEntity = request.getCirRequets();
+		String score = null;
+		if(null != request && Constant.STATUS_DESCRIPTION_ERROR.equalsIgnoreCase(request.getCirRequets().getStatus().getStatusDescription())){
+			
+			cirRequestEntity = nextGenWebService.createCIRReport(request.getCirRequets());
+		}
+		
+		//if 4 cousumers are there and out of 4 1 got failed then what status we need to dispaly
+		nextGenWebService.createConsumerReport(request.getConsumerRequets());
+		
+		if(null !=  request.getCirRequets() && null != request.getConsumerRequets() && !request.getConsumerRequets().isEmpty()){
+			score = request.getCirRequets().getWithScore();
+
+			if(null != score && score.equalsIgnoreCase(Constant.CONS_Y)){
+				ComboWithScoreObject comboWithScoreObject = new ComboWithScoreObject();
+				comboWithScoreObject.setComboWithScoreReportStatus(cirRequestEntity.getStatus().getStatusDescription());
+				if(null != cirRequestEntity.getCreateUserDate()){
+					comboWithScoreObject.setComboWithScoreRequestDate(formatDate(cirRequestEntity.getCreateUserDate().toString()));
+				}
+				if(null != cirRequestEntity.getUpdateUserDate()){
+					comboWithScoreObject.setComboWithScoreResponseDate(formatDate(cirRequestEntity.getUpdateUserDate().toString()));
+				}
+				comboWithScoreObject.setConsumerRequestId(cirRequestEntity.getCirRequestId());
+				comboWithScoreObject.setComboWithScoreMessage("Report Created sucessfully");
+				return comboWithScoreObject;
+			}else{
+				ComboWithoutScoreObject comboWithoutScoreObject = new ComboWithoutScoreObject();
+				
+				comboWithoutScoreObject.setComboWithoutScoreReportStatus(cirRequestEntity.getStatus().getStatusDescription());
+				if(null != cirRequestEntity.getCreateUserDate()){
+					comboWithoutScoreObject.setComboWithOutScoreRequestDate(formatDate(cirRequestEntity.getCreateUserDate().toString()));
+				}
+				if(null != cirRequestEntity.getUpdateUserDate()){
+					comboWithoutScoreObject.setComboWithOutScoreResponseDate(formatDate(cirRequestEntity.getUpdateUserDate().toString()));
+				}
+				comboWithoutScoreObject.setConsumerRequestId(cirRequestEntity.getCirRequestId());
+				comboWithoutScoreObject.setComboWithOutScoreMessage("Report Created sucessfully");
+				return comboWithoutScoreObject;
+			}
+		
+		}
+		return null;
+	}
+
+	@Override
+	public Object getResubmitedCIRData(Integer cirRequestId) {
+		String withScore = null;
+		CirRequest cirInputRequest = cirReqRepository.findByCirRequestId(cirRequestId);
+		
+		CirRequest cirRequestEntity = nextGenWebService.createCIRReport(cirInputRequest );
+		if(null != cirRequestEntity){
+			withScore = cirInputRequest.getWithScore();
+			  if(null != withScore && withScore.equalsIgnoreCase(Constant.CONS_Y) ){
+				CIRWithScoreObject cirWithScoreObject = new CIRWithScoreObject();
+				cirWithScoreObject.setCirWithScoreReportStatus(cirRequestEntity.getStatus().getStatusDescription());
+				if(null != cirRequestEntity.getCreateUserDate()){
+					cirWithScoreObject.setCirWithScoreRequestDate(formatDate(cirRequestEntity.getRequest().getCreateUserDate().toString()));
+				}
+				if(null != cirRequestEntity.getUpdateUserDate()){
+					cirWithScoreObject.setCirWithScoreResponseDate(formatDate(cirRequestEntity.getRequest().getUpdateUserDate().toString()));
+				}
+				cirWithScoreObject.setCirWithScoreMessage("Report Created sucessfully");
+				return cirWithScoreObject;
+			}else{
+				CIRWithOutScoreObject cirWithOutScoreObject = new CIRWithOutScoreObject();
+				cirWithOutScoreObject.setCirWithOutScoreReportStatus(cirRequestEntity.getStatus().getStatusDescription());
+				if(null != cirRequestEntity.getCreateUserDate()){
+					cirWithOutScoreObject.setCirWithOutScoreRequestDate(formatDate(cirRequestEntity.getRequest().getCreateUserDate().toString()));
+				}
+				if(null != cirRequestEntity.getUpdateUserDate()){
+					cirWithOutScoreObject.setCirWithOutScoreResponseDate(formatDate(cirRequestEntity.getRequest().getUpdateUserDate().toString()));
+				}
+				cirWithOutScoreObject.setCirWithOutScoreMessage("Report Created sucessfully");
+				return cirWithOutScoreObject;
+			}
+		}
+		return null;
 	}
 	
 }

@@ -1,12 +1,16 @@
 import { Injectable, Inject } from '@angular/core';
 import {Http, Headers} from "@angular/http";
 import 'rxjs/add/operator/map';
+import { APP_CONFIG, IAppConfig } from '../app.config';
+
 @Injectable()
 
 export class CompanyNameService {
-userId:Number;
-    constructor(private _http:Http) {
-this.userId=1;
+    userId:Number;
+    public serviceUrl : string;
+    constructor(private _http:Http, @Inject(APP_CONFIG) private config: IAppConfig) {
+        this.userId=1;
+        this.serviceUrl = this.config.apiEndpointForLocalHost;
     }
 
     validateName(cmpName) {
@@ -14,7 +18,7 @@ this.userId=1;
         var headr = new Headers();
         headr.append('Content-Type', 'application/json');
          
-        return this._http.post('http://localhost:8080/EirWeb2/eir/getCompanyList',
+        return this._http.post(this.serviceUrl+ 'getCompanyList',
         JSON.stringify(cmpName), { 
           headers:headr
         })
@@ -27,7 +31,7 @@ this.userId=1;
         var headr = new Headers();
         headr.append('Content-Type', 'application/json');
 
-        return this._http.post('http://localhost:8080/EirWeb2/eir/getDashboardObject?userId=' + userId , 
+        return this._http.post(this.serviceUrl+ 'getDashboardObject?userId=' + userId , 
         JSON.stringify(userId), { headers:headr}).map(res=>res.json());
     }
 }

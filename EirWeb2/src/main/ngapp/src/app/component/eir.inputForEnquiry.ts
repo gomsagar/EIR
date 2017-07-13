@@ -41,7 +41,7 @@ export class InputForEnquiryComponent implements OnInit
     public isCir:boolean;
     public isCombo:boolean;
     private route: ActivatedRoute;
-    data = <any>{};
+    data=<any>{};
     value = <any>{};
     info= <any>{};
     company=<any>[];
@@ -296,16 +296,25 @@ export class InputForEnquiryComponent implements OnInit
 		 if(isValidationComplete)
 		 {    
             // debugger;
-			 this._appService.createEnquiry(this.commonArray).subscribe(this.data);
-			 alert("Data Submitted Successfully!!!");
-        
-			 this.router.navigate(['viewEnquiryComponent'],{queryParams: { requestId: EirCreateComponent.reqId}});
+            alert("Data Submitted Successfully!!!");
+			 this._appService.createEnquiry(this.commonArray).subscribe((data) =>{
+                    this.data = data;  
+                    console.log("data"+data)
+                    console.log("inside sub method..........."+this.data);
+                    this.navigate();
+                    console.log("inside end...........");
+             });		
 		 }
          else
          {
              alert("Fill all the mandatory fields!!!");
          }
     }
+
+     navigate(){
+        console.log("inside navigate method...........");
+        this.router.navigate(['viewEnquiryComponent'],{queryParams: { requestId: EirCreateComponent.reqId}});
+     }
 
     getCompanyList()
     {   

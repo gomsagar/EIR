@@ -1,6 +1,6 @@
 import { Component,Input } from '@angular/core';
 import { Router} from '@angular/router';
-//import{DataService} from '../services/eir.getData';
+import{FormGroup,FormBuilder,FormControl, Validators} from '@angular/forms';
 import{AppService} from '../services/eir.callController';
 import { DatePickerOptions, DateModel } from 'ng2-datepicker';
 
@@ -21,7 +21,6 @@ private birReportStatus:string;
 private commWOSReportStatus:string;
 private commWSReportStatus:string;
 public reqId : number;
-private userId:number=1;
 public earlierRequestList =<any>[];
 private requestStatus =<any>[];
 data =<any>{};
@@ -29,6 +28,7 @@ private requestIdFromUser: number;
 options: DatePickerOptions;
  currentDate : Date;
 dateExpires : Date;
+requisitionForm: FormGroup; 
   ngOnInit(){
     // debugger;
     // this._dataService.getEarlierRequestData(this.userId).subscribe((earlierRequestData) => {
@@ -46,10 +46,11 @@ dateExpires : Date;
     //     });
 
   }
-  constructor(private router: Router,private _appService:AppService){ 
+  constructor(private router: Router,private _appService:AppService,public fb1: FormBuilder){ 
     this.options = new DatePickerOptions();
     this.currentDate = new Date();
       this.dateExpires = this.currentDate;
+       this.requisitionForm = this.fb1.group({});
   }
 
    back()
@@ -57,26 +58,37 @@ dateExpires : Date;
         this.router.navigate(['home']);
     }
   
-  submit()
+  submit(requestId)
   {
-    console.log("Inside submit method....."+this.reqId);
-    this.router.navigate(['viewEnquiryComponent'],{queryParams: { requestId: this.reqId}});
+    console.log("Inside submit method....."+requestId);
+    this.router.navigate(['viewEnquiryComponent'],{queryParams: { requestId: requestId}});
   }
-
+validate(){
+  
+}
   
   ViewEarlierEnq()
   {
-    //debugger;
+    debugger;
     console.log("Inside ViewEarlierEnq........");
     console.log("Data........"+ this.data);
     this._appService.getRequestData(this.data).subscribe((earlierRequestData) => {
       
-          if(null != earlierRequestData){
+          if(null != earlierRequestData && earlierRequestData.length > 0){
+            console.log("Inside if...........");
             this.earlierRequestList = earlierRequestData;
             for(var i=0;i<this.earlierRequestList.length;i++){
                this.reqId = this.earlierRequestList[i].requestId;
             }
-          }          
+          } else{
+            console.log("Inside else...........");
+            alert("Please enter the proper RequestId or Date....");
+          }         
         });
+
+        // if(this.earlierRequestList.isEmpty()){
+        //    console.log("Inside ...........");
+        //     alert("Please enter the proper RequestId or Date....");
+        // }
   }
 }
