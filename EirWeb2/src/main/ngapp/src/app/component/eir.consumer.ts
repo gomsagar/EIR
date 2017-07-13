@@ -164,9 +164,9 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
       this.requisitionForm[action]('lastName' + i, new FormControl('', [Validators.required,Validators.pattern('[A-Za-z]*')]));
       this.requisitionForm[action]('mobileNo' + i, new FormControl('', [Validators.required,Validators.pattern('[0-9]{10}')]));
       this.requisitionForm[action]('gender' + i, new FormControl('', [Validators.required]));
-      this.requisitionForm[action]('addressType' + i, new FormControl('', [Validators.required]));
+     // this.requisitionForm[action]('addressType' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('personAddrLine1' + i, new FormControl('', [Validators.required]));
-      this.requisitionForm[action]('personAddrLine2' + i, new FormControl('', [Validators.required]));
+   //   this.requisitionForm[action]('personAddrLine2' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('personCity' + i, new FormControl('', [Validators.required,Validators.pattern('[A-Za-z]*')]));
       this.requisitionForm[action]('personPan' + i, new FormControl('', [Validators.required,Validators.pattern('([A-Za-z]{3})[ABCFEGHLJPTabcfeghljpt][A-Za-z]([0-9]{4})([A-Za-z]{1})')]));
       this.requisitionForm[action]('personState' + i, new FormControl('', [Validators.required]));

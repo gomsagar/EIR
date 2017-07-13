@@ -240,39 +240,33 @@ $value
                         <td >&nbsp;</td>
                      </tr>
                      <tr>
-                        <td align="center">
+                        
                                                      
                            #if($confScore >= 300 && $confScore <= 420)
-                          
-                           <div style="width:300px; height:125px; background:url($cons1) no-repeat center;" >
-                              <h2 style="margin-left: 250px;">$confScore</h2>
-                           </div>
-                           
+                          	
+                          	<td align="center" class="scoreMeter1">$confScore</td>   
+                    
                            #elseif($confScore >= 421 && $confScore <= 540)
                            
-                           <div style="width:300px; height:125px; background:url($cons2) no-repeat center;" >
-                              <h2 style="margin-left: 250px;">$confScore</h2>
-                           </div>
+                           	<td align="center" class="scoreMeter2">$confScore</td>   
                          
                            #elseif($confScore >= 541 && $confScore <= 660)
-                           
-                           <div style="width:300px; height:125px; background:url($cons3) no-repeat center;" >
-                              <h2 style="margin-left: 250px;">$confScore</h2>
-                           </div>
+                           <td>
+	                           <h2 style="margin-left: 0px;">$confScore</h2>
+	                           <div style="width:300px; height:145px; background:url($cons3) no-repeat center;" >
+	                              
+	                           </div></td>
                           
                            #elseif($confScore >= 661 && $confScore <= 780)
                            
-                           <div style="width:300px; height:125px; background:url($cons4) no-repeat center;" >
-                              <h2 style="margin-left: 250px;">$confScore</h2>
-                           </div>
-                          
+                             <td align="center" class="scoreMeter4">$confScore</td>   
+                           
                            #elseif($confScore >= 781)
-                          
-                           <div style="width:300px; height:125px; background:url($cons5) no-repeat center;" >
-                              <h2 style="margin-left: 250px;">$confScore</h2>
-                           </div>
+                           
+                           <td align="center" class="scoreMeter5">$confScore</td>                     
+                           
                            #end
-                        </td>
+                        
                      </tr>
                   </table>
                   #end
