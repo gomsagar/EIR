@@ -69,7 +69,7 @@ validate(){
   
   ViewEarlierEnq()
   {
-    debugger;
+   // debugger;
     console.log("Inside ViewEarlierEnq........");
     console.log("Data........"+ this.data);
     this._appService.getRequestData(this.data).subscribe((earlierRequestData) => {
@@ -82,7 +82,7 @@ validate(){
             }
           } else{
             console.log("Inside else...........");
-            alert("Please enter the proper RequestId or Date....");
+            alert("Please enter the proper Data.");
           }         
         });
 

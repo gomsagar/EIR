@@ -107,7 +107,7 @@ public static reqId : number;
               console.log("Only Cir:"+this.isCir);
           }
        
-        debugger;
+        //debugger;
           this._appService.submit(this.data).subscribe((reqId) => {
               EirCreateComponent.reqId=reqId;     
               console.log("reqID"+EirCreateComponent.reqId);

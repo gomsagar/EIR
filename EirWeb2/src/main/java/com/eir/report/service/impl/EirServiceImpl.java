@@ -201,7 +201,8 @@ public class EirServiceImpl implements EirService{
 	@Override
 	public List<com.eir.bir.request.model.State> getStateList() {
 		
-		return getStateMapperList(stateRepository.findAll());
+		//return getStateMapperList(stateRepository.findAll());
+		return getStateMapperList(stateRepository.findAllByOrderByStateDescriptionAsc());
 	}
 
 	private List<com.eir.bir.request.model.State> getStateMapperList(List<State> entityStateList) 

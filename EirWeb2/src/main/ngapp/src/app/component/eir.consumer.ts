@@ -179,7 +179,7 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
   	}
 
  addMore(){
-   if(ConsumerComponent.iRow < 10){
+   if(ConsumerComponent.iRow < 15){
       this.consumerData.push({
         relationType:'',accountType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
                     rationCard:'',passportNo:'',homeTelephoneNo:'',officeTelephoneNo:'',mobileNo:'',birthDate:'',maritalStatus:'',gender:'',
