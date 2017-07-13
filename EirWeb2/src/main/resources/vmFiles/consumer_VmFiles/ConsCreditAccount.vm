@@ -33,31 +33,29 @@
                     <td style="width:10%">Payment Status</td>
                     <td style="width:15%">Click to View</td>
                   </tr>
-                ##   #set($bpaygrids = $conscred.Bpaygrid)
-			 ## #foreach($bpaygrid in $bpaygrids)
-                  <tr class="list listh">
+                  
+				        #set($size = $conscred.Bpaygrid.size())
+				        #set($size = $size - 1)
+                  
+					<tr class="list listh">
                     <td style="width:13%;padding-right: 15px;word-wrap: break-word;">#set($value="#emptyDataCheck($conscred.AccountNumber)")$value</td>
-                 <!--    <td style="width:7%">#set($value="#emptyDataCheck($bpaygrid.HDETAILS.AccountDate)")$value</td> -->
-                 <td style="width:7%">-</td>
+                    <td style="width:7%">#set($value="#emptyDataCheck($conscred.Bpaygrid.get($size).HDETAILS.AccountDate)")$value</td> 
                     <td style="width:12%">#set($value="#emptyDataCheck($conscred.AccountType)")$value </td>
                     <td style="width:8%">#set($value="#emptyDataCheck($conscred.AccountStatus)")$value</td>
                     <td style="width:10%;padding-right: 8px;" class="txtright">#set($value="#emptyDataCheck($conscred.CurrentBalance)")$value</td>
                     <td style="width:15%"> #set($value="#emptyDataCheck($conscred.CREDITOR.CreditorName)")$value </td>
                     <td style="width:10%">#set($value="#emptyDataCheck($conscred.AccountFinRespTypeCd)")$value</td>
-                  <!--  <td style="width:10%">#set($value="#emptyDataCheck($bpaygrid.HDETAILS.PaymentStatus)")$value</td>-->
-                  <td style="width:10%">-</td>
-                    <td style="width:15%"><a id="showPH" class="paymentDetailsD" onClick="callPaymentHist($count)">Payment History</a> <br>
+                   <td style="width:10%">#set($value="#emptyDataCheck($conscred.Bpaygrid.get($size).HDETAILS.PaymentStatus)")$value</td>
+                   <td style="width:15%"><a id="showPH" class="paymentDetailsD" onClick="callPaymentHist($count)">Payment History</a> <br>
                       <a id="showAccountDTL" class="showAccountDTL" onClick="callAccountDetail($countAcc)">Account Details</a></td>
-                  </tr>
-                  ## #end
-							  	###end
-							  
+                  </tr>		  
 					                 
                  #parse("/vmFiles/consumer_VmFiles/PaymentHist.vm")
                   
                   
-                  #set($bpaygrids = $conscred.BPAYGRID)
-                  #foreach($bpaygrid in $bpaygrids)
+                  #set($bpaygrid = $conscred.Bpaygrid.get($size))
+                  
+               
 				  <tr class="accountDetails" id=ar$countAcc style="display: none;">
                     <td colspan="9"><div style="height: 20px;"></div>
 					<div style="width: 100%;">
@@ -163,7 +161,7 @@
                       </div>
 				</td>
 				</tr>
-				#end
+				
 		
 				<!-- Account Details End --> 
 				

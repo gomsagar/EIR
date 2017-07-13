@@ -32,31 +32,26 @@
                     <td style="width:11%">Account Responsibility</td>
                     <td style="width:12%">Payment Status</td>
                   </tr>
-                ##   #set($bpaygrids = $conscred.Bpaygrid)
-			 ## #foreach($bpaygrid in $bpaygrids)
-                  <tr class="list listh">
-                    <td style="width:16%;padding-right: 15px;word-wrap: break-word;">#set($value="#emptyDataCheck($conscred.AccountNumber)")$value</td>
-                 <!--    <td style="width:8%">#set($value="#emptyDataCheck($bpaygrid.HDETAILS.AccountDate)")$value</td> -->
-                 <td style="width:8%">-</td>
-                    <td style="width:14%">#set($value="#emptyDataCheck($conscred.AccountType)")$value </td>
-                    <td style="width:9%">#set($value="#emptyDataCheck($conscred.AccountStatus)")$value</td>
-                    <td style="width:13%;padding-right: 8px;" class="txtright">#set($value="#emptyDataCheck($conscred.CurrentBalance)")$value</td>
-                    <td style="width:17%"> #set($value="#emptyDataCheck($conscred.CREDITOR.CreditorName)")$value </td>
-                    <td style="width:11%">#set($value="#emptyDataCheck($conscred.AccountFinRespTypeCd)")$value</td>
-                  <!--  <td style="width:12%">#set($value="#emptyDataCheck($bpaygrid.HDETAILS.PaymentStatus)")$value</td>-->
-                  <td style="width:12%">-</td>
-                    
-                  </tr>
-                  ## #end
-							  	###end
-							  
+       					#set($size = $conscred.Bpaygrid.size())
+				        #set($size = $size - 1)
+                  
+					<tr class="list listh">
+	                    <td style="width:16%;padding-right: 15px;word-wrap: break-word;">#set($value="#emptyDataCheck($conscred.AccountNumber)")$value</td>
+	                    <td style="width:8%">#set($value="#emptyDataCheck($conscred.Bpaygrid.get($size).HDETAILS.AccountDate)")$value</td> 
+	                    <td style="width:14%">#set($value="#emptyDataCheck($conscred.AccountType)")$value </td>
+	                    <td style="width:9%">#set($value="#emptyDataCheck($conscred.AccountStatus)")$value</td>
+	                    <td style="width:13%;padding-right: 8px;" class="txtright">#set($value="#emptyDataCheck($conscred.CurrentBalance)")$value</td>
+	                    <td style="width:17%"> #set($value="#emptyDataCheck($conscred.CREDITOR.CreditorName)")$value </td>
+	                    <td style="width:11%">#set($value="#emptyDataCheck($conscred.AccountFinRespTypeCd)")$value</td>
+	                   <td style="width:12%">#set($value="#emptyDataCheck($conscred.Bpaygrid.get($size).HDETAILS.PaymentStatus)")$value</td>
+                   </tr>		  
 					                 
                  #parse("/vmFiles/consumer_VmFiles/PaymentHistPdf.vm")
                   
                   
-                  #set($bpaygrids = $conscred.BPAYGRID)
-                  #foreach($bpaygrid in $bpaygrids)
-				  <tr class="accountDetails" id=ar$countAcc>
+                  #set($bpaygrid = $conscred.Bpaygrid.get($size))
+                  
+                  <tr id=ar$countAcc class="accountDetails" >
                     <td colspan="9"><div style="height: 20px;"></div>
 					<div style="width: 100%;">
 					  
@@ -161,7 +156,7 @@
                       </div>
 				</td>
 				</tr>
-				#end
+				
 		
 				<!-- Account Details End --> 
 				

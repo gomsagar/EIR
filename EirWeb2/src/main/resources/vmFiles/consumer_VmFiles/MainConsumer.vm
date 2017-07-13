@@ -77,34 +77,28 @@
     
     function callAccountDetail(countAcc)
    {
-
-	  // alert("Inside account details"+countAcc);
-	   var trcountAcc = "br" + countAcc;
+	   var brcountAcc = "br" + countAcc;
 	   var arcountAcc = "ar" + countAcc;
-	   var docObj = document.getElementById(trcountAcc);
-	    var docObjAcc = document.getElementById(arcountAcc);
+	   var docObj = document.getElementById(brcountAcc);
+	   var docObjAcc = document.getElementById(arcountAcc);
 	   
-	   //alert("docObj.style.display ---> " + docObj.style.display);
+	 
 	   if(docObj.style.display == 'none')
 	   {
 	   		docObj.style.display = "";
-	   		//alert("in if docObj.style.display ---> " + docObj.style.display);
 	   }
 	   else
 	   {
 	   		docObj.style.display = 'none';
-	   		//alert("in else docObj.style.display ---> " + docObj.style.display);
 	   }
-	   //alert(" out of if and else docObj.style.display ---> " + docObj.style.display);
+	   
 	   if(docObjAcc.style.display == 'none')
 	   {
 	   		docObjAcc.style.display = "";
-	   		//alert("in if docObj.style.display ---> " + docObj.style.display);
 	   }
 	   else
 	   {
 	   		docObjAcc.style.display = 'none';
-	   		//alert("in else docObj.style.display ---> " + docObj.style.display);
 	   }
 	   
     }
@@ -112,23 +106,17 @@
     function callPaymentHist(count)
    {
    
-	  // alert("Inside payment hist"+count);
 	   var trcount = "pr" + count;
 	   var docObj = document.getElementById(trcount);
 	   
-	  // alert("docObj.style.display ---> " + docObj.style.display);
-	   if(docObj.style.display == 'none')
+	  if(docObj.style.display == 'none')
 	   {
 	   		docObj.style.display = "";
-	   		//alert("in if docObj.style.display ---> " + docObj.style.display);
 	   }
 	   else
 	   {
 	   		docObj.style.display = 'none';
-	   		//alert("in else docObj.style.display ---> " + docObj.style.display);
 	   }
-	  // alert(" out of if and else docObj.style.display ---> " + docObj.style.display);
-	   
     }
   </script>
               <script type="text/javascript">
@@ -174,4 +162,4 @@
    });
   </script>
 </body>
-
+##<pd4ml:page.break/>
