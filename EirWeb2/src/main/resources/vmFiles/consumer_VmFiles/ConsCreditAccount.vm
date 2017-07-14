@@ -45,7 +45,7 @@
                     <td style="width:10%;padding-right: 8px;" class="txtright">#set($value="#emptyDataCheck($conscred.CurrentBalance)")$value</td>
                     <td style="width:15%"> #set($value="#emptyDataCheck($conscred.CREDITOR.CreditorName)")$value </td>
                     <td style="width:10%">#set($value="#emptyDataCheck($conscred.AccountFinRespTypeCd)")$value</td>
-                   <td style="width:10%">#set($value="#emptyDataCheck($conscred.Bpaygrid.get($size).HDETAILS.PaymentStatus)")$value</td>
+                   <td style="width:10%">$!payStatus.paymentStat($conscred.Bpaygrid.get($size).HDETAILS.PaymentStatus)</td>
                    <td style="width:15%"><a id="showPH" class="paymentDetailsD" onClick="callPaymentHist($count)">Payment History</a> <br>
                       <a id="showAccountDTL" class="showAccountDTL" onClick="callAccountDetail($countAcc)">Account Details</a></td>
                   </tr>		  
@@ -70,7 +70,7 @@
                                   <tbody>
                                     <tr>
                                       <td style="font-weight: bold; color: #0C5DAB;">Account Type Detail:</td>
-                                      <td>#set($value="#emptyDataCheck($conscred.AccountType)")$value</td>
+                                      <td>$!accType.accountType($!conscred.AccountType)</td>
                                     </tr>
                                     <tr>
                                       <td style="font-weight: bold; color: #0C5DAB;">Account Status Detail:</td>

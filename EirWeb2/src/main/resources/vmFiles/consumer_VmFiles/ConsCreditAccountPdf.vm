@@ -43,7 +43,7 @@
 	                    <td style="width:13%;padding-right: 8px;" class="txtright">#set($value="#emptyDataCheck($conscred.CurrentBalance)")$value</td>
 	                    <td style="width:17%"> #set($value="#emptyDataCheck($conscred.CREDITOR.CreditorName)")$value </td>
 	                    <td style="width:11%">#set($value="#emptyDataCheck($conscred.AccountFinRespTypeCd)")$value</td>
-	                   <td style="width:12%">#set($value="#emptyDataCheck($conscred.Bpaygrid.get($size).HDETAILS.PaymentStatus)")$value</td>
+	                  <td style="width:12%">$!payStatus.paymentStat($conscred.Bpaygrid.get($size).HDETAILS.PaymentStatus)</td>
                    </tr>		  
 					                 
                  #parse("/vmFiles/consumer_VmFiles/PaymentHistPdf.vm")
@@ -65,7 +65,7 @@
                                   <tbody>
                                     <tr>
                                       <td style="font-weight: bold; color: #0C5DAB;">Account Type Detail:</td>
-                                      <td>#set($value="#emptyDataCheck($conscred.AccountType)")$value</td>
+                                      <td>$!accType.accountType($!conscred.AccountType)</td>
                                     </tr>
                                     <tr>
                                       <td style="font-weight: bold; color: #0C5DAB;">Account Status Detail:</td>

@@ -16,8 +16,10 @@ import org.apache.velocity.app.VelocityEngine;
 
 import com.eir.commercial.domains.CommonUtilityService;
 import com.eir.domain.EIRDomain;
+import com.eir.report.constant.AccountType;
 import com.eir.report.constant.Constant;
 import com.eir.report.constant.IndustryType;
+import com.eir.report.constant.PaymentStatus;
 import com.experian.nextgen.ind.model.consumer.uofpojo.Bpaygrid;
 
 public class CreateReport {
@@ -44,6 +46,8 @@ public class CreateReport {
 			context.put("Math", Math.class);
 			context.put("Double", Double.class);
 			context.put("industryType",new IndustryType());
+			context.put("accType",new AccountType());
+			context.put("payStatus",new PaymentStatus());
 			context.put("reportType",reportType);
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");	
