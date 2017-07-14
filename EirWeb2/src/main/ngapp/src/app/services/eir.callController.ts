@@ -73,7 +73,7 @@ public serviceUrl : string;
      sendReSubmitRequestForCombo(requestId,comboRequest){
          var head = new Headers();
         head.append('Content-Type', 'application/json');
-         debugger;
+        
           return this._http.post(this.serviceUrl+ 'reSubmitRequestForCombo?requestId='+requestId,
             JSON.stringify(comboRequest),{
                 headers:head
@@ -85,7 +85,7 @@ public serviceUrl : string;
      sendReSubmitRequestForCIR(cirRequestId,cirRequest){
           var head = new Headers();
         head.append('Content-Type', 'application/json');
-        debugger;
+       
         return this._http.post(this.serviceUrl+ 'reSubmitRequestForCIR?cirRequestId='+cirRequestId,
         
              JSON.stringify(cirRequest),{

@@ -92,7 +92,7 @@ export class ViewEnquiryComponent
     {
          console.log("RESUBMIT called");
         console.log("finised");
-        debugger;
+       
         if(reportType == 'CIRWS'){
             this._appService.sendReSubmitRequestForCIR(this.cirWithScoreObject.cirRequestId,this.cirWithScoreObject).subscribe((cirWithScoreObject) => {
                 this.cirWithScoreObject = cirWithScoreObject;
