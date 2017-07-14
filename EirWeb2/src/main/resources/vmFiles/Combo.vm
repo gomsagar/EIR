@@ -1,6 +1,7 @@
 
-<html>			
-			#if($reportType == "EIR"  ||  $reportType == "CWOS" || $reportType == "CWS" || $reportType == "CIRWS" || $reportType == "CIRWS" || $reportType == "CIRWOS")
+<html>		
+
+			#if($reportType == "EIR"  ||  $reportType == "CWOS" || $reportType == "CWS" || $reportType == "CIRWS" || $reportType == "CIRWOS")
 				#set($responseInfoList = $eirDomain.comboDomain.responseInfoList)
 				#set($reportDetails = $eirDomain.comboDomain.reportDetails)
 				#set($comboSummaryDetails = $eirDomain.comboDomain.summaryDetails)
@@ -19,4 +20,5 @@
 					#end
 				#end
 			#end
+			
 </html>			

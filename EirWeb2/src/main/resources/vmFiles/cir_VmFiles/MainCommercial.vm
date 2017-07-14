@@ -4,6 +4,11 @@
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
       <title>Commercial Report</title>
       <style type="text/css">
+      #page-content {
+    margin: 0px auto;
+    position: relative;
+    width: 960px;
+}
          body {
          margin-left: 0px;
          margin-top: 0px;
@@ -293,7 +298,7 @@
         </style>
    </head>
    <body>
-    <div id="page-content" class="main_wrap rel">
+   
    #set($disclosure = $reportDetails.disclosure)
    #set($reportIdentifier = $reportDetails.reportIdentifier)
   	##GENERIC CONSTANTS
@@ -341,20 +346,22 @@ $emptyDataIndicator
 		$date
 	#end
 
-
+ ##<div id="page-content" class="main_wrap rel">
   		 ##FOOTER START
-               #parse("/vmFiles/cir_VmFiles/Footer.vm")
+         ##      #parse("/vmFiles/cir_VmFiles/Footer.vm")
                ##HEADER END
   ##HEADER START
   #parse("/vmFiles/cir_VmFiles/Header.vm")
   ##HEADER ENDS
-      <table width="940" border="0" align="center" cellpadding="0" cellspacing="0">
+      <table id="page-content" width="940" border="0" align="center" cellpadding="0" cellspacing="0">
       <tr>
          <td valign="top" bgcolor="#FFFFFF" style="width:940px;">
             <table width="900px" border="0" align="center" cellpadding="0" cellspacing="0">
+           
               #set($matchFound=$reportDetails.matchFound)
               #set($headCount=0)
                #if($matchFound=="true")
+                <tr>
 	               <td height="8" bgcolor="#FFFFFF"></td>
 	               </tr>
 	               #if($reportIdentifier=="Commercial - Disclosure")
@@ -468,6 +475,6 @@ $emptyDataIndicator
                   <td height="25" bgcolor="#FFFFFF" class="paymentmodeData" style="text-align:center;">&copy; Experian Ltd, $year. All rights reserved.</td>
                </tr>
             </table>
-           </div>
+        ##    </div>
             <pd4ml:page.break/>
    </body>

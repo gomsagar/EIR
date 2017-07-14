@@ -244,35 +244,40 @@ $value
                                                      
                            #if($confScore >= 300 && $confScore <= 420)
                           	
-                          	##<td align="center" class="scoreMeter1">$confScore</td>   
+                          	  
                           	<td>
 									<table  style="width:100%">						 
 										<tbody><tr>						
 								    
 											<td style="width:15%"></td>
-											##<td style="width:85%" align="center" class="scoreMeter4">$confScore</td>   
+											
 											<td style="width:85%" align="center" class="scoreMeter1">
 												<table style="height:145px; width:100%">
 										    	<tbody>
 												    <tr>
-												            <td style="width:75%; text-align:center">&nbsp;</td>
-												            <td style="width:25%; text-align:left">&nbsp;</td>
+												    		<td style="width:25%; text-align:left">&nbsp;</td>
+												            <td style="width:75%; text-align:left">&nbsp;</td>
+												            
 												        </tr>
 														 <tr>
+														 	<td style="width:22%; text-align:left">&nbsp;</td>
 												            <td style="width:78%; text-align:center">&nbsp;</td>
-												            <td style="width:22%; text-align:left">&nbsp;</td>
+												            
 												        </tr>
 												        <tr>
+												        	<td style="width:22%; text-align:left">&nbsp;</td>
 												            <td style="width:78%; text-align:center">&nbsp;</td>
-												            <td style="width:22%; text-align:left">&nbsp;</td>
+												            
 												        </tr>
 												        <tr>
+												        	<td style="width:22%; text-align:left">$confScore</td>
 												            <td style="width:78%; text-align:center">&nbsp;</td>
-												            <td style="width:22%;">$confScore</td>
+												            
 												        </tr>
 												        <tr>
+												        	<td style="width:22%; text-align:left">&nbsp;</td>
 												            <td style="width:78%; text-align:center">&nbsp;</td>
-												            <td style="width:22%; text-align:left">&nbsp;</td>
+												            
 												        </tr>
 												</tbody>
 												</table>
@@ -283,25 +288,61 @@ $value
                     
                            #elseif($confScore >= 421 && $confScore <= 540)
                            
-                         ##  	<td align="center" class="scoreMeter2">$confScore</td>   
+                        
                          <td>
 									<table  style="width:100%">						 
 										<tbody><tr>						
 								    
 											<td style="width:15%"></td>
-											##<td style="width:85%" align="center" class="scoreMeter4">$confScore</td>   
+											
 											<td style="width:85%" align="center" class="scoreMeter2">
 												<table style="height:145px; width:100%">
 										    	<tbody>
-												     <tr>
+												      <tr>
+												        	<td style="width:22%; text-align:left">&nbsp;</td>
+												            <td style="width:78%; text-align:center">&nbsp;</td>
+												            
+												        </tr>
+												        <tr>
+												        	<td style="width:22%; text-align:left">$confScore</td>
+												            <td style="width:78%; text-align:center">&nbsp;</td>
+												            
+												        </tr>
+												        <tr>
+												        	<td style="width:22%; text-align:left">&nbsp;</td>
+												            <td style="width:78%; text-align:center">&nbsp;</td>
+												            
+												        </tr>
+												         <tr>
+												        	<td style="width:22%; text-align:left">&nbsp;</td>
+												            <td style="width:78%; text-align:center">&nbsp;</td>
+												            
+												        </tr>
+												</tbody>
+												</table>
+											</td>
+										</tr>
+									</tbody></table>					   
+									</td>
+                         
+                           #elseif($confScore >= 541 && $confScore <= 660)
+                          <td>
+									<table  style="width:100%">						 
+										<tbody><tr>						
+								    
+											<td style="width:15%"></td>
+											 
+											<td style="width:85%" align="center" class="scoreMeter3">
+												<table style="height:145px; width:100%">
+										    	<tbody>
+												    <tr>
+												            <td style="width:100%; text-align:center">$confScore</td>
+												    </tr>
+														 <tr>
 												            <td style="width:78%; text-align:center">&nbsp;</td>
 												            <td style="width:22%; text-align:left">&nbsp;</td>
 												        </tr>
-														 <tr>
-												            <td style="width:78%; text-align:center">&nbsp;</td>
-												            <td style="width:22%;">$confScore</td>
-												        </tr>
-												         <tr>
+												        <tr>
 												            <td style="width:78%; text-align:center">&nbsp;</td>
 												            <td style="width:22%; text-align:left">&nbsp;</td>
 												        </tr>
@@ -315,42 +356,35 @@ $value
 										</tr>
 									</tbody></table>					   
 									</td>
-                         
-                           #elseif($confScore >= 541 && $confScore <= 660)
-                           <td>
-	                           <h2 style="margin-left: 0px;">$confScore</h2>
-	                           <div style="width:300px; height:145px; background:url($cons3) no-repeat center;" >
-	                              
-	                           </div></td>
                           
                            #elseif($confScore >= 661 && $confScore <= 780)
                            
-                            ## <td align="center" class="scoreMeter4">$confScore</td>   
+                          
 								   
 									<td>
 									<table  style="width:100%">						 
 										<tbody><tr>						
 								    
 											<td style="width:15%"></td>
-											##<td style="width:85%" align="center" class="scoreMeter4">$confScore</td>   
+											
 											<td style="width:85%" align="center" class="scoreMeter4">
 												<table style="height:145px; width:100%">
 										    	<tbody>
 												    <tr>
-												            <td style="width:75%; text-align:center">&nbsp;</td>
-												            <td style="width:25%; text-align:left">&nbsp;</td>
+												            <td style="width:78%; text-align:center">&nbsp;</td>
+												            <td style="width:22%; text-align:left">&nbsp;</td>
 												        </tr>
 														 <tr>
 												            <td style="width:78%; text-align:center">&nbsp;</td>
 												            <td style="width:22%; text-align:left">$confScore</td>
 												        </tr>
 												        <tr>
-												            <td style="width:75%; text-align:center">&nbsp;</td>
-												            <td style="width:25%; text-align:left">&nbsp;</td>
+												            <td style="width:78%; text-align:center">&nbsp;</td>
+												            <td style="width:22%; text-align:left">&nbsp;</td>
 												        </tr>
 												        <tr>
-												            <td style="width:75%; text-align:center">&nbsp;</td>
-												            <td style="width:25%; text-align:left">&nbsp;</td>
+												            <td style="width:78%; text-align:center">&nbsp;</td>
+												            <td style="width:22%; text-align:left">&nbsp;</td>
 												        </tr>
 												</tbody>
 												</table>
@@ -363,13 +397,12 @@ $value
                            
                            #elseif($confScore >= 781)
                            
-                         ##  <td align="center" class="scoreMeter5">$confScore</td>       
                          <td>
 									<table  style="width:100%">						 
 										<tbody><tr>						
 								    
 											<td style="width:15%"></td>
-											##<td style="width:85%" align="center" class="scoreMeter4">$confScore</td>   
+											
 											<td style="width:85%" align="center" class="scoreMeter5">
 												<table style="height:145px; width:100%">
 										    	<tbody>
@@ -399,8 +432,7 @@ $value
 										</tr>
 									</tbody></table>					   
 									</td>
-						              
-                           
+						       
                            #end
                         
                      </tr>
