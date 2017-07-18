@@ -25,7 +25,7 @@ public class SSOServlet extends HttpServlet {
 	private static final String FULL_NAME = "fullName";
 	private static final String USERS_MEMBER_ID = "users-member-Id";
 	EirService eirServise;
-	private static final String IP_ADDRESS = "ipAddress";
+	private static final String IP_ADDRESS = "ipAddress"; 
 	/*
 
 	private static final String CT_REMOTE_USER = "ct-remote-user";
