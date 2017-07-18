@@ -21,7 +21,8 @@
                     
                   </tr>
                   <tr class="list listh" id="R0">
-                    <td style="width:11%">#set($date="#formatdate($enqrhist.dateTime)")$date</td>
+                    ##<td style="width:11%">#set($date="#formatdate($enqrhist.dateTime)")$date</td>
+                    <td style="width:11%">$enqrhist.EnquiryDate</td>
                     <td style="width:08%">#set($value="#emptyDataCheck($enqrhist.EnquiryRefNum)")$value</td>
                     <td style="width:10%">#set($value="#emptyDataCheck($enqrhist.BureauMemberName)")$value</td>
                     <td style="width:10%">#set($value="#emptyDataCheck($enqrhist.BureauMemberId)")$value</td>

@@ -256,14 +256,19 @@ public class CommercialMapper {
 			for(Credtype credtype: credtypelist)
 			{
 				List<Acctypinfo> acctypinfos =credtype.getAccTypeInfo();
-				for(Acctypinfo acctypinfo: acctypinfos)
+				
+				if(acctypinfos != null && !acctypinfos.isEmpty())
 				{
-					reportSummary.setStandard(acctypinfo.getPctTotalStandardCreditType());
-					reportSummary.setSubStandard(acctypinfo.getPctTotalSubStandardCreditType());
-					reportSummary.setDoubtful(acctypinfo.getPctTotalDoubtfulCreditType());
-					reportSummary.setLoss(acctypinfo.getPctTotalLossCreditType());
-					reportSummary.setSma(acctypinfo.getPctTotalSpecMentionCreditType());
+					for(Acctypinfo acctypinfo: acctypinfos)
+					{
+						reportSummary.setStandard(acctypinfo.getPctTotalStandardCreditType());
+						reportSummary.setSubStandard(acctypinfo.getPctTotalSubStandardCreditType());
+						reportSummary.setDoubtful(acctypinfo.getPctTotalDoubtfulCreditType());
+						reportSummary.setLoss(acctypinfo.getPctTotalLossCreditType());
+						reportSummary.setSma(acctypinfo.getPctTotalSpecMentionCreditType());
+					}	
 				}
+				
 			}	
 		}
 		

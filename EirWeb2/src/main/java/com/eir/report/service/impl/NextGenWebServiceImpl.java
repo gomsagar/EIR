@@ -142,7 +142,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 							 /*byte[] reportXml = cirRequest.getXmlOutput();
 							 ByteArrayInputStream in = new ByteArrayInputStream(reportXml);*/
 
-							 String filePath = xmlOutputPath + Constant.SEPERATOR + cirRequest.getXmlOutputPath();
+							 String filePath = xmlOutputPath + cirRequest.getXmlOutputPath();
 							 File fileOutput = new File(filePath);
 							 ByteArrayInputStream in = new ByteArrayInputStream(FileUtils.readFileToByteArray(fileOutput));
 				             SOAPMessage message = MessageFactory.newInstance().createMessage(null, in );
@@ -307,7 +307,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 						 {
 							/*byte[] requestedConsXml = consumerRequest.getXmlOutput();
 							ByteArrayInputStream bais = new ByteArrayInputStream(requestedConsXml);*/ //read file from folder instate of database
-							 String filePath = xmlOutputPath + Constant.SEPERATOR + consumerRequest.getXmlOutputPath();
+							 String filePath = xmlOutputPath + consumerRequest.getXmlOutputPath();
 							 
 							 File fileOutput = new File(filePath);
 							 ByteArrayInputStream bais = new ByteArrayInputStream(FileUtils.readFileToByteArray(fileOutput));

@@ -1,4 +1,5 @@
 /*     */ package com.experian.nextgen.ind.model.consumer.uofpojo;
+import java.text.SimpleDateFormat;
 /*     */ 
 /*     */ import java.util.ArrayList;
 /*     */ import java.util.List;
@@ -322,10 +323,31 @@
 /*     */ 
 /*     */   public String getEnquiryDate()
 /*     */   {
-/* 325 */     return this.enquiryDate;
+/* 325 */     return convertDate(this.enquiryDate);
 /*     */   }
 /*     */   
-/*     */ 
+/*     */ 	private String convertDate(String str) 
+			{
+				try 
+				{
+					if(str != null && !str.isEmpty())
+					{
+						SimpleDateFormat format1 = new SimpleDateFormat("ddmmyyyy");
+						SimpleDateFormat format2 = new SimpleDateFormat("dd/mm/yy");
+						java.util.Date date;
+						String newDate="";
+						date = format1.parse(str);
+						newDate = format2.format(date);
+						return newDate;
+					}
+				} 
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+				
+				return "";
+			}
 /*     */ 
 /*     */ 
 /*     */ 

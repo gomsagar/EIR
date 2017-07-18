@@ -11,13 +11,22 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Service;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.eir.report.constant.Constant;
+import com.eir.report.entity.UserDetails;
+import com.eir.report.service.EirService;
 import com.eir.report.web.service.EwacsData;
-//import com.experian.ewacs.contract.query.v1.QueryUserProductInfoFault;
 
-public class SSOServlet extends HttpServlet {/*
+@Service
+public class SSOServlet extends HttpServlet {
+	private static final String CT_REMOTE_USER = "ct-remote-user";
+	private static final String FULL_NAME = "fullName";
+	private static final String USERS_MEMBER_ID = "users-member-Id";
+	EirService eirServise;
+	private static final String IP_ADDRESS = "ipAddress";
+	/*
 
 	private static final String CT_REMOTE_USER = "ct-remote-user";
     private static final String USER_ID = "userId";
@@ -87,22 +96,51 @@ public class SSOServlet extends HttpServlet {/*
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    	/*if (userID != null) {
+        //UserDetails userDetails = eirService.getUserById(userID);
+        //if (userDetails != null) {
+		               request.getSession().setAttribute(Constant.USER_ID, userID);
+		               response.sendRedirect("ng/index.html");
+		        //}
+		  }
+		  else{
+			  response.sendRedirect("ng/error.html");  
+		  }*/
+		    	
            String userID = request.getParameter("userId");
            System.out.println("=============================================" + userID);
            try {
-                  if (userID != null) {
-                        //UserDetails userDetails = eirService.getUserById(userID);
-                        //if (userDetails != null) {
-                               request.getSession().setAttribute(Constant.USER_ID, userID);
-                               response.sendRedirect("ng/index.html");
-                        //}
-                  }
-                  // logger.debug("EirController - callDashboard: Invalid User");
-                  response.sendRedirect("ng/error.html");
+        	   String userId = (String) request.getSession().getAttribute(Constant.USER_ID);
+        	   
+        	   if(userId == null || userId.isEmpty()) {
+       			userId = request.getHeader(CT_REMOTE_USER);
+       			
+       			if (StringUtils.isBlank(userId)) {
+       				userId = request.getParameter(Constant.USER_ID);
+       			}
+       			try{
+       				setSessionValues(request, userId);
+       			}catch(Exception e){
+                       throw new ServletException("Error setting user data");
+       			}
+       		}
+        	   response.sendRedirect("ng/index.html");	
+                  
            } catch (Exception e) {
                   e.printStackTrace();
            }
     }
+    
+    private void setSessionValues(HttpServletRequest request, String userId) {
+        if(userId != null )
+        {
+        	Integer userID = Integer.parseInt(userId);
+        	Integer memberId = eirServise.getUsersMemberId(userID);
+            request.getSession().setAttribute(Constant.USER_ID, userID);
+            request.getSession().setAttribute(USERS_MEMBER_ID, memberId) ;
+        }
+		request.getSession().setAttribute(IP_ADDRESS, request.getRemoteAddr());
+	}
 
 
 }

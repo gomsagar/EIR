@@ -99,7 +99,7 @@ export class ViewEnquiryComponent
             });
         }
         if(reportType == 'CIRWOS'){
-            this._appService.sendReSubmitRequestForCIR(this.cirWithScoreObject.cirRequestId,this.cirWithOutScoreObject).subscribe((cirWithScoreObject) => {
+            this._appService.sendReSubmitRequestForCIR(this.cirWithOutScoreObject.cirRequestId,this.cirWithOutScoreObject).subscribe((cirWithScoreObject) => {
                      this.cirWithOutScoreObject =cirWithScoreObject;
                         
             });

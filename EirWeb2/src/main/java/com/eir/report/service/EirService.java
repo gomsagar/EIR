@@ -22,6 +22,7 @@ import com.eir.report.entity.BirRequest;
 import com.eir.report.entity.CirPurpose;
 import com.eir.report.entity.ConsumerFinancialPurpose;
 import com.eir.report.entity.ConsumerPurpose;
+import com.eir.report.entity.Member;
 import com.eir.report.entity.RelationType;
 import com.eir.report.entity.ReportType;
 import com.eir.report.entity.Request;
@@ -85,4 +86,6 @@ public interface EirService {
 		Object getResubmitedComboData(Integer requestId);
 
 		Object getResubmitedCIRData(Integer cirRequestId);
+		
+		Integer getUsersMemberId(Integer userId);
 }

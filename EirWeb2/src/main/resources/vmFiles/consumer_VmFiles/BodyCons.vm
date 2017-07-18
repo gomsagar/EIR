@@ -42,12 +42,14 @@ $var
 ##Format Date##
 #macro(formatdate $date)##
 #if($StringUtils.isNotEmpty($date))##
-#set($date=$sdf.format($date))##
+#set($date=$StringUtils.deleteWhitespace($date))
+#set($date=$format1.parse($date))##
+#set($date=$date)##
 #else##
 #set($date="-")##
 #end##
-$date##
-#end##
+$date
+#end
 		
 		
 		#set($credit="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANgAAAAQCAYAAAB0m7E0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAE8SURBVGhD7ZohbsNAEEV9vsIeqecIDSyplIBKLrG0BpGWRHJAJRcEGBQsCFgQMJ0Z243CsnLM3pd+nsc2fVrb2UosV/+VfM0QwieyMrn6c5LdodcON7YQwmKqP/VE88oF23x28vpWy4sWQvgcbtWrKuesB/3/ybnMzMzLZvOqSpckm328uwlCuJzmVZVSku6kz4xNlN1XlPd98G4/IISltJpH5lN3shVMBet/eh06CYcgoQ1SN7WEBkJYTPXHPDKfzCsXbBgGP9Edb5JRSssa2zjKpR6ZT+aVv4PZwXBWyb7HC36DNh51mYMQPk7zRz0yn1ww+4qYL1nSb/K6bJNwEMJCameXzCv/H8wl09rjoq1oTkppeSd/ZqdcsHlbxywbhHAhp+1S7EWEcEWOghFCVgmCEbJiEIyQ1SLyB2oK4srxcuTXAAAAAElFTkSuQmCC")

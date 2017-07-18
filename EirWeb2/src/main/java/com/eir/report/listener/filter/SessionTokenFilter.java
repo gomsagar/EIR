@@ -26,7 +26,7 @@ public class SessionTokenFilter implements Filter {
 	private static Log log = LogFactory.getLog(SessionTokenFilter.class);
     private static final String REQ_TOKEN = "sessionReqToken";
     private static final String SESS_TOKEN = "sessionToken";
-	private static final List<String> PATHS_TO_IGNORE = Arrays.asList("/products/landing.page","/products/ssoLogout.page");
+	private static final List<String> PATHS_TO_IGNORE = Arrays.asList("/ng/");
 
     @Override
 	public void init(FilterConfig filterConfig) throws ServletException {

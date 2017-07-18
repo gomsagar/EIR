@@ -62,6 +62,7 @@ import com.eir.report.entity.ConsumerPurpose;
 import com.eir.report.entity.ConsumerRequest;
 import com.eir.report.entity.EntityDetails;
 import com.eir.report.entity.KycApproval;
+import com.eir.report.entity.Member;
 import com.eir.report.entity.ProductMaster;
 import com.eir.report.entity.RelationType;
 import com.eir.report.entity.ReportSelection;
@@ -85,6 +86,7 @@ import com.eir.report.repository.EntityDetailsRepository;
 import com.eir.report.repository.FrequencyRepository;
 import com.eir.report.repository.GenderRepository;
 import com.eir.report.repository.KycApprovalRepository;
+import com.eir.report.repository.MemberUserMappingRepository;
 import com.eir.report.repository.ProductMasterRepository;
 import com.eir.report.repository.RelationTypeRepository;
 import com.eir.report.repository.ReportSelectionRepository;
@@ -181,7 +183,8 @@ public class EirServiceImpl implements EirService{
 	@Autowired
 	FrequencyRepository frequencyRepository;
 	
-	
+	@Autowired
+	MemberUserMappingRepository memberUserMappingRepository;
 	@Override
 	public List<BirRequest> retrieveRequest() {
 		return birRequestRepository.findAll();
@@ -1404,6 +1407,13 @@ public class EirServiceImpl implements EirService{
 				return cirWithOutScoreObject;
 			}
 		}
+		return null;
+	}
+
+	@Override
+	public Integer getUsersMemberId(Integer userId) 
+	{
+		memberUserMappingRepository.getUsersMemberId(userId);
 		return null;
 	}
 	
