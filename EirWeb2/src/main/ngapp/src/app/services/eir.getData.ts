@@ -33,4 +33,9 @@ export class DataService {
              return this._http.get(this.serviceUrl+ 'getEarlierRequest?userID=' + userID)
             .map((res:Response) => res.json());
     }
+    getSelectedProduct(reqID)
+    {
+         return this._http.get(this.serviceUrl+ 'getSelectedProduct?reqID=' + reqID)
+            .map((res:Response) => res.json()); 
+    }
 }

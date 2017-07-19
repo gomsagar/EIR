@@ -164,7 +164,7 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
       this.requisitionForm[action]('lastName' + i, new FormControl('', [Validators.required,Validators.pattern('[A-Za-z]*')]));
       this.requisitionForm[action]('mobileNo' + i, new FormControl('', [Validators.required,Validators.pattern('[0-9]{10}')]));
       this.requisitionForm[action]('gender' + i, new FormControl('', [Validators.required]));
-     // this.requisitionForm[action]('addressType' + i, new FormControl('', [Validators.required]));
+      this.requisitionForm[action]('birthDate' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('personAddrLine1' + i, new FormControl('', [Validators.required]));
    //   this.requisitionForm[action]('personAddrLine2' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('personCity' + i, new FormControl('', [Validators.required,Validators.pattern('[A-Za-z]*')]));
@@ -188,12 +188,18 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
       
         this.rowValidateForm(ConsumerComponent.iRow++, 'add');
    }
+   else{
+     alert("Cannot add more than 15 Consumers!!!");
+   }
  }
 
  remove(){
    if(ConsumerComponent.iRow != 1){
      this.consumerData.pop();
       ConsumerComponent.iRow--;
+   }
+   else{
+     alert("Must include atleast one consumer!!!");
    }
  }
  
@@ -229,13 +235,17 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
 
   getFinancialPurpose(purposeIdObj)
   {
-    this._consumerPurposeList.getConsumerFinancialPurposeList(purposeIdObj.purposeId).subscribe((financialPurposeListResponse) => {
-        this.consumerFinancialPurposeList = financialPurposeListResponse;
-       // this.jsonResponse = JSON.stringify(financialPurposeListResponse);
-        if(financialPurposeListResponse!=null)
-        {
-        this.hasList=true;
-        }
-    });
+    if(purposeIdObj)
+    {
+      this._consumerPurposeList.getConsumerFinancialPurposeList(purposeIdObj.purposeId).subscribe((financialPurposeListResponse) => {
+          this.consumerFinancialPurposeList = financialPurposeListResponse;
+        // this.jsonResponse = JSON.stringify(financialPurposeListResponse);
+          if(financialPurposeListResponse!=null)
+          {
+          this.hasList=true;
+          }
+      });
+    }
   }
+
 }

@@ -36,4 +36,6 @@ public interface BirReportService {
 	//void createZaubaRequest(com.eir.bir.request.model.BirRequest birZaubaRequest);
 
 	BirRequest createBIRrequest(com.eir.bir.request.model.BirRequest birInputRequest, Request request);
+
+	EligibleReport getSelectedProduct(Integer reqID);
 }

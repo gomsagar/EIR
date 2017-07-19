@@ -16,13 +16,13 @@ public serviceUrl : string;
     getNativeWindow() {
         return window;
     }
-    submit(data) {
+    submit(data, sentRequestId) {
         console.log(data);
        
         var head = new Headers();
         head.append('Content-Type', 'application/json');
          
-        return this._http.post(this.serviceUrl+ 'saveProductSelection',
+        return this._http.post(this.serviceUrl+ 'saveProductSelection?sentRequestId='+ sentRequestId,
         JSON.stringify(data), { 
            headers:head
         })

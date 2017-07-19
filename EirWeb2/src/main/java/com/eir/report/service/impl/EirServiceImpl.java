@@ -756,7 +756,7 @@ public class EirServiceImpl implements EirService{
 	}
 
 	@Override
-	public Integer saveSelectedProduct(EligibleReport selection) 
+	public Integer saveSelectedProduct(EligibleReport selection,Integer sentRequestId) 
 	{
 		Request reqEntity = new Request();
 		reqEntity.setUserDetails(getUserDetails(Constant.HARDCOADED_USERID));
@@ -767,84 +767,175 @@ public class EirServiceImpl implements EirService{
 		reqEntity.setType(Constant.SPECIFIED);//TODO change according to FE flag
 		reqEntity.setMemberId(1);
 		
+		if(sentRequestId == 0)
+		{
  		requestRepository.save(reqEntity);
+ 		sentRequestId = reqEntity.getRequestId();
+		}
  		
 			List<ReportSelection> addintoList = new ArrayList<ReportSelection>();
+			List<ReportSelection> deletionList = new ArrayList<ReportSelection>();
 							
-			if (selection.getComboWithScore()) {	
+			if (selection.getComboWithScore() == 1) {
+				
 				ReportSelection cws = new ReportSelection();
 				cws.setProductCode(EIRDataConstant.COMBOWITHSCORE);
 				ProductMaster comboWithScore = productMasterRepository.findByproductCode(EIRDataConstant.COMBOWITHSCORE);
 				cws.setProductId(comboWithScore.getProductId());
-				cws.setRequestId(reqEntity.getRequestId());
+				cws.setRequestId(sentRequestId);
 				addintoList.add(cws);
 			}
-			if(selection.getComboWithoutScore())
+			if(selection.getComboWithoutScore() == 1)
 			{
 				ReportSelection cwos = new ReportSelection();
 				cwos.setProductCode(EIRDataConstant.COMBOWITHOUTSCORE);
-				ProductMaster comboWithScore = productMasterRepository.findByproductCode(EIRDataConstant.COMBOWITHOUTSCORE);
-				cwos.setProductId(comboWithScore.getProductId());
-				cwos.setRequestId(reqEntity.getRequestId());
+				ProductMaster comboWithOutScore = productMasterRepository.findByproductCode(EIRDataConstant.COMBOWITHOUTSCORE);
+				cwos.setProductId(comboWithOutScore.getProductId());
+				cwos.setRequestId(sentRequestId);
 				addintoList.add(cwos);
 			}
-			if(selection.getCommWithScore())
+			if(selection.getCommWithScore() == 1)
 			{
 				ReportSelection cirws = new ReportSelection();
 				cirws.setProductCode(EIRDataConstant.CIRWITHSCORE);
-				ProductMaster comboWithScore = productMasterRepository.findByproductCode(EIRDataConstant.CIRWITHSCORE);
-				cirws.setProductId(comboWithScore.getProductId());
-				cirws.setRequestId(reqEntity.getRequestId());
+				ProductMaster cirWithScore = productMasterRepository.findByproductCode(EIRDataConstant.CIRWITHSCORE);
+				cirws.setProductId(cirWithScore.getProductId());
+				cirws.setRequestId(sentRequestId);
 				addintoList.add(cirws);
 			}
-			if(selection.getCommWithoutScore())
+			if(selection.getCommWithoutScore() == 1)
 			{
 				ReportSelection cirwos = new ReportSelection();
 				cirwos.setProductCode(EIRDataConstant.CIRWITHOUTSCORE);
-				ProductMaster comboWithScore = productMasterRepository.findByproductCode(EIRDataConstant.CIRWITHOUTSCORE);
-				cirwos.setProductId(comboWithScore.getProductId());
-				cirwos.setRequestId(reqEntity.getRequestId());
+				ProductMaster cirWithOutScore = productMasterRepository.findByproductCode(EIRDataConstant.CIRWITHOUTSCORE);
+				cirwos.setProductId(cirWithOutScore.getProductId());
+				cirwos.setRequestId(sentRequestId);
 				addintoList.add(cirwos);
 			}
-			if(selection.getLitigation())
+			if(selection.getLitigation() == 1)
+			{
+				ReportSelection let = new ReportSelection();
+				let.setProductCode(EIRDataConstant.LETIGATION);
+				ProductMaster letigation = productMasterRepository.findByproductCode(EIRDataConstant.LETIGATION);
+				let.setProductId(letigation.getProductId());
+				let.setRequestId(sentRequestId);
+				addintoList.add(let);
+			}
+			if(selection.getNewsFeed() == 1)
+			{
+				ReportSelection newsfeed = new ReportSelection();
+				newsfeed.setProductCode(EIRDataConstant.NEWSFEED);
+				ProductMaster newsFeed = productMasterRepository.findByproductCode(EIRDataConstant.NEWSFEED);
+				newsfeed.setProductId(newsFeed.getProductId());
+				newsfeed.setRequestId(sentRequestId);
+				addintoList.add(newsfeed);
+			}
+			if(selection.getSme() == 1)
+			{
+				ReportSelection sme = new ReportSelection();
+				sme.setProductCode(EIRDataConstant.SME);
+				ProductMaster smeProduct = productMasterRepository.findByproductCode(EIRDataConstant.SME);
+				sme.setProductId(smeProduct.getProductId());
+				sme.setRequestId(sentRequestId);
+				addintoList.add(sme);
+			}
+			if(selection.getBir() == 1)
+			{
+				ReportSelection bir = new ReportSelection();
+				bir.setProductCode(EIRDataConstant.BIR);
+				ProductMaster birProduct = productMasterRepository.findByproductCode(EIRDataConstant.BIR);
+				bir.setProductId(birProduct.getProductId());
+				bir.setRequestId(sentRequestId);
+				addintoList.add(bir);
+			}
+			
+			
+			if (selection.getComboWithScore() == 0) {
+				
+				ReportSelection cws = new ReportSelection();
+				cws.setProductCode(EIRDataConstant.COMBOWITHSCORE);
+				ProductMaster comboWithScore = productMasterRepository.findByproductCode(EIRDataConstant.COMBOWITHSCORE);
+				if(null != comboWithScore){
+					cws.setProductId(comboWithScore.getProductId());
+					cws.setRequestId(sentRequestId);
+					deletionList.add(cws);
+				}
+			}
+			if(selection.getComboWithoutScore() == 0)
+			{
+				ReportSelection cwos = new ReportSelection();
+				cwos.setProductCode(EIRDataConstant.COMBOWITHOUTSCORE);
+				ProductMaster comboWithoutScore = productMasterRepository.findByproductCode(EIRDataConstant.COMBOWITHOUTSCORE);
+				if(null != comboWithoutScore){
+				cwos.setProductId(comboWithoutScore.getProductId());
+				cwos.setRequestId(sentRequestId);
+				deletionList.add(cwos);
+				}
+			}
+			if(selection.getCommWithScore() == 0)
+			{
+				ReportSelection cirws = new ReportSelection();
+				cirws.setProductCode(EIRDataConstant.CIRWITHSCORE);
+				ProductMaster cirWithScore = productMasterRepository.findByproductCode(EIRDataConstant.CIRWITHSCORE);
+				if(null != cirWithScore){
+				cirws.setProductId(cirWithScore.getProductId());
+				cirws.setRequestId(sentRequestId);
+				deletionList.add(cirws);
+				}
+			}
+			if(selection.getCommWithoutScore() == 0)
+			{
+				ReportSelection cirwos = new ReportSelection();
+				cirwos.setProductCode(EIRDataConstant.CIRWITHOUTSCORE);
+				ProductMaster cirWithoutScore = productMasterRepository.findByproductCode(EIRDataConstant.CIRWITHOUTSCORE);
+				if(null != cirWithoutScore){
+				cirwos.setProductId(cirWithoutScore.getProductId());
+				cirwos.setRequestId(sentRequestId);
+				deletionList.add(cirwos);
+				}
+			}
+			/*if(selection.getLitigation() == 0)
 			{
 				ReportSelection let = new ReportSelection();
 				let.setProductCode(EIRDataConstant.LETIGATION);
 				ProductMaster comboWithScore = productMasterRepository.findByproductCode(EIRDataConstant.LETIGATION);
 				let.setProductId(comboWithScore.getProductId());
-				let.setRequestId(reqEntity.getRequestId());
-				addintoList.add(let);
+				let.setRequestId(sentRequestId);
+				deletionList.add(let);
 			}
-			if(selection.getNewsFeed())
+			if(selection.getNewsFeed() == 0)
 			{
 				ReportSelection newsfeed = new ReportSelection();
 				newsfeed.setProductCode(EIRDataConstant.NEWSFEED);
 				ProductMaster comboWithScore = productMasterRepository.findByproductCode(EIRDataConstant.NEWSFEED);
 				newsfeed.setProductId(comboWithScore.getProductId());
-				newsfeed.setRequestId(reqEntity.getRequestId());
-				addintoList.add(newsfeed);
+				newsfeed.setRequestId(sentRequestId);
+				deletionList.add(newsfeed);
 			}
-			if(selection.getSme())
+			if(selection.getSme() == 0)
 			{
 				ReportSelection sme = new ReportSelection();
 				sme.setProductCode(EIRDataConstant.SME);
 				ProductMaster comboWithScore = productMasterRepository.findByproductCode(EIRDataConstant.SME);
 				sme.setProductId(comboWithScore.getProductId());
-				sme.setRequestId(reqEntity.getRequestId());
-				addintoList.add(sme);
-			}
-			if(selection.getBir())
+				sme.setRequestId(sentRequestId);
+				deletionList.add(sme);
+			}*/
+			if(selection.getBir() == 0)
 			{
 				ReportSelection bir = new ReportSelection();
 				bir.setProductCode(EIRDataConstant.BIR);
-				ProductMaster comboWithScore = productMasterRepository.findByproductCode(EIRDataConstant.BIR);
-				bir.setProductId(comboWithScore.getProductId());
-				bir.setRequestId(reqEntity.getRequestId());
-				addintoList.add(bir);
+				ProductMaster birProduct = productMasterRepository.findByproductCode(EIRDataConstant.BIR);
+				if(null != birProduct){
+					bir.setProductId(birProduct.getProductId());
+					bir.setRequestId(sentRequestId);
+					deletionList.add(bir);
+				}
 			}
 			
 			reportSelectionRepository.save(addintoList);
-			return reqEntity.getRequestId();
+			reportSelectionRepository.delete(deletionList);
+			return sentRequestId;
 	}
 	
 	public Status getStatusByDescription(String statusDesc)

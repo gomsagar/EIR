@@ -13,7 +13,8 @@
 
 	<context:component-scan base-package="com.eir.report.service.*, com.eir.report.nextgen.service.client.*"/>
 	
-	<context:property-placeholder location="classpath:application.properties, classpath:sso.properties, classpath:zaubaConfig.properties, classpath:nextgenConfig.properties"/>
+	<!-- <context:property-placeholder location="classpath:application.properties, classpath:sso.properties, classpath:zaubaConfig.properties, classpath:nextgenConfig.properties"/> -->
+	<context:property-placeholder location="classpath:application.properties, classpath:sso.properties, classpath:zaubaConfig.properties"/>
 	
 	<!-- Configure to plugin JSON as request and response in method handler -->
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">

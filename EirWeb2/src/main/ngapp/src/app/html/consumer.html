@@ -25,7 +25,7 @@
 		<div class="bg-form">
 			<div class="row">
 			<div class="form-group col-md-4" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['firstName'+i].valid && requisitionForm.controls['firstName'+i].touched)||(!requisitionForm.controls['firstName'+i].valid && submitted))}">
-				<label for="exampleInputName2">Individual First Name *</label>
+				<label for="exampleInputName2">Individual First Name <font style="color: red;"> * </font></label>
 				<input type="text" class="form-control" id="exampleInputName2" placeholder="Individual First Name" [(ngModel)]="consumerData[i].firstName"
 				 name="firstName{{i}}" formControlName="firstName{{i}}">				
 				<control-messages [control]="requisitionForm.controls['firstName'+i]" [label]="'First Name'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>			</div>
@@ -35,14 +35,14 @@
 				 placeholder="Individual Middle Name" name="middleName{{i}}" [(ngModel)]="consumerData[i].middleName">			
 		   </div>
 			<div class="form-group col-md-4" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['lastName'+i].valid && requisitionForm.controls['lastName'+i].touched)||(!requisitionForm.controls['lastName'+i].valid && submitted))}">
-				<label for="exampleInputName2">Individual Last Name * </label> 
+				<label for="exampleInputName2">Individual Last Name <font style="color: red;"> * </font> </label> 
 				<input type="text" class="form-control" id="exampleInputName2" placeholder="Individual Last Name" name="lastName{{i}}" formControlName="lastName{{i}}" [(ngModel)]="consumerData[i].lastName">
 				<control-messages [control]="requisitionForm.controls['lastName'+i]" [label]="'Last Name'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
 			</div>
 			</div>
 			<div class="row">			
 				<div class="form-group col-md-6" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['consumerPurpose'+i].valid && requisitionForm.controls['consumerPurpose'+i].touched)||(!requisitionForm.controls['consumerPurpose'+i].valid && submitted))}">
-					<label for="exampleInputName2">Purpose</label> 
+					<label for="exampleInputName2">Purpose <font style="color: red;"> * </font></label> 
 					<select class="form-control" placeholder="--SELECT--" name="consumerPurpose" formControlName="consumerPurpose{{i}}" [(ngModel)]="consumerData[i].consumerPurpose" (ngModelChange)="getFinancialPurpose($event)">
 						<option value="" disabled selected>--SELECT--</option>	
 						<option *ngFor="let consumerPurpose of consumerPurposeList" [ngValue]="consumerPurpose" id="{{consumerPurpose.purposeId}}">{{consumerPurpose.description}}</option>
@@ -50,7 +50,7 @@
 					<control-messages [control]="requisitionForm.controls['consumerPurpose'+i]" [label]="'Purpose'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
 				</div>			
 				<div class="form-group col-md-6" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['consumerFinancialPurpose'+i].valid && requisitionForm.controls['consumerFinancialPurpose'+i].touched)||(!requisitionForm.controls['consumerFinancialPurpose'+i].valid && submitted))}">
-					<label for="exampleInputName2">Financial Purpose Type</label> 
+					<label for="exampleInputName2">Financial Purpose Type <font style="color: red;"> * </font></label> 
 					<select class="form-control" placeholder="--SELECT--"  name="consumerFinancialPurpose" formControlName="consumerFinancialPurpose{{i}}" [(ngModel)]="consumerData[i].consumerFinancialPurpose">
 						<option value="" disabled selected>--SELECT--</option>	
 						<option *ngFor="let consumerFinancialPurpose of consumerFinancialPurposeList" [ngValue]="consumerFinancialPurpose" id="{{consumerFinancialPurpose.financialPurposeId}}">{{consumerFinancialPurpose.financialDescription}}</option>
@@ -60,7 +60,7 @@
 			</div>
 			<div class="row">
 				<div class="form-group col-md-6">
-					<label for="exampleInputName2">Terms</label>
+					<label for="exampleInputName2">Terms <font style="color: red;"> * </font></label>
 						<div class="input-group" [formGroup]="requisitionForm" [ngClass]="{'has-error':(((!requisitionForm.controls['terms'+i].valid && requisitionForm.controls['terms'+i].touched)||(!requisitionForm.controls['terms'+i].valid && submitted))||((!requisitionForm.controls['frequency'+i].valid && requisitionForm.controls['frequency'+i].touched)||(!requisitionForm.controls['frequency'+i].valid && submitted)))}">	
 						
 								<input size="50" maxlength="50" class="form-control" type="text" style=" width: 70%; float: left;"  [(ngModel)]="consumerData[i].durationOfAgreement" name="terms{{i}}" formControlName="terms{{i}}">          
@@ -76,7 +76,7 @@
 						<control-messages [control]="requisitionForm.controls['frequency'+i]" [label]="'Frequency'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>							
 				</div>
 				<div class="form-group col-md-6" >
-				<label for="exampleInputName2">Amount</label>
+				<label for="exampleInputName2">Amount <font style="color: red;"> * </font></label>
 				<div class="input-group" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['amount'+i].valid && requisitionForm.controls['amount'+i].touched)||(!requisitionForm.controls['amount'+i].valid && submitted))}">	
 					
 				<input size="50" maxlength="50" class="form-control" type="text" style=" width: 70%; float: left;" [(ngModel)]="consumerData[i].amount"
@@ -92,7 +92,7 @@
 			</div>
 			<div class="row">
 			<div class="form-group col-md-3" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['personPan'+i].valid && requisitionForm.controls['personPan'+i].touched)||(!requisitionForm.controls['personPan'+i].valid && submitted))}">
-				<label for="exampleInputName2">PAN</label> <input type="text" class="form-control" id="exampleInputName2" placeholder="PAN"
+				<label for="exampleInputName2">PAN <font style="color: red;"> * </font></label> <input type="text" class="form-control" id="exampleInputName2" placeholder="PAN"
 				 name="personPan{{i}}" [(ngModel)]="consumerData[i].personPan" formControlName="personPan{{i}}">				
 				<control-messages [control]="requisitionForm.controls['personPan'+i]" [label]="'PAN'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
 
@@ -131,19 +131,20 @@
 			</div>
 			<div class="row">
 			<div class="form-group col-md-3" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['mobileNo'+i].valid && requisitionForm.controls['mobileNo'+i].touched)||(!requisitionForm.controls['mobileNo'+i].valid && submitted))}">
-				<label for="exampleInputName2">Mobile</label> <input type="text" class="form-control" id="exampleInputName2" placeholder="Mobile"
+				<label for="exampleInputName2">Mobile <font style="color: red;"> * </font></label> <input type="text" class="form-control" id="exampleInputName2" placeholder="Mobile"
 				 name="mobileNo{{i}}" [(ngModel)]="consumerData[i].mobileNo" formControlName="mobileNo{{i}}">
 				<control-messages [control]="requisitionForm.controls['mobileNo'+i]" [label]="'Mobile Number'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
 			</div>
-			<div class="form-group col-md-3 bootstrap-iso">
-				<label for="exampleInputName2">Birth Date</label>
+			<div class="form-group col-md-3 bootstrap-iso" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['birthDate'+i].valid && requisitionForm.controls['birthDate'+i].touched)||(!requisitionForm.controls['birthDate'+i].valid && submitted))}">
+				<label for="exampleInputName2">Birth Date <font style="color: red;"> * </font></label>
 				
 				<div  class="input-group">
 					<!--
 						<i  class="fa fa-calendar"></i>
 						<input  class="form-control"  id="date"   placeholder="MM/DD/YYYY"  type="text" 
 					/>--> 
-					<ng2-datepicker id="date" name="datePicker" [options]="{maxDate: dateExpires,format:MM-DD-YYYY}" [(ngModel)]="consumerData[i].birthDate"></ng2-datepicker>
+					<ng2-datepicker readonly id="date" name="datePicker" [options]="{maxDate: dateExpires,format:MM-DD-YYYY}" formControlName="birthDate{{i}}" [(ngModel)]="consumerData[i].birthDate"></ng2-datepicker>
+				<control-messages [control]="requisitionForm.controls['birthDate'+i]" [label]="'birthDate'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
 				</div>
 			</div>
 			<div class="form-group col-md-3">
@@ -151,13 +152,14 @@
 				 placeholder="Martial Status" name="maritalStatus" [(ngModel)]="consumerData[i].maritalStatus">
 			</div>
 			<div class="form-group col-md-3" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['gender'+i].valid && requisitionForm.controls['gender'+i].touched)||(!requisitionForm.controls['gender'+i].valid && submitted))}">
-				<label for="exampleInputName2">Gender</label> 
+				<label for="exampleInputName2">Gender <font style="color: red;"> * </font></label> 
 				<select class="form-control" name="gender{{i}}" formControlName="gender{{i}}"
 				 [(ngModel)]="consumerData[i].gender">
-				<control-messages [control]="requisitionForm.controls['gender'+i]" [label]="'Gender'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
+				
 								<option value="" disabled selected>--SELECT--</option>	
 								<option *ngFor="let gender of genderList" [ngValue]="gender">{{gender.description}}</option>
 							</select>
+				<control-messages [control]="requisitionForm.controls['gender'+i]" [label]="'Gender'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
 			</div>
 			</div>
 			<div class="row" >
@@ -170,7 +172,7 @@
 									
 						</div>
 				<div class="form-group col-xs-4" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['personAddrLine1'+i].valid && requisitionForm.controls['personAddrLine1'+i].touched)||(!requisitionForm.controls['personAddrLine1'+i].valid && submitted))}">
-					<label for="exampleInputName2">Address 1</label> <input type="text" class="form-control" id="exampleInputName2" placeholder="Address 1"
+					<label for="exampleInputName2">Address 1 <font style="color: red;"> * </font></label> <input type="text" class="form-control" id="exampleInputName2" placeholder="Address 1"
 					 name="personAddrLine1{{i}}" formControlName="personAddrLine1{{i}}" [(ngModel)]="consumerData[i].personAddrLine1">
 					<control-messages [control]="requisitionForm.controls['personAddrLine1'+i]" [label]="'Person Addr Line1'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
 				</div>
@@ -181,12 +183,12 @@
 			</div>
 			<div class="row">
 			<div class="form-group col-md-3" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['personCity'+i].valid && requisitionForm.controls['personCity'+i].touched)||(!requisitionForm.controls['personCity'+i].valid && submitted))}">
-				<label for="exampleInputName2">City</label> <input type="text" class="form-control" id="exampleInputName2" placeholder="City"
+				<label for="exampleInputName2">City <font style="color: red;"> * </font></label> <input type="text" class="form-control" id="exampleInputName2" placeholder="City"
 				 name="personCity{{i}}" formControlName="personCity{{i}}" [(ngModel)]="consumerData[i].personCity">
 				<control-messages [control]="requisitionForm.controls['personCity'+i]" [label]="'City'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
 			</div>
 			<div class="form-group col-md-3" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['personState'+i].valid && requisitionForm.controls['personState'+i].touched)||(!requisitionForm.controls['personState'+i].valid && submitted))}">
-				<label for="exampleInputName2">State</label>
+				<label for="exampleInputName2">State <font style="color: red;"> * </font></label>
 				<select class="form-control" placeholder="--SELECT--" name="personState{{i}}" formControlName="personState{{i}}" [(ngModel)]="consumerData[i].personState">	
 					
 							<option value="" disabled selected>--SELECT--</option>	
@@ -196,7 +198,7 @@
 					</control-messages>
 			</div>
 			<div class="form-group col-md-3" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['personPinCode'+i].valid && requisitionForm.controls['personPinCode'+i].touched)||(!requisitionForm.controls['personPinCode'+i].valid && submitted))}">
-				<label for="exampleInputName2">PIN Code </label> <input type="text" class="form-control" id="exampleInputName2" placeholder="PIN Code"
+				<label for="exampleInputName2">PIN Code <font style="color: red;"> * </font> </label> <input type="text" class="form-control" id="exampleInputName2" placeholder="PIN Code"
 				 name="personPinCode{{i}}" formControlName="personPinCode{{i}}" [(ngModel)]="consumerData[i].personPinCode">
 				<control-messages [control]="requisitionForm.controls['personPinCode'+i]" [label]="'PinCode'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
 			</div>

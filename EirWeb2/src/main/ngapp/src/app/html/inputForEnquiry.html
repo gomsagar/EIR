@@ -16,7 +16,7 @@
 						</div>
 					</div>
 					<div class="form-group col-md-5">
-						<label for="exampleInputName2">Company Name *</label>
+						<label for="exampleInputName2">Company Name <font style="color: red;"> * </font></label>
 						<div class="input-group" [ngClass]="{'has-error':(!birForm.controls['companyName'].valid && birForm.controls['companyName'].touched)||(!birForm.controls['companyName'].valid && submitted)}">
 							<input type="text" class="form-control" placeholder="Company Name" formControlName="companyName" [formControl]="birForm.controls['companyName']"
 							 name="companyName" [(ngModel)]="commonArray.bir.companyName">
@@ -30,7 +30,7 @@
 
 					</div>
 					<div class="form-group  col-md-4" [ngClass]="{'has-error':(!birForm.controls['cmplist'].valid && birForm.controls['cmplist'].touched)||(!birForm.controls['cmplist'].valid && submitted)}">
-					<label for="exampleInputEmail2">Company List</label> 
+					<label for="exampleInputEmail2">Company List <font style="color: red;"> * </font></label> 
 						<select class="form-control"  placeholder="--SELECT--" [formControl]="birForm.controls['cmplist']"
 						 name="company" [(ngModel)]="commonArray.bir.company" (ngModelChange)="onChange($event)">										  
 								<option value="" disabled selected>--SELECT--</option>						
@@ -49,7 +49,7 @@
 							<input type="text" class="form-control" id="exampleInputName2" value = {{commonArray.cir.companyName}} placeholder="Company Name" name="companyName" [(ngModel)]="commonArray.cir.companyName">
 						</div>
 						<div class="form-group col-md-3" [ngClass]="{'has-error':(cirForm.controls['product'].hasError('required') && cirForm.controls['product'].touched)||(cirForm.controls['product'].hasError('required') && submitted )}">
-							<label for="exampleInputName2">Product Field *</label>
+							<label for="exampleInputName2">Product Field <font style="color: red;"> * </font></label>
 							<select class="form-control" placeholder="--SELECT--" [formControl]="cirForm.controls['product']" name="productField"
 							 [(ngModel)]="commonArray.cir.productField">
 										<option value="" disabled selected>--SELECT--</option>	
@@ -59,7 +59,7 @@
 							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must select Product.</div>
 						</div>
 						<div class="form-group col-md-3" [ngClass]="{'has-error':(!cirForm.controls['cirPurpose'].valid && cirForm.controls['cirPurpose'].touched)||(!cirForm.controls['cirPurpose'].valid && submitted)}">
-							<label for="exampleInputName2">Purpose *</label>
+							<label for="exampleInputName2">Purpose <font style="color: red;"> * </font></label>
 							<select class="form-control" placeholder="--SELECT--" [formControl]="cirForm.controls['cirPurpose']" name="cirPurpose" [(ngModel)]="commonArray.cir.cirPurpose">
 									<option value="" disabled selected>--SELECT--</option>	
 									<option *ngFor="let cirPurpose of cirPurposeList" [ngValue]="cirPurpose">{{cirPurpose.cirPurposeDescription}}</option>
@@ -70,7 +70,7 @@
 					</div>
 					<div class="row">
 						<div class="form-group col-md-6" [ngClass]="{'has-error':(!cirForm.controls['cmppan'].valid && cirForm.controls['cmppan'].touched)||(!cirForm.controls['cmppan'].valid && submitted)}">
-							<label for="exampleInputName2">Company PAN *</label>
+							<label for="exampleInputName2">Company PAN <font style="color: red;"> * </font></label>
 							<input type="text" class="form-control" id="exampleInputName2" placeholder="Company PAN" name="cmpPan" [(ngModel)]="commonArray.cir.cmpPan"
 							 [formControl]="cirForm.controls['cmppan']">
 							<div *ngIf="(cirForm.controls['cmppan'].hasError('required') && cirForm.controls['cmppan'].touched)||(cirForm.controls['cmppan'].hasError('required') && submitted)"
@@ -87,7 +87,7 @@
 					</div>
 					<div class="row">
 						<div class="form-group col-md-6" [ngClass]="{'has-error':(!cirForm.controls['address'].valid && cirForm.controls['address'].touched)||(!cirForm.controls['address'].valid && submitted)}">
-							<label for="exampleInputName2">Address Line 1 </label>
+							<label for="exampleInputName2">Address Line 1 <font style="color: red;"> * </font></label>
 							<input type="text" class="form-control" id="exampleInputName2" placeholder="Address Line 1" name="addrLine1" [(ngModel)]="commonArray.cir.addrLine1"
 							 [formControl]="cirForm.controls['address']">
 							<div *ngIf="(cirForm.controls['address'].hasError('required') && cirForm.controls['address'].touched)||(cirForm.controls['address'].hasError('required') && submitted)"
@@ -100,7 +100,7 @@
 					</div>
 					<div class="row">
 						<div class="form-group col-md-3" [ngClass]="{'has-error':(!cirForm.controls['city'].valid && cirForm.controls['city'].touched)||(!cirForm.controls['city'].valid && submitted)}">
-							<label for="exampleInputName2">City</label>
+							<label for="exampleInputName2">City <font style="color: red;"> * </font></label>
 							<input type="text" class="form-control" id="exampleInputName2" placeholder="City" [formControl]="cirForm.controls['city']"
 							 name="city" [(ngModel)]="commonArray.cir.city">
 							<div *ngIf="(cirForm.controls['city'].hasError('required') && cirForm.controls['city'].touched)||(cirForm.controls['city'].hasError('required') && submitted)"
@@ -108,7 +108,7 @@
 							<div *ngIf="cirForm.controls['city'].hasError('pattern') && cirForm.controls['city'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Enter alphabets only.</div>
 						</div>
 						<div class="form-group col-md-3" [ngClass]="{'has-error':(!cirForm.controls['cirState'].valid && cirForm.controls['cirState'].touched)||(!cirForm.controls['cirState'].valid && submitted)}">
-							<label for="exampleInputName2">State</label>
+							<label for="exampleInputName2">State <font style="color: red;"> * </font></label>
 							<select class="form-control" placeholder="--SELECT--" [formControl]="cirForm.controls['cirState']" name="cirState" [(ngModel)]="commonArray.cir.cirState">
 										<option value="" disabled selected>--SELECT--</option>	
 										  <option *ngFor="let cirState of stateList" [ngValue]="cirState">{{cirState.stateDescription}}</option>
@@ -118,7 +118,7 @@
 							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include State.</div>
 						</div>
 						<div class="form-group col-md-3" [ngClass]="{'has-error':(!cirForm.controls['pincode'].valid && cirForm.controls['pincode'].touched)||(!cirForm.controls['pincode'].valid && submitted)}">
-							<label for="exampleInputName2">PIN Code </label>
+							<label for="exampleInputName2">PIN Code <font style="color: red;"> * </font> </label>
 							<input type="text" class="form-control" id="exampleInputName2" placeholder="PIN Code" name="pinCode" [(ngModel)]="commonArray.cir.pinCode"
 							 [formControl]="cirForm.controls['pincode']">
 							<div *ngIf="(cirForm.controls['pincode'].hasError('required') && cirForm.controls['pincode'].touched)||(cirForm.controls['pincode'].hasError('required') && submitted)"
@@ -148,7 +148,7 @@
 							<input type="text" class="form-control" id="exampleInputName2" placeholder="TIN" name="tin" [(ngModel)]="commonArray.cir.tin">
 						</div>
 						<div class="form-group col-md-3" [ngClass]="{'has-error':(!cirForm.controls['email'].valid && cirForm.controls['email'].touched)||(!cirForm.controls['email'].valid && submitted)}">
-							<label for="exampleInputName2">Email ID</label>
+							<label for="exampleInputName2">Email ID <font style="color: red;"> * </font></label>
 							<input type="email" class="form-control" id="exampleInputName2" placeholder="Email ID" [formControl]="cirForm.controls['email']"
 							 name="emailId" [(ngModel)]="commonArray.cir.emailId">
 							<div *ngIf="(cirForm.controls['email'].hasError('required') && cirForm.controls['email'].touched)||(cirForm.controls['email'].hasError('required') && submitted)"

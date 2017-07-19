@@ -35,8 +35,13 @@
 		     <label (click)="goToDashboard()" style="color: whitesmoke; font-weight: normal;">&nbsp;Dashboard</label>
          <a href="#aboutus" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu">About us</a>    
           
-          <a href="#Service" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu">Service <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span> </a>
-          <div class="collapse" id="Service">
+          <a href="#Service" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu">Service<span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span> </a>
+         
+
+         <div class="collapse" id="Service">
+         	<label for="view" style="color: whitesmoke; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Create Enquiry</label>
+            <button (click)="goToCreateEnquiry()" type="submit" name="Create Enquiry" class="hidden" id="enq"></button>	
+					
          	<label for="view" style="color: whitesmoke; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;View Earlier Request</label>
             <button (click)="goToViewRequest()" type="submit" name="View Earlier Request" class="hidden" id="view"></button>	
 						
@@ -57,7 +62,7 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">   
 
 
-<router-outlet></router-outlet>
+<router-outlet>  <span *ngIf="showLoader" class="loading"></span></router-outlet>
 </div>
       </div>
 	  

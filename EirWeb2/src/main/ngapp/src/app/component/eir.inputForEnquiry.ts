@@ -215,7 +215,7 @@ export class InputForEnquiryComponent implements OnInit
           'personCity'  : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z]*')])],
           'personAddr'  : [null,  Validators.required],
           'personState' : [null,  Validators.required],
-          //'dob'       : [null,  Validators.required],
+          //'birthDate'   : [null,  Validators.required],
           'gender'      : [null,  Validators.required]
              });
    }
@@ -224,7 +224,8 @@ export class InputForEnquiryComponent implements OnInit
     {
         this.submitted=false;
         this.controlMessage.getValidator(this.submitted);
-        this.router.navigate(['createEnquiry']);
+       this.router.navigate(['createEnquiry'],{queryParams: {reqId: EirCreateComponent.reqId}});
+      //  this.router.navigate(['createEnquiry']);
     }
 
     onChange(newValue) {

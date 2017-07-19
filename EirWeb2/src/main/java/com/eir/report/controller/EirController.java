@@ -256,9 +256,9 @@ public class EirController {
 	
 	@CrossOrigin("*")
 	@RequestMapping(value="/saveProductSelection", method = RequestMethod.POST,produces="application/json")
-	public @ResponseBody Integer saveProductSelection(@RequestBody EligibleReport selection )
+	public @ResponseBody Integer saveProductSelection(@RequestBody EligibleReport selection, @RequestParam(required= true) Integer sentRequestId)
 	{
-		return eirService.saveSelectedProduct(selection);
+		return eirService.saveSelectedProduct(selection,sentRequestId);
 	}
 	
 	@CrossOrigin("*")

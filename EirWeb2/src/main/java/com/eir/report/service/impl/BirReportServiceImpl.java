@@ -477,36 +477,56 @@ public class BirReportServiceImpl implements BirReportService {
 		List<MemberProductMapping> productList = memberProductMappingRepo.findProductMappingForUserId(userID);
 		
 		for(MemberProductMapping s : productList){
-			switch (s.getProductCode()) {
-			case EIRDataConstant.COMBOWITHSCORE:
-				selection.setComboWithScore(true);
-				break;
-			case EIRDataConstant.COMBOWITHOUTSCORE:
-				selection.setComboWithoutScore(true);
-				break;
-			case EIRDataConstant.CIRWITHSCORE:
-				selection.setCommWithScore(true);
-				break;
-			case EIRDataConstant.CIRWITHOUTSCORE:
-				selection.setCommWithoutScore(true);
-				break;
-			case EIRDataConstant.BIR:
-				selection.setBir(true);
-				break;
-			case EIRDataConstant.SME:
-				selection.setSme(true);
-				break;
-			case EIRDataConstant.LETIGATION:
-				selection.setLitigation(true);
-				break;
-			case EIRDataConstant.NEWSFEED:
-				selection.setNewsFeed(true);
-				break;
-			}
+			
+			selectProduct(selection, s.getProductCode());
 		}
 		return selection;
 	}
 
+	private void selectProduct(EligibleReport selection, String productCode) {
+		switch (productCode) {
+		case EIRDataConstant.COMBOWITHSCORE:
+			selection.setComboWithScore(1);
+			break;
+		case EIRDataConstant.COMBOWITHOUTSCORE:
+			selection.setComboWithoutScore(1);
+			break;
+		case EIRDataConstant.CIRWITHSCORE:
+			selection.setCommWithScore(1);
+			break;
+		case EIRDataConstant.CIRWITHOUTSCORE:
+			selection.setCommWithoutScore(1);
+			break;
+		case EIRDataConstant.BIR:
+			selection.setBir(1);
+			break;
+		case EIRDataConstant.SME:
+			selection.setSme(1);
+			break;
+		case EIRDataConstant.LETIGATION:
+			selection.setLitigation(1);
+			break;
+		case EIRDataConstant.NEWSFEED:
+			selection.setNewsFeed(1);
+			break;
+		}
+	}
+	@Override
+	public EligibleReport getSelectedProduct(Integer reqID)
+	{
+		EligibleReport selection = new EligibleReport();
+		List<ReportSelection> reportSelectionList = reportSelectionRepository.findByRequestId(reqID);
+		
+		for(ReportSelection reportSelection : reportSelectionList)
+		{
+			
+			selectProduct(selection, reportSelection.getProductCode());
+			
+		}
+		
+		
+		return selection;
+	}
 	/*@Override
 	public void saveBIRRequestData(MultipleRequest input, Request request) 
 	{

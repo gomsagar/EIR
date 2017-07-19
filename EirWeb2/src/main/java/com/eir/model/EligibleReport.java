@@ -2,62 +2,63 @@ package com.eir.model;
 
 public class EligibleReport {
 
-	private Boolean comboWithScore;
-	private Boolean comboWithoutScore;
-	private Boolean commWithScore;
-	private Boolean commWithoutScore;
-	private Boolean sme;
-	private Boolean litigation;
-	private Boolean newsFeed;
-	private Boolean bir;
-
-	public Boolean getComboWithScore() {
+	private Integer comboWithScore;
+	private Integer comboWithoutScore;
+	private Integer commWithScore;
+	private Integer commWithoutScore;
+	private Integer sme;
+	private Integer litigation;
+	private Integer newsFeed;
+	private Integer bir;
+	
+	public Integer getComboWithScore() {
 		return comboWithScore;
 	}
-	public void setComboWithScore(Boolean comboWithScore) {
+	public void setComboWithScore(Integer comboWithScore) {
 		this.comboWithScore = comboWithScore;
 	}
-	public Boolean getComboWithoutScore() {
+	public Integer getComboWithoutScore() {
 		return comboWithoutScore;
 	}
-	public void setComboWithoutScore(Boolean comboWithoutScore) {
+	public void setComboWithoutScore(Integer comboWithoutScore) {
 		this.comboWithoutScore = comboWithoutScore;
 	}
-	public Boolean getCommWithScore() {
+	public Integer getCommWithScore() {
 		return commWithScore;
 	}
-	public void setCommWithScore(Boolean commWithScore) {
+	public void setCommWithScore(Integer commWithScore) {
 		this.commWithScore = commWithScore;
 	}
-	public Boolean getCommWithoutScore() {
+	public Integer getCommWithoutScore() {
 		return commWithoutScore;
 	}
-	public void setCommWithoutScore(Boolean commWithoutScore) {
+	public void setCommWithoutScore(Integer commWithoutScore) {
 		this.commWithoutScore = commWithoutScore;
 	}
-	public Boolean getSme() {
+	public Integer getSme() {
 		return sme;
 	}
-	public void setSme(Boolean sme) {
+	public void setSme(Integer sme) {
 		this.sme = sme;
 	}
-	public Boolean getLitigation() {
+	public Integer getLitigation() {
 		return litigation;
 	}
-	public void setLitigation(Boolean litigation) {
+	public void setLitigation(Integer litigation) {
 		this.litigation = litigation;
 	}
-	public Boolean getNewsFeed() {
+	public Integer getNewsFeed() {
 		return newsFeed;
 	}
-	public void setNewsFeed(Boolean newsFeed) {
+	public void setNewsFeed(Integer newsFeed) {
 		this.newsFeed = newsFeed;
 	}
-	public Boolean getBir() {
+	public Integer getBir() {
 		return bir;
 	}
-	public void setBir(Boolean bir) {
+	public void setBir(Integer bir) {
 		this.bir = bir;
 	}
 
+	
 }

@@ -65,7 +65,7 @@ public interface EirService {
 	
 	List<com.eir.bir.request.model.ConsumerFinancialPurpose> findConsumerFinancialPurposeByPurposeId(Integer purposeId);
 
-	Integer saveSelectedProduct(EligibleReport selection);
+	//Integer saveSelectedProduct(EligibleReport selection);
 	
 	List<Gender> getGender();
 	SpecifiedUserFlag getSpecifiedUserFlag();
@@ -86,6 +86,8 @@ public interface EirService {
 		Object getResubmitedComboData(Integer requestId);
 
 		Object getResubmitedCIRData(Integer cirRequestId);
-		
+
+		Integer saveSelectedProduct(EligibleReport selection, Integer sentRequestId);
+
 		Integer getUsersMemberId(Integer userId);
 }
