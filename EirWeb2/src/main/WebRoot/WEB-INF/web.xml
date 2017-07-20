@@ -37,8 +37,8 @@
     <filter-mapping>
         <filter-name>sessionToken</filter-name>
         <url-pattern>*</url-pattern>
-    </filter-mapping> -->
-    
+    </filter-mapping>
+     -->
     
 	<servlet>
 		<servlet-name>eir</servlet-name>
