@@ -262,7 +262,7 @@ public static reqId : number;
     }
     else
     {
-        alert("Select Product!!!");
+        alert("Please select at least 1 Product from Product List");
         this.router.navigate(['createEnquiry']);
     }
   }

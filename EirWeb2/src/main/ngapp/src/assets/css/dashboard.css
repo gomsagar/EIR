@@ -268,7 +268,7 @@ form#requisition-form h2:before {
     padding: 0 15px;
 }
 .row.top-bar .main-form button{
-	width: 100%;
+	width: 100px;
     position: relative;
     text-align: left;
     padding-left: 15px;
@@ -276,11 +276,13 @@ form#requisition-form h2:before {
     border: 0;
 }
 .row.top-bar .main-form button span {
-    position: absolute;
+        position: absolute;
     right: 0;
     background: #3483ac;
     height: 100%;
-    width: 15%;
+    width: 30px;
+    padding-top: 8px;
+    padding-left: 8px;
     top: 0;
     border-radius: 0 4px 4px 0;
 }

@@ -37,7 +37,21 @@ consumerPurposeList=<any>[];
 consumerAddrTypeList=<any>[];
 consumerFinancialPurposeList=<any>[];
 static iRow: number = 1;
+isvalid: boolean = false;
+isValidPan: boolean = false;
+isLastDigitPin: boolean = false;
+isValidData: boolean = false;
+isValidDataPin: boolean = false;
 isConsumerValid : boolean = false;
+isValidAdhar: boolean = false;
+isValidDL: boolean = false;
+isValidAdharL: boolean = false;
+isValidPass: boolean = false;
+isValidRation: boolean = false;
+isValidVoter: boolean = false;
+isValidMob: boolean = false;
+isValidHtel: boolean = false;
+isValidOtel: boolean = false;
 subscription: Subscription;
 submitted : boolean;
 stateList=<any>[];
@@ -65,6 +79,10 @@ this.options = new DatePickerOptions();
             inqueryCompVar => {
 this.isConsumerValid = inqueryCompVar;
 this.submitted = true;
+
+// this.pinValidate(ConsumerComponent.iRow);
+ // this.groupValidate(ConsumerComponent.iRow);
+
  console.log("Inside row validator........."+this.submitted);
 console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar --->  " + inqueryCompVar);
               if(this.requisitionForm.valid ){
@@ -78,6 +96,8 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
         });
    this.requisitionForm = this.fb1.group({});
     this.rowValidateForm(0);
+    
+   
             // this._newService.confirmMission("true");
             this._newService.consumerValidateCalled(true);
    }  
@@ -159,23 +179,24 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
   		if (scenario == 'remove') {
   			action = "removeControl";
   		} 
-  		this.requisitionForm[action]('firstName' + i, new FormControl('', [Validators.required,Validators.pattern('[A-Za-z]*')]));
-     // this.requisitionForm[action]('middleName' + i, new FormControl('', [Validators.required,Validators.pattern('[A-Za-z]*')]));
-      this.requisitionForm[action]('lastName' + i, new FormControl('', [Validators.required,Validators.pattern('[A-Za-z]*')]));
+  		this.requisitionForm[action]('firstName' + i, new FormControl('', [Validators.required,Validators.pattern('[A-Za-z ]*'),Validators.maxLength(26)]));
+      this.requisitionForm[action]('middleName' + i, new FormControl('', [Validators.pattern('[A-Za-z ]*'),Validators.maxLength(26)]));
+      this.requisitionForm[action]('lastName' + i, new FormControl('', [Validators.required,Validators.pattern('[A-Za-z ]*'),Validators.maxLength(26)]));
       this.requisitionForm[action]('mobileNo' + i, new FormControl('', [Validators.required,Validators.pattern('[0-9]{10}')]));
       this.requisitionForm[action]('gender' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('birthDate' + i, new FormControl('', [Validators.required]));
-      this.requisitionForm[action]('personAddrLine1' + i, new FormControl('', [Validators.required]));
+      this.requisitionForm[action]('personAddrLine1' + i, new FormControl('', [Validators.required,Validators.pattern('[A-Za-z0-9]{1,40}')]));
    //   this.requisitionForm[action]('personAddrLine2' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('personCity' + i, new FormControl('', [Validators.required,Validators.pattern('[A-Za-z]*')]));
-      this.requisitionForm[action]('personPan' + i, new FormControl('', [Validators.required,Validators.pattern('([A-Za-z]{3})[ABCFEGHLJPTabcfeghljpt][A-Za-z]([0-9]{4})([A-Za-z]{1})')]));
+     // this.requisitionForm[action]('personPan' + i, new FormControl('', [Validators.required,Validators.pattern('([A-Za-z]{3})[ABCFEGHLJPTabcfeghljpt][A-Za-z]([0-9]{4})([A-Za-z]{1})')]));
       this.requisitionForm[action]('personState' + i, new FormControl('', [Validators.required]));
-      this.requisitionForm[action]('personPinCode' + i, new FormControl('', [Validators.required,Validators.pattern('[0-9]{6}')]));
+      this.requisitionForm[action]('personPinCode' + i, new FormControl('', [Validators.required,Validators.pattern('[1-9][0-9]{5}')]));
       this.requisitionForm[action]('consumerPurpose' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('consumerFinancialPurpose' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('amount' + i, new FormControl('', [Validators.required,Validators.pattern('[0-9]*')]));
       this.requisitionForm[action]('terms' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('frequency' + i, new FormControl('', [Validators.required]));
+      this.requisitionForm[action]('status' + i, new FormControl('', [Validators.pattern('[A-Za-z]*'),Validators.maxLength(26)]));
   	}
 
  addMore(){
@@ -187,6 +208,7 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
                     consumerPurpose:'', consumerFinancialPurpose:'',frequency:'',durationOfAgreement:''})
       
         this.rowValidateForm(ConsumerComponent.iRow++, 'add');
+        
    }
    else{
      alert("Cannot add more than 15 Consumers!!!");
@@ -202,7 +224,166 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
      alert("Must include atleast one consumer!!!");
    }
  }
+
+ pinValidate(num: number)
+ {
+console.log("Validation:" + this.consumerData[num].personPinCode )
+ if(this.consumerData[num].personPinCode == '')
+ {
+   this.isvalid = true;
+ }
+ if(this.consumerData[num].personPinCode.length != 6)
+ {
+  this.isValidData = true;
+
+ }
+ if(this.consumerData[num].personPinCode.startsWith('0'))
+ {
+  this.isValidDataPin = true;
+ }
+ if(this.consumerData[num].personPinCode.includes('0',3) &&
+ this.consumerData[num].personPinCode.includes('0',4) && this.consumerData[num].personPinCode.includes('0',5))
+ {
+  this.isLastDigitPin = true;
+ }
+ }
  
+ groupValidate(num: number)
+ {
+//console.log("Validation:" + this.consumerData[num].personPinCode )
+ this.isValidPan = false;
+ this.isValidDL = false;
+ this.isValidAdhar = false;
+ this.isValidAdharL = false; 
+ this.isValidPass = false;
+ this.isValidRation = false;
+ this.isValidHtel = false;
+ this.isValidMob = false; 
+ this.isValidOtel = false;
+ 
+if(this.consumerData[num].personPan != '')
+{
+  if(this.consumerData[num].personPan.match('([A-Za-z]{3})[ABCFEGHLJPTabcfeghljpt][A-Za-z]([0-9]{4})([A-Za-z]{1})'))
+  {
+    this.isValidPan = false;
+  }
+  else
+  {
+    this.isValidPan = true;
+  //  this.requisitionForm.valid=false;
+  }
+ }
+ else if(this.consumerData[num].drivingLic != '' )
+ {
+  if(this.consumerData[num].drivingLic.match("[a-zA-Z0-9 ]{10}"))
+  {
+    this.isValidDL = false;
+  }
+  else
+  {
+    this.isValidDL = true;
+  //  this.requisitionForm.valid=false;
+  }
+
+ }
+ else if(this.consumerData[num].aadharhCard != '' )
+ {
+   if(this.consumerData[num].aadharhCard.startsWith('0'))
+   {
+    this.isValidAdhar = true;
+    //this.requisitionForm.valid=false;
+   }
+  else  if(this.consumerData[num].aadharhCard.length != 12)
+  {
+    this.isValidAdharL = true;
+   // this.requisitionForm.valid=false;
+  }
+  else
+  {
+    this.isValidAdhar = false;
+    this.isValidAdharL = false;
+  }
+ }
+ else if(this.consumerData[num].passportNo != '' )
+ {
+   if(this.consumerData[num].passportNo.match("[a-zA-Z][0-9]{7}"))
+   {
+    this.isValidPass = false;
+   }
+  else
+  {
+    this.isValidPass = true;
+   // this.requisitionForm.valid=false;
+  }
+ }
+ else if(this.consumerData[num].rationCard != '' )
+ {
+   if(this.consumerData[num].rationCard.match("[a-zA-Z0-9 ]{10}"))
+   {
+    this.isValidRation = false;
+   }
+  else
+  {
+    this.isValidRation = true;
+    //this.requisitionForm.valid=false;
+  }
+ }
+ else if(this.consumerData[num].voterId != '' )
+ {
+   if(this.consumerData[num].voterId.match("[a-zA-Z0-9 ]{10}"))
+   {
+    this.isValidVoter = false;
+   }
+  else
+  {
+    this.isValidVoter = true;
+   // this.requisitionForm.valid=false;
+  }
+ }
+ else if(this.consumerData[num].mobileNo != '' )
+ {
+   if(this.consumerData[num].mobileNo.match("[7-9][0-9]{9}"))
+   {
+    this.isValidMob = false;
+   }
+  else
+  {
+    this.isValidMob = true;
+   // this.requisitionForm.valid=false;
+  }
+ }
+ else if(this.consumerData[num].homeTelephoneNo != '' )
+ {
+   if(this.consumerData[num].homeTelephoneNo.match("[0-9]{5,}"))
+   {
+    this.isValidHtel = false;
+   }
+  else
+  {
+    this.isValidHtel = true;
+    //this.requisitionForm.valid=false;
+  }
+ }
+ else if(this.consumerData[num].officeTelephoneNo != '' )
+ {
+   if(this.consumerData[num].officeTelephoneNo.match("[0-9]{5,}"))
+   {
+    this.isValidOtel = false;
+   }
+  else
+  {
+    this.isValidOtel = true;
+    //this.requisitionForm.valid=false;
+  }
+ }
+ else
+ {
+   alert("Input Error -  At least one of Telephone Number, Mobile Number, PAN, Passport Number,AAdhar,Driving License Number or Voter ID card is required '");
+  // this.requisitionForm.valid = false;
+  
+ }
+ 
+ }
    /* ngOnInit(){
       this.counter().subscribe(
         data => {

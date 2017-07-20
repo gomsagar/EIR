@@ -37,6 +37,7 @@ export class InputForEnquiryComponent implements OnInit
     private validForm: string;
     private messagess: Array<MessageJson>;
     submitted:boolean;
+    validateBtn:boolean;
     public issOnlyBIR:boolean;
     public isCir:boolean;
     public isCombo:boolean;
@@ -54,7 +55,6 @@ export class InputForEnquiryComponent implements OnInit
     private hasList:boolean=false;
     cirForm : FormGroup;
     birForm : FormGroup;
-    cirForm2: FormGroup;
     formValid:boolean=false;
     isAddMore : boolean;
     consumerValid : boolean;
@@ -186,17 +186,15 @@ export class InputForEnquiryComponent implements OnInit
          this.submitted=false;
          this.cirForm= fb.group(
          {          
-          'pincode'     : [null,  Validators.compose([Validators.required,Validators.pattern('[0-9]{6}')])],
+          'pincode'     : [null,  Validators.compose([Validators.required, Validators.pattern('[1-9][0-9]{5}')]) ],
           'email'       : [null,  Validators.compose([Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$'),Validators.required])],
-          //'pan'         : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})([PFCAHBLJRpfcahbljr]{1})([0-9]{4})([A-Za-z]{1})'),Validators.required])],
-          //'cmppan'      : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})([PFCAHBLJRpfcahbljr]{1})([0-9]{4})([A-Za-z]{1})'),Validators.required])],
-          //'pan'         : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})([ABCFGHLJPTKabcfghljptk]{2})([0-9]{4})([A-Za-z]{1})'),Validators.required])],
           'cmppan'      : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})[ABCFEGHLJPTabcfeghljpt][A-Za-z]([0-9]{4})([A-Za-z]{1})'),Validators.required])],
           'city'        : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z]*')])],
           'product'     : [null,  Validators.required],
-          'address'     : [null,  Validators.required],         
+          'address'     : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z0-9]{1,40}')])],        
           'cirPurpose'  : [null,  Validators.required],
-          'cirState'    : [null,  Validators.required]
+          'cirState'    : [null,  Validators.required],
+          'telephone'   : [null,  Validators.pattern('[0-9]{5,}')]
          });
          
          this.birForm =fb.group(
@@ -204,20 +202,7 @@ export class InputForEnquiryComponent implements OnInit
           'companyName' :[null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z0-9&]*')])],          
           'cmplist'     :[null,  Validators.required]
         });
-        this.cirForm2 =fb1.group(
-         {
-          //'personpan'   : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})([PFCAHBLJRpfcahbljr]{1})([0-9]{4})([A-Za-z]{1})'),Validators.required])],
-          'personPin'   : [null,  Validators.compose([Validators.required,Validators.pattern('[0-9]{6}')])],
-          'mobile'      : [null,  Validators.compose([Validators.required,Validators.pattern('[0-9]{10}')])],
-          'fname'       : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z]*')])],
-         // 'mname'       : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z]*')])],
-          'lname'       : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z]*')])],         
-          'personCity'  : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z]*')])],
-          'personAddr'  : [null,  Validators.required],
-          'personState' : [null,  Validators.required],
-          //'birthDate'   : [null,  Validators.required],
-          'gender'      : [null,  Validators.required]
-             });
+        
    }
 
     back()
@@ -319,6 +304,9 @@ export class InputForEnquiryComponent implements OnInit
 
     getCompanyList()
     {   
+        this.validateBtn = true;
+        if(this.commonArray.bir.companyName != "")
+        {
         console.log("commonArray.bir.companyName---------"+this.commonArray.bir.companyName)
             this._cmpname.validateName(this.commonArray.bir ).subscribe((temp) => {
             
@@ -328,7 +316,13 @@ export class InputForEnquiryComponent implements OnInit
             if(temp!=null)
             {
             this.hasList=true;
-            }
-            });        
+        }
+         else
+    {
+        alert("Company Name not Found!!!");
+    }
+        });        
+    }
+   
     }
 }

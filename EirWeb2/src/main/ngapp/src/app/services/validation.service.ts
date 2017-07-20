@@ -4,8 +4,8 @@ import { Injectable } from '@angular/core';
 export class ValidationService {
     static getValidatorErrorMessage(label: string, validatorName: string, validatorValue?: any) {
         let config = {
-            'required': ((label != '') ? label + ' is required' : 'Field is required'),
-            'invalidEmailAddress': 'Enter valid email address',
+            'required': ((label != '') ? label + ' is Mandatory' : 'Please Enter Mandatory field'),
+            'invalidEmailAddress': 'Enter valid Email address',
             'invalidPassword': 'Enter valid password. Password must be at least 6 characters long, and contain a number.',
             'invalidConfirmPassword': 'Password does not match.',
             'invalidAlphabet': 'Enter only alphabet character in ' + label,

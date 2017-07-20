@@ -30,10 +30,11 @@
 				 name="firstName{{i}}" formControlName="firstName{{i}}">				
 				<control-messages [control]="requisitionForm.controls['firstName'+i]" [label]="'First Name'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>			</div>
 			
-			<div class="form-group col-md-4">
+			<div class="form-group col-md-4" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['middleName'+i].valid && requisitionForm.controls['middleName'+i].touched))}">
 				<label for="exampleInputName2">Individual Middle Name </label> <input type="text" id="exampleInputName2"  class="form-control"
-				 placeholder="Individual Middle Name" name="middleName{{i}}" [(ngModel)]="consumerData[i].middleName">			
-		   </div>
+				 placeholder="Individual Middle Name" formControlName="middleName{{i}}" name="middleName{{i}}" [(ngModel)]="consumerData[i].middleName">			
+		   <control-messages [control]="requisitionForm.controls['middleName'+i]" [label]="'Middle Name'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>			</div>
+			
 			<div class="form-group col-md-4" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['lastName'+i].valid && requisitionForm.controls['lastName'+i].touched)||(!requisitionForm.controls['lastName'+i].valid && submitted))}">
 				<label for="exampleInputName2">Individual Last Name <font style="color: red;"> * </font> </label> 
 				<input type="text" class="form-control" id="exampleInputName2" placeholder="Individual Last Name" name="lastName{{i}}" formControlName="lastName{{i}}" [(ngModel)]="consumerData[i].lastName">
@@ -91,65 +92,83 @@
 			</div>
 			</div>
 			<div class="row">
-			<div class="form-group col-md-3" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['personPan'+i].valid && requisitionForm.controls['personPan'+i].touched)||(!requisitionForm.controls['personPan'+i].valid && submitted))}">
-				<label for="exampleInputName2">PAN <font style="color: red;"> * </font></label> <input type="text" class="form-control" id="exampleInputName2" placeholder="PAN"
-				 name="personPan{{i}}" [(ngModel)]="consumerData[i].personPan" formControlName="personPan{{i}}">				
-				<control-messages [control]="requisitionForm.controls['personPan'+i]" [label]="'PAN'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
-
+			<!--<div class="form-group col-md-3" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['personPan'+i].valid && requisitionForm.controls['personPan'+i].touched)||(!requisitionForm.controls['personPan'+i].valid && submitted))}">-->
+				<div class="form-group col-md-3">
+				<!--<label for="exampleInputName2">PAN <font style="color: red;"> * </font></label> <input type="text" class="form-control" id="exampleInputName2" placeholder="PAN"
+				 name="personPan{{i}}" [(ngModel)]="consumerData[i].personPan" formControlName="personPan{{i}}">-->
+				 <label for="exampleInputName2">PAN <font style="color: red;"> * </font></label> <input type="text" class="form-control" id="exampleInputName2" placeholder="PAN"
+				 name="personPan{{i}}" [(ngModel)]="consumerData[i].personPan" >
+				<!--<control-messages [control]="requisitionForm.controls['personPan'+i]" [label]="'PAN'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>-->
+				<div *ngIf="isValidPan" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Input Error - Invalid PAN</div>
 			</div>
 			<div class="form-group col-md-3">
 				<label for="exampleInputName2">Driving Licence</label> <input type="text" class="form-control" id="exampleInputName2"
 				 placeholder="Driving Licence" name="drivingLic" [(ngModel)]="consumerData[i].drivingLic">
+			<div *ngIf="isValidDL" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Input Error - Invalid Driving Licence Number</div>
 			</div>
 			<div class="form-group col-md-3">
 				<label for="exampleInputName2">Aadhar Card</label> <input type="text" class="form-control" id="exampleInputName2" placeholder="Aadhar Card"
 				 name="aadharhCard" [(ngModel)]="consumerData[i].aadharhCard">
+			<div *ngIf="isValidAdhar" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Input Error - Invalid Aadhaar Number- Must not start with zero</div>
+			<div *ngIf="isValidAdharL" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Input Error - Invalid Aadhaar Number- Must be 12 digit long</div>
 			</div>
 			<div class="form-group col-md-3">
 				<label for="exampleInputName2">Voter ID</label> <input type="text" class="form-control" id="exampleInputName2" placeholder="Voter ID"
 				 name="voterId" [(ngModel)]="consumerData[i].voterId">
+				<div *ngIf="isValidVoter" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Input Error - Invalid Voter ID</div>
 			</div>
 			</div>
 			<div class="row">
 			<div class="form-group col-md-3">
 				<label for="exampleInputName2">Ration Card</label> <input type="text" class="form-control" id="exampleInputName2" placeholder="Ration Card"
 				 name="rationCard" [(ngModel)]="consumerData[i].rationCard">
+				<div *ngIf="isValidRation" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Input Error - Invalid Ration Card Number</div>
 			</div>
 			<div class="form-group col-md-3">
 				<label for="exampleInputName2">Passport No.</label> <input type="text" class="form-control" id="exampleInputName2" placeholder="Passport No."
 				 name="passportNo" [(ngModel)]="consumerData[i].passportNo">
+				<div *ngIf="isValidPass" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Input Error - Invalid Passport Number</div>
 			</div>
 
 			<div class="form-group col-md-3">
 				<label for="exampleInputName2">Home Tele. No.</label> <input type="text" class="form-control" id="exampleInputName2"
 				 placeholder="Home Tele. No." name="homeTelephoneNo" [(ngModel)]="consumerData[i].homeTelephoneNo">
+				<div *ngIf="isValidHtel" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Input Error - Invalid Tel. No</div>
 			</div>
 			<div class="form-group col-md-3">
 				<label for="exampleInputName2">Office Tele. No.</label> <input type="text" class="form-control" id="exampleInputName2"
 				 placeholder="Office Tele. No." name="officeTelephoneNo" [(ngModel)]="consumerData[i].officeTelephoneNo">
+			<div *ngIf="isValidOtel" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Input Error - Invalid Tel. No</div>
 			</div>
 			</div>
 			<div class="row">
-			<div class="form-group col-md-3" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['mobileNo'+i].valid && requisitionForm.controls['mobileNo'+i].touched)||(!requisitionForm.controls['mobileNo'+i].valid && submitted))}">
-				<label for="exampleInputName2">Mobile <font style="color: red;"> * </font></label> <input type="text" class="form-control" id="exampleInputName2" placeholder="Mobile"
-				 name="mobileNo{{i}}" [(ngModel)]="consumerData[i].mobileNo" formControlName="mobileNo{{i}}">
-				<control-messages [control]="requisitionForm.controls['mobileNo'+i]" [label]="'Mobile Number'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
+			<!--<div class="form-group col-md-3" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['mobileNo'+i].valid && requisitionForm.controls['mobileNo'+i].touched)||(!requisitionForm.controls['mobileNo'+i].valid && submitted))}">-->
+				<div class="form-group col-md-3">
+				<label for="exampleInputName2">Mobile <font style="color: red;"> * </font></label> 
+				<input type="text" class="form-control" id="exampleInputName2" placeholder="Mobile"
+				 name="mobileNo{{i}}" [(ngModel)]="consumerData[i].mobileNo">
+				<!--<input type="text" class="form-control" id="exampleInputName2" placeholder="Mobile"
+				 name="mobileNo{{i}}" [(ngModel)]="consumerData[i].mobileNo" formControlName="mobileNo{{i}}">-->
+				<!--<control-messages [control]="requisitionForm.controls['mobileNo'+i]" [label]="'Mobile Number'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>-->
+			   <div *ngIf="isValidMob" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Input Error - Invalid Mobile Number</div>
 			</div>
-			<div class="form-group col-md-3 bootstrap-iso" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['birthDate'+i].valid && requisitionForm.controls['birthDate'+i].touched)||(!requisitionForm.controls['birthDate'+i].valid && submitted))}">
+			<div class="form-group col-md-3 bootstrap-iso" >
 				<label for="exampleInputName2">Birth Date <font style="color: red;"> * </font></label>
 				
-				<div  class="input-group">
+				<div  class="input-group" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['birthDate'+i].valid && requisitionForm.controls['birthDate'+i].touched)||(!requisitionForm.controls['birthDate'+i].valid && submitted))}">
 					<!--
 						<i  class="fa fa-calendar"></i>
 						<input  class="form-control"  id="date"   placeholder="MM/DD/YYYY"  type="text" 
 					/>--> 
 					<ng2-datepicker readonly id="date" name="datePicker" [options]="{maxDate: dateExpires,format:MM-DD-YYYY}" formControlName="birthDate{{i}}" [(ngModel)]="consumerData[i].birthDate"></ng2-datepicker>
-				<control-messages [control]="requisitionForm.controls['birthDate'+i]" [label]="'birthDate'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
+				<control-messages [control]="requisitionForm.controls['birthDate'+i]" [label]="'BirthDate'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
 				</div>
 			</div>
-			<div class="form-group col-md-3">
-				<label for="exampleInputName2">Martial Status</label> <input type="text" class="form-control" id="exampleInputName2"
-				 placeholder="Martial Status" name="maritalStatus" [(ngModel)]="consumerData[i].maritalStatus">
+
+			<div class="form-group col-md-3" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['status'+i].valid && requisitionForm.controls['status'+i].touched))}">
+				<label for="exampleInputName2">Marital Status</label> 
+				<input type="text" class="form-control" formControlName="status{{i}}" id="exampleInputName2" placeholder="Marital Status" name="maritalStatus" [(ngModel)]="consumerData[i].maritalStatus">
+			    <control-messages [control]="requisitionForm.controls['status'+i]" [label]="'Marital Status'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
 			</div>
 			<div class="form-group col-md-3" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['gender'+i].valid && requisitionForm.controls['gender'+i].touched)||(!requisitionForm.controls['gender'+i].valid && submitted))}">
 				<label for="exampleInputName2">Gender <font style="color: red;"> * </font></label> 
@@ -174,7 +193,7 @@
 				<div class="form-group col-xs-4" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['personAddrLine1'+i].valid && requisitionForm.controls['personAddrLine1'+i].touched)||(!requisitionForm.controls['personAddrLine1'+i].valid && submitted))}">
 					<label for="exampleInputName2">Address 1 <font style="color: red;"> * </font></label> <input type="text" class="form-control" id="exampleInputName2" placeholder="Address 1"
 					 name="personAddrLine1{{i}}" formControlName="personAddrLine1{{i}}" [(ngModel)]="consumerData[i].personAddrLine1">
-					<control-messages [control]="requisitionForm.controls['personAddrLine1'+i]" [label]="'Person Addr Line1'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
+					<control-messages [control]="requisitionForm.controls['personAddrLine1'+i]" [label]="'Person Address Line1'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
 				</div>
 				<div class="form-group col-xs-4">
 					<label for="exampleInputName2">Address 2</label> <input type="text" class="form-control" id="exampleInputName2" placeholder="Address 2"
@@ -201,6 +220,10 @@
 				<label for="exampleInputName2">PIN Code <font style="color: red;"> * </font> </label> <input type="text" class="form-control" id="exampleInputName2" placeholder="PIN Code"
 				 name="personPinCode{{i}}" formControlName="personPinCode{{i}}" [(ngModel)]="consumerData[i].personPinCode">
 				<control-messages [control]="requisitionForm.controls['personPinCode'+i]" [label]="'PinCode'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
+			<div *ngIf="isvalid" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"> Please Enter Mandatory field </div>
+			<div *ngIf="isValidData" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"> Pin must be of length 6 characters</div>
+			<div *ngIf="isValidDataPin" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"> Pin must not start with zero </div>				
+			<div *ngIf="isLastDigitPin" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"> Last three digits of Pin must not br zero </div>				
 			</div>
 			</div>
 		</div>

@@ -17,16 +17,16 @@
 					</div>
 					<div class="form-group col-md-5">
 						<label for="exampleInputName2">Company Name <font style="color: red;"> * </font></label>
-						<div class="input-group" [ngClass]="{'has-error':(!birForm.controls['companyName'].valid && birForm.controls['companyName'].touched)||(!birForm.controls['companyName'].valid && submitted)}">
+						<div class="input-group" [ngClass]="{'has-error':(!birForm.controls['companyName'].valid && birForm.controls['companyName'].touched)||(!birForm.controls['companyName'].valid && submitted)||(!birForm.controls['companyName'].valid && validateBtn)}">
 							<input type="text" class="form-control" placeholder="Company Name" formControlName="companyName" [formControl]="birForm.controls['companyName']"
 							 name="companyName" [(ngModel)]="commonArray.bir.companyName">
 							<span class="input-group-btn">
 							        <button type="submit" class="btn btn-default" >Validate <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
 							</span>
 						</div>
-						<small *ngIf="(birForm.controls['companyName'].hasError('required') && birForm.controls['companyName'].touched)||(birForm.controls['companyName'].hasError('required') && submitted)"
-						 class="alert" style="padding: 2px; border-color: #dca7a7; background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include a Company name.</small>
-						<small *ngIf="birForm.controls['companyName'].hasError('pattern') && birForm.controls['companyName'].touched" class="alert" style="padding: 2px; border-color: #dca7a7; background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">No special character other than & is allowed.</small>
+						<small *ngIf="(birForm.controls['companyName'].hasError('required') && birForm.controls['companyName'].touched)||(birForm.controls['companyName'].hasError('required') && submitted)||(!birForm.controls['companyName'].valid && validateBtn)"
+						 class="alert" style="padding: 2px; border-color: #dca7a7; background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Please Enter Mandatory field </small>
+						<small *ngIf="birForm.controls['companyName'].hasError('pattern') && birForm.controls['companyName'].touched" class="alert" style="padding: 2px; border-color: #dca7a7; background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Input Error - No special characters should be used for 'Company Name' or Please Enter Valid Company Name</small>
 
 					</div>
 					<div class="form-group  col-md-4" [ngClass]="{'has-error':(!birForm.controls['cmplist'].valid && birForm.controls['cmplist'].touched)||(!birForm.controls['cmplist'].valid && submitted)}">
@@ -37,7 +37,7 @@
 						 <option *ngFor="let comp of company" [ngValue]="comp">{{comp.entityName}}</option> 	 
 								</select>
 						<div *ngIf="(birForm.controls['cmplist'].hasError('required') && birForm.controls['cmplist'].touched)||(birForm.controls['cmplist'].hasError('required') && submitted)"
-						 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must select Product.</div>
+						 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"> Please Enter Mandatory field </div>
 					</div>
 				</form>
 			</div>
@@ -56,7 +56,7 @@
 										<option *ngFor="let reportType of reportTypeList" [ngValue]="reportType">{{reportType.reportTypeDescription}}</option>
 										</select>
 							<div *ngIf="(cirForm.controls['product'].hasError('required') && cirForm.controls['product'].touched)||(cirForm.controls['product'].hasError('required') && submitted)"
-							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must select Product.</div>
+							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"> Please Enter Mandatory field </div>
 						</div>
 						<div class="form-group col-md-3" [ngClass]="{'has-error':(!cirForm.controls['cirPurpose'].valid && cirForm.controls['cirPurpose'].touched)||(!cirForm.controls['cirPurpose'].valid && submitted)}">
 							<label for="exampleInputName2">Purpose <font style="color: red;"> * </font></label>
@@ -65,7 +65,7 @@
 									<option *ngFor="let cirPurpose of cirPurposeList" [ngValue]="cirPurpose">{{cirPurpose.cirPurposeDescription}}</option>
 							</select>
 							<div *ngIf="(cirForm.controls['cirPurpose'].hasError('required') && cirForm.controls['cirPurpose'].touched)||(cirForm.controls['cirPurpose'].hasError('required') && submitted)"
-							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must select Purpose.</div>
+							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"> Please Enter Mandatory field </div>
 						</div>
 					</div>
 					<div class="row">
@@ -74,7 +74,7 @@
 							<input type="text" class="form-control" id="exampleInputName2" placeholder="Company PAN" name="cmpPan" [(ngModel)]="commonArray.cir.cmpPan"
 							 [formControl]="cirForm.controls['cmppan']">
 							<div *ngIf="(cirForm.controls['cmppan'].hasError('required') && cirForm.controls['cmppan'].touched)||(cirForm.controls['cmppan'].hasError('required') && submitted)"
-							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include PAN.</div>
+							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"> Please Enter Mandatory field </div>
 							<div *ngIf="cirForm.controls['cmppan'].hasError('pattern') && cirForm.controls['cmppan'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Enter valid PAN.</div>
 						</div>
 						<div class="form-group col-md-6">
@@ -91,7 +91,9 @@
 							<input type="text" class="form-control" id="exampleInputName2" placeholder="Address Line 1" name="addrLine1" [(ngModel)]="commonArray.cir.addrLine1"
 							 [formControl]="cirForm.controls['address']">
 							<div *ngIf="(cirForm.controls['address'].hasError('required') && cirForm.controls['address'].touched)||(cirForm.controls['address'].hasError('required') && submitted)"
-							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include Address.</div>
+							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"> Input error - Flat/Plot/House No is a mandatory field</div>
+						<div *ngIf="cirForm.controls['address'].hasError('pattern') && cirForm.controls['address'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Please Enter address less than 40 characters</div>
+						
 						</div>
 						<div class="form-group col-md-6">
 							<label for="exampleInputName2">Address Line 2</label>
@@ -104,8 +106,8 @@
 							<input type="text" class="form-control" id="exampleInputName2" placeholder="City" [formControl]="cirForm.controls['city']"
 							 name="city" [(ngModel)]="commonArray.cir.city">
 							<div *ngIf="(cirForm.controls['city'].hasError('required') && cirForm.controls['city'].touched)||(cirForm.controls['city'].hasError('required') && submitted)"
-							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include City.</div>
-							<div *ngIf="cirForm.controls['city'].hasError('pattern') && cirForm.controls['city'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Enter alphabets only.</div>
+							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Input error -City Mandatory field</div>
+							<div *ngIf="cirForm.controls['city'].hasError('pattern') && cirForm.controls['city'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Please Enter the Valid City</div>
 						</div>
 						<div class="form-group col-md-3" [ngClass]="{'has-error':(!cirForm.controls['cirState'].valid && cirForm.controls['cirState'].touched)||(!cirForm.controls['cirState'].valid && submitted)}">
 							<label for="exampleInputName2">State <font style="color: red;"> * </font></label>
@@ -115,30 +117,33 @@
 
 										</select>
 							<div *ngIf="(cirForm.controls['cirState'].hasError('required') && cirForm.controls['cirState'].touched)||(cirForm.controls['cirState'].hasError('required') && submitted)"
-							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include State.</div>
+							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Input error - Please select a State</div>
 						</div>
 						<div class="form-group col-md-3" [ngClass]="{'has-error':(!cirForm.controls['pincode'].valid && cirForm.controls['pincode'].touched)||(!cirForm.controls['pincode'].valid && submitted)}">
 							<label for="exampleInputName2">PIN Code <font style="color: red;"> * </font> </label>
 							<input type="text" class="form-control" id="exampleInputName2" placeholder="PIN Code" name="pinCode" [(ngModel)]="commonArray.cir.pinCode"
 							 [formControl]="cirForm.controls['pincode']">
 							<div *ngIf="(cirForm.controls['pincode'].hasError('required') && cirForm.controls['pincode'].touched)||(cirForm.controls['pincode'].hasError('required') && submitted)"
-							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include pincode.</div>
-							<div *ngIf="cirForm.controls['pincode'].hasError('pattern') && cirForm.controls['pincode'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Your Pincode must be a Number With 6 digits.</div>
+							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Input error -PIN code is a mandatory field</div>
+							<div *ngIf="cirForm.controls['pincode'].hasError('pattern') && cirForm.controls['pincode'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Input Error - PIN Code is  invalid - Should be at least 6 digits</div>
+							<!--<div *ngIf="cirForm.controls['pincode'].hasError('pattern') && cirForm.controls['pincode'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Input Error - PIN Code is  invalid - Should be at least 6 digits</div>-->
 						</div>
-						<div class="form-group col-md-3">
+						
+						<div class="form-group col-md-3" [ngClass]="{'has-error':(!cirForm.controls['telephone'].valid && cirForm.controls['telephone'].touched)}">
 							<label for="exampleInputName2">Telephone</label>
-							<input type="text" class="form-control" id="exampleInputName2" placeholder="Telephone" name="telephoneNo" [(ngModel)]="commonArray.cir.telephoneNo">
+							<input type="text" class="form-control" id="exampleInputName2" placeholder="Telephone" name="telephoneNo" [(ngModel)]="commonArray.cir.telephoneNo" [formControl]="cirForm.controls['telephone']">
+							<div *ngIf="cirForm.controls['telephone'].hasError('pattern') && cirForm.controls['telephone'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Input Error - Telephone Number is Invalid - Should be at least 5 digits</div>
 						</div>
 					</div>
 					<div class="row">
-						<!--<div class="form-group col-md-3" [ngClass]="{'has-error':(!cirForm.controls['pan'].valid && cirForm.controls['pan'].touched)||(!cirForm.controls['pan'].valid && submitted)}">
+						<div class="form-group col-md-3" [ngClass]="{'has-error':(!cirForm.controls['cmppan'].valid && cirForm.controls['cmppan'].touched)||(!cirForm.controls['cmppan'].valid && submitted)}">
 							<label for="exampleInputName2">PAN</label>
-							<input type="text" class="form-control" id="exampleInputName2" placeholder="PAN" [formControl]="cirForm.controls['pan']"
+							<input type="text" class="form-control" id="exampleInputName2" placeholder="PAN" [formControl]="cirForm.controls['cmppan']"
 							 name="pan" [(ngModel)]="commonArray.cir.pan">
-							<div *ngIf="(cirForm.controls['pan'].hasError('required') && cirForm.controls['pan'].touched)||(cirForm.controls['pan'].hasError('required') && submitted)"
-							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include PAN.</div>
-							<div *ngIf="cirForm.controls['pan'].hasError('pattern') && cirForm.controls['pan'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Enter valid PAN.</div>
-						</div>-->
+							<div *ngIf="(cirForm.controls['cmppan'].hasError('required') && cirForm.controls['cmppan'].touched)||(cirForm.controls['cmppan'].hasError('required') && submitted)"
+							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Input error  -PAN Mandatory</div>
+							<div *ngIf="cirForm.controls['cmppan'].hasError('pattern') && cirForm.controls['cmppan'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Input Error - PAN is invalid</div>
+						</div>
 						<div class="form-group col-md-3">
 							<label for="exampleInputName2">CIN</label>
 							<input type="text" class="form-control" id="exampleInputName2" placeholder="CIN" name="cin" [(ngModel)]="commonArray.cir.cin">
@@ -152,7 +157,7 @@
 							<input type="email" class="form-control" id="exampleInputName2" placeholder="Email ID" [formControl]="cirForm.controls['email']"
 							 name="emailId" [(ngModel)]="commonArray.cir.emailId">
 							<div *ngIf="(cirForm.controls['email'].hasError('required') && cirForm.controls['email'].touched)||(cirForm.controls['email'].hasError('required') && submitted)"
-							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">You must include email.</div>
+							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"> Please Enter Mandatory field </div>
 							<div *ngIf="cirForm.controls['email'].hasError('pattern') && cirForm.controls['email'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Enter Valid EmailId.</div>
 						</div>
 					</div>
@@ -174,14 +179,6 @@
 
 
 <script>
-	$(document).ready(function () {
-		var date_input = $('input[name="date"]'); //our date input has the name "date" 
-		date_input.datepicker({
-			format: 'mm/dd/yyyy',
-			todayHighlight: true,
-			autoclose: true,
-		})
-	})
 
 	function companySelectList(nameSelect) {
 		if (nameSelect) {
