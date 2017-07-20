@@ -29,6 +29,7 @@ options: DatePickerOptions;
  currentDate : Date;
 dateExpires : Date;
 requisitionForm: FormGroup; 
+submitted:boolean = false;
   ngOnInit(){
     // debugger;
     // this._dataService.getEarlierRequestData(this.userId).subscribe((earlierRequestData) => {
@@ -50,7 +51,9 @@ requisitionForm: FormGroup;
     this.options = new DatePickerOptions();
     this.currentDate = new Date();
       this.dateExpires = this.currentDate;
-       this.requisitionForm = this.fb1.group({});
+       this.requisitionForm = this.fb1.group({
+         'requestId'     : [null,  Validators.compose([Validators.pattern('[0-9]{1,10}')])]
+       });
   }
 
    back()
@@ -69,20 +72,26 @@ validate(){
   
   ViewEarlierEnq()
   {
-   // debugger;
+    this.submitted = true;
     console.log("Inside ViewEarlierEnq........");
     console.log("Data........"+ this.data);
     this._appService.getRequestData(this.data).subscribe((earlierRequestData) => {
       
-          if(null != earlierRequestData && earlierRequestData.length > 0){
-            console.log("Inside if...........");
-            this.earlierRequestList = earlierRequestData;
-            for(var i=0;i<this.earlierRequestList.length;i++){
-               this.reqId = this.earlierRequestList[i].requestId;
-            }
-          } else{
-            console.log("Inside else...........");
-            alert("Please enter the proper Data.");
+
+          if(null != earlierRequestData && earlierRequestData.length > 0)
+          {
+              console.log("Inside if...........");
+              this.earlierRequestList = earlierRequestData;
+              for(var i=0;i<this.earlierRequestList.length;i++)
+              {
+                this.reqId = this.earlierRequestList[i].requestId;
+              }
+          } 
+          else
+          {
+              console.log("Inside else...........");
+              this.earlierRequestList = [];
+              alert("No Data Found.");
           }         
         });
 
