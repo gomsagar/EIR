@@ -350,4 +350,21 @@ public class EirController {
         return object;
     }
 	
+	@CrossOrigin("*")
+	@RequestMapping(value = "/getEligibleProduct", method = RequestMethod.GET,produces="application/json")
+	public @ResponseBody EligibleReport getEligibleReport(Integer userID) 
+	{
+		userID = 1002;
+		EligibleReport selectedProduct = eirService.getEligibleProduct(userID);
+		return selectedProduct;
+	}
+	
+	@CrossOrigin("*")
+	@RequestMapping(value = "/getSelectedProduct", method = RequestMethod.GET,produces="application/json")
+	public @ResponseBody EligibleReport getSelectedProduct(Integer reqID) 
+	{
+	 EligibleReport productSelection = eirService.getSelectedProduct(reqID);
+		return productSelection;
+	}
+	
 }

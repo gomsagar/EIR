@@ -43,4 +43,8 @@ public class Constant {
 	public static final String HTML_FILE_PATH = "C:/output/HTMLReport.html";
 	
 	public static final String STATUS_DESCRIPTION_ERROR = "ERROR";
+	
+	public static final String REPORT_COMPLETED_READY = "Report Created and Ready to View";
+	public static final String REPORT_INCOMPLETE = "Report is Not Ready";
+	
 }

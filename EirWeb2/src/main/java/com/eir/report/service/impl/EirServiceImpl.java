@@ -63,6 +63,7 @@ import com.eir.report.entity.ConsumerRequest;
 import com.eir.report.entity.EntityDetails;
 import com.eir.report.entity.KycApproval;
 import com.eir.report.entity.Member;
+import com.eir.report.entity.MemberProductMapping;
 import com.eir.report.entity.ProductMaster;
 import com.eir.report.entity.RelationType;
 import com.eir.report.entity.ReportSelection;
@@ -86,6 +87,7 @@ import com.eir.report.repository.EntityDetailsRepository;
 import com.eir.report.repository.FrequencyRepository;
 import com.eir.report.repository.GenderRepository;
 import com.eir.report.repository.KycApprovalRepository;
+import com.eir.report.repository.MemberProductMappingRepository;
 import com.eir.report.repository.MemberUserMappingRepository;
 import com.eir.report.repository.ProductMasterRepository;
 import com.eir.report.repository.RelationTypeRepository;
@@ -185,6 +187,10 @@ public class EirServiceImpl implements EirService{
 	
 	@Autowired
 	MemberUserMappingRepository memberUserMappingRepository;
+	
+	@Autowired
+	MemberProductMappingRepository memberProductMappingRepository;
+	
 	@Override
 	public List<BirRequest> retrieveRequest() {
 		return birRequestRepository.findAll();
@@ -1245,11 +1251,17 @@ public class EirServiceImpl implements EirService{
 				if(null != birRequest.getCreateUserDate()){
 					birObject.setBirRequestDate(formatDate(birRequest.getCreateUserDate().toString()));
 				}
-				if(null != birRequest.getUpdateUserDate()){
+				if(null != birRequest.getUpdateUserDate() 
+						&& birRequest.getStatus().getStatusDescription().equals(com.eir.report.constant.Status.COMPLETED.status())){
 					birObject.setBirResponseDate(formatDate(birRequest.getUpdateUserDate().toString()));
+					birObject.setBirMessage(Constant.REPORT_COMPLETED_READY);
+				}
+				else
+				{
+					birObject.setBirMessage(Constant.REPORT_INCOMPLETE);
 				}
 				birObject.setBirRequestId(birRequest.getBirRequestId());
-				birObject.setBirMessage("Report Created and Ready to View");
+				
 				if(birProduct.length > 0)
 				birObject.setBirTats(birProduct[0].toString());
 			}
@@ -1265,23 +1277,33 @@ public class EirServiceImpl implements EirService{
 					if(null != cirRequet.getCreateUserDate()){
 						comboWithScoreObject.setComboWithScoreRequestDate(formatDate(cirRequet.getCreateUserDate().toString()));
 					}
-					if(null != cirRequet.getUpdateUserDate()){
+					if(cirRequet.getStatus().getStatusDescription().equals(com.eir.report.constant.Status.COMPLETED.status()) 
+							&& cirRequet.getUpdateUserDate() != null){
 						comboWithScoreObject.setComboWithScoreResponseDate(formatDate(cirRequet.getUpdateUserDate().toString()));
+						comboWithScoreObject.setComboWithScoreMessage(Constant.REPORT_COMPLETED_READY);
+					}
+					else
+					{
+						comboWithScoreObject.setComboWithScoreMessage(Constant.REPORT_INCOMPLETE);
 					}
 					comboWithScoreObject.setConsumerRequestId(cirRequet.getCirRequestId());
-					comboWithScoreObject.setComboWithScoreMessage("Report Created and Ready to View");
+					
 				}else{
 					
 					comboWithoutScoreObject.setComboWithoutScoreReportStatus(cirRequet.getStatus().getStatusDescription());
 					if(null != cirRequet.getCreateUserDate()){
 						comboWithoutScoreObject.setComboWithOutScoreRequestDate(formatDate(cirRequet.getCreateUserDate().toString()));
 					}
-					if(null != cirRequet.getUpdateUserDate()){
+					if(cirRequet.getStatus().getStatusDescription().equals(com.eir.report.constant.Status.COMPLETED.status())
+							&& cirRequet.getUpdateUserDate() != null){
 						comboWithoutScoreObject.setComboWithOutScoreResponseDate(formatDate(cirRequet.getUpdateUserDate().toString()));
+						comboWithoutScoreObject.setComboWithOutScoreMessage(Constant.REPORT_COMPLETED_READY);
+					}
+					else
+					{
+						comboWithoutScoreObject.setComboWithOutScoreMessage(Constant.REPORT_INCOMPLETE);
 					}
 					comboWithoutScoreObject.setConsumerRequestId(cirRequet.getCirRequestId());
-					comboWithoutScoreObject.setComboWithOutScoreMessage("Report Created and Ready to View");
-					
 				}
 			}else if(null != cirRequet && null != cirRequet.getCirRequestId()){	
 				score = cirRequet.getWithScore();
@@ -1291,21 +1313,33 @@ public class EirServiceImpl implements EirService{
 					if(null != cirRequet.getCreateUserDate()){
 						cirWithScoreObject.setCirWithScoreRequestDate(formatDate(cirRequet.getCreateUserDate().toString()));
 					}
-					if(null != cirRequet.getUpdateUserDate()){
+					if(null != cirRequet.getUpdateUserDate() 
+							&& cirRequet.getStatus().getStatusDescription().equals(com.eir.report.constant.Status.COMPLETED.status())){
 						cirWithScoreObject.setCirWithScoreResponseDate(formatDate(cirRequet.getUpdateUserDate().toString()));
+						cirWithScoreObject.setCirWithScoreMessage(Constant.REPORT_COMPLETED_READY);
+					}
+					else
+					{
+						cirWithScoreObject.setCirWithScoreMessage(Constant.REPORT_INCOMPLETE);
 					}
 					cirWithScoreObject.setCirRequestId(cirRequet.getCirRequestId());
-					cirWithScoreObject.setCirWithScoreMessage("Report Created and Ready to View");
+					
 				}else{
 					cirWithOutScoreObject.setCirWithOutScoreReportStatus(cirRequet.getStatus().getStatusDescription());
 					if(null != cirRequet.getCreateUserDate()){
 						cirWithOutScoreObject.setCirWithOutScoreRequestDate(formatDate(cirRequet.getCreateUserDate().toString()));
 					}
-					if(null != cirRequet.getUpdateUserDate()){
+					if(null != cirRequet.getUpdateUserDate() 
+							&& cirRequet.getStatus().getStatusDescription().equals(com.eir.report.constant.Status.COMPLETED.status())){
 						cirWithOutScoreObject.setCirWithOutScoreResponseDate(formatDate(cirRequet.getUpdateUserDate().toString()));
+						cirWithOutScoreObject.setCirWithOutScoreMessage(Constant.REPORT_COMPLETED_READY);	
+					}
+					else
+					{
+						cirWithOutScoreObject.setCirWithOutScoreMessage(Constant.REPORT_INCOMPLETE);
 					}
 					cirWithOutScoreObject.setCirRequestId(cirRequet.getCirRequestId());
-					cirWithOutScoreObject.setCirWithOutScoreMessage("Report Created and Ready to View");
+					
 				}
 			}
 		}
@@ -1395,7 +1429,6 @@ public class EirServiceImpl implements EirService{
 		} 
 		catch (Exception e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		finally 
@@ -1441,11 +1474,17 @@ public class EirServiceImpl implements EirService{
 				if(null != cirRequestEntity.getCreateUserDate()){
 					comboWithScoreObject.setComboWithScoreRequestDate(formatDate(cirRequestEntity.getCreateUserDate().toString()));
 				}
-				if(null != cirRequestEntity.getUpdateUserDate()){
+				if(null != cirRequestEntity.getUpdateUserDate() 
+						&& cirRequestEntity.getStatus().getStatusDescription().equals(com.eir.report.constant.Status.COMPLETED.status()) ){
 					comboWithScoreObject.setComboWithScoreResponseDate(formatDate(cirRequestEntity.getUpdateUserDate().toString()));
+					comboWithScoreObject.setComboWithScoreMessage(Constant.REPORT_COMPLETED_READY);
+				}
+				else
+				{
+					comboWithScoreObject.setComboWithScoreMessage(Constant.REPORT_INCOMPLETE);
 				}
 				comboWithScoreObject.setConsumerRequestId(cirRequestEntity.getCirRequestId());
-				comboWithScoreObject.setComboWithScoreMessage("Report Created sucessfully");
+				
 				return comboWithScoreObject;
 			}else{
 				ComboWithoutScoreObject comboWithoutScoreObject = new ComboWithoutScoreObject();
@@ -1454,11 +1493,17 @@ public class EirServiceImpl implements EirService{
 				if(null != cirRequestEntity.getCreateUserDate()){
 					comboWithoutScoreObject.setComboWithOutScoreRequestDate(formatDate(cirRequestEntity.getCreateUserDate().toString()));
 				}
-				if(null != cirRequestEntity.getUpdateUserDate()){
+				if(null != cirRequestEntity.getUpdateUserDate() 
+						&& cirRequestEntity.getStatus().getStatusDescription().equals(com.eir.report.constant.Status.COMPLETED.status())){
 					comboWithoutScoreObject.setComboWithOutScoreResponseDate(formatDate(cirRequestEntity.getUpdateUserDate().toString()));
+					comboWithoutScoreObject.setComboWithOutScoreMessage(Constant.REPORT_COMPLETED_READY);	
+				}
+				else
+				{
+					comboWithoutScoreObject.setComboWithOutScoreMessage(Constant.REPORT_INCOMPLETE);
 				}
 				comboWithoutScoreObject.setConsumerRequestId(cirRequestEntity.getCirRequestId());
-				comboWithoutScoreObject.setComboWithOutScoreMessage("Report Created sucessfully");
+				
 				return comboWithoutScoreObject;
 			}
 		
@@ -1480,10 +1525,16 @@ public class EirServiceImpl implements EirService{
 				if(null != cirRequestEntity.getCreateUserDate()){
 					cirWithScoreObject.setCirWithScoreRequestDate(formatDate(cirRequestEntity.getRequest().getCreateUserDate().toString()));
 				}
-				if(null != cirRequestEntity.getUpdateUserDate()){
+				if(null != cirRequestEntity.getUpdateUserDate()
+						&& cirRequestEntity.getStatus().getStatusDescription().equals(com.eir.report.constant.Status.COMPLETED.status())){
 					cirWithScoreObject.setCirWithScoreResponseDate(formatDate(cirRequestEntity.getRequest().getUpdateUserDate().toString()));
+					cirWithScoreObject.setCirWithScoreMessage(Constant.REPORT_COMPLETED_READY);	
 				}
-				cirWithScoreObject.setCirWithScoreMessage("Report Created sucessfully");
+				else
+				{
+					cirWithScoreObject.setCirWithScoreMessage(Constant.REPORT_INCOMPLETE);
+				}
+				
 				return cirWithScoreObject;
 			}else{
 				CIRWithOutScoreObject cirWithOutScoreObject = new CIRWithOutScoreObject();
@@ -1491,10 +1542,16 @@ public class EirServiceImpl implements EirService{
 				if(null != cirRequestEntity.getCreateUserDate()){
 					cirWithOutScoreObject.setCirWithOutScoreRequestDate(formatDate(cirRequestEntity.getRequest().getCreateUserDate().toString()));
 				}
-				if(null != cirRequestEntity.getUpdateUserDate()){
+				if(null != cirRequestEntity.getUpdateUserDate()
+						&& cirRequestEntity.getStatus().getStatusDescription().equals(com.eir.report.constant.Status.COMPLETED.status())){
 					cirWithOutScoreObject.setCirWithOutScoreResponseDate(formatDate(cirRequestEntity.getRequest().getUpdateUserDate().toString()));
+					cirWithOutScoreObject.setCirWithOutScoreMessage(Constant.REPORT_COMPLETED_READY);
 				}
-				cirWithOutScoreObject.setCirWithOutScoreMessage("Report Created sucessfully");
+				else
+				{
+					cirWithOutScoreObject.setCirWithOutScoreMessage(Constant.REPORT_INCOMPLETE);
+				}
+				
 				return cirWithOutScoreObject;
 			}
 		}
@@ -1506,6 +1563,63 @@ public class EirServiceImpl implements EirService{
 	{
 		memberUserMappingRepository.getUsersMemberId(userId);
 		return null;
+	}
+	
+	@Override
+	public EligibleReport getEligibleProduct(Integer userID) {
+		EligibleReport selection = new EligibleReport();
+		List<MemberProductMapping> productList = memberProductMappingRepository.findProductMappingForUserId(userID);
+		
+		for(MemberProductMapping s : productList){
+			
+			selectProduct(selection, s.getProductCode());
+		}
+		return selection;
+	}
+
+	private void selectProduct(EligibleReport selection, String productCode) {
+		switch (productCode) {
+		case EIRDataConstant.COMBOWITHSCORE:
+			selection.setComboWithScore(1);
+			break;
+		case EIRDataConstant.COMBOWITHOUTSCORE:
+			selection.setComboWithoutScore(1);
+			break;
+		case EIRDataConstant.CIRWITHSCORE:
+			selection.setCommWithScore(1);
+			break;
+		case EIRDataConstant.CIRWITHOUTSCORE:
+			selection.setCommWithoutScore(1);
+			break;
+		case EIRDataConstant.BIR:
+			selection.setBir(1);
+			break;
+		case EIRDataConstant.SME:
+			selection.setSme(1);
+			break;
+		case EIRDataConstant.LETIGATION:
+			selection.setLitigation(1);
+			break;
+		case EIRDataConstant.NEWSFEED:
+			selection.setNewsFeed(1);
+			break;
+		}
+	}
+	@Override
+	public EligibleReport getSelectedProduct(Integer reqID)
+	{
+		EligibleReport selection = new EligibleReport();
+		List<ReportSelection> reportSelectionList = reportSelectionRepository.findByRequestId(reqID);
+		
+		for(ReportSelection reportSelection : reportSelectionList)
+		{
+			
+			selectProduct(selection, reportSelection.getProductCode());
+			
+		}
+		
+		
+		return selection;
 	}
 	
 }

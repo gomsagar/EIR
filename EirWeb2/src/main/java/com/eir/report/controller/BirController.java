@@ -69,15 +69,6 @@ public class BirController {
 	}*/
 	
 	@CrossOrigin("*")
-	@RequestMapping(value = "/getEligibleProduct", method = RequestMethod.GET,produces="application/json")
-	public @ResponseBody EligibleReport getEligibleReport(Integer userID) 
-	{
-		userID = 1002;
-		EligibleReport selectedProduct = birService.getEligibleProduct(userID);
-		return selectedProduct;
-	}
-	 
-	@CrossOrigin("*")
 	@RequestMapping(value = "/getEarlierRequest", method = RequestMethod.GET,produces="application/json")
 	public @ResponseBody Request getEarlierRequest(Integer userID) 
 	{
@@ -85,11 +76,4 @@ public class BirController {
 		Request request = birService.getEarlierRequest(userID);
 		return request;
 	}
-	 @CrossOrigin("*")
-		@RequestMapping(value = "/getSelectedProduct", method = RequestMethod.GET,produces="application/json")
-		public @ResponseBody EligibleReport getSelectedProduct(Integer reqID) 
-		{
-		 EligibleReport productSelection = birService.getSelectedProduct(reqID);
-			return productSelection;
-		}
 }

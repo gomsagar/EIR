@@ -376,7 +376,7 @@ $value
 												        </tr>
 														 <tr>
 												            <td style="width:78%; text-align:center">&nbsp;</td>
-												            <td style="width:22%; text-align:left">$confScore</td>
+												            <td style="width:22%; text-align:right">$confScore</td>
 												        </tr>
 												        <tr>
 												            <td style="width:78%; text-align:center">&nbsp;</td>
@@ -420,7 +420,7 @@ $value
 												        </tr>
 												        <tr>
 												            <td style="width:75%; text-align:center">&nbsp;</td>
-												            <td style="width:25%; text-align:left">$confScore</td>
+												            <td style="width:25%; text-align:right">$confScore</td>
 												        </tr>
 												        <tr>
 												            <td style="width:75%; text-align:center">&nbsp;</td>

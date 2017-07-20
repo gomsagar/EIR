@@ -90,4 +90,8 @@ public interface EirService {
 		Integer saveSelectedProduct(EligibleReport selection, Integer sentRequestId);
 
 		Integer getUsersMemberId(Integer userId);
+		
+		EligibleReport getEligibleProduct(Integer userID);
+		
+		EligibleReport getSelectedProduct(Integer reqID);
 }

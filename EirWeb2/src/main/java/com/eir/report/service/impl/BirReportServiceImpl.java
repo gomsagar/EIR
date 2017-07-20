@@ -106,9 +106,9 @@ public class BirReportServiceImpl implements BirReportService {
 	@Autowired
 	BirRequestRepository birReqRepository;
 	
-	@Autowired
+	/*@Autowired
 	MemberProductMappingRepository memberProductMappingRepo;
-	
+	*/
 	@Autowired
 	StatusRepository statusrepository;
 	
@@ -404,7 +404,7 @@ public class BirReportServiceImpl implements BirReportService {
 					{
 						Float score = mapEntry.getKey();
 						scoreXMlOutput = mapEntry.getValue();
-						birRequest.setScoreCardExcell(scoreXMlOutput.getBytes());
+						//birRequest.setScoreCardExcell(scoreXMlOutput.getBytes());
 						birRequest.setScore(score.toString());
 					}
 				}
@@ -471,62 +471,6 @@ public class BirReportServiceImpl implements BirReportService {
 		return birReqRepository.findByStatus(getStatusByDescription(com.eir.report.constant.Status.PENDING.status()));
 	}
 	
-	@Override
-	public EligibleReport getEligibleProduct(Integer userID) {
-		EligibleReport selection = new EligibleReport();
-		List<MemberProductMapping> productList = memberProductMappingRepo.findProductMappingForUserId(userID);
-		
-		for(MemberProductMapping s : productList){
-			
-			selectProduct(selection, s.getProductCode());
-		}
-		return selection;
-	}
-
-	private void selectProduct(EligibleReport selection, String productCode) {
-		switch (productCode) {
-		case EIRDataConstant.COMBOWITHSCORE:
-			selection.setComboWithScore(1);
-			break;
-		case EIRDataConstant.COMBOWITHOUTSCORE:
-			selection.setComboWithoutScore(1);
-			break;
-		case EIRDataConstant.CIRWITHSCORE:
-			selection.setCommWithScore(1);
-			break;
-		case EIRDataConstant.CIRWITHOUTSCORE:
-			selection.setCommWithoutScore(1);
-			break;
-		case EIRDataConstant.BIR:
-			selection.setBir(1);
-			break;
-		case EIRDataConstant.SME:
-			selection.setSme(1);
-			break;
-		case EIRDataConstant.LETIGATION:
-			selection.setLitigation(1);
-			break;
-		case EIRDataConstant.NEWSFEED:
-			selection.setNewsFeed(1);
-			break;
-		}
-	}
-	@Override
-	public EligibleReport getSelectedProduct(Integer reqID)
-	{
-		EligibleReport selection = new EligibleReport();
-		List<ReportSelection> reportSelectionList = reportSelectionRepository.findByRequestId(reqID);
-		
-		for(ReportSelection reportSelection : reportSelectionList)
-		{
-			
-			selectProduct(selection, reportSelection.getProductCode());
-			
-		}
-		
-		
-		return selection;
-	}
 	/*@Override
 	public void saveBIRRequestData(MultipleRequest input, Request request) 
 	{
