@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -34,8 +35,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "bir_request", schema = "eir")
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = "eir/com/eir/report/entity", name = "BirRequest")
 @EntityListeners(AuditingEntityListener.class)
 public class BirRequest implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -59,7 +58,7 @@ public class BirRequest implements Serializable {
 	/**
 	 */
 
-	@Column(name = "xml_output", columnDefinition = "BLOB")
+	/*@Column(name = "xml_output", columnDefinition = "BLOB")
 	@Basic(fetch = FetchType.LAZY)
 	@Lob
 	byte[] xmlOutput;
@@ -67,7 +66,7 @@ public class BirRequest implements Serializable {
 	@Column(name = "score_card_excell", columnDefinition = "BLOB")
 	@Basic(fetch = FetchType.LAZY)
 	@Lob
-	byte[] scoreCardExcell;
+	byte[] scoreCardExcell;*/
 	/**
 	 */
 
@@ -117,7 +116,7 @@ public class BirRequest implements Serializable {
 
 	/**
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumns({ @JoinColumn(name = "request_id", referencedColumnName = "request_id") })
 	Request request;
 	
@@ -136,8 +135,11 @@ public class BirRequest implements Serializable {
 	@Column(name = "admin_hit", length = 45)
 	String adminHit;
 	
-	@Column(name = "XML_OUTPUT_PATH", length = 45)
+	@Column(name = "xml_output_path", length = 45)
 	String xmlOutputPath;
+	
+	@Column(name = "score_card_excell_output_path", length = 45)
+	String scoreCardExcellOutputPath;
 	
 	/**
 	 */
@@ -165,15 +167,15 @@ public class BirRequest implements Serializable {
 
 	/**
 	 */
-	public void setXmlOutput(byte[] xmlOutput) {
+	/*public void setXmlOutput(byte[] xmlOutput) {
 		this.xmlOutput = xmlOutput;
 	}
 
-	/**
-	 */
+	*//**
+	 *//*
 	public byte[] getXmlOutput() {
 		return this.xmlOutput;
-	}
+	}*/
 
 	/**
 	 */
@@ -286,7 +288,6 @@ public class BirRequest implements Serializable {
 
 		buffer.append("birRequestId=[").append(birRequestId).append("] ");
 		buffer.append("entityName=[").append(entityName).append("] ");
-		buffer.append("xmlOutput=[").append(xmlOutput).append("] ");
 		buffer.append("score=[").append(score).append("] ");
 		buffer.append("ernNumber=[").append(ernNumber).append("] ");
 		buffer.append("createUserId=[").append(createUserId).append("] ");
@@ -321,13 +322,13 @@ public class BirRequest implements Serializable {
 		this.companyName = companyName;
 	}
 
-	public byte[] getScoreCardExcell() {
+	/*public byte[] getScoreCardExcell() {
 		return scoreCardExcell;
 	}
 
 	public void setScoreCardExcell(byte[] scoreXMlOutput) {
 		this.scoreCardExcell = scoreXMlOutput;
-	}
+	}*/
 
 	public String getUserHit() {
 		return userHit;
@@ -351,5 +352,13 @@ public class BirRequest implements Serializable {
 
 	public void setXmlOutputPath(String xmlOutputPath) {
 		this.xmlOutputPath = xmlOutputPath;
+	}
+
+	public String getScoreCardExcellOutputPath() {
+		return scoreCardExcellOutputPath;
+	}
+
+	public void setScoreCardExcellOutputPath(String scoreCardExcellOutputPath) {
+		this.scoreCardExcellOutputPath = scoreCardExcellOutputPath;
 	}
 }
