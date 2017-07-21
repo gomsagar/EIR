@@ -2,11 +2,12 @@
 <!DOCTYPE logback>
 <configuration>
 
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%date{HH:mm:ss.SSS} [%thread] %-5level %logger{15}#%line %msg\n</pattern>
-        </encoder>
-    </appender>
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%date{HH:mm:ss.SSS} [%thread] %-5level %logger{15}#%line
+				%msg\n</pattern>
+		</encoder>
+	</appender>
 
 	<appender name="FILE-AUDIT"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -20,7 +21,7 @@
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- rollover daily -->
 			<fileNamePattern>C:/logs/archived/debug.%d{yyyy-MM-dd}.%i.log
-                        </fileNamePattern>
+			</fileNamePattern>
 			<timeBasedFileNamingAndTriggeringPolicy
 				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
 				<maxFileSize>10MB</maxFileSize>
@@ -28,18 +29,24 @@
 		</rollingPolicy>
 
 	</appender>
-	
-    <logger name="com.eir.report">
-        <level value="debug"/>
-    </logger>
 
-    <logger name="org.springframework">
-        <level value="info"/>
-    </logger>
+	<logger name="com.eir.report">
+		<level value="debug" />
+	</logger>
 
-    <root>
-        <level value="debug"/>
-        <appender-ref ref="FILE-AUDIT"/>
-    </root>
+	<logger name="org.springframework">
+		<level value="info" />
+	</logger>
+
+	<logger name="org.hibernate.type" additivity="false">
+		<level value="TRACE" />
+		<appender-ref ref="SQLROLLINGFILE" />
+		<appender-ref ref="STDOUT" />
+	</logger>
+
+	<root>
+		<level value="debug" />
+		<appender-ref ref="FILE-AUDIT" />
+	</root>
 
 </configuration>

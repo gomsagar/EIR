@@ -46,6 +46,7 @@ public static reqId : number;
 
   constructor(private _appService:AppService,private _routeParams: ActivatedRoute,private _dataService:DataService,private loaderService: LoaderService,private router: Router,private _initalizeData :  InitalizeService)
   {
+    //debugger;
    this.showLoader=true;
    this.data.comboWithoutScore=false;
    this.data.comboWithScore=false;
@@ -64,13 +65,15 @@ public static reqId : number;
    this.value.bir=0;
    this.value.newsFeed=0;
    this.value.litigation=0;
+   this.loaderService.display(true);
    this.loaderService.status.subscribe((val: boolean) => {
             this.showLoader = val;
+
         });
     _routeParams.queryParams.subscribe(params => {this.requestId = params['reqId'] || 0 }); 
 
      console.log("Inside init method"+ this.requestId+" Loader:"+this.showLoader);
-     this.loaderService.display(true);  
+     
       console.log(" Loader:"+this.showLoader);
     if(this.requestId == 0)
     {
@@ -91,6 +94,7 @@ public static reqId : number;
                this.isBIR= checkboxValue.bir ;
                this.isnf= checkboxValue.newsFeed ;
                this.isld= checkboxValue.litigation ;
+               this.loaderService.display(false);  
                 },
                 (err) => console.log(err),
                 () => console.log('hello service test complete')
@@ -116,13 +120,8 @@ public static reqId : number;
                this.isBIR= checkboxValue.bir ;
                this.isnf= checkboxValue.newsFeed ;
                this.isld= checkboxValue.litigation ;
-                },
-                (err) => console.log(err),
-                () => console.log('hello service test complete')
-        );    
-        //this.value = this.data;
 
-       this._dataService. getSelectedProduct(this.requestId)
+               this._dataService. getSelectedProduct(this.requestId)
             .subscribe((checkboxValue) => {
                
                 this.existingData = checkboxValue;
@@ -162,14 +161,25 @@ public static reqId : number;
 
                 console.log('Reverse data'+ this.data.bir)
 
-             } );    
+             } );
+              this.loaderService.display(false); 
+                },
+                (err) => console.log(err),
+                () => console.log('hello service test complete')
+
+                
+        );    
+        //this.value = this.data;
+
+           
     }
-    this.loaderService.display(false);  
+    //this.loaderService.display(false);  
          console.log(" Loader:"+this.showLoader);
          
   }
 
   ngOnInit(){
+    //debugger;
     this.loaderService.status.subscribe((val: boolean) => {
             this.showLoader = val;
         });
