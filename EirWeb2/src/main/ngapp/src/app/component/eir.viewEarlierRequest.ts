@@ -8,6 +8,7 @@ import { LoaderService } from '../services/eir.loader';
 @Component({
   selector: 'viewEarlierRequest',
   templateUrl: '../html/viewEarlierRequest.html',
+  styleUrls: ['../app.component.css'],
   providers: [AppService]
 })
 export class ViewEarlierRequestComponent 
@@ -51,12 +52,13 @@ submitted:boolean = false;
 
   }
   constructor(private router: Router,private _appService:AppService,private loaderService: LoaderService,public fb1: FormBuilder){ 
-   
-   this.loaderService.display(true);
+    this.loaderService.display(true);
    this.loaderService.status.subscribe((val: boolean) => {
             this.showLoader = val;
+
         });
-    this.options = new DatePickerOptions();
+
+   this.options = new DatePickerOptions();
     this.currentDate = new Date();
       this.dateExpires = this.currentDate;
 

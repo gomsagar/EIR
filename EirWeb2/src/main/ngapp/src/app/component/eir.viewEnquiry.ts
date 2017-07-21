@@ -9,6 +9,7 @@ import { LoaderService } from '../services/eir.loader';
 @Component({
   selector: 'viewEnquiryComponent',
   templateUrl: '../html/ViewEnquiry.html',
+  styleUrls: ['../app.component.css'],
   providers:[AppService,DataService]
 })
 export class ViewEnquiryComponent

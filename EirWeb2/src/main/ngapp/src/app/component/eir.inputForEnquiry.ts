@@ -26,6 +26,7 @@ interface MessageJson {
 @Component({
   selector: 'inputForEnquiry',
   templateUrl: '../html/inputForEnquiry.html',
+  styleUrls: ['../app.component.css'],
  providers: [HttpModule,CompanyListService,AppService,CompanyNameService, StateListService,AddressTypeList,CirPurposeList,FormsModule,ReactiveFormsModule,NewService,ControlMessages,ReportTypeList]
 })
 export class InputForEnquiryComponent implements OnInit
@@ -197,13 +198,13 @@ export class InputForEnquiryComponent implements OnInit
          this.submitted=false;
          this.cirForm= fb.group(
          {      
-          'cmpName'     : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z0-9&]*')])],    
+          'cmpName'     : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z0-9& ]*')])],    
           'pincode'     : [null,  Validators.compose([Validators.required, Validators.pattern('(?!.*000$)[1-9][0-9]{5}')]) ],
           'email'       : [null,  Validators.compose([Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$'),Validators.required])],
           'cmppan'      : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})[ABCFEGHLJPTabcfeghljpt][A-Za-z]([0-9]{4})([A-Za-z]{1})'),Validators.required])],
           'city'        : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z]*')])],
           'product'     : [null,  Validators.required],
-          'address'     : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z0-9]{1,40}')])],        
+          'address'     : [null,  Validators.compose([Validators.required,Validators.maxLength(40)])],        
           'cirPurpose'  : [null,  Validators.required],
           'cirState'    : [null,  Validators.required],
           'telephone'   : [null,  Validators.pattern('[0-9]{5,}')],
@@ -211,7 +212,7 @@ export class InputForEnquiryComponent implements OnInit
          
          this.birForm =fb.group(
          {
-          'companyName' :[null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z0-9&]*')])],          
+          'companyName' :[null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z0-9& ]*')])],          
           'cmplist'     :[null,  Validators.required]
         });
         

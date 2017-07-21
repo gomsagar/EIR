@@ -1,5 +1,6 @@
 package com.eir.report.constant;
 
+
 public class Constant {
 	
 	/*public static final String PENDING = "PENDING";
@@ -46,5 +47,7 @@ public class Constant {
 	
 	public static final String REPORT_COMPLETED_READY = "Report Created and Ready to View";
 	public static final String REPORT_INCOMPLETE = "Report is Not Ready";
+	
+	public static final Integer REGISTERED_LEGAL_OFFICE_ADDRESS_ID = 14;
 	
 }

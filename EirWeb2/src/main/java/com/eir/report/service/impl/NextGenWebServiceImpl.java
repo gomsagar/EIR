@@ -681,6 +681,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		{
 			String statusStr = com.eir.report.constant.Status.ERROR.status();
 			String cirRequestXML = getCIRRequestXML(cirRequest);
+			logger.debug("Commercial Request XML for requestId -- " + cirRequest.getRequest().getRequestId() + " Cir_requestId -- " + cirRequest.getCirRequestId() + " ------------>" + cirRequestXML);
 			NextGenResponseWrapper nextGenResponseWrapper = experianHttDirectClient.getNextgenReport(cirRequestXML);
 			
 			if(getRequestStatusStr(nextGenResponseWrapper).equals(com.eir.report.constant.Status.ERROR.status()))

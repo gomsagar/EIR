@@ -19,6 +19,7 @@ import { DatePickerOptions, DateModel } from 'ng2-datepicker';
 @Component({
   selector: 'consumerComponent',
   templateUrl: '../html/consumer.html',
+  styleUrls: ['../app.component.css'],
 providers:[AppService,AccountTyprList,RelationTypeList,ConsumerPurposeList,AddressTypeList]
 })
 
@@ -192,7 +193,7 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
       this.requisitionForm[action]('mobileNo' + i, new FormControl('', [Validators.required,Validators.pattern('[0-9]{10}')]));
       this.requisitionForm[action]('gender' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('birthDate' + i, new FormControl('', [Validators.required]));
-      this.requisitionForm[action]('personAddrLine1' + i, new FormControl('', [Validators.required,Validators.pattern('[A-Za-z0-9]{1,40}')]));
+      this.requisitionForm[action]('personAddrLine1' + i, new FormControl('', [Validators.required,Validators.maxLength(40) ]));
    //   this.requisitionForm[action]('personAddrLine2' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('personCity' + i, new FormControl('', [Validators.required,Validators.pattern('[A-Za-z]*')]));
      // this.requisitionForm[action]('personPan' + i, new FormControl('', [Validators.required,Validators.pattern('([A-Za-z]{3})[ABCFEGHLJPTabcfeghljpt][A-Za-z]([0-9]{4})([A-Za-z]{1})')]));

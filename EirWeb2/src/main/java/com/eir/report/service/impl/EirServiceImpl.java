@@ -273,7 +273,15 @@ public class EirServiceImpl implements EirService{
 			addrsEntity.setCity(cirReq.getCity());
 			addrsEntity.setStateId(cirReq.getCirState().getStateId());
 			addrsEntity.setPincode(cirReq.getPinCode());
-			AddressType addressType = addressTypeRepository.findByAddressTypeId(cirReq.getAddrType().getAddressTypeId());
+			AddressType addressType = null;
+			if(cirReq.getAddrType() != null)
+			{
+				addressType = addressTypeRepository.findByAddressTypeId(cirReq.getAddrType().getAddressTypeId());
+			}
+			else
+			{
+				addressType = addressTypeRepository.findByAddressTypeId(Constant.REGISTERED_LEGAL_OFFICE_ADDRESS_ID);
+			}
 			addrsEntity.setAddressType(addressType);
 			addressRepository.save(addrsEntity);
 		return addrsEntity;
@@ -323,8 +331,16 @@ public class EirServiceImpl implements EirService{
 		cirRequestEntity.setRequest(request);
 		cirRequestEntity.setStatus(getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.status()));
 		cirRequestEntity.setBusName(cirRequest.getCompanyName());
-		cirRequestEntity.setProductField(cirRequest.getProductField().getReportTypeId());
-		cirRequestEntity.setPurposeId(cirRequest.getCirPurpose().getCirPurposeId());
+		if(cirRequest.getProductField() != null)
+		{
+			cirRequestEntity.setProductField(cirRequest.getProductField().getReportTypeId());	
+		}
+		
+		if(cirRequest.getCirPurpose() != null)
+		{
+			cirRequestEntity.setPurposeId(cirRequest.getCirPurpose().getCirPurposeId());	
+		}
+		
 		cirRequestEntity.setCompanyPan(cirRequest.getCmpPan());
 		cirRequestEntity.setAddress(createAddress(cirRequest));
 		
@@ -359,8 +375,16 @@ public class EirServiceImpl implements EirService{
 				consumerEntity.setProductField(Constant.CONSPRODUCTFIELD);
 				consumerEntity.setScore(consumerInput.getScore());
 				consumerEntity.setStatusId(getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.status()));
-				consumerEntity.setRelationTypeId(consumerInput.getRelationType().getRelationTypeId()); 
-				consumerEntity.setEnquiryAccountTypeId(consumerInput.getAccountType().getAccntTypeId());
+				if(consumerInput.getRelationType() != null )
+				{
+					consumerEntity.setRelationTypeId(consumerInput.getRelationType().getRelationTypeId());	
+				}
+				
+				if(consumerInput.getAccountType() != null)
+				{
+					consumerEntity.setEnquiryAccountTypeId(consumerInput.getAccountType().getAccntTypeId());
+				}
+				
 				consumerEntity.setEnquiryCreditPurposeId(consumerInput.getConsumerFinancialPurpose().getFinancialPurposeId());
 				consumerEntity.setPurposeId(consumerInput.getConsumerPurpose().getPurposeId());
 				consumerEntity.setPurposeOfInquiry(consumerInput.getConsumerPurpose().getPurposeId());
@@ -379,7 +403,10 @@ public class EirServiceImpl implements EirService{
 				consumerEntity.setDateOfBirth(dob);
 				consumerEntity.setMaritalStatus(consumerInput.getMaritalStatus());
 				consumerEntity.setGenderId(consumerInput.getGender().getId());
-				consumerEntity.setFrequencyId(consumerInput.getFrequency().getFrequencyId());
+				if(consumerInput.getFrequency() != null)
+				{
+					consumerEntity.setFrequencyId(consumerInput.getFrequency().getFrequencyId());
+				}
 				consumerEntity.setDurationOfAgreement(consumerInput.getDurationOfAgreement());
 				
 				consumerEntity.setAddressId(createAddressForConsumerList(consumerInput));
@@ -399,7 +426,15 @@ public class EirServiceImpl implements EirService{
 			addrsEntity.setCity(consumerReq.getPersonCity());
 			addrsEntity.setStateId(consumerReq.getPersonState().getStateId());
 			addrsEntity.setPincode(consumerReq.getPersonPinCode());
-			AddressType addressType = addressTypeRepository.findByAddressTypeId(consumerReq.getAddressType().getAddressTypeId());
+			AddressType addressType = null;
+			if(consumerReq.getAddressType() != null)
+			{
+				addressType = addressTypeRepository.findByAddressTypeId(consumerReq.getAddressType().getAddressTypeId());	
+			}
+			else
+			{
+				addressType = addressTypeRepository.findByAddressTypeId(Constant.REGISTERED_LEGAL_OFFICE_ADDRESS_ID);
+			}
 			addrsEntity.setAddressType(addressType);
 			addressRepository.save(addrsEntity);
 		return addrsEntity;
