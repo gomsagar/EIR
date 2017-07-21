@@ -190,7 +190,7 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
       this.requisitionForm[action]('personCity' + i, new FormControl('', [Validators.required,Validators.pattern('[A-Za-z]*')]));
      // this.requisitionForm[action]('personPan' + i, new FormControl('', [Validators.required,Validators.pattern('([A-Za-z]{3})[ABCFEGHLJPTabcfeghljpt][A-Za-z]([0-9]{4})([A-Za-z]{1})')]));
       this.requisitionForm[action]('personState' + i, new FormControl('', [Validators.required]));
-      this.requisitionForm[action]('personPinCode' + i, new FormControl('', [Validators.required,Validators.pattern('[1-9][0-9]{5}')]));
+      this.requisitionForm[action]('personPinCode' + i, new FormControl('', [Validators.required,Validators.pattern('(?!.*000$)[1-9][0-9]{5}')]));
       this.requisitionForm[action]('consumerPurpose' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('consumerFinancialPurpose' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('amount' + i, new FormControl('', [Validators.required,Validators.pattern('[0-9]*')]));

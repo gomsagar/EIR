@@ -160,7 +160,7 @@
 						<i  class="fa fa-calendar"></i>
 						<input  class="form-control"  id="date"   placeholder="MM/DD/YYYY"  type="text" 
 					/>--> 
-					<ng2-datepicker readonly id="date" name="datePicker" [options]="{maxDate: dateExpires,format:MM-DD-YYYY}" formControlName="birthDate{{i}}" [(ngModel)]="consumerData[i].birthDate"></ng2-datepicker>
+					<ng2-datepicker id="date" name="datePicker" [options]="{maxDate: dateExpires,format:MM-DD-YYYY}" formControlName="birthDate{{i}}" [(ngModel)]="consumerData[i].birthDate"></ng2-datepicker>
 				<control-messages [control]="requisitionForm.controls['birthDate'+i]" [label]="'BirthDate'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
 				</div>
 			</div>

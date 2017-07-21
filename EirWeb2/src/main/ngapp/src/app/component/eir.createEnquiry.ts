@@ -5,7 +5,7 @@ import{DataService} from '../services/eir.getData';
 import {Router,ActivatedRoute} from '@angular/router';
 import { InputForEnquiryComponent } from './eir.inputForEnquiry';
 import { InitalizeService } from '../services/eir.initalizeData';
-
+import { LoaderService } from '../services/eir.loader';
 interface MessageJson {
     cws: boolean;
     cwos: boolean;
@@ -14,7 +14,8 @@ interface MessageJson {
 @Component({
  selector: 'createEnquiry',
  templateUrl: '../html/createEnquiry.html',
-  providers: [HttpModule,AppService,DataService,InitalizeService]
+  providers: [HttpModule,AppService,DataService,InitalizeService],
+  styleUrls: ['../app.component.css']
 })
 
 export class EirCreateComponent implements OnInit {
@@ -41,9 +42,11 @@ private _subscription;
 public static reqId : number;
  public requestId:number;
  public sendRequestId:number;
+ showLoader:boolean;
 
-  constructor(private _appService:AppService,private _routeParams: ActivatedRoute,private _dataService:DataService,private router: Router,private _initalizeData :  InitalizeService)
+  constructor(private _appService:AppService,private _routeParams: ActivatedRoute,private _dataService:DataService,private loaderService: LoaderService,private router: Router,private _initalizeData :  InitalizeService)
   {
+   this.showLoader=true;
    this.data.comboWithoutScore=false;
    this.data.comboWithScore=false;
    this.data.commWithScore=false;
@@ -61,10 +64,14 @@ public static reqId : number;
    this.value.bir=0;
    this.value.newsFeed=0;
    this.value.litigation=0;
-
+   this.loaderService.status.subscribe((val: boolean) => {
+            this.showLoader = val;
+        });
     _routeParams.queryParams.subscribe(params => {this.requestId = params['reqId'] || 0 }); 
 
-     console.log("Inside init method"+ this.requestId);
+     console.log("Inside init method"+ this.requestId+" Loader:"+this.showLoader);
+     this.loaderService.display(true);  
+      console.log(" Loader:"+this.showLoader);
     if(this.requestId == 0)
     {
       this.sendRequestId = 0;
@@ -157,10 +164,17 @@ public static reqId : number;
 
              } );    
     }
+    this.loaderService.display(false);  
+         console.log(" Loader:"+this.showLoader);
          
   }
 
   ngOnInit(){
+    this.loaderService.status.subscribe((val: boolean) => {
+            this.showLoader = val;
+        });
+  
+
     this._dataService.getUserFlag().subscribe((loggedInUserFlag) => {            
             console.log("loggedInUserFlag -  - "+ loggedInUserFlag);
             this.loggedInUserFlagVar = loggedInUserFlag.userFlag;            
@@ -262,7 +276,7 @@ public static reqId : number;
     }
     else
     {
-        alert("Please select at least 1 Product from Product List");
+        alert("Please select Product !!!");
         this.router.navigate(['createEnquiry']);
     }
   }

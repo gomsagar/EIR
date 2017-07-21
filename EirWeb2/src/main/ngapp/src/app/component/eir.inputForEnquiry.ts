@@ -59,6 +59,9 @@ export class InputForEnquiryComponent implements OnInit
     isAddMore : boolean;
     consumerValid : boolean;
     requestId : number;
+    isValidPan:boolean=false;
+    isValidCin:boolean=false;
+    isValidTin:boolean=false;
     //EirCreateComponent createComponent = new EirCreateComponent();
 
     commonArray: any = {
@@ -186,7 +189,7 @@ export class InputForEnquiryComponent implements OnInit
          this.submitted=false;
          this.cirForm= fb.group(
          {          
-          'pincode'     : [null,  Validators.compose([Validators.required, Validators.pattern('[1-9][0-9]{5}')]) ],
+          'pincode'     : [null,  Validators.compose([Validators.required, Validators.pattern('(?!.*000$)[1-9][0-9]{5}')]) ],
           'email'       : [null,  Validators.compose([Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$'),Validators.required])],
           'cmppan'      : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})[ABCFEGHLJPTabcfeghljpt][A-Za-z]([0-9]{4})([A-Za-z]{1})'),Validators.required])],
           'city'        : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z]*')])],
@@ -307,22 +310,80 @@ export class InputForEnquiryComponent implements OnInit
         this.validateBtn = true;
         if(this.commonArray.bir.companyName != "")
         {
-        console.log("commonArray.bir.companyName---------"+this.commonArray.bir.companyName)
-            this._cmpname.validateName(this.commonArray.bir ).subscribe((temp) => {
-            
-            this.company=temp;
-            this.jsonResponse = JSON.stringify(temp);
+            console.log("commonArray.bir.companyName---------"+this.commonArray.bir.companyName)
+                this._cmpname.validateName(this.commonArray.bir ).subscribe((temp) => {
+                
+                this.company=temp;
+                this.jsonResponse = JSON.stringify(temp);
 
-            if(temp!=null)
-            {
-            this.hasList=true;
+                if(temp!=null)
+                {
+                this.hasList=true;
+                }
+                else
+                {
+                    alert("Company Name not Found!!!");
+                }
+            });        
         }
-         else
-    {
-        alert("Company Name not Found!!!");
-    }
-        });        
-    }
    
     }
+ groupValidate(num: number)
+ {
+//console.log("Validation:" + this.consumerData[num].personPinCode )
+ this.isValidPan = false;
+ this.isValidCin = false;
+ this.isValidTin = false;
+ 
+if(this.commonArray.cir.pan != '')
+{
+  if(this.commonArray.cir.pan.match('([A-Za-z]{3})[ABCFEGHLJPTabcfeghljpt][A-Za-z]([0-9]{4})([A-Za-z]{1})'))
+  {
+    this.isValidPan = false;
+  }
+  else
+  {
+    this.isValidPan = true;
+  //  this.requisitionForm.valid=false;
+  }
+ }
+ else if(this.commonArray.cir.cin != '' )
+ {
+  if(this.commonArray.cir.cin.match("[a-zA-Z0-9]{10}"))
+  {
+    this.isValidCin = false;
+  }
+  else
+  {
+    this.isValidCin = true;
+  //  this.requisitionForm.valid=false;
+  }
+
+ }
+ else if(this.consumerData[num].aadharhCard != '' )
+ {
+   if(this.consumerData[num].aadharhCard.startsWith('0'))
+   {
+    this.isValidTin = true;
+    //this.requisitionForm.valid=false;
+   }
+  else  if(this.consumerData[num].aadharhCard.length != 12)
+  {
+    this.isValidTin = true;
+   // this.requisitionForm.valid=false;
+  }
+  else
+  {
+    this.isValidTin = false;
+  }
+ }
+ 
+ else
+ {
+   alert("Input Error -  At least one of Telephone Number, Mobile Number, PAN, Passport Number,AAdhar,Driving License Number or Voter ID card is required '");
+  // this.requisitionForm.valid = false;
+  
+ }
+ 
+ }
 }
