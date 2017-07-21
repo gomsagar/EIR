@@ -59,8 +59,9 @@ submitted:boolean = false;
     this.options = new DatePickerOptions();
     this.currentDate = new Date();
       this.dateExpires = this.currentDate;
+
        this.requisitionForm = this.fb1.group({
-         'requestId'     : [null,  Validators.compose([Validators.pattern('[0-9]{1,10}')])]
+         'requestId'     : [null, Validators.pattern('[0-9]{1,10}')]
        });
        this.loaderService.display(false);
   }
@@ -86,30 +87,50 @@ validate(){
     this.submitted = true;
     console.log("Inside ViewEarlierEnq........");
     console.log("Data........"+ this.data);
-    this._appService.getRequestData(this.data).subscribe((earlierRequestData) => {
-      
 
-          if(null != earlierRequestData && earlierRequestData.length > 0)
-          {
-              console.log("Inside if...........");
-              this.earlierRequestList = earlierRequestData;
-              for(var i=0;i<this.earlierRequestList.length;i++)
-              {
-                this.reqId = this.earlierRequestList[i].requestId;
-              }
-          } 
-          else
-          {
-              console.log("Inside else...........");
+    if(this.requisitionForm.valid )
+      {
+        if(this.data.fromDate !== undefined && this.data.toDate !== undefined && this.data.fromDate !== null && this.data.toDate !== null)
+        {
+            if((this.data.fromDate.year <= this.data.toDate.year) && (this.data.fromDate.month <= this.data.toDate.month) && (this.data.fromDate.day <= this.data.toDate.day))
+            {
+              this.serviceCallForViewData(this.data);
+            }
+            else
+            {
               this.earlierRequestList = [];
-              alert("No Data Found.");
-          }   
-          this.loaderService.display(false);      
-        });
+              alert("To Date should be greater than From Date!");
+            }
+        }
+        else
+          {
+            this.serviceCallForViewData(this.data);
+          }
+      }
+    }
 
-        // if(this.earlierRequestList.isEmpty()){
-        //    console.log("Inside ...........");
-        //     alert("Please enter the proper RequestId or Date....");
-        // }
-  }
+    serviceCallForViewData(formParameter)
+    {
+      debugger;
+        this._appService.getRequestData(formParameter).subscribe((earlierRequestData) => 
+        {
+          if(null != earlierRequestData && earlierRequestData.length > 0)
+              {
+                  console.log("Inside if...........");
+                  this.earlierRequestList = earlierRequestData;
+                  for(var i=0;i<this.earlierRequestList.length;i++)
+                  {
+                    this.reqId = this.earlierRequestList[i].requestId;
+                  }
+              } 
+              else
+              {
+                  console.log("Inside else...........");
+                  this.earlierRequestList = [];
+                  alert("No Data Found.");
+              }    
+	      this.loaderService.display(false);    
+          });
+      }
+  
 }
