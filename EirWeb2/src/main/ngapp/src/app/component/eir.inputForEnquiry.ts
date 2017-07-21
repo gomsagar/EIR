@@ -234,6 +234,7 @@ export class InputForEnquiryComponent implements OnInit
   
     validate()
     {
+        debugger;
         this.loaderService.display(true);
          console.log("request id from input page::::"+EirCreateComponent.reqId);
        // debugger;
@@ -271,8 +272,31 @@ export class InputForEnquiryComponent implements OnInit
                     this.commonArray.cir = null;
             }
 
-            
+            if(this.commonArray.cir != null  )
+            {
+                if(this.commonArray.cir.addrType == "")
+                {
+                    this.commonArray.cir.addrType = null;
+                }
+                if(this.commonArray.cir.consumerList != null && this.commonArray.cir.consumerList.length > 0)
+                {
+                    this.commonArray.cir.consumerList.forEach(element => {
+                    if(element.addrType == "")
+                    {
+                        element.addrType = null;
+                    }
+                    
+                    if(element.relationType == "")
+                    {
+                        element.relationType = null;
+                    }
 
+                    });
+
+                }
+                
+            }
+            
            
         if(this.issOnlyBIR && !this.birForm.valid )
         {

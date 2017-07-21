@@ -202,7 +202,7 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
       this.requisitionForm[action]('consumerPurpose' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('consumerFinancialPurpose' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('amount' + i, new FormControl('', [Validators.required,Validators.pattern('[0-9]*')]));
-      this.requisitionForm[action]('terms' + i, new FormControl('', [Validators.required,Validators.pattern('[0-9]{2}')]));
+      this.requisitionForm[action]('terms' + i, new FormControl('', [Validators.required,Validators.pattern('[0-9]{1,2}')]));
       this.requisitionForm[action]('frequency' + i, new FormControl('', [Validators.required]));
        this.requisitionForm[action]('accountType' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('status' + i, new FormControl('', [Validators.pattern('[A-Za-z]*'),Validators.maxLength(26)]));

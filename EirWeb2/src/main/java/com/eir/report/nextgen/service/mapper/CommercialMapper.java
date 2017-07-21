@@ -346,12 +346,11 @@ public class CommercialMapper {
 		List<LocationDetails> locationDetailsList = null;
 		
 		if(responseInfo.getBusinessResponse() != null && responseInfo.getBusinessResponse().getBUSINESS()!= null 
+				&& responseInfo.getBusinessResponse().getBUSINESS().getBusHist() != null 
 				&& !responseInfo.getBusinessResponse().getBUSINESS().getBusHist().isEmpty())
 		{	
 			List<BusHistory> busHistories =responseInfo.getBusinessResponse().getBUSINESS().getBusHist();
 			
-			if(busHistories != null && !busHistories.isEmpty())
-			{
 				locationDetailsList = new ArrayList<LocationDetails>();
 				for(BusHistory busHistory : busHistories)
 				{
@@ -364,7 +363,6 @@ public class CommercialMapper {
 					//locationDetails.setRegOffice(regOffice);
 					locationDetailsList.add(locationDetails);
 				}
-			}
 		}
 		return locationDetailsList;
 	}
