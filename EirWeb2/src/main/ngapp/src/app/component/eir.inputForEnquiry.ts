@@ -16,6 +16,7 @@ import {ConsumerComponent} from './eir.consumer';
 import{NewService} from '../services/eir.newService';
 import { ControlMessages } from '../services/control.message.component';
 import { InitalizeService } from '../services/eir.initalizeData';
+import { LoaderService } from '../services/eir.loader';
 
 interface MessageJson {
     name:string;
@@ -63,7 +64,8 @@ export class InputForEnquiryComponent implements OnInit
     isValidCin:boolean=false;
     isValidTin:boolean=false;
     //EirCreateComponent createComponent = new EirCreateComponent();
-
+     showLoader:boolean;
+  
     commonArray: any = {
         requestId:'',
         isBIRActive:'',
@@ -83,6 +85,7 @@ export class InputForEnquiryComponent implements OnInit
 
   ngOnInit()
   {
+      this.showLoader=true;
     if(this.comboVal == 'true' || this.cirVal == 'true')
     {
         this._stateListService.getStateList().subscribe((stateListSubs) => {
@@ -94,6 +97,7 @@ export class InputForEnquiryComponent implements OnInit
                 {
                 this.hasList=true;
                 }
+             this.loaderService.display(false);  
             });  
             
         this._addressTypeList.getAddressTypeList().subscribe((addressType) => {
@@ -124,9 +128,13 @@ export class InputForEnquiryComponent implements OnInit
   }
       
     constructor(private _cmpservice:CompanyListService,private _cmpname:CompanyNameService,private _newService :NewService,private controlMessage:ControlMessages,private _stateListService:StateListService,private _addressTypeList:AddressTypeList,
-    private _cirPurposeList:CirPurposeList, private _reportTypeList:ReportTypeList,private _appService:AppService,private router: Router,fb: FormBuilder,fb1: FormBuilder,private _routeParams: ActivatedRoute)
+    private _cirPurposeList:CirPurposeList,private loaderService: LoaderService, private _reportTypeList:ReportTypeList,private _appService:AppService,private router: Router,fb: FormBuilder,fb1: FormBuilder,private _routeParams: ActivatedRoute)
     {
+        this.loaderService.display(true);
+   this.loaderService.status.subscribe((val: boolean) => {
+            this.showLoader = val;
 
+        });
         //console.log("request id from input page::::"+this._initalizeData.getRequestId());
       //  console.log("_createEnq:::: "+this._createEnq.reqId);
 
@@ -188,7 +196,8 @@ export class InputForEnquiryComponent implements OnInit
   // console.log("Inside constructtor..."+this.consumerObj.requisitionForm.valid);
          this.submitted=false;
          this.cirForm= fb.group(
-         {          
+         {      
+          'cmpName'     : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z0-9&]*')])],    
           'pincode'     : [null,  Validators.compose([Validators.required, Validators.pattern('(?!.*000$)[1-9][0-9]{5}')]) ],
           'email'       : [null,  Validators.compose([Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$'),Validators.required])],
           'cmppan'      : [null,  Validators.compose([Validators.pattern('([A-Za-z]{3})[ABCFEGHLJPTabcfeghljpt][A-Za-z]([0-9]{4})([A-Za-z]{1})'),Validators.required])],
@@ -197,7 +206,7 @@ export class InputForEnquiryComponent implements OnInit
           'address'     : [null,  Validators.compose([Validators.required,Validators.pattern('[A-Za-z0-9]{1,40}')])],        
           'cirPurpose'  : [null,  Validators.required],
           'cirState'    : [null,  Validators.required],
-          'telephone'   : [null,  Validators.pattern('[0-9]{5,}')]
+          'telephone'   : [null,  Validators.pattern('[0-9]{5,}')],
          });
          
          this.birForm =fb.group(
@@ -224,6 +233,7 @@ export class InputForEnquiryComponent implements OnInit
   
     validate()
     {
+        this.loaderService.display(true);
          console.log("request id from input page::::"+EirCreateComponent.reqId);
        // debugger;
   // console.log("request id from input page::::"+this._dataService.getRequestId());
@@ -292,6 +302,7 @@ export class InputForEnquiryComponent implements OnInit
                     console.log("inside sub method..........."+this.data);
                     this.navigate();
                     console.log("inside end...........");
+                    this.loaderService.display(false);
              });		
 		 }
          else
@@ -307,6 +318,7 @@ export class InputForEnquiryComponent implements OnInit
 
     getCompanyList()
     {   
+        this.loaderService.display(true);
         this.validateBtn = true;
         if(this.commonArray.bir.companyName != "")
         {
@@ -324,6 +336,7 @@ export class InputForEnquiryComponent implements OnInit
                 {
                     alert("Company Name not Found!!!");
                 }
+                this.loaderService.display(false);
             });        
         }
    

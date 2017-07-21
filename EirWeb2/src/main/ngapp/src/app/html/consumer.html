@@ -14,11 +14,12 @@
 					<option *ngFor="let relationType of relationTypeList" [ngValue]="relationType">{{relationType.relationTypeDescription}}</option>
 				</select>
 			</div>
-			<div class="form-group col-md-6">
-				<label for="exampleInputName2">Account Type</label> <select class="form-control" placeholder="--SELECT--" name="accountType" [(ngModel)]="consumerData[i].accountType">
+			<div class="form-group col-md-6" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['accountType'+i].valid && requisitionForm.controls['accountType'+i].touched)||(!requisitionForm.controls['accountType'+i].valid && submitted))}">
+				<label for="exampleInputName2">Account Type<font style="color: red;"> * </font></label> <select class="form-control" formControlName="accountType{{i}}" placeholder="--SELECT--" name="accountType" [(ngModel)]="consumerData[i].accountType">
 					<option value="" disabled selected>--SELECT--</option>	
 					<option *ngFor="let accntType of accntTypeList" [ngValue]="accntType">{{accntType.accntTypeDescription}}</option>
 				</select>
+				<control-messages [control]="requisitionForm.controls['accountType'+i]" [label]="'AccountType'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
 			</div>
 		</div>
 
@@ -62,7 +63,7 @@
 			<div class="row">
 				<div class="form-group col-md-6">
 					<label for="exampleInputName2">Terms <font style="color: red;"> * </font></label>
-						<div class="input-group" [formGroup]="requisitionForm" [ngClass]="{'has-error':(((!requisitionForm.controls['terms'+i].valid && requisitionForm.controls['terms'+i].touched)||(!requisitionForm.controls['terms'+i].valid && submitted))||((!requisitionForm.controls['frequency'+i].valid && requisitionForm.controls['frequency'+i].touched)||(!requisitionForm.controls['frequency'+i].valid && submitted)))}">	
+						<div class="input-group" [formGroup]="requisitionForm" [ngClass]="{'has-error':(((!requisitionForm.controls['terms'+i].valid && requisitionForm.controls['terms'+i].touched)||(!requisitionForm.controls['terms'+i].valid && submitted))&&((!requisitionForm.controls['frequency'+i].valid && requisitionForm.controls['frequency'+i].touched)||(!requisitionForm.controls['frequency'+i].valid && submitted)))}">	
 						
 								<input size="50" maxlength="50" class="form-control" type="text" style=" width: 70%; float: left;"  [(ngModel)]="consumerData[i].durationOfAgreement" name="terms{{i}}" formControlName="terms{{i}}">          
 							
@@ -161,7 +162,7 @@
 						<input  class="form-control"  id="date"   placeholder="MM/DD/YYYY"  type="text" 
 					/>--> 
 					<ng2-datepicker id="date" name="datePicker" [options]="{maxDate: dateExpires,format:MM-DD-YYYY}" formControlName="birthDate{{i}}" [(ngModel)]="consumerData[i].birthDate"></ng2-datepicker>
-				<control-messages [control]="requisitionForm.controls['birthDate'+i]" [label]="'BirthDate'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
+				<control-messages [control]="requisitionForm.controls['birthDate'+i]" [label]="'Date Of Birth'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
 				</div>
 			</div>
 
@@ -220,10 +221,10 @@
 				<label for="exampleInputName2">PIN Code <font style="color: red;"> * </font> </label> <input type="text" class="form-control" id="exampleInputName2" placeholder="PIN Code"
 				 name="personPinCode{{i}}" formControlName="personPinCode{{i}}" [(ngModel)]="consumerData[i].personPinCode">
 				<control-messages [control]="requisitionForm.controls['personPinCode'+i]" [label]="'PinCode'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
-			<div *ngIf="isvalid" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"> Please Enter Mandatory field </div>
+			<!--<div *ngIf="isvalid" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"> Please Enter Mandatory field </div>
 			<div *ngIf="isValidData" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"> Pin must be of length 6 characters</div>
 			<div *ngIf="isValidDataPin" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"> Pin must not start with zero </div>				
-			<div *ngIf="isLastDigitPin" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"> Last three digits of Pin must not br zero </div>				
+			<div *ngIf="isLastDigitPin" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"> Last three digits of Pin must not br zero </div>		-->		
 			</div>
 			</div>
 		</div>
@@ -243,3 +244,5 @@
 		</button>
 	</div>
 </div>
+
+	 <span *ngIf="showLoader1" class="loading"></span>	 

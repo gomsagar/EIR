@@ -11,7 +11,7 @@ import{StateListService} from '../services/eir.stateList';
 import{AddressTypeList} from '../services/eir.getAddressTypeList';
 import {Moment} from 'moment';
 import * as moment from 'moment';
-
+import { LoaderService } from '../services/eir.loader';
 
 //import{ControlGroup} from '@angular/common';
 import{NewService} from '../services/eir.newService';
@@ -58,7 +58,8 @@ stateList=<any>[];
 genderList=<any>[];
 frequencyList=<any>[];
 public dateExpires: any; 
-  options: DatePickerOptions;
+showLoader1:boolean;
+options: DatePickerOptions;
   @Input() consumerData = [
     {relationType:'',accountType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
                 rationCard:'',passportNo:'',homeTelephoneNo:'',officeTelephoneNo:'',mobileNo:'',birthDate:'',maritalStatus:'',gender:'',
@@ -66,7 +67,7 @@ public dateExpires: any;
  ];
 
  constructor(public fb1: FormBuilder, private _appService:AppService, private _newService:NewService, private _accntTypeList:AccountTyprList, private _relationTypeList:RelationTypeList,
-  private _consumerPurposeList:ConsumerPurposeList, private _stateListService:StateListService , private _consumerAddrTypeList:AddressTypeList) {
+  private _consumerPurposeList:ConsumerPurposeList,private loaderService: LoaderService, private _stateListService:StateListService , private _consumerAddrTypeList:AddressTypeList) {
  /* this.subscription = _newService.missionAnnounced$.subscribe(
       mission => {
           console.log("AstronautComponent missionService.missionAnnounced$.subscribe ");
@@ -74,6 +75,11 @@ public dateExpires: any;
     });
 
 */
+this.loaderService.display(true);
+   this.loaderService.status.subscribe((val: boolean) => {
+            this.showLoader1 = val;
+
+        });
 this.options = new DatePickerOptions();
   this.subscription =  _newService.inqueryCompVar$.subscribe(
             inqueryCompVar => {
@@ -118,7 +124,8 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
             if(stateListSubs!=null)
             {
             this.hasList=true;
-            }
+          }
+          this.loaderService.display(false);
         });  
 
         this._consumerPurposeList.getFrequency().subscribe((frequency) => {
@@ -194,8 +201,9 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
       this.requisitionForm[action]('consumerPurpose' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('consumerFinancialPurpose' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('amount' + i, new FormControl('', [Validators.required,Validators.pattern('[0-9]*')]));
-      this.requisitionForm[action]('terms' + i, new FormControl('', [Validators.required]));
+      this.requisitionForm[action]('terms' + i, new FormControl('', [Validators.required,Validators.pattern('[0-9]{2}')]));
       this.requisitionForm[action]('frequency' + i, new FormControl('', [Validators.required]));
+       this.requisitionForm[action]('accountType' + i, new FormControl('', [Validators.required]));
       this.requisitionForm[action]('status' + i, new FormControl('', [Validators.pattern('[A-Za-z]*'),Validators.maxLength(26)]));
   	}
 
@@ -416,6 +424,7 @@ if(this.consumerData[num].personPan != '')
 
   getFinancialPurpose(purposeIdObj)
   {
+    this.loaderService.display(true);
     if(purposeIdObj)
     {
       this._consumerPurposeList.getConsumerFinancialPurposeList(purposeIdObj.purposeId).subscribe((financialPurposeListResponse) => {
@@ -424,7 +433,8 @@ if(this.consumerData[num].personPan != '')
           if(financialPurposeListResponse!=null)
           {
           this.hasList=true;
-          }
+        }
+        this.loaderService.display(false);
       });
     }
   }

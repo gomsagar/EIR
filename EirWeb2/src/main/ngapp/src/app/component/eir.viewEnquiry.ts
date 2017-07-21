@@ -4,6 +4,7 @@ import{AppService} from '../services/eir.callController';
 import{DataService} from '../services/eir.getData';
 import {ViewEarlierRequestComponent} from './eir.viewEarlierRequest';
 import { APP_CONFIG, IAppConfig } from '../app.config';
+import { LoaderService } from '../services/eir.loader';
 
 @Component({
   selector: 'viewEnquiryComponent',
@@ -34,7 +35,13 @@ export class ViewEnquiryComponent
     private consumerRequestId;
     private reSubmitData = <any>[];
     public serviceUrl : string;
+    showLoader:boolean;
+
     ngOnInit(){
+        this.loaderService.display(true);
+   this.loaderService.status.subscribe((val: boolean) => {
+            this.showLoader = val;
+        });
           this._appService.getViewRequest(this.requestId).subscribe((viewRequestData) =>{          
             
             console.log("Inside view enq constructor::::::"+this.requestId);
@@ -44,6 +51,7 @@ export class ViewEnquiryComponent
              this.cirWithOutScoreObject = viewRequestData.cirWithOutScoreObject;
              this.comboWithScoreObject = viewRequestData.comboWithScoreObject;
              this.comboWithOutScoreObject = viewRequestData.comboWithOutScoreObject;
+             this.loaderService.display(false);
 //debugger;
              
 
@@ -56,7 +64,7 @@ export class ViewEnquiryComponent
     });
 
 }
-    constructor(private router: Router,private _appService:AppService,private _dataService:DataService,
+    constructor(private router: Router,private _appService:AppService,private loaderService: LoaderService,private _dataService:DataService,
     private _routeParams: ActivatedRoute, @Inject(APP_CONFIG) private config: IAppConfig){
       this.nativeWindow = _appService.getNativeWindow();
         this._routeParams.queryParams.subscribe(params => {this.requestId = params['requestId'] || 1});  

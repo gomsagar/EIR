@@ -4,13 +4,13 @@ import { Injectable } from '@angular/core';
 export class ValidationService {
     static getValidatorErrorMessage(label: string, validatorName: string, validatorValue?: any) {
         let config = {
-            'required': ((label != '') ? label + ' is Mandatory' : 'Please Enter Mandatory field'),
+            'required': ((label != '') ?'Input Error - '+ label + ' is Mandatory Field' : 'Please Enter Mandatory field'),
             'invalidEmailAddress': 'Enter valid Email address',
             'invalidPassword': 'Enter valid password. Password must be at least 6 characters long, and contain a number.',
             'invalidConfirmPassword': 'Password does not match.',
             'invalidAlphabet': 'Enter only alphabet character in ' + label,
             'invalidNumber': 'Enter only numbers in ' + label,
-            'pattern': label + ' is incorrect',
+            'pattern': label + ' is Invalid',
             'invalidDuplicate': label + ' already exists.',
             'invalidItem': 'invalid item',
             'minlength': `Minimum length ${validatorValue.requiredLength}`,
