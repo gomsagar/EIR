@@ -320,11 +320,12 @@ export class InputForEnquiryComponent implements OnInit
 		 if(isValidationComplete)
 		 {    
             // debugger;
-            alert("Data Submitted Successfully!!!");
-			 this._appService.createEnquiry(this.commonArray).subscribe((data) =>{
+			 this._appService.createEnquiry(this.commonArray).subscribe((data) =>
+             {
                     this.data = data;  
                     console.log("data"+data)
                     console.log("inside sub method..........."+this.data);
+                    alert("Request submitted successfully. Your Request ID is " + EirCreateComponent.reqId);
                     this.navigate();
                     console.log("inside end...........");
                     this.loaderService.display(false);

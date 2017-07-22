@@ -19,13 +19,14 @@
 						  <div class="form-group col-md-3">
 							<label for="exampleInputName2">From</label>
 							<br>
-							<ng2-datepicker id="fromdate" name="fromDate"  [options]="{maxDate: dateExpires,format:MM-DD-YYYY}" [(ngModel)]="data.fromDate"></ng2-datepicker>
+							<ng2-datepicker id="fromdate" name="fromDate" [options]="{maxDate: dateExpires,format:'MM-DD-YYYY'}" [(ngModel)]="data.fromDate"></ng2-datepicker>
 							<!--<input type="text" class="form-control" id="exampleInputName2" placeholder="Enter From Date"  [(ngModel)]="data.fromDate" name="fromDate">-->
 						  </div>						
 						  <div class="form-group  col-md-3">
 							<label for="exampleInputName2">To</label>
 							<br>
-							<ng2-datepicker id="todate" name="toDate"  [options]="{maxDate: dateExpires,format:MM-DD-YYYY }" [(ngModel)]="data.toDate"></ng2-datepicker>
+							<ng2-datepicker id="todate" name="toDate" [options]="{maxDate:dateExpires,format:'MM-DD-YYYY'}" [(ngModel)]="data.toDate"></ng2-datepicker>
+							<!--<ng2-datepicker id="todate" name="toDate"  [options]="{maxDate: dateExpires,minDate:compareDateWithFromDate,format:MM-DD-YYYY}" [(ngModel)]="data.toDate"></ng2-datepicker>-->
 							<!--<input type="text" class="form-control" id="exampleInputName2" placeholder="Enter To Date"  [(ngModel)]="data.toDate" name="toDate">						-->
 						  </div>		
 						  <div class="form-group col-md-2">	

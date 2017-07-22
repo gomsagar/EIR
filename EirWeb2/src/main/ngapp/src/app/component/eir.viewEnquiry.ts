@@ -68,7 +68,13 @@ export class ViewEnquiryComponent
     constructor(private router: Router,private _appService:AppService,private loaderService: LoaderService,private _dataService:DataService,
     private _routeParams: ActivatedRoute, @Inject(APP_CONFIG) private config: IAppConfig){
       this.nativeWindow = _appService.getNativeWindow();
-        this._routeParams.queryParams.subscribe(params => {this.requestId = params['requestId'] || 1});  
+    this._routeParams.queryParams.subscribe(params => 
+                {       
+                    this.requestId = params['requestId'] ,
+                    this.searchRequestId = params['searchRequestId'] ,
+                    this.fromDate = params['fromDate'] || undefined, 
+                    this.toDate = params['toDate'] || undefined
+                });
      this.birObject = [];
      this.cirWithScoreObject = <any>[];
      this.cirWithOutScoreObject = <any>[];
@@ -86,7 +92,8 @@ export class ViewEnquiryComponent
   }
    back()
     {
-        this.router.navigate(['home']);
+        console.log(this.requestId+" - "+this.fromDate +" - "+this.toDate);
+        this.router.navigate(['viewEarlierRequest'],{queryParams: {searchRequestId: this.searchRequestId, fromDate: this.fromDate, toDate: this.toDate}});
     }
 
     download(reportType)
