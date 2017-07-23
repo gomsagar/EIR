@@ -153,19 +153,13 @@
 				<!--<control-messages [control]="requisitionForm.controls['mobileNo'+i]" [label]="'Mobile Number'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>-->
 			   <div *ngIf="isValidMob" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Input Error - Invalid Mobile Number</div>
 			</div>
-			<div class="form-group col-md-3 bootstrap-iso" >
-				<label for="exampleInputName2">Birth Date <font style="color: red;"> * </font></label>
-				
-				<div  class="input-group" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['birthDate'+i].valid && requisitionForm.controls['birthDate'+i].touched)||(!requisitionForm.controls['birthDate'+i].valid && submitted))}">
-					<!--
-						<i  class="fa fa-calendar"></i>
-						<input  class="form-control"  id="date"   placeholder="MM/DD/YYYY"  type="text" 
-					/>--> 
-					<ng2-datepicker id="date" name="datePicker" [options]="{maxDate: dateExpires,format:MM-DD-YYYY}" formControlName="birthDate{{i}}" [(ngModel)]="consumerData[i].birthDate"></ng2-datepicker>
+			<div class="form-group col-md-3 bootstrap-iso" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['birthDate'+i].valid && requisitionForm.controls['birthDate'+i].touched)||(!requisitionForm.controls['birthDate'+i].valid && submitted))}">
+					<label for="exampleInputName2">Birth Date <font style="color: red;"> * </font></label>
+					<my-date-picker id="date" name="datePicker" [options]="myDatePickerOptions" [(ngModel)]="consumerData[i].birthDate" formControlName="birthDate{{i}}" ></my-date-picker>
 				<control-messages [control]="requisitionForm.controls['birthDate'+i]" [label]="'Date Of Birth'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
-				</div>
+				
 			</div>
-
+			
 			<div class="form-group col-md-3" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['status'+i].valid && requisitionForm.controls['status'+i].touched))}">
 				<label for="exampleInputName2">Marital Status</label> 
 				<input type="text" class="form-control" formControlName="status{{i}}" id="exampleInputName2" placeholder="Marital Status" name="maritalStatus" [(ngModel)]="consumerData[i].maritalStatus">

@@ -4,6 +4,7 @@ import{FormGroup,FormBuilder,FormControl, Validators} from '@angular/forms';
 import{AppService} from '../services/eir.callController';
 import { DatePickerOptions, DateModel } from 'ng2-datepicker';
 import { LoaderService } from '../services/eir.loader';
+import {MyDatePicker,IMyDpOptions,IMyDate} from 'mydatepicker';
 
 @Component({
   selector: 'viewEarlierRequest',
@@ -42,7 +43,22 @@ toDateObj: any = {
     "day": "", "month": "", "year": "", "formatted": "", "momentObj": "" 
 };
  showLoader:boolean;
- 
+ d = new Date();
+ year = this.d.getFullYear();
+ month = this.d.getMonth();
+day = this.d.getDate();
+mind:String;
+//options: DatePickerOptions;
+private myDatePickerOptions: IMyDpOptions = {
+        // other options...
+        showInputField:true,
+        minYear:this.year-100,
+        maxYear:this.year,
+        disableSince: { year: this.year, month: this.month+1, day: this.day },
+        dateFormat: 'yyyy-mm-dd',
+        editableDateField:false
+    };
+
   ngOnInit(){
     // debugger;
     // this._dataService.getEarlierRequestData(this.userId).subscribe((earlierRequestData) => {
@@ -111,7 +127,7 @@ validate(){
   
   ViewEarlierEnq()
   {
-    
+    debugger;
     this.submitted = true;
     console.log("Inside ViewEarlierEnq........");
     console.log("Data........"+ this.data);
@@ -128,7 +144,7 @@ validate(){
       {
         if(this.data.fromDate !== undefined && this.data.toDate !== undefined && this.data.fromDate !== null && this.data.toDate !== null)
         {
-            if((this.data.fromDate.year <= this.data.toDate.year) && (this.data.fromDate.month <= this.data.toDate.month) && (this.data.fromDate.day <= this.data.toDate.day))
+            if((this.data.fromDate.date.year <= this.data.toDate.date.year) && (this.data.fromDate.date.month <= this.data.toDate.date.month) && (this.data.fromDate.date.day <= this.data.toDate.date.day))
             {
               this.serviceCallForViewData(this.data);
             }

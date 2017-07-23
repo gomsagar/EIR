@@ -18,6 +18,7 @@ import { DatePickerModule } from 'ng2-datepicker';
 import { KycComponent } from './component/eir.KycComponent';
 import { APP_CONFIG, AppConfig } from './app.config';
 import { LoaderService } from './services/eir.loader';
+import { MyDatePickerModule } from 'mydatepicker';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -41,6 +42,7 @@ const appRoutes: Routes = [
     FormsModule,
     HttpModule,
     ReactiveFormsModule,
+    MyDatePickerModule,
      DatePickerModule
   ],
   providers: [RouterModule,LoaderService,ReactiveFormsModule,{ provide: APP_CONFIG, useValue: AppConfig }],

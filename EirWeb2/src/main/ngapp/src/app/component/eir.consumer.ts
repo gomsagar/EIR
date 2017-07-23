@@ -16,6 +16,8 @@ import { LoaderService } from '../services/eir.loader';
 //import{ControlGroup} from '@angular/common';
 import{NewService} from '../services/eir.newService';
 import { DatePickerOptions, DateModel } from 'ng2-datepicker';
+import {MyDatePicker,IMyDpOptions,IMyDate} from 'mydatepicker';
+
 @Component({
   selector: 'consumerComponent',
   templateUrl: '../html/consumer.html',
@@ -25,6 +27,7 @@ providers:[AppService,AccountTyprList,RelationTypeList,ConsumerPurposeList,Addre
 
 export class ConsumerComponent implements OnDestroy, OnInit {
   dt1 : Date;
+  miniDate:Date;
  private list: number[] = [];
  private hasList:boolean=false;
  private jsonResponse: string;
@@ -60,7 +63,23 @@ genderList=<any>[];
 frequencyList=<any>[];
 public dateExpires: any; 
 showLoader1:boolean;
-options: DatePickerOptions;
+ d = new Date();
+ year = this.d.getFullYear();
+ month = this.d.getMonth();
+day = this.d.getDate();
+mind:String;
+//options: DatePickerOptions;
+private myDatePickerOptions: IMyDpOptions = {
+        // other options...
+        showInputField:true,
+        minYear:this.year-100,
+        maxYear:this.year,
+        disableSince: { year: this.year, month: this.month+1, day: this.day },
+        dateFormat: 'yyyy-mm-dd',
+        editableDateField:false
+    };
+private selDate: IMyDate = {year: 0, month: 0, day: 0};
+
   @Input() consumerData = [
     {relationType:'',accountType:'',firstName:'',middleName:'',lastName:'',personPan:'',drivingLic:'',aadharhCard:'',voterId:'',
                 rationCard:'',passportNo:'',homeTelephoneNo:'',officeTelephoneNo:'',mobileNo:'',birthDate:'',maritalStatus:'',gender:'',
@@ -81,7 +100,7 @@ this.loaderService.display(true);
             this.showLoader1 = val;
 
         });
-this.options = new DatePickerOptions();
+//this.options = new DatePickerOptions();
   this.subscription =  _newService.inqueryCompVar$.subscribe(
             inqueryCompVar => {
 this.isConsumerValid = inqueryCompVar;
@@ -113,7 +132,8 @@ console.log("consumer _appService.inqueryCompVar$.subscribe inqueryCompVar ---> 
      //this.stateList = this._newService.getStateList();
      this.dt1 = new Date();
       this.dateExpires = this.dt1;
-
+      this.miniDate = new Date(this.year -100, this.month, this.day);
+      this.mind=this.miniDate.toString();
       this._stateListService.getStateList().subscribe((stateListSubs) => {
 
            this.stateList=stateListSubs;
