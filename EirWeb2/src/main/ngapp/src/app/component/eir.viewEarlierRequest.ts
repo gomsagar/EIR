@@ -60,7 +60,7 @@ toDateObj: any = {
     //     });
 
   }
-  constructor(private router: Router,private _appService:AppService,private loaderService: LoaderService,public fb1: FormBuilder){ 
+  constructor(private router: Router,private _appService:AppService,private loaderService: LoaderService,public fb1: FormBuilder,private _routeParams: ActivatedRoute){ 
     this.loaderService.display(true);
    this.loaderService.status.subscribe((val: boolean) => {
             this.showLoader = val;
@@ -111,7 +111,7 @@ validate(){
   
   ViewEarlierEnq()
   {
-    this.loaderService.display(true);
+    
     this.submitted = true;
     console.log("Inside ViewEarlierEnq........");
     console.log("Data........"+ this.data);
@@ -147,10 +147,12 @@ validate(){
 
     serviceCallForViewData(formParameter)
     {      
+      
         this._appService.getRequestData(this.data).subscribe((earlierRequestData) => 
         {
           if(null != earlierRequestData && earlierRequestData.length > 0)
-              {
+              { 
+                  this.loaderService.display(true);
                   console.log("Inside if...........");
                   this.earlierRequestList = earlierRequestData;
                   for(var i=0;i<this.earlierRequestList.length;i++)

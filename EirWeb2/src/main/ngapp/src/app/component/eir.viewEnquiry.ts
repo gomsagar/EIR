@@ -1,5 +1,5 @@
 import { Component,Input,Inject } from '@angular/core';
-import { Router,ActivatedRoute} from '@angular/router';
+import { Router,ActivatedRoute,NavigationExtras} from '@angular/router';
 import{AppService} from '../services/eir.callController';
 import{DataService} from '../services/eir.getData';
 import {ViewEarlierRequestComponent} from './eir.viewEarlierRequest';
@@ -15,6 +15,9 @@ import { LoaderService } from '../services/eir.loader';
 export class ViewEnquiryComponent
 {
     requestId:number=1;
+    searchRequestId: number;
+    fromDate : string;
+    toDate : string;
     private requestStatus =<any>[]; 
     private birObject;
     private cirWithScoreObject;
@@ -101,6 +104,12 @@ export class ViewEnquiryComponent
         this.isPDF = true;
         console.log("Download called");
         var url = this.serviceUrl+ "getPDFReport?requestId="+this.requestId +"&reportType=" + reportType +"&isPdf=" + this.isPDF;
+        var newWindow = this.nativeWindow.open(url);           
+    }
+     downloadXML()
+    {
+        console.log("Download XML called");
+        var url = this.serviceUrl+ "getXMLReport?requestId="+this.requestId;
         var newWindow = this.nativeWindow.open(url);           
     }
 

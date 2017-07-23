@@ -38,6 +38,7 @@ public class Constant {
 	public static final String CIR = "CIR";
 	public static final String CONSUMER = "CONSUMER";	
 	public static final String SEPERATOR = "/";
+	public static final String SCOREDEXCEL = "ScoredExcelSheet";
 	
 	public static final Integer RETRY_COUNT = 3;
 	
@@ -50,4 +51,7 @@ public class Constant {
 	
 	public static final Integer REGISTERED_LEGAL_OFFICE_ADDRESS_ID = 14;
 	
+	public static final String FILE_EXTENTION_XML = "xml";
+	public static final String FILE_EXTENTION_PDF = "pdf";
+	public static final String FILE_EXTENTION_CSV = "csv";
 }

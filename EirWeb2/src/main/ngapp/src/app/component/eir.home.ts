@@ -2,12 +2,14 @@ import { Component,Input } from '@angular/core';
 import { Router} from '@angular/router';
 import{DataService} from '../services/eir.getData';
 import{CompanyNameService} from '../services/eir.sendCompName';
+import { LoaderService } from '../services/eir.loader';
 
 interface MessageJson {}
 @Component({
   selector: 'home',
   templateUrl: '../html/home.html',
-  providers: [CompanyNameService]
+  providers: [CompanyNameService],
+  styleUrls: ['../app.component.css']
 })
 export class HomeComponent 
 {
@@ -18,13 +20,18 @@ export class HomeComponent
  private inProcessEnq;
  private pendingDisp;
  private totDisp;
-userId:Number;
+ userId:Number;
+ showLoader:boolean;
 
-  constructor(private router: Router,private _compService:CompanyNameService) 
+  constructor(private router: Router,private loaderService: LoaderService,private _compService:CompanyNameService) 
   {
     this.userId=1;
     console.log("HomeComponent");   
-   
+   this.loaderService.display(true);
+   this.loaderService.status.subscribe((val: boolean) => {
+            this.showLoader = val;
+
+        });
      this._subscription = this._compService.getCount(this.userId)
             .subscribe((count) => {
                     
@@ -37,6 +44,7 @@ userId:Number;
                this.inProcessEnq = count.inProcessEnquiry;
                this.pendingDisp = count.pendingDispute;
                this.totDisp = count.totDispute;
+               this.loaderService.display(false);
                 },
                 (err) => console.log(err),
                 () => console.log('hello service test complete')

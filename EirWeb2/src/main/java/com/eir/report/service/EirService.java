@@ -79,7 +79,7 @@ public interface EirService {
 
 	List<ViewEarlierEnquiresObject> getRequestedData(ViewEarlierEnqRequestObject input);
 	
-		void downloadPDF(ByteArrayOutputStream htmlToPdfFile, HttpServletRequest request, HttpServletResponse response);
+		void getDownloadFile(ByteArrayOutputStream htmlToPdfFile,String fileExtention, HttpServletRequest request, HttpServletResponse response);
 
 		void getResubmitedBIRData(Integer birRequestId);
 
@@ -94,4 +94,6 @@ public interface EirService {
 		EligibleReport getEligibleProduct(Integer userID);
 		
 		EligibleReport getSelectedProduct(Integer reqID);
+		
+		void getEirXMLReport(Integer requestId, HttpServletRequest request,HttpServletResponse response);
 }

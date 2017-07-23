@@ -1,10 +1,13 @@
 package com.eir.report.service.impl;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -25,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -33,12 +37,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.eir.bir.request.model.Consumer;
 import com.eir.bir.request.model.Frequency;
 import com.eir.bir.request.model.Gender;
 import com.eir.bir.request.model.MultipleRequest;
 import com.eir.bir.request.model.SpecifiedUserFlag;
+import com.eir.commercial.domains.CommonUtilityService;
+import com.eir.domain.BIRDomain;
+import com.eir.domain.ComboDomain;
+import com.eir.domain.EIRDomain;
 import com.eir.model.DashboardObject;
 import com.eir.model.BIRObject;
 import com.eir.model.CIRWithOutScoreObject;
@@ -50,6 +59,7 @@ import com.eir.model.EligibleReport;
 import com.eir.model.ViewEarlierEnqRequestObject;
 import com.eir.model.ViewEarlierEnquiresObject;
 import com.eir.model.ViewEnquiryObject;
+import com.eir.model.bir.CompanyReportType;
 import com.eir.report.constant.Constant;
 import com.eir.report.entity.AccountType;
 import com.eir.report.entity.Address;
@@ -73,6 +83,7 @@ import com.eir.report.entity.State;
 import com.eir.report.entity.Status;
 import com.eir.report.entity.UserDetails;
 import com.eir.report.entity.UserRole;
+import com.eir.report.nextgen.service.mapper.CreateReport;
 import com.eir.report.repository.AccountTypeRepository;
 import com.eir.report.repository.AddressRepository;
 import com.eir.report.repository.AddressTypeRepository;
@@ -1446,14 +1457,14 @@ public class EirServiceImpl implements EirService{
 		return viewEnquiryObject;
 	}
 	
-	public void downloadPDF( ByteArrayOutputStream byteArrayOutputStream,HttpServletRequest request, HttpServletResponse response)
+	public void getDownloadFile( ByteArrayOutputStream byteArrayOutputStream,String fileExtention, HttpServletRequest request, HttpServletResponse response)
 	{
 		OutputStream outStream = null;
 		try
 		{
 				// set headers for the response
 				String headerKey = "Content-Disposition";
-				String headerValue = String.format("attachment; filename=Report.pdf");
+				String headerValue = String.format("attachment; filename=Report."+fileExtention);
 				response.setContentType("application/pdf");
 				response.setHeader(headerKey, headerValue);
 		
@@ -1657,4 +1668,43 @@ public class EirServiceImpl implements EirService{
 		return selection;
 	}
 	
+	@Override
+	public void getEirXMLReport(Integer requestId, HttpServletRequest request,HttpServletResponse response) 
+	{
+		String xmlReportFile = getXMLReportFilePath(requestId);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try {
+			File xmlReportPath = new File(xmlReportFile);
+			
+			String readXMLReportFile = FileUtils.readFileToString(xmlReportPath);
+			
+			baos.write(readXMLReportFile.getBytes());
+			
+		    System.out.println("size: " + baos.size());
+		    
+		    getDownloadFile(baos,Constant.FILE_EXTENTION_XML,request,response);
+		} catch (Exception e) {
+			logger.debug(e.getMessage());
+			e.printStackTrace();
+		} 
+		finally 
+		 {
+			if (baos != null) 
+			{
+				try 
+				{
+					baos.close();
+				} catch (IOException e) 
+				{
+					logger.debug(e.getMessage());
+				}
+			}
+		 }
+	}
+	private String getXMLReportFilePath(Integer requestID) 
+	{
+		String getXMLReportFilePath = birRequestRepository.findByRequest(requestID);
+		System.out.println(getXMLReportFilePath);
+		return getXMLReportFilePath;
+	}
 }

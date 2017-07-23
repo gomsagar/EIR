@@ -118,7 +118,8 @@
 										<td>
 											<div *ngIf="birObject.birReportStatus == 'Completed'">
 												<button (click)="view('BIR')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button>
-												<button (click)="download('BIR')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Download</button>
+												<button (click)="download('BIR')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">PDF</button>
+												<button (click)="downloadXML()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">XML</button>
 											</div>
 											<div *ngIf="(birObject.birReportStatus == 'Error')">
 												<button (click)="resubmit('BIR')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Resubmit</button>

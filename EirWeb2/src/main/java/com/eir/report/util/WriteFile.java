@@ -21,7 +21,10 @@ public class WriteFile {
 			file.getParentFile().mkdirs();
 			fr = new FileWriter(file);
 			fr.write(xmlOutputResponse);
-			return filePath;
+			
+			System.out.println("File Path - "+file.getPath());
+			
+			return file.getPath();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {

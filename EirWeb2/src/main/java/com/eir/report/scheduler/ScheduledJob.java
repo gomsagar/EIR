@@ -2,6 +2,8 @@ package com.eir.report.scheduler;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,8 @@ public class ScheduledJob {
 	Logger logger = LoggerFactory.getLogger(ScheduledJob.class);
 	//Scheduler call repeatedly after every 1 hour
 	@Scheduled(cron="* * 1 * * ?")
+	@Transactional
+	//@Scheduled(cron="10/2 * * * * ?")
 	public void callServiceMethod()
 	{
 		logger.info("ScheduledJob callServiceMethod()");

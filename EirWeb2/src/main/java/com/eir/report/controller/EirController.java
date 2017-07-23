@@ -299,10 +299,20 @@ public class EirController {
 		String pdfString = nextGenWebService.getEIRReport(requestId, reportType,isPdf);
 		CommonUtilityService commonUtilityService = new CommonUtilityService();
 	    ByteArrayOutputStream htmlToPdfFile = commonUtilityService.htmlToPdfFile(pdfString, "", "");
-	    eirService.downloadPDF(htmlToPdfFile,request,response);
+	    eirService.getDownloadFile(htmlToPdfFile,Constant.FILE_EXTENTION_PDF,request,response);
 	    
 		logger.debug("EirController - getEIRReport(): report generated");
 	}
+	@Transactional
+	@CrossOrigin("*")
+	@RequestMapping(value="/getXMLReport", method = RequestMethod.GET)
+	public void getXMLReport(@RequestParam(required= true) Integer requestId, HttpServletRequest request, HttpServletResponse response)
+	{
+	    eirService.getEirXMLReport(requestId,request,response);
+	    
+		logger.debug("EirController - getEirXMLReport(): report generated");
+	}
+	
 	@CrossOrigin("*")
     @RequestMapping(value = "/getRequestedData", method = RequestMethod.POST,produces="application/json")
     public @ResponseBody List<ViewEarlierEnquiresObject> getRequestedData(@RequestBody ViewEarlierEnqRequestObject input , HttpServletRequest request) 

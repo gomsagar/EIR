@@ -87,6 +87,7 @@ public class BIRReportConstant {
 	 public static final String OTHER_CASH_RECEIPTS_FROM_SALES_OF_INTERESTS_IN_JOINT_VENTURES_CLASSIFIED_AS_INVESTING_ACTIVITIES = "Other Cash Receipts From Sales Of Interests In Joint Ventures Classified As Investing Activities";
 	 public static final String OTHER_CASH_PAYMENTS_TO_ACQUIRE_INTERESTS_IN_JOINT_VENTURES_CLASSIFIED_AS_INVESTING_ACTIVITIES = "Other Cash Payments To Acquire Interests In Joint Ventures Classified As Investing Activities";
 	 public static final String CASH_RECEIPTS_FROM_SHARE_OF_PROFITS_OF_PARTNERSHIP_FIRM_OR_ASSOCIATION_OF_PERSONS_OR_LIMITED_LIABILITY_PARTNERSHIPS = "Cash Receipts From Share Of Profits Of Partnership Firm Or Association Of Persons Or Limited Liability Partnerships";
+	 public static final String SHARE_OF_PROFIT_AND_LOSS_FROM_PARTNERSHIP_FIRM_OR_ASSOCIATION_OF_PERSONS_OR_LIMITED_LIABILITY_PARTNERSHIPS = "Share Of Profit And Loss From Partnership Firm Or Association Of Persons Or Limited Liability Partnerships";
 	 public static final String CASH_PAYMENT_FOR_INVESTMENT_IN_PARTNERSHIP_FIRM_OR_ASSOCIATION_OF_PERSONS_OR_LIMITED_LIABILITY_PARTNERSHIPS = "Cash Payment For Investment In Partnership Firm Or Association Of Persons Or Limited Liability Partnerships";
 	 public static final String PROCEEDS_FROM_SALES_OF_TANGIBLE_ASSETS_CLASSIFIED_AS_INVESTING_ACTIVITIES = "Proceeds From Sales Of Tangible Assets Classified As Investing Activities";
 	 public static final String PURCHASE_OF_TANGIBLE_ASSETS_CLASSIFIED_AS_INVESTING_ACTIVITIES = "Purchase Of Tangible Assets Classified As Investing Activities";
@@ -145,6 +146,7 @@ public class BIRReportConstant {
 	  public static final String ADJUSTMENTS_FOR_DECREASE_INCREASE_IN_OTHER_CURRENT_AND_NONCURRENT_ASSETS = "Adjustments For Decrease Increase In Other Current And Noncurrent Assets";
 	  public static final String ADJUSTMENTS_FOR_DECREASE_INCREASE_IN_OTHER_CURRENT_ASSETS = "Adjustments For Decrease Increase In Other Current Assets";
 	  public static final String ADJUSTMENTS_FOR_INCREASE_DECREASE_IN_TRADE_PAYABLES = "Adjustments For Increase Decrease In Trade Payables";
+	  public static final String ADJUSTMENTS_FOR_DECREASE_INCREASE_IN_TRADE_PAYABLES = "Adjustments For Decrease Increase In Trade Payables";
 	  public static final String ADJUSTMENTS_FOR_INCREASE_DECREASE_IN_OTHER_CURRENT_AND_NONCURRENT_LIABILITIES = "Adjustments For Increase Decrease In Other Current And Noncurrent Liabilities";
 	  public static final String ADJUSTMENTS_FOR_INCREASE_DECREASE_IN_OTHER_CURRENT_LIABILITIES = "Adjustments For Increase Decrease In Other Current Liabilities";
 	  public static final String ADJUSTMENTS_FOR_WORKING_CAPITAL = "Adjustments For Working Capital";
@@ -205,4 +207,8 @@ public class BIRReportConstant {
 	  public static final String NET_PROFIT_MARGIN = "Net Profit Margin";
 	  public static final String RETURN_ON_ASSETS = "Return On Assets";
 	  public static final String RETURN_ON_INVESTMENTS = "Return On Investments";
+	  public static final String SOLVENCY_RATIOS = "Solvency Ratios";
+	  public static final String LEVERAGE_RATIOS = "Leverage Ratios";
+	  public static final String EFFIECIENCY_RATIOS = "Effieciency Ratios";
+	  public static final String PROFITABILITY_RATIOS = "Profitability Ratios";
 }

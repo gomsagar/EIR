@@ -116,7 +116,7 @@ public class BirRequest implements Serializable {
 
 	/**
 	 */
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumns({ @JoinColumn(name = "request_id", referencedColumnName = "request_id") })
 	Request request;
 	
