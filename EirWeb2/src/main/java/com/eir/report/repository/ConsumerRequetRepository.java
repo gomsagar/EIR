@@ -16,7 +16,7 @@ public interface ConsumerRequetRepository extends JpaRepository<ConsumerRequest,
 	@Query(value = "select con.REQUEST_ID, s.STATUS_DESCRIPTION from eir.CONSUMER_REQUEST con inner join eir.REQUEST r on r.REQUEST_ID = con.REQUEST_ID "
 			+"inner join eir.STATUS s on con.STATUS_ID = s.STATUS_ID where con.REQUEST_ID =:requestID",
 			nativeQuery=true)
-	public List<Object[]> getConsumerRequestByRequestId(@Param("requestID") Integer requestID);
+	public List<Object[]> getConsumerRequestByRequestId(@Param("requestID") Long requestID);
 	
 	@Query(value = "select con.REQUEST_ID, s.STATUS_DESCRIPTION from eir.CONSUMER_REQUEST con inner join eir.REQUEST r on r.REQUEST_ID = con.REQUEST_ID "
 			+"inner join eir.STATUS s on con.STATUS_ID = s.STATUS_ID where r.CREATE_DATE >= :fromDate and r.CREATE_DATE <= :toDate",
@@ -26,6 +26,9 @@ public interface ConsumerRequetRepository extends JpaRepository<ConsumerRequest,
 	@Query(value = "select con.REQUEST_ID, s.STATUS_DESCRIPTION from eir.CONSUMER_REQUEST con inner join eir.REQUEST r on r.REQUEST_ID = con.REQUEST_ID "
 			+"inner join eir.STATUS s on con.STATUS_ID = s.STATUS_ID where r.CREATE_DATE >= :fromDate and r.CREATE_DATE <= :toDate and con.REQUEST_ID =:requestID",
 			nativeQuery=true)
-	public List<Object[]> getConsumerRequestByDateAndRequestId(@Param("fromDate") String fromDate,@Param("toDate") String toDate,@Param("requestID") Integer requestID);
+	public List<Object[]> getConsumerRequestByDateAndRequestId(@Param("fromDate") String fromDate,@Param("toDate") String toDate,@Param("requestID") Long requestID);
+
+	@Query(value = "select conr.XML_OUTPUT_PATH from eir.CONSUMER_REQUEST conr where conr.REQUEST_ID =:requestID", nativeQuery=true)
+	public String findByRequest(@Param("requestID")Integer requestID);
 
 }

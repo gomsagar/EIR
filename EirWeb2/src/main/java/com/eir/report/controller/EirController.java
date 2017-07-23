@@ -306,11 +306,13 @@ public class EirController {
 	@Transactional
 	@CrossOrigin("*")
 	@RequestMapping(value="/getXMLReport", method = RequestMethod.GET)
-	public void getXMLReport(@RequestParam(required= true) Integer requestId, HttpServletRequest request, HttpServletResponse response)
+	public String getXMLReport(@RequestParam(required= true) Integer requestId, @RequestParam(required= true) String reportType, HttpServletRequest request, HttpServletResponse response)
 	{
-	    eirService.getEirXMLReport(requestId,request,response);
+	    String responceststus = eirService.getEirXMLReport(requestId,reportType,request,response);
 	    
 		logger.debug("EirController - getEirXMLReport(): report generated");
+		
+		return responceststus;
 	}
 	
 	@CrossOrigin("*")

@@ -95,5 +95,5 @@ public interface EirService {
 		
 		EligibleReport getSelectedProduct(Integer reqID);
 		
-		void getEirXMLReport(Integer requestId, HttpServletRequest request,HttpServletResponse response);
+		String getEirXMLReport(Integer requestId, String reportType, HttpServletRequest request,HttpServletResponse response);
 }

@@ -36,6 +36,7 @@ import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -201,6 +202,9 @@ public class EirServiceImpl implements EirService{
 	
 	@Autowired
 	MemberProductMappingRepository memberProductMappingRepository;
+	
+	@Value("${outputXml.path}")
+	private String xmlOutputPath;
 	
 	@Override
 	public List<BirRequest> retrieveRequest() {
@@ -1114,13 +1118,13 @@ public class EirServiceImpl implements EirService{
 	@Override
 	public List<ViewEarlierEnquiresObject> getRequestedData(ViewEarlierEnqRequestObject input) {
 		
-		  Integer requestID = null;
+		  Long requestID = null;
 		  String fromDate  =null;
 		  String toDate  =null;
 		  if(null != input){
 		       if(null != input.getRequestId() && input.getRequestId() !="")
 		       {
-		              requestID = Integer.parseInt(input.getRequestId());
+		              requestID = Long.parseLong(input.getRequestId());
 		       }
 		       if(null != input.getFromDate() && input.getFromDate().getFormatted() != null && !input.getFromDate().getFormatted().isEmpty()){
 		    	   fromDate = input.getFromDate().getFormatted();
@@ -1669,42 +1673,70 @@ public class EirServiceImpl implements EirService{
 	}
 	
 	@Override
-	public void getEirXMLReport(Integer requestId, HttpServletRequest request,HttpServletResponse response) 
+	public String getEirXMLReport(Integer requestId, String reportType, HttpServletRequest request,HttpServletResponse response) 
 	{
-		String xmlReportFile = getXMLReportFilePath(requestId);
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		try {
-			File xmlReportPath = new File(xmlReportFile);
-			
-			String readXMLReportFile = FileUtils.readFileToString(xmlReportPath);
-			
-			baos.write(readXMLReportFile.getBytes());
-			
-		    System.out.println("size: " + baos.size());
-		    
-		    getDownloadFile(baos,Constant.FILE_EXTENTION_XML,request,response);
-		} catch (Exception e) {
-			logger.debug(e.getMessage());
-			e.printStackTrace();
-		} 
-		finally 
-		 {
-			if (baos != null) 
+		List<String> xmlReportFileList = getXMLReportFilePath(requestId, reportType);
+		
+		for (String xmlReportFile : xmlReportFileList) 
+		{
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			try 
 			{
-				try 
+				File xmlReportPath = new File(xmlReportFile);
+				
+				String readXMLReportFile = FileUtils.readFileToString(xmlReportPath);
+				
+				baos.write(readXMLReportFile.getBytes());
+				
+			    System.out.println("size: " + baos.size());
+			    
+			    getDownloadFile(baos,Constant.FILE_EXTENTION_XML,request,response);
+			} 
+			catch (FileNotFoundException e) 
+			{
+				logger.debug(e.getMessage());
+				return Constant.FILE_NOT_FOUND;
+			} 
+			catch (Exception e) 
+			{
+				logger.debug(e.getMessage());
+				e.printStackTrace();
+			} 
+			finally 
+			{
+				if (baos != null) 
 				{
-					baos.close();
-				} catch (IOException e) 
-				{
-					logger.debug(e.getMessage());
+					try 
+					{
+						baos.close();
+					} catch (IOException e) 
+					{
+						logger.debug(e.getMessage());
+					}
 				}
-			}
-		 }
+			 }
+		}
+		return "";
 	}
-	private String getXMLReportFilePath(Integer requestID) 
+	private List<String> getXMLReportFilePath(Integer requestID, String reportType) 
 	{
-		String getXMLReportFilePath = birRequestRepository.findByRequest(requestID);
-		System.out.println(getXMLReportFilePath);
+		List<String> getXMLReportFilePath = new ArrayList<>();
+		if (reportType.equals(EIRDataConstant.BIR))
+		{
+			getXMLReportFilePath.add(xmlOutputPath + birRequestRepository.findByRequest(requestID));
+			System.out.println(getXMLReportFilePath);
+		}
+		if (reportType.equals(EIRDataConstant.CIRWITHOUTSCORE))
+		{
+			getXMLReportFilePath.add(xmlOutputPath + cirReqRepository.findByRequest(requestID));
+		}
+		if (reportType.equals(EIRDataConstant.COMBOWITHOUTSCORE))
+		{
+			getXMLReportFilePath.add(xmlOutputPath + cirReqRepository.findByRequest(requestID));
+			
+			getXMLReportFilePath.add(xmlOutputPath + consumerListRepository.findByRequest(requestID));
+		}
+		
 		return getXMLReportFilePath;
 	}
 }

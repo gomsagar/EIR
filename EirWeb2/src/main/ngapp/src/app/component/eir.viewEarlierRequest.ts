@@ -147,7 +147,6 @@ validate(){
 
     serviceCallForViewData(formParameter)
     {      
-      debugger;
       this.loaderService.display(true);
         this._appService.getRequestData(this.data).subscribe((earlierRequestData) => 
         {

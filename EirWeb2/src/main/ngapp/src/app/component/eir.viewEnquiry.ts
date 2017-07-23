@@ -106,10 +106,10 @@ export class ViewEnquiryComponent
         var url = this.serviceUrl+ "getPDFReport?requestId="+this.requestId +"&reportType=" + reportType +"&isPdf=" + this.isPDF;
         var newWindow = this.nativeWindow.open(url);           
     }
-     downloadXML()
+     downloadXML(reportType)
     {
         console.log("Download XML called");
-        var url = this.serviceUrl+ "getXMLReport?requestId="+this.requestId;
+        var url = this.serviceUrl+ "getXMLReport?requestId="+this.requestId+"&reportType=" + reportType;
         var newWindow = this.nativeWindow.open(url);           
     }
 

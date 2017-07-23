@@ -1,206 +1,204 @@
      
-				<h1 class="page-header">Specified User Screen</h1>
-				<!-- table-responsive -->
-				<div class="create-enquiry">
-					<div class="row top-bar">	
-						<div class="table-responsive">
-							<table class="table table-bordered">
-								<thead>
-									<tr>
-										<!--<th>User 1</th>-->
-										<th>ORG 1</th>
-										<th>Report Status</th>
-										<th>Request Date</th>
-										<th>Response Date</th>
-										<th>Tats</th>
-										<th>Message</th>	
-										<th>Save</th>																
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<!--<td></td>-->
-										<td>EIR</td>										
-										<td><img src="assets/img/not-select.png"></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td>Final Consolidated Report</td>
-										<td>
-										<!--	<button (click)="submit()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button>
-											<div *ngIf="({{cirWithScoreObject.cirWithScoreReportStatus}}=='Completed')">
-												<button (click)="download()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Download</button>
-											</div>-->
-										</td>
-									</tr>
-									<tr>
-										<!--<td></td>-->
-										 <td>CIR (ws)</td>
-									    <td><img src="assets/img/{{cirWithScoreObject.cirWithScoreReportStatus}}.png"></td>
-										<td>{{cirWithScoreObject.cirWithScoreRequestDate}}</td>
-										<td>{{cirWithScoreObject.cirWithScoreResponseDate}}</td>
-										<td>REAL TIME</td>
-										<td>{{cirWithScoreObject.cirWithScoreMessage}}</td>
-										<td>
-											<div *ngIf="cirWithScoreObject.cirWithScoreReportStatus == 'Completed'">
-												<button (click)="view('CIRWS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button>
-												<button (click)="download('CIRWS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">PDF</button>
-												<button (click)="downloadXML()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">XML</button>
-											</div>
-											<div *ngIf="(cirWithScoreObject.cirWithScoreReportStatus == 'Error')">
-												<button (click)="resubmit('CIRWS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Resubmit</button>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<!--<td></td>-->
-										<td>CIR (wos)</td>
-									    <td><img src="assets/img/{{cirWithOutScoreObject.cirWithOutScoreReportStatus}}.png"></td>
-										<td>{{cirWithOutScoreObject.cirWithOutScoreRequestDate}}</td>
-										<td>{{cirWithOutScoreObject.cirWithOutScoreResponseDate}}</td>
-										<td>REAL TIME</td>
-										<td>{{cirWithOutScoreObject.cirWithOutScoreMessage}}</td>
-										<td>
-											<div *ngIf="cirWithOutScoreObject.cirWithOutScoreReportStatus == 'Completed'">
-												<button (click)="view('CIRWOS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button>
-												<button (click)="download('CIRWOS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">PDF</button>
-												<button (click)="downloadXML()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">XML</button>
-											</div>
-											<div *ngIf="(cirWithOutScoreObject.cirWithOutScoreReportStatus == 'Error')">
-												<button (click)="resubmit('CIRWOS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Resubmit</button>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<!--<td></td>-->
-										<td >Combo (ws)</td>						
-										<td><img src="assets/img/{{comboWithScoreObject.comboWithScoreReportStatus}}.png"></td>	
-										<td>{{comboWithScoreObject.comboWithScoreRequestDate}}</td>
-										<td>{{comboWithScoreObject.comboWithScoreResponseDate}}</td>
-										<td>REAL TIME</td>
-										<td>{{comboWithScoreObject.comboWithScoreMessage}}</td>
-										<td>										
-											<div *ngIf="comboWithScoreObject.comboWithScoreReportStatus == 'Completed'">
-												<button (click)="view('CWS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button>
-												<button (click)="download('CWS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">PDF</button>
-												<button (click)="downloadXML()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">XML</button>
-											</div>
-											<div *ngIf="(comboWithScoreObject.comboWithScoreReportStatus == 'Error')">
-												<button (click)="resubmit('CWS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Resubmit</button>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<!--<td></td>-->
-										<td>Combo (wos)</td>								
-										<td><img src="assets/img/{{comboWithOutScoreObject.comboWithoutScoreReportStatus}}.png"></td>	
-										<td>{{comboWithOutScoreObject.comboWithOutScoreRequestDate}}</td>	
-										<td>{{comboWithOutScoreObject.comboWithOutScoreResponseDate}}</td>
-										<td>REAL TIME</td>
-										<td>{{comboWithOutScoreObject.comboWithOutScoreMessage}}</td>
-										<!--<td><button href="#" type="button" class="btn btn-primary">Report Created & Ready to View</button></td>-->
-										<td>
-											<div *ngIf="comboWithOutScoreObject.comboWithoutScoreReportStatus == 'Completed'">
-												<button (click)="view('CWOS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button>
-												<button (click)="download('CWOS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">PDF</button>
-												<button (click)="downloadXML()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">XML</button>
-											</div>
-											<div *ngIf="(comboWithOutScoreObject.comboWithoutScoreReportStatus == 'Error')">
-												<button (click)= "resubmit('CWOS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Resubmit</button>
-											</div>
-										</td>							
-									</tr>
-									<tr>
-										<!--<td></td>-->
-										<td>BIR</td>									
-										<td><img src="assets/img/{{birObject.birReportStatus}}.png"></td>	
-										<td>{{birObject.birRequestDate}}</td>	
-										<td>{{birObject.birResponseDate}}</td>
-										<td>{{birObject.birTats}}</td>
-										<td>{{birObject.birMessage}}</td>
-										<!--<td><button href="#" type="button" class="btn btn-primary">Report Created & Ready to View</button></td>-->
-										<td>
-											<div *ngIf="birObject.birReportStatus == 'Completed'">
-												<button (click)="view('BIR')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button>
-												<button (click)="download('BIR')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">PDF</button>
-												<button (click)="downloadXML()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">XML</button>
-											</div>
-											<div *ngIf="(birObject.birReportStatus == 'Error')">
-												<button (click)="resubmit('BIR')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Resubmit</button>
-											</div>
-										</td>					
-									</tr>
-									<!--<tr>
-										<td>News Feed</td>								
-										<td><img src="assets/img/not-avail.png"></td>	
-										<td></td>	
-										<td></td>
-										<td><button href="#" type="button" class="btn btn-primary">5 Days</button></td>
-										<td></td>
-										<td><button (click)="submit()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button></td>							
-									</tr>
-									<tr>
-									
-										<td>CIBIL SME</td>							
-										<td><img src="assets/img/select.png"></td>	
-										<td>01/05/2017</td>
-										<td>01/05/2017</td>
-										<td><button href="#" type="button" class="btn btn-primary">5 Days</button></td>
-										<td><button href="#" type="button" class="btn btn-primary">Report Created & Ready to View</button></td>
-										<td><button (click)="submit()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button></td>
-									</tr>
-									<tr>
-										
-										<td>Legal Data</td>									
-										<td><img src="assets/img/loading.png"></td>
-										<td>01/05/2017</td>
-										<td>01/05/2017</td>
-										<td><button href="#" type="button" class="btn btn-primary">5 Days</button></td>
-										<td><button href="#" type="button" class="btn btn-primary">Response timeout</button></td>
-										<td><button (click)="submit()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button></td>									
-									</tr>-->
-									<tr>
-										<!--<td></td>-->
-										<td>News Feed</td>								
-										<td>-</td>
-										<td>-</td>
-										<td>-</td>
-										<td>-</td>
-										<td>-</td>
-										<td>-</td>	
-									</tr>
-									<tr>
-										<!--<td></td>-->
-										<td>CIBIL SME</td>							
-										<td>-</td>
-										<td>-</td>
-										<td>-</td>
-										<td>-</td>
-										<td>-</td>
-										<td>-</td>	
-									</tr>
-									<tr>
-										<!--<td></td>-->
-										<td>Legal Data</td>									
-										<td>-</td>
-										<td>-</td>
-										<td>-</td>
-										<td>-</td>
-										<td>-</td>
-										<td>-</td>									
-									</tr>
-								</tbody>
-							</table>
-						</div>										
-					</div>
-				</div>				
-
-
-		  <div class="row">
-			<div class="back-btn pull-left"><button (click)="back()" type="submit" class="btn btn-primary">Back</button></div>
-			<div class="next-btn pull-right"></div>
-		  </div>  
-		  <span *ngIf="showLoader" class="loading"> </span>
+<h1 class="page-header">Specified User Screen</h1>
+<!-- table-responsive -->
+<div class="create-enquiry">
+	<div class="row top-bar">	
+		<div class="table-responsive">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<!--<th>User 1</th>-->
+						<th>ORG 1</th>
+						<th>Report Status</th>
+						<th>Request Date</th>
+						<th>Response Date</th>
+						<th>Tats</th>
+						<th>Message</th>	
+						<th>Save</th>																
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<!--<td></td>-->
+						<td>EIR</td>										
+						<td><img src="assets/img/not-select.png"></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>Final Consolidated Report</td>
+						<td>
+						<!--	<button (click)="submit()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button>
+							<div *ngIf="({{cirWithScoreObject.cirWithScoreReportStatus}}=='Completed')">
+								<button (click)="download()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Download</button>
+							</div>-->
+						</td>
+					</tr>
+					<tr>
+						<!--<td></td>-->
+							<td>CIR (ws)</td>
+						<td><img src="assets/img/{{cirWithScoreObject.cirWithScoreReportStatus}}.png"></td>
+						<td>{{cirWithScoreObject.cirWithScoreRequestDate}}</td>
+						<td>{{cirWithScoreObject.cirWithScoreResponseDate}}</td>
+						<td>REAL TIME</td>
+						<td>{{cirWithScoreObject.cirWithScoreMessage}}</td>
+						<td>
+							<div *ngIf="cirWithScoreObject.cirWithScoreReportStatus == 'Completed'">
+								<button (click)="view('CIRWS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button>
+								<button (click)="download('CIRWS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">PDF</button>
+								<button (click)="downloadXML('CIRWS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">XML</button>
+							</div>
+							<div *ngIf="(cirWithScoreObject.cirWithScoreReportStatus == 'Error')">
+								<button (click)="resubmit('CIRWS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Resubmit</button>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<!--<td></td>-->
+						<td>CIR (wos)</td>
+						<td><img src="assets/img/{{cirWithOutScoreObject.cirWithOutScoreReportStatus}}.png"></td>
+						<td>{{cirWithOutScoreObject.cirWithOutScoreRequestDate}}</td>
+						<td>{{cirWithOutScoreObject.cirWithOutScoreResponseDate}}</td>
+						<td>REAL TIME</td>
+						<td>{{cirWithOutScoreObject.cirWithOutScoreMessage}}</td>
+						<td>
+							<div *ngIf="cirWithOutScoreObject.cirWithOutScoreReportStatus == 'Completed'">
+								<button (click)="view('CIRWOS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button>
+								<button (click)="download('CIRWOS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">PDF</button>
+								<button (click)="downloadXML('CIRWOS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">XML</button>
+							</div>
+							<div *ngIf="(cirWithOutScoreObject.cirWithOutScoreReportStatus == 'Error')">
+								<button (click)="resubmit('CIRWOS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Resubmit</button>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<!--<td></td>-->
+						<td >Combo (ws)</td>						
+						<td><img src="assets/img/{{comboWithScoreObject.comboWithScoreReportStatus}}.png"></td>	
+						<td>{{comboWithScoreObject.comboWithScoreRequestDate}}</td>
+						<td>{{comboWithScoreObject.comboWithScoreResponseDate}}</td>
+						<td>REAL TIME</td>
+						<td>{{comboWithScoreObject.comboWithScoreMessage}}</td>
+						<td>										
+							<div *ngIf="comboWithScoreObject.comboWithScoreReportStatus == 'Completed'">
+								<button (click)="view('CWS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button>
+								<button (click)="download('CWS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">PDF</button>
+								<button (click)="downloadXML('CWS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">XML</button>
+							</div>
+							<div *ngIf="(comboWithScoreObject.comboWithScoreReportStatus == 'Error')">
+								<button (click)="resubmit('CWS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Resubmit</button>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<!--<td></td>-->
+						<td>Combo (wos)</td>								
+						<td><img src="assets/img/{{comboWithOutScoreObject.comboWithoutScoreReportStatus}}.png"></td>	
+						<td>{{comboWithOutScoreObject.comboWithOutScoreRequestDate}}</td>	
+						<td>{{comboWithOutScoreObject.comboWithOutScoreResponseDate}}</td>
+						<td>REAL TIME</td>
+						<td>{{comboWithOutScoreObject.comboWithOutScoreMessage}}</td>
+						<!--<td><button href="#" type="button" class="btn btn-primary">Report Created & Ready to View</button></td>-->
+						<td>
+							<div *ngIf="comboWithOutScoreObject.comboWithoutScoreReportStatus == 'Completed'">
+								<button (click)="view('CWOS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button>
+								<button (click)="download('CWOS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">PDF</button>
+								<button (click)="downloadXML('CWOS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">XML</button>
+							</div>
+							<div *ngIf="(comboWithOutScoreObject.comboWithoutScoreReportStatus == 'Error')">
+								<button (click)= "resubmit('CWOS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Resubmit</button>
+							</div>
+						</td>							
+					</tr>
+					<tr>
+						<!--<td></td>-->
+						<td>BIR</td>									
+						<td><img src="assets/img/{{birObject.birReportStatus}}.png"></td>	
+						<td>{{birObject.birRequestDate}}</td>	
+						<td>{{birObject.birResponseDate}}</td>
+						<td>{{birObject.birTats}}</td>
+						<td>{{birObject.birMessage}}</td>
+						<!--<td><button href="#" type="button" class="btn btn-primary">Report Created & Ready to View</button></td>-->
+						<td>
+							<div *ngIf="birObject.birReportStatus == 'Completed'">
+								<button (click)="view('BIR')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button>
+								<button (click)="download('BIR')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">PDF</button>
+								<button (click)="downloadXML('BIR')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">XML</button>
+							</div>
+							<div *ngIf="(birObject.birReportStatus == 'Error')">
+								<button (click)="resubmit('BIR')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Resubmit</button>
+							</div>
+						</td>					
+					</tr>
+					<!--<tr>
+						<td>News Feed</td>								
+						<td><img src="assets/img/not-avail.png"></td>	
+						<td></td>	
+						<td></td>
+						<td><button href="#" type="button" class="btn btn-primary">5 Days</button></td>
+						<td></td>
+						<td><button (click)="submit()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button></td>							
+					</tr>
+					<tr>
+					
+						<td>CIBIL SME</td>							
+						<td><img src="assets/img/select.png"></td>	
+						<td>01/05/2017</td>
+						<td>01/05/2017</td>
+						<td><button href="#" type="button" class="btn btn-primary">5 Days</button></td>
+						<td><button href="#" type="button" class="btn btn-primary">Report Created & Ready to View</button></td>
+						<td><button (click)="submit()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button></td>
+					</tr>
+					<tr>
+						
+						<td>Legal Data</td>									
+						<td><img src="assets/img/loading.png"></td>
+						<td>01/05/2017</td>
+						<td>01/05/2017</td>
+						<td><button href="#" type="button" class="btn btn-primary">5 Days</button></td>
+						<td><button href="#" type="button" class="btn btn-primary">Response timeout</button></td>
+						<td><button (click)="submit()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button></td>									
+					</tr>-->
+					<tr>
+						<!--<td></td>-->
+						<td>News Feed</td>								
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>	
+					</tr>
+					<tr>
+						<!--<td></td>-->
+						<td>CIBIL SME</td>							
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>	
+					</tr>
+					<tr>
+						<!--<td></td>-->
+						<td>Legal Data</td>									
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>									
+					</tr>
+				</tbody>
+			</table>
+		</div>										
+	</div>
+</div>	
+	<div class="row">
+	<div class="back-btn pull-left"><button (click)="back()" type="submit" class="btn btn-primary">Back</button></div>
+	<div class="next-btn pull-right"></div>
+	</div>  
+<span *ngIf="showLoader" class="loading"> </span>
 
 			
    
