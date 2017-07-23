@@ -44,7 +44,8 @@
 										<td>
 											<div *ngIf="cirWithScoreObject.cirWithScoreReportStatus == 'Completed'">
 												<button (click)="view('CIRWS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button>
-												<button (click)="download('CIRWS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Download</button>
+												<button (click)="download('CIRWS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">PDF</button>
+												<button (click)="downloadXML()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">XML</button>
 											</div>
 											<div *ngIf="(cirWithScoreObject.cirWithScoreReportStatus == 'Error')">
 												<button (click)="resubmit('CIRWS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Resubmit</button>
@@ -62,7 +63,8 @@
 										<td>
 											<div *ngIf="cirWithOutScoreObject.cirWithOutScoreReportStatus == 'Completed'">
 												<button (click)="view('CIRWOS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button>
-												<button (click)="download('CIRWOS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Download</button>
+												<button (click)="download('CIRWOS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">PDF</button>
+												<button (click)="downloadXML()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">XML</button>
 											</div>
 											<div *ngIf="(cirWithOutScoreObject.cirWithOutScoreReportStatus == 'Error')">
 												<button (click)="resubmit('CIRWOS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Resubmit</button>
@@ -80,7 +82,8 @@
 										<td>										
 											<div *ngIf="comboWithScoreObject.comboWithScoreReportStatus == 'Completed'">
 												<button (click)="view('CWS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button>
-												<button (click)="download('CWS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Download</button>
+												<button (click)="download('CWS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">PDF</button>
+												<button (click)="downloadXML()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">XML</button>
 											</div>
 											<div *ngIf="(comboWithScoreObject.comboWithScoreReportStatus == 'Error')">
 												<button (click)="resubmit('CWS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Resubmit</button>
@@ -99,7 +102,8 @@
 										<td>
 											<div *ngIf="comboWithOutScoreObject.comboWithoutScoreReportStatus == 'Completed'">
 												<button (click)="view('CWOS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button>
-												<button (click)="download('CWOS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Download</button>
+												<button (click)="download('CWOS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">PDF</button>
+												<button (click)="downloadXML()" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">XML</button>
 											</div>
 											<div *ngIf="(comboWithOutScoreObject.comboWithoutScoreReportStatus == 'Error')">
 												<button (click)= "resubmit('CWOS')" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">Resubmit</button>
