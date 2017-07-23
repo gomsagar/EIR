@@ -8,7 +8,7 @@
 			  <table class="tabular_data_wrap">
 			 
                 <tbody>
-					<tr class="list_header">
+					<tr class="list_header" style="color: #0C5DAB !important;background-color: #EFEFEF !important;">
                     <td style="11%">Date/Time</td>
                     <td style="width:08%">Experian Reference</td>
                     <td style="width:10%">Industry</td>
@@ -20,7 +20,7 @@
                     <td style="width:12%">Bank Account</td>
                     <td style=width:12%>Click to View</td>
                   </tr>
-                  <tr class="list listh" id="R0">
+                  <tr class="list listh" id="R0" style="background-color:white !important;">
                     ##<td style="width:11%">#set($date="#emptyDataCheck($enqrhist.EnquiryDate)")$date</td>
                     <td style="width:11%">$enqrhist.EnquiryDate</td>
                     <td style="width:08%">#set($value="#emptyDataCheck($enqrhist.EnquiryRefNum)")$value</td>
@@ -43,9 +43,9 @@
                           <table id="borrower" style="width:100%;">
                             <tbody>
                               <tr>
-                                <th style="text-align:left; padding-left:2px;padding-top :5px; background-color:#E8E8DB;color:#0c5dab;" colspan="9">Applicant Details</th>
+                                <th style="text-align:left; padding-left:2px;padding-top :5px; background-color: #EFEFEF !important;color:#0c5dab;" colspan="9">Applicant Details</th>
                               </tr>
-                              <tr class="list_header">
+                              <tr class="list_header" style="color: #0C5DAB !important;background-color: #EFEFEF; !important">
                                 <td style="width:14%;">Personal Information</td>
                                 <td style="width:14%">Addresses</td>
                                 <td style="width:16%">Contact Info </td>

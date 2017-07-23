@@ -10,19 +10,19 @@
               <table class="tabular_data_wrap" style="table-layout:fixed;">
               <tbody>
 			 
-				<tr class="list_header">
-                    <td style="width:16%;padding-right: 15px;"></td>
-                    <td style="width:8%; padding-right: 10px;"></td>
-                    <td style="width:14%; padding-right: 20px;"></td>
-                    <td style="width:9%"></td>
-                    <td style="width:13%;padding-right: 31px;" class="txtright"></td>
-                    <td style="width:17%"></td>
-                    <td style="width:11%"></td>
-                    <td style="width:12%">Account $count1</td>
-                  
+				<tr class="list_header" style="color: #0C5DAB !important;">
+                    <td style="width:13%;padding-right: 15px;"></td>
+                    <td style="width:7%; padding-right: 10px;"></td>
+                    <td style="width:12%; padding-right: 20px;"></td>
+                    <td style="width:8%"></td>
+                    <td style="width:10%;padding-right: 31px;" class="txtright"></td>
+                    <td style="width:15%"></td>
+                    <td style="width:10%"></td>
+                    <td style="width:10%"></td>
+                    <td style="width:15%">Account $count1</td>
                     #set($count1 = $count1 +1)
                   </tr>
-                  <tr class="list_header">
+                  <tr class="list_header" style="color: #0C5DAB !important;background-color: #EFEFEF !important;">
                     <td style="width:16%;padding-right: 15px;">Account Number</td>
                     <td style="width:8%; padding-right: 10px;">Date Reported</td>
                     <td style="width:14%; padding-right: 20px;">Account Type</td>
@@ -51,101 +51,101 @@
                   
                   #set($bpaygrid = $conscred.Bpaygrid.get($size))
                   
-                  <tr id=ar$countAcc class="accountDetails" >
+                  <tr id=ar$countAcc class="accountDetails" style="background-color: #EFEFEF !important;">
                     <td colspan="9"><div style="height: 20px;"></div>
 					<div style="width: 100%;">
 					  
-                        <table id="acctable" style="width: 100%; background-color: #F5F0EC !important;">
+                        <table id="acctable" style="width: 100%; background-color: #EFEFEF !important;">
                           <tbody>
                             <tr>
-                              <th style="text-align: left; padding-left: 2px;color:#0C5DAB; background-color: #E8E8DB;" colspan="4"> Account Details</th>
+                              <th style="text-align: left; padding-left: 2px;color:#0C5DAB; background-color: #EFEFEF;" colspan="4"> Account Details</th>
                             </tr>
                             <tr>
                               <td style="border-right: 1px solid #eeeeee;width:33%" valign="top"><table>
                                   <tbody>
                                     <tr>
-                                      <td style="font-weight: bold; color: #0C5DAB;">Account Type Detail:</td>
-                                      <td>$!accType.accountType($!conscred.AccountType)</td>
+                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Account Type Detail:</td>
+                                      <td style="background-color: #EFEFEF !important;">$!accType.accountType($!conscred.AccountType)</td>
                                     </tr>
                                     <tr>
-                                      <td style="font-weight: bold; color: #0C5DAB;">Account Status Detail:</td>
-                                      <td>#set($value="#emptyDataCheck($conscred.AccountStatus)")$value</td>
+                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Account Status Detail:</td>
+                                      <td style="background-color: #EFEFEF !important;">#set($value="#emptyDataCheck($conscred.AccountStatus)")$value</td>
                                     </tr>
                                     <tr>
-                                      <td style="font-weight: bold; color: #0C5DAB;">Payment Status Detail:</td>
-                                      <td>#set($value="#emptyDataCheck($bpaygrid.PaymentStatus)")$value</td>
+                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Payment Status Detail:</td>
+                                      <td style="background-color: #EFEFEF !important;">#set($value="#emptyDataCheck($bpaygrid.PaymentStatus)")$value</td>
                                     </tr>
                                     <tr>
-                                      <td style="font-weight: bold; color: #0C5DAB;">Terms:</td>
-                                      <td>#set($value="#emptyDataCheck($bpaygrid.terms)")$value</td>
+                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Terms:</td>
+                                      <td style="background-color: #EFEFEF !important;">#set($value="#emptyDataCheck($bpaygrid.terms)")$value</td>
                                     </tr>
                                     <tr>
-                                      <td style="font-weight: bold; color: #0C5DAB;">Open Date:</td>
-                                      <td>#set($value="#emptyDataCheck($conscred.AccountOpenDate)")$value</td>
+                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Open Date:</td>
+                                      <td style="background-color: #EFEFEF !important;">#set($value="#emptyDataCheck($conscred.AccountOpenDate)")$value</td>
                                     </tr>
                                     <tr>
-                                      <td style="font-weight: bold; color: #0C5DAB;">Close Date:</td>
-                                      <td>#set($value="#emptyDataCheck($conscred.AccountClosedDate)")$value</td>
+                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Close Date:</td>
+                                      <td style="background-color: #EFEFEF !important;">#set($value="#emptyDataCheck($conscred.AccountClosedDate)")$value</td>
                                     </tr>
                                     <tr>
-                                      <td style="font-weight: bold; color: #0C5DAB;">Last Payment Date:</td>
-                                      <td>#set($value="#emptyDataCheck($bpaygrid.HDETAILS.LastPaymentDate)")$value</td>
+                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Last Payment Date:</td>
+                                      <td style="background-color: #EFEFEF !important;">#set($value="#emptyDataCheck($bpaygrid.HDETAILS.LastPaymentDate)")$value</td>
                                     </tr>
                                   </tbody>
                                 </table></td>
                               <td style="border-right: 1px solid #eeeeee;width:30%" valign="top"><table>
                                   <tbody>
 	                                    <tr>
-	                                      <td style="font-weight: bold; color: #0C5DAB;">Credit Extended:</td>
-	                                      <td style="text-align: right !important;"> #set($value="#emptyDataCheck($bpaygrid.HDETAILS.CreditExtendedAmt)")$value</td>
+	                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Credit Extended:</td>
+	                                      <td style="background-color: #EFEFEF !important;text-align: right !important;"> #set($value="#emptyDataCheck($bpaygrid.HDETAILS.CreditExtendedAmt)")$value</td>
 	                                    </tr>
 	                                    <tr>
-	                                      <td style="font-weight: bold; color: #0C5DAB;">Highest Credit:</td>
-	                                      <td style="text-align: right !important;">#set($value="#emptyDataCheck($bpaygrid.HDETAILS.IndiaCashLimitAmt)")$value</td>
+	                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Highest Credit:</td>
+	                                      <td style="background-color: #EFEFEF !important;text-align: right !important;">#set($value="#emptyDataCheck($bpaygrid.HDETAILS.HighCreditAmt)")$value</td>
 	                                    </tr>
 	                                    <tr>
-	                                      <td style="font-weight: bold; color: #0C5DAB;">Cash Limit:</td>
-	                                      <td style="text-align: right !important;">#set($value="#emptyDataCheck($bpaygrid.HDETAILS.IndiaCashLimitAmt)")$value</td>
+	                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Cash Limit:</td>
+	                                      <td style="background-color: #EFEFEF !important;text-align: right !important;">#set($value="#emptyDataCheck($bpaygrid.HDETAILS.IndiaCashLimitAmt)")$value</td>
 	                                    </tr>
 	                                    <tr>
-	                                      <td style="font-weight: bold; color: #0C5DAB;">Credit Limit:</td>
-	                                      <td style="text-align: right !important;"> #set($value="#emptyDataCheck($bpaygrid.HDETAILS.IndiaCreditLimitAmt)")$value</td>
+	                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Credit Limit:</td>
+	                                      <td style="background-color: #EFEFEF !important;text-align: right !important;"> #set($value="#emptyDataCheck($bpaygrid.HDETAILS.IndiaCreditLimitAmt)")$value</td>
 	                                    </tr>
 	                                    <tr>
-	                                      <td style="font-weight: bold; color: #0C5DAB;">Last Payment Amount:</td>
-	                                      <td style="text-align: right !important;">#set($value="#emptyDataCheck($bpaygrid.HDETAILS.LastPaymentAmt)")$value</td>
+	                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Last Payment Amount:</td>
+	                                      <td style="background-color: #EFEFEF !important;text-align: right !important;">#set($value="#emptyDataCheck($bpaygrid.HDETAILS.LastPaymentAmt)")$value</td>
 	                                    </tr>
 	                                    <tr>
-	                                      <td style="font-weight: bold; color: #0C5DAB;">Amount Overdue:</td>
-	                                      <td style="text-align: right !important;">#set($value="#emptyDataCheck($bpaygrid.HDETAILS.IndiaAmountPastDue)")$value</td>
+	                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Amount Overdue:</td>
+	                                      <td style="background-color: #EFEFEF !important;text-align: right !important;">#set($value="#emptyDataCheck($bpaygrid.HDETAILS.IndiaAmountPastDue)")$value</td>
 	                                    </tr>
                                   </tbody>
                                 </table></td>
                               <td style="width:37%" valign="top"><table>
                             <tbody>
                                     <tr>
-                                      <td style="font-weight: bold; color: #0C5DAB; width: 50%">Type of Collateral:</td>
-                                      <td>#set($value="#emptyDataCheck($bpaygrid.PAYTERMS.Collateral)")$value</td>
+                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important; width: 50%">Type of Collateral:</td>
+                                      <td style="background-color: #EFEFEF !important;>#set($value="#emptyDataCheck($bpaygrid.PAYTERMS.Collateral)")$value</td>
                                     </tr>
                                     <tr>
-                                      <td style="font-weight: bold; color: #0C5DAB; width: 50%">Collateral Value:</td>
-                                      <td style="text-align: right !important;">#set($value="#emptyDataCheck($conscred.PAYTERMS.CollateralAmt)")$value</td>
+                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important; width: 50%">Collateral Value:</td>
+                                      <td style="background-color: #EFEFEF !important;text-align: right !important;">#set($value="#emptyDataCheck($conscred.PAYTERMS.CollateralAmt)")$value</td>
                                     </tr>
                                     <tr>
-                                      <td style="font-weight: bold; color: #0C5DAB; width: 50%">Rate of Interest:</td>
-                                      <td style="text-align:right !important;">#set($value="#emptyDataCheck($bpaygrid.PAYTERMS.InterestRate)")$value</td>
+                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important; width: 50%">Rate of Interest:</td>
+                                      <td style="background-color: #EFEFEF !important;text-align:right !important;">#set($value="#emptyDataCheck($bpaygrid.PAYTERMS.InterestRate)")$value</td>
                                     </tr>
                                     <tr>
-                                      <td style="font-weight: bold; color: #0C5DAB; width: 50%">Settlement Amount:</td>
-                                      <td style="text-align: right !important;">#set($value="#emptyDataCheck($bpaygrid.HDETAILS.IndiaSettlAmt)")$value</td>
+                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important; width: 50%">Settlement Amount:</td>
+                                      <td style="background-color: #EFEFEF !important;text-align: right !important;">#set($value="#emptyDataCheck($bpaygrid.HDETAILS.IndiaSettlAmt)")$value</td>
                                     </tr>
                                     <tr>
-                                      <td style="font-weight: bold; color: #0C5DAB;">Total Write-off Amount:</td>
-                                      <td style="text-align: right !important;">#set($value="#emptyDataCheck($bpaygrid.HDETAILS.IndiaTotWriteOffAmt)")$value</td>
+                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Total Write-off Amount:</td>
+                                      <td style="background-color: #EFEFEF !important;text-align: right !important;">#set($value="#emptyDataCheck($bpaygrid.HDETAILS.IndiaTotWriteOffAmt)")$value</td>
                                     </tr>
                                     <tr>
-                                      <td style="font-weight: bold; color: #0C5DAB;">Principal Write-off Amount:</td>
-                                      <td style="text-align: right !important;">#set($value="#emptyDataCheck($bpaygrid.HDETAILS.IndiaPrincWriteOffAmt)")$value</td>
+                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Principal Write-off Amount:</td>
+                                      <td style="background-color: #EFEFEF !important;text-align: right !important;">#set($value="#emptyDataCheck($bpaygrid.HDETAILS.IndiaPrincWriteOffAmt)")$value</td>
                                     </tr>
                                   </tbody>
                            </table>
@@ -164,16 +164,16 @@
                
 				#set($borrowers = $conscred.BORROWER)
 			    #foreach($borrower in $borrowers)
-                  <tr id=br$countAcc class="sublist" >
+                  <tr id=br$countAcc class="sublist" style="background-color: #EFEFEF; !important">
                  	   
 					<td colspan="9"><div style="height: 20px;"></div>
 					<div style="width: 100%;">
                         <table id="borrower" style="width: 100%;">
                           <tbody>
 							<tr>
-                              <th style="text-align: left; padding-left: 2px; background-color: #E8E8DB;color:#0C5DAB;" colspan="8"> Borrower Details </th>
+                              <th style="text-align: left; padding-left: 2px; background-color: #EFEFEF;color:#0C5DAB;" colspan="8"> Borrower Details </th>
                             </tr>
-                            <tr class="list_header">
+                            <tr class="list_header" style="color: #0C5DAB !important;">
                               <td style="width:13%;">Personal Information</td>
                               <td style="width:13%">Addresses</td>
                               <td style="width:13%">Contact Info</td>

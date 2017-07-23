@@ -1,23 +1,23 @@
 
 <h1 class="match-heading">Match Found</h1>
             </div>
-            <div id="app-details">
+            <div id="app-details">    
               <h1>Current Application Details</h1>
               <br>
-              <table class="tabular_curr_app">
+              <table class="tabular_data_wrap">
                 <tbody>
-                  <tr class="list_header">
+                  <tr class="list_header" style="color: #0C5DAB !important;background-color: #EFEFEF !important;">
                     <td><b>Date/Time</b></td>
-                    <td><b>Experian Reference</b></td>
+                    <td><b>Experian<br>Reference</b></td>
                     <td><b>Industry</b></td>
                     <td><b>Credit Provider</b></td>
                     <td><b>Account Type</b></td>
-                    <td class="txtright"><b>Amount Considered</b></td>
-                    <td><b>Account Responsibility</b></td>
+                    <td class="txtright"><b>Amount<br>Considered</b></td>
+                    <td><b>Account<br>Responsibility</b></td>
                     <td><b>Terms</b></td>
                     <td><b>Bank Account</b></td>
                   </tr>
-                  <tr>
+                  <tr class="list listpds" style="background-color: white;">
                   
                  #set($value="#emptyDataCheck($!responseInfo.ConsumerResponse.CONSBRPT.BurRptDate)")
                  ##set($date="#formatdate($value)")
@@ -40,7 +40,7 @@
         <table class="tabular_data_wrap">
                    <!-- <table class="tabular_curr_app">-->
                 <tbody>
-                  <tr class="list_header" style="background-color: white;">
+                  <tr class="list_header" style="color: #0C5DAB !important;background-color: #EFEFEF; !important">
                     <td>Personal Information</td>
                     <td>Addresses</td>
                     <td>Contact Info.</td>

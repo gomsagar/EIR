@@ -24,7 +24,7 @@ public class WriteFile {
 			
 			System.out.println("File Path - "+file.getPath());
 			
-			return file.getPath();
+			return filePath;
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {

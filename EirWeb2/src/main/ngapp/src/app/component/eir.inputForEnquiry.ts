@@ -278,12 +278,12 @@ export class InputForEnquiryComponent implements OnInit
                 {
                     this.commonArray.cir.addrType = null;
                 }
-                if(this.commonArray.cir.consumerList != null && this.commonArray.cir.consumerList.length > 0)
+                if(this.commonArray.consumerList != null && this.commonArray.consumerList.length > 0)
                 {
-                    this.commonArray.cir.consumerList.forEach(element => {
-                    if(element.addrType == "")
+                    this.commonArray.consumerList.forEach(element => {
+                    if(element.addressType == "")
                     {
-                        element.addrType = null;
+                        element.addressType = null;
                     }
                     
                     if(element.relationType == "")

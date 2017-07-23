@@ -6,7 +6,7 @@
               <br>
               <table class="tabular_data_wrap">
                 <tbody>
-                  <tr class="list_header">
+                  <tr class="list_header" style="background-color: lightgray !important;">
                     <td style="width:11%">Date/Time</td>
                     <td style="width:08%">Experian Reference</td>
                     <td style="width:10%">Industry</td>
@@ -42,7 +42,7 @@
                               <tr>
                                 <th style="text-align:left; padding-left:2px;padding-top :5px; background-color:#E8E8DB;color:#0c5dab;" colspan="9">Applicant Details</th>
                               </tr>
-                              <tr class="list_header">
+                              <tr class="list_header" style="background-color: lightgray !important;">
                                 <td style="width:14%;">Personal Information</td>
                                 <td style="width:14%">Addresses</td>
                                 <td style="width:16%">Contact Info </td>

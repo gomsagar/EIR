@@ -147,7 +147,8 @@ validate(){
 
     serviceCallForViewData(formParameter)
     {      
-      
+      debugger;
+      this.loaderService.display(true);
         this._appService.getRequestData(this.data).subscribe((earlierRequestData) => 
         {
           if(null != earlierRequestData && earlierRequestData.length > 0)
@@ -164,6 +165,7 @@ validate(){
               {
                   console.log("Inside else...........");
                   this.earlierRequestList = [];
+                  this.loaderService.display(false);
                   alert("No Data Found.");
               }    
 	      this.loaderService.display(false);    

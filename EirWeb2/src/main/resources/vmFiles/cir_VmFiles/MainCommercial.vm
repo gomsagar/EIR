@@ -7,7 +7,7 @@
       #page-content {
     margin: 0px auto;
     position: relative;
-    width: 960px;
+    width: 935px;
 }
          body {
          margin-left: 0px;
@@ -353,7 +353,7 @@ $emptyDataIndicator
   ##HEADER START
   #parse("/vmFiles/cir_VmFiles/Header.vm")
   ##HEADER ENDS
-      <table id="page-content" width="940" border="0" align="center" cellpadding="0" cellspacing="0">
+      <table id="page-content" width="925px" border="0" align="center" cellpadding="0" cellspacing="0">
       <tr>
          <td valign="top" bgcolor="#FFFFFF" style="width:940px;">
             <table width="900px" border="0" align="center" cellpadding="0" cellspacing="0">

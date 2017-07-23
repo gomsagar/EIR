@@ -2,13 +2,18 @@
   body, a, div, dl, dt, dd, ul, ol, li, input, img, form, p, h1, h2, h3, h4, h5, h6, span, pre, code, form, button, input, .clear_fix, option, blockquote {
     margin: 0px;
     padding: 0px;
-    font: 12px arial;
+    font-size: 12px ;
     font-family:DINNextLTPro-Regular; 
     color: #4D4D4D;
     border: 0px;
     text-decoration: none;
     list-style-position: inside;
     list-style-type: none;
+    
+}
+body
+{
+background-color: white !important;
 }
 .header {
 
@@ -80,7 +85,7 @@ table tr td {
     width: 960px;
 }
 #applicant-details .listpds td, #app-details .listpds td, #credit-account-details .listpds td, #non-credit-account-details .listpds td {
-    background: #f5f0ec !important;
+    background: white !important;
 }
 .pdsTable .list_header td:nth-last-child(1) {
     border-right: 0px !important;
@@ -89,7 +94,7 @@ table tr td {
     font-size: 11px;
 }
 #credit-account-details .list td, #consumer-nofootprint-enquiry .list td, #consumer-gvap-enquiry .list td, #consumer-other-enquiry .list td, #consumer-experian-enquiry .list td, #ccredit-account-details .list td, #non-credit-account-details .list td {
-    background: #eeeeee;
+    background: white;
 }
 .tabular_data_wrap .list td a {
     display: inline-block;
@@ -102,10 +107,10 @@ table tr td {
     background: #fff;
 }
 .pdsTable .list_header td {
-    border-right: 1px solid #bebebe !important;
+    border-right: 0px solid #EFEFEF !important;
 }
 .tabular_data_wrap .list_header td {
-    color: #0094D9;
+    color: #0C5DAB;
     font-weight: bold;
     vertical-align: top;
 }

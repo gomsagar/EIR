@@ -3816,38 +3816,40 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 
 
 					List<Perinpidc> perinpidcs = responseInfo.getConsumerResponse().getNGINQUIRY().getPerinput().getPerinpidc();	
-					
-					for(Perinpidc perinpidc: perinpidcs)
+					if(perinpidcs != null && !perinpidcs.isEmpty())
 					{
-						type = perinpidc.getIdNumberType();
-						switch(type)
+						for(Perinpidc perinpidc: perinpidcs)
 						{
-						case "10":
-									pan = perinpidc.getIndiaIdNumber();
-							break;
-						case "4":
-									passport = perinpidc.getIndiaIdNumber();
-							break;
-						case "7":
-									voterId = perinpidc.getIndiaIdNumber();
-							break;
-						case "1":
-									dl = perinpidc.getIndiaIdNumber();
-							break;
-						case "11":
-									ration = perinpidc.getIndiaIdNumber();
-							break;
-						case "12":
-									aadhar = perinpidc.getIndiaIdNumber();
-									
-							break;
-						case "19":
-									account = perinpidc.getIndiaIdNumber();
-							break;
-						
-						default:
-							break;
+							type = perinpidc.getIdNumberType();
+							switch(type)
+							{
+							case "10":
+										pan = perinpidc.getIndiaIdNumber();
+								break;
+							case "4":
+										passport = perinpidc.getIndiaIdNumber();
+								break;
+							case "7":
+										voterId = perinpidc.getIndiaIdNumber();
+								break;
+							case "1":
+										dl = perinpidc.getIndiaIdNumber();
+								break;
+							case "11":
+										ration = perinpidc.getIndiaIdNumber();
+								break;
+							case "12":
+										aadhar = perinpidc.getIndiaIdNumber();
+										
+								break;
+							case "19":
+										account = perinpidc.getIndiaIdNumber();
+								break;
 							
+							default:
+								break;
+								
+							}
 						}
 					}
 					
@@ -3933,7 +3935,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 			   
 		   }
 		   relatedDirectorsDomain.setModelName(modelName);
-		   
+		  
 		   String risk = consumerResponse.getModelscr().getRiskGrading();
 		   
 		   if(risk != null)
@@ -4090,7 +4092,8 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 		    String year = simpleDateFormat.format(date).toUpperCase();
 		    
 		    List<Bpaygrid> bpaygridList = (List<Bpaygrid>)conscred.getBpaygrid();
-		    
+		    if (bpaygridList != null && !bpaygridList.isEmpty())
+			{
 			 for (Bpaygrid bpaygrid : bpaygridList)
 			 {
 				 String dpdMonth = bpaygrid.getMonthvalue().toUpperCase();
@@ -4129,6 +4132,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 			 		return totOutDelAmt;
 			 	}
 		 	}
+			}
 	 	}
 	 	catch (Exception e) 
 	 	{
