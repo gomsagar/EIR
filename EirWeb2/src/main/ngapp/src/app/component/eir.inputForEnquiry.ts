@@ -334,6 +334,7 @@ export class InputForEnquiryComponent implements OnInit
          else
          {
              alert("Fill all the mandatory fields!!!");
+             this.loaderService.display(false);
          }
     }
 
