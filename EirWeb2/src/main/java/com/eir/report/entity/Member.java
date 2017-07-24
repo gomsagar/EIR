@@ -64,13 +64,17 @@ public class Member implements Serializable {
 
 	/**
 	 */
-	@OneToMany(mappedBy = "member", cascade = { CascadeType.REMOVE }, fetch = FetchType.LAZY)
+/*	@OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
 
 	@XmlElement(name = "", namespace = "")
 	java.util.Set<com.eir.report.entity.MemberUserMapping> memberUserMappings;
+    */
+    /*@OneToOne(mappedBy = "member")
+	com.eir.report.entity.MemberUserMapping memberUserMappings;*/
+    
 	/**
 	 */
-	@OneToMany(mappedBy = "member", cascade = { CascadeType.REMOVE }, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
 
 	@XmlElement(name = "", namespace = "")
 	java.util.Set<com.eir.report.entity.MemberProductMapping> memberProductMappings;
@@ -113,18 +117,14 @@ public class Member implements Serializable {
 
 	/**
 	 */
-	public void setMemberUserMappings(Set<MemberUserMapping> memberUserMappings) {
+	/*public void setMemberUserMappings(Set<MemberUserMapping> memberUserMappings) {
 		this.memberUserMappings = memberUserMappings;
 	}
 
-	/**
-	 */
+	
 	public Set<MemberUserMapping> getMemberUserMappings() {
-		if (memberUserMappings == null) {
-			memberUserMappings = new java.util.LinkedHashSet<com.eir.report.entity.MemberUserMapping>();
-		}
 		return memberUserMappings;
-	}
+	}*/
 
 	/**
 	 */
@@ -132,12 +132,17 @@ public class Member implements Serializable {
 		this.memberProductMappings = memberProductMappings;
 	}
 
+	/*public com.eir.report.entity.MemberUserMapping getMemberUserMappings() {
+		return memberUserMappings;
+	}
+
+	public void setMemberUserMappings(com.eir.report.entity.MemberUserMapping memberUserMappings) {
+		this.memberUserMappings = memberUserMappings;
+	}*/
+
 	/**
 	 */
 	public Set<MemberProductMapping> getMemberProductMappings() {
-		if (memberProductMappings == null) {
-			memberProductMappings = new java.util.LinkedHashSet<com.eir.report.entity.MemberProductMapping>();
-		}
 		return memberProductMappings;
 	}
 
@@ -146,19 +151,7 @@ public class Member implements Serializable {
 	public Member() {
 	}
 
-	/**
-	 * Copies the contents of the specified bean into this bean.
-	 *
-	 */
-	public void copy(Member that) {
-		setMemberid(that.getMemberid());
-		setName(that.getName());
-		setMailid(that.getMailid());
-		setMemberUserMappings(new java.util.LinkedHashSet<com.eir.report.entity.MemberUserMapping>(that.getMemberUserMappings()));
-		setMemberProductMappings(new java.util.LinkedHashSet<com.eir.report.entity.MemberProductMapping>(that.getMemberProductMappings()));
-	}
-
-	/**
+			/**
 	 * Returns a textual representation of a bean.
 	 *
 	 */

@@ -56,11 +56,11 @@ public class MemberUserMapping implements Serializable {
 	/**
 	 */
 
-	@Column(name = "mail_id", length = 45)
+	@Column(name = "user_mail_id", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 
 	@XmlElement
-	String mailId;
+	String userMailId;
 	/**
 	 */
 
@@ -132,14 +132,14 @@ public class MemberUserMapping implements Serializable {
 
 	/**
 	 */
-	public void setMailId(String mailId) {
-		this.mailId = mailId;
+	public void setUserMailId(String userMailId) {
+		this.userMailId = userMailId;
 	}
 
 	/**
 	 */
-	public String getMailId() {
-		return this.mailId;
+	public String getUserMailId() {
+		return this.userMailId;
 	}
 
 	/**

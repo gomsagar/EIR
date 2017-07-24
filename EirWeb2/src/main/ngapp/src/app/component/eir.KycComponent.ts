@@ -3,10 +3,13 @@ import {HttpModule, Http,Headers,RequestOptions} from "@angular/http";
 import { Router,ActivatedRoute} from '@angular/router';
 import { FileUploader } from 'ng2-file-upload';
 import {Observable} from 'rxjs/Rx';
+import{EirCreateComponent} from './eir.createEnquiry';
+import{DataService} from '../services/eir.getData';
 
 @Component({
   selector: 'kycComponent',
-  templateUrl: '../html/kyc.html'
+  templateUrl: '../html/kyc.html',
+  providers: [DataService]
 })
 export class KycComponent 
 {
@@ -30,7 +33,7 @@ export class KycComponent
      }
    ]
    
-  constructor(private _routeParams: ActivatedRoute,private router: Router,private _http: Http){
+  constructor(private _routeParams: ActivatedRoute,private router: Router,private _http: Http,private _dataService:DataService){
      _routeParams.queryParams.subscribe(params => {this.issOnlyBIR = params['isOnlyBir'] || 'false',
      this.isCombo = params['isCombo'] || 'false',this.isCir = params['isCir'] || 'false'});
     this.rowData.pop();
@@ -47,12 +50,8 @@ export class KycComponent
         formData.append(file.name, file, file.name);  
     }
     
-    let headers = new Headers();
-    let options = new RequestOptions({ headers: headers });
-      this._http.post('http://localhost:8080/EirWeb2/eir/uploadKYCDocuments', formData, options).map(res => res.json())
-      .catch(error => Observable.throw(error)).subscribe(data => console.log('success'),error => console.log(error))
-
-      this.router.navigate(['inputForEnquiry'],{ queryParams: { isOnlyBir: this.issOnlyBIR, isCir: this.isCir, isCombo: this.isCombo} });
+    this._dataService.uploadKyc(formData,EirCreateComponent.reqId).subscribe(data => console.log('success'),error => console.log(error));
+    this.router.navigate(['inputForEnquiry'],{ queryParams: { isOnlyBir: this.issOnlyBIR, isCir: this.isCir, isCombo: this.isCombo} });
   }
 
   back()

@@ -58,7 +58,7 @@ public serviceUrl : string;
         var head = new Headers();
         head.append('Content-Type', 'application/json');
          
-         return this._http.post(this.serviceUrl+ 'getRequestedData',
+         return this._http.post(this.serviceUrl+ 'getEarlierEnquiryRequestData',
              JSON.stringify(viewEarlierEnqData),{
                     headers:head
              })

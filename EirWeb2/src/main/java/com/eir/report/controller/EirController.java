@@ -29,6 +29,7 @@ import com.eir.bir.request.model.SpecifiedUserFlag;
 import com.eir.commercial.domains.CommonUtilityService;
 import com.eir.model.DashboardObject;
 import com.eir.model.EligibleReport;
+import com.eir.model.MemberObject;
 import com.eir.model.ViewEarlierEnqRequestObject;
 import com.eir.model.ViewEarlierEnquiresObject;
 import com.eir.model.ViewEnquiryObject;
@@ -205,9 +206,9 @@ public class EirController {
 	 */
 	@CrossOrigin("*")
 	@RequestMapping(value = "/uploadKYCDocuments", method = RequestMethod.POST)
-	public @ResponseBody void uploadKYCDocuments(HttpServletRequest request, HttpServletResponse response) 
+	public @ResponseBody void uploadKYCDocuments(@RequestParam Integer requestId,HttpServletRequest request, HttpServletResponse response) 
 	{
-		eirService.uploadKYCDocuments(request,response);
+		eirService.uploadKYCDocuments(request,response,requestId);
 	}
 	
 	@CrossOrigin("*")
@@ -217,16 +218,21 @@ public class EirController {
 		eirService.downloadKYCDocuments(reqId,fileName,request,response);
 	}
 	
+	@Transactional
 	@CrossOrigin("*")
-	@RequestMapping(value = "/getUserFlag" , method = RequestMethod.GET)
-	public @ResponseBody SpecifiedUserFlag getUserFlag()
+	@RequestMapping(value = "/getUserFlag" , method = RequestMethod.GET,produces="application/json")
+	public @ResponseBody MemberObject getUserFlag()
 	{
-		SpecifiedUserFlag flag = new SpecifiedUserFlag();
+		
+		/*SpecifiedUserFlag flag = new SpecifiedUserFlag();
 		flag.setUserFlag("NonSpecifiedUser");
 		//flag.setUserFlag("SpecifiedUser");
 		System.out.println("flag = " + flag.getUserFlag());
 		//SpecifiedUserFlag flag = eirService.getSpecifiedUserFlag();
-		return flag;		
+*/		
+		Integer userId = Constant.HARDCOADED_USERID;
+		MemberObject userType = eirService.getUserType(userId);
+		return userType;		
 	}
 	
 	@Transactional
@@ -316,11 +322,11 @@ public class EirController {
 	}
 	
 	@CrossOrigin("*")
-    @RequestMapping(value = "/getRequestedData", method = RequestMethod.POST,produces="application/json")
-    public @ResponseBody List<ViewEarlierEnquiresObject> getRequestedData(@RequestBody ViewEarlierEnqRequestObject input , HttpServletRequest request) 
+    @RequestMapping(value = "/getEarlierEnquiryRequestData", method = RequestMethod.POST,produces="application/json")
+    public @ResponseBody List<ViewEarlierEnquiresObject> getEarlierEnquiryRequestData(@RequestBody ViewEarlierEnqRequestObject input , HttpServletRequest request) 
     {
          
-           List<ViewEarlierEnquiresObject> viewEnquiresObjectList = eirService.getRequestedData(input);              
+           List<ViewEarlierEnquiresObject> viewEnquiresObjectList = eirService.getEarlierEnquiryRequestData(input);              
            return viewEnquiresObjectList;
     }
 
@@ -337,28 +343,28 @@ public class EirController {
 	
 	@CrossOrigin("*")
     @RequestMapping(value = "/reSubmitRequestForBIR", method = RequestMethod.GET)
-    public void getResubmitedDataForBIR(@RequestParam("birRequestId") Integer birRequestId) 
+    public void resubmitRequestForBIR(@RequestParam("birRequestId") Integer birRequestId) 
     {
          
-           eirService.getResubmitedBIRData(birRequestId);              
+           eirService.resubmitRequestForBIR(birRequestId);              
           // return viewEnquiresObjectList;
     }
 	
 	@Transactional
 	@CrossOrigin("*")
     @RequestMapping(value = "/reSubmitRequestForCombo", method = RequestMethod.POST)
-    public @ResponseBody Object getReSubmitRequestForCombo(@RequestParam("requestId") Integer requestId) 
+    public @ResponseBody Object reSubmitRequestForCombo(@RequestParam("requestId") Integer requestId) 
     {
-		Object object = eirService.getResubmitedComboData(requestId);              
+		Object object = eirService.reSubmitRequestForCombo(requestId);              
 		return object;
     }
 
 	@Transactional
 	@CrossOrigin("*")
     @RequestMapping(value = "/reSubmitRequestForCIR", method = RequestMethod.POST)
-    public @ResponseBody Object getReSubmitRequestForCIR(@RequestParam("cirRequestId") Integer cirRequestId) 
+    public @ResponseBody Object reSubmitRequestForCIR(@RequestParam("cirRequestId") Integer cirRequestId) 
     {
-         Object object = eirService.getResubmitedCIRData(cirRequestId);              
+         Object object = eirService.reSubmitRequestForCIR(cirRequestId);              
         return object;
     }
 	

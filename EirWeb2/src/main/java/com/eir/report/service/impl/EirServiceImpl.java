@@ -55,8 +55,10 @@ import com.eir.model.CIRWithOutScoreObject;
 import com.eir.model.CIRWithScoreObject;
 import com.eir.model.ComboWithScoreObject;
 import com.eir.model.ComboWithoutScoreObject;
+import com.eir.model.DashboardObject;
 import com.eir.model.EIRDataConstant;
 import com.eir.model.EligibleReport;
+import com.eir.model.MemberObject;
 import com.eir.model.ViewEarlierEnqRequestObject;
 import com.eir.model.ViewEarlierEnquiresObject;
 import com.eir.model.ViewEnquiryObject;
@@ -99,6 +101,7 @@ import com.eir.report.repository.EntityDetailsRepository;
 import com.eir.report.repository.FrequencyRepository;
 import com.eir.report.repository.GenderRepository;
 import com.eir.report.repository.KycApprovalRepository;
+import com.eir.report.repository.MemberRepository;
 import com.eir.report.repository.MemberProductMappingRepository;
 import com.eir.report.repository.MemberUserMappingRepository;
 import com.eir.report.repository.ProductMasterRepository;
@@ -113,12 +116,13 @@ import com.eir.report.service.BirReportService;
 import com.eir.report.service.EirService;
 import com.eir.report.service.NextGenWebService;
 import com.eir.report.util.GetStatus;
+import com.eir.report.util.WriteFile;
 
 @Service
 public class EirServiceImpl implements EirService{
 	
 	Logger logger = LoggerFactory.getLogger(EirServiceImpl.class);
-	
+		
 	@Autowired
 	BirRequestRepository birRequestRepository;
 	
@@ -206,6 +210,9 @@ public class EirServiceImpl implements EirService{
 	@Value("${outputXml.path}")
 	private String xmlOutputPath;
 	
+	@Autowired
+	MemberRepository memberRepository;
+		
 	@Override
 	public List<BirRequest> retrieveRequest() {
 		return birRequestRepository.findAll();
@@ -661,7 +668,7 @@ public class EirServiceImpl implements EirService{
 	}
 	
 	@Override
-	public void uploadKYCDocuments(HttpServletRequest request, HttpServletResponse response) {
+	public void uploadKYCDocuments(HttpServletRequest request, HttpServletResponse response,Integer requestId) {
 		
 		StringBuilder fileName = new StringBuilder();
 		if (!ServletFileUpload.isMultipartContent(request)) {
@@ -701,12 +708,13 @@ public class EirServiceImpl implements EirService{
 				System.out.println("no. of files ---- " + formItems.size());
 				logger.debug("no. of files ---- " + formItems.size());
 				if (formItems != null && formItems.size() > 0) {
-					
+					WriteFile writeFile = new WriteFile();
 					for (FileItem item : formItems) {
-						byte[] bytes = item.get();
 						// Creating the directory to store file
+						//byte[] bytes = item.get();						
+						String kycDocumentFilePath = writeFile.saveKycDocument(xmlOutputPath, item , requestId, Constant.KYC);
 						//String rootPath = System.getProperty("catalina.home");
-						ServletContext context = request.getServletContext();
+						/*ServletContext context = request.getServletContext();
 						String appPath = context.getRealPath("");
 						File dir = new File(appPath + File.separator + "uploaded");
 						if (!dir.exists())
@@ -717,30 +725,30 @@ public class EirServiceImpl implements EirService{
 						BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 						stream.write(bytes);
 						stream.close();
+						*/
+						//System.out.println("Server File Location="	+ serverFile.getAbsolutePath());
 						
-						System.out.println("Server File Location="	+ serverFile.getAbsolutePath());
-						
-						logger.info("Server File Location="	+ serverFile.getAbsolutePath());
+						//logger.info("Server File Location="	+ serverFile.getAbsolutePath());
 						
 						if(fileName.toString().isEmpty())
 						{
-							fileName.append(item.getFieldName());	
+							fileName.append(kycDocumentFilePath);	
 						}else{
 							fileName.append(",");
-							fileName.append(item.getFieldName());	
+							fileName.append(kycDocumentFilePath);	
 						}
 					}
 				}
 				
 				KycApproval kycApprval = new KycApproval();
 				
-				kycApprval.setRequestId(3242);
+				kycApprval.setRequestId(requestId);
 				kycApprval.setComment("uploaded completed");
 				//fileName.replace(fileName.length()-1, fileName.length()-1, "");
 				//fileName.replace(fileName.length()-1, fileName.length(), " ");
 				kycApprval.setKycDocument(fileName.toString());
-				kycApprval.setStatus(getStatusByDescription(com.eir.report.constant.Status.PENDING.status()).getStatusId());
-				
+				//kycApprval.setStatus(getStatusByDescription(com.eir.report.constant.Status.PENDING.status()).getStatusId());
+				kycApprval.setStatus(getStatusByDescription(com.eir.report.constant.Status.PENDING.status()));
 				kycApprovalRepository.save(kycApprval);
 
 			} catch (Exception e) {
@@ -1116,11 +1124,12 @@ public class EirServiceImpl implements EirService{
 	}
 	
 	@Override
-	public List<ViewEarlierEnquiresObject> getRequestedData(ViewEarlierEnqRequestObject input) {
+	public List<ViewEarlierEnquiresObject> getEarlierEnquiryRequestData(ViewEarlierEnqRequestObject input) {
 		
 		  Long requestID = null;
 		  String fromDate  =null;
 		  String toDate  =null;
+		  Integer userId = Constant.HARDCOADED_USERID;
 		  if(null != input){
 		       if(null != input.getRequestId() && input.getRequestId() !="")
 		       {
@@ -1141,26 +1150,26 @@ public class EirServiceImpl implements EirService{
 		
 		if(null != requestID && (null != fromDate ) && (null != toDate)){
 			
-			cirRequests = cirReqRepository.getCirRequestByDateAndRequestId(fromDate, toDate, requestID);
+			cirRequests = cirReqRepository.getCirRequestByDateAndRequestId(fromDate, toDate, requestID,userId);
 			 
-			birRequests = birRequestRepository.getBirRequestByDateAndRequestId(fromDate, toDate, requestID);
+			birRequests = birRequestRepository.getBirRequestByDateAndRequestId(fromDate, toDate, requestID,userId);
 			
-		    consumerRequests = consumerListRepository.getConsumerRequestByDateAndRequestId(fromDate, toDate, requestID);
+		    consumerRequests = consumerListRepository.getConsumerRequestByDateAndRequestId(fromDate, toDate, requestID,userId);
 			
 		}else if(null == requestID && null != fromDate && null != toDate){
 			
-			cirRequests = cirReqRepository.getCirRequestByDate(fromDate, toDate);
+			cirRequests = cirReqRepository.getCirRequestByDate(fromDate, toDate,userId);
 			 
-			birRequests = birRequestRepository.getBirRequestByDate(fromDate, toDate);
+			birRequests = birRequestRepository.getBirRequestByDate(fromDate, toDate,userId);
 			
-		    consumerRequests = consumerListRepository.getConsumerRequestByDate(fromDate, toDate);
+		    consumerRequests = consumerListRepository.getConsumerRequestByDate(fromDate, toDate,userId);
 			
 		}else if(null != requestID && (null == fromDate) && (null == toDate )){
-			cirRequests = cirReqRepository.getCirRequestByRequestId(requestID);
+			cirRequests = cirReqRepository.getCirRequestByRequestId(requestID,userId);
 		 
-			birRequests = birRequestRepository.getBirRequestByRequestId(requestID);
+			birRequests = birRequestRepository.getBirRequestByRequestId(requestID,userId);
 			
-		    consumerRequests = consumerListRepository.getConsumerRequestByRequestId(requestID);
+		    consumerRequests = consumerListRepository.getConsumerRequestByRequestId(requestID,userId);
 		}
 		ViewEarlierEnquiresObject viewEnquiresObject;
 		String withScore;
@@ -1495,14 +1504,14 @@ public class EirServiceImpl implements EirService{
 	}
 
 	@Override
-	public void getResubmitedBIRData(Integer birRequestId) {
+	public void resubmitRequestForBIR(Integer birRequestId) {
 		BirRequest birRequest = birRequestRepository.findByBirRequestId(birRequestId);
 		
 		//CirRequest cirRequestEntity = nextGenWebService.cre(birRequest);
 	}
 
 	@Override
-	public Object getResubmitedComboData(Integer requestId) {
+	public Object reSubmitRequestForCombo(Integer requestId) {
 		
 		Request request = requestRepository.findByRequestId(requestId);
 		CirRequest cirRequestEntity = request.getCirRequets();
@@ -1562,7 +1571,7 @@ public class EirServiceImpl implements EirService{
 	}
 
 	@Override
-	public Object getResubmitedCIRData(Integer cirRequestId) {
+	public Object reSubmitRequestForCIR(Integer cirRequestId) {
 		String withScore = null;
 		CirRequest cirInputRequest = cirReqRepository.findByCirRequestId(cirRequestId);
 		
@@ -1613,6 +1622,17 @@ public class EirServiceImpl implements EirService{
 	{
 		memberUserMappingRepository.getUsersMemberId(userId);
 		return null;
+	}
+	
+		@Override
+	public MemberObject getUserType(Integer userId) {
+		
+		Member member = memberRepository.getUserType(userId);
+		MemberObject memberObject = new MemberObject();
+		if(null != member){
+			memberObject.setMemberType(member.getMemberType());
+		}
+		return memberObject;
 	}
 	
 	@Override

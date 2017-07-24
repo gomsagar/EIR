@@ -10,7 +10,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SequenceGenerator;
@@ -18,6 +21,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import org.hibernate.annotations.Type;
@@ -45,15 +49,7 @@ public class KycApproval implements Serializable {
 	 */
 
 	@Column(name = "request_id", nullable = false)
-	
-
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="request_seq")
-	@SequenceGenerator(
-		name="request_seq",
-		sequenceName="eir.kyc_sequence",
-		allocationSize=1
-	)
 	@XmlElement
 	Integer requestId;
 	/**
@@ -73,11 +69,10 @@ public class KycApproval implements Serializable {
 	/**
 	 */
 
-	@Column(name = "status_id", length = 45)
-	
-
-	@XmlElement
-	Integer status;
+	//@Column(name = "status_id", length = 45)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumns({ @JoinColumn(name = "status_id", referencedColumnName = "status_id") })
+	Status status;
 	/**
 	 */
 
@@ -117,7 +112,8 @@ public class KycApproval implements Serializable {
 	 */
 	@PrimaryKeyJoinColumn
 	@OneToOne(fetch = FetchType.LAZY)
-
+	@JoinColumns({ @JoinColumn(name = "request_id", referencedColumnName = "request_id") })
+	@XmlTransient
 	@XmlElement(name = "", namespace = "")
 	Request request;
 
@@ -159,13 +155,13 @@ public class KycApproval implements Serializable {
 
 	/**
 	 */
-	public void setStatus(Integer status) {
+	public void setStatus(Status status) {
 		this.status = status;
 	}
 
 	/**
 	 */
-	public Integer getStatus() {
+	public Status getStatus() {
 		return this.status;
 	}
 

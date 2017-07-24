@@ -12,6 +12,7 @@ import com.eir.bir.request.model.MultipleRequest;
 import com.eir.bir.request.model.SpecifiedUserFlag;
 import com.eir.model.DashboardObject;
 import com.eir.model.EligibleReport;
+import com.eir.model.MemberObject;
 import com.eir.model.ViewEarlierEnqRequestObject;
 import com.eir.model.ViewEarlierEnquiresObject;
 import com.eir.model.ViewEnquiryObject;
@@ -41,7 +42,7 @@ public interface EirService {
 
 	List<com.eir.bir.request.model.AddressType> getAddressTypeList();
 
-	void uploadKYCDocuments(HttpServletRequest request, HttpServletResponse response);
+	void uploadKYCDocuments(HttpServletRequest request, HttpServletResponse response,Integer requestId);
 
 	void downloadKYCDocuments(int reqId,String fileName,HttpServletRequest request, HttpServletResponse response);
 
@@ -65,7 +66,7 @@ public interface EirService {
 	
 	List<com.eir.bir.request.model.ConsumerFinancialPurpose> findConsumerFinancialPurposeByPurposeId(Integer purposeId);
 
-	//Integer saveSelectedProduct(EligibleReport selection);
+	Integer saveSelectedProduct(EligibleReport selection, Integer sentRequestId);
 	
 	List<Gender> getGender();
 	SpecifiedUserFlag getSpecifiedUserFlag();
@@ -77,20 +78,19 @@ public interface EirService {
 	
 	ViewEnquiryObject getRequestByRequestId(Integer reqId);
 
-	List<ViewEarlierEnquiresObject> getRequestedData(ViewEarlierEnqRequestObject input);
+	List<ViewEarlierEnquiresObject> getEarlierEnquiryRequestData(ViewEarlierEnqRequestObject input);
 	
 		void getDownloadFile(ByteArrayOutputStream htmlToPdfFile,String fileExtention, HttpServletRequest request, HttpServletResponse response);
 
-		void getResubmitedBIRData(Integer birRequestId);
+		void resubmitRequestForBIR(Integer birRequestId);
 
-		Object getResubmitedComboData(Integer requestId);
+		Object reSubmitRequestForCombo(Integer requestId);
 
-		Object getResubmitedCIRData(Integer cirRequestId);
-
-		Integer saveSelectedProduct(EligibleReport selection, Integer sentRequestId);
-
-		Integer getUsersMemberId(Integer userId);
+		Object reSubmitRequestForCIR(Integer cirRequestId);
 		
+		MemberObject getUserType(Integer userId);
+		
+		Integer getUsersMemberId(Integer userId);
 		EligibleReport getEligibleProduct(Integer userID);
 		
 		EligibleReport getSelectedProduct(Integer reqID);

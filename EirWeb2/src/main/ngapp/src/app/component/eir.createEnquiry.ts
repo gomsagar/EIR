@@ -186,8 +186,9 @@ public static reqId : number;
   
 
     this._dataService.getUserFlag().subscribe((loggedInUserFlag) => {            
-            console.log("loggedInUserFlag -  - "+ loggedInUserFlag);
-            this.loggedInUserFlagVar = loggedInUserFlag.userFlag;            
+            console.log("loggedInUserFlag -  - "+ loggedInUserFlag.memberType);
+           this.loggedInUserFlagVar = loggedInUserFlag.memberType;   
+            console.log("this.loggedInUserFlagVar -  - "+ this.loggedInUserFlagVar);         
         });  
 
 
@@ -274,12 +275,12 @@ public static reqId : number;
           console.log("reqID outside:"+EirCreateComponent.reqId);
          //console.log("_subscription:"+this._subscription.)
 
-        //   if(this.loggedInUserFlagVar == 'NonSpecifiedUser')
-        //   {            
-        //     this.router.navigate(['kycComponent'],{ queryParams: { isOnlyBir: this.isOnlyBir, isCombo: this.isCombo, isCir: this.isCir} });
-        //   }else {
-        //       this.router.navigate(['inputForEnquiry'],{queryParams: { isOnlyBir: this.isOnlyBir, isCombo: this.isCombo, isCir: this.isCir}});
-        //   }
+          // if(this.loggedInUserFlagVar == 'NON-SPECIFIED')
+          // {            
+          //   this.router.navigate(['kycComponent'],{ queryParams: { isOnlyBir: this.isOnlyBir, isCombo: this.isCombo, isCir: this.isCir} });
+          // }else {
+          //     this.router.navigate(['inputForEnquiry'],{queryParams: { isOnlyBir: this.isOnlyBir, isCombo: this.isCombo, isCir: this.isCir}});
+          // }
 //debugger;
         
          this.router.navigate(['inputForEnquiry'],{queryParams: { isOnlyBir: this.isOnlyBir, isCombo: this.isCombo, isCir: this.isCir, reqId: EirCreateComponent.reqId}});
