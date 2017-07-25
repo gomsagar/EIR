@@ -67,7 +67,7 @@ public class CreateReport {
 			StringWriter writer = new StringWriter();
 			template.merge(context, writer);
 			String htmlConsOutput = writer.toString();
-		//	createHtml(htmlConsOutput);
+			//createPdf(htmlConsOutput);
 			
 			return htmlConsOutput;
 			
@@ -78,7 +78,7 @@ public class CreateReport {
 				StringWriter writer1 = new StringWriter();
 				template.merge(context, writer1);
 				String pdfConsOutput = writer1.toString();
-			    createHtml(pdfConsOutput);
+			    //createHtml(pdfConsOutput);
 				//createPdf(pdfConsOutput);
 				return pdfConsOutput;
 			}
@@ -139,7 +139,7 @@ public class CreateReport {
 	public void createPdf(String value)
 	{
 	
-	        File file = new File("D:/output");
+	        File file = new File("J:/output");
 	        
 			if (!file.exists())
 			{
@@ -148,7 +148,7 @@ public class CreateReport {
 	        
 	       
 	       CommonUtilityService commonUtilityService = new CommonUtilityService();
-	       commonUtilityService.htmlToPdfFile(value, "D:/output/PDFReport.pdf", "");
+	       commonUtilityService.htmlToPdfFile(value, "J:/output/PDFReport.pdf", "");
 	       System.out.println("PDF File Created");
 		
 	}
