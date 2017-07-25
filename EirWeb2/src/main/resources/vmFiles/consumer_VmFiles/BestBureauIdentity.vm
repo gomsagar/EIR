@@ -21,7 +21,7 @@
 							#foreach($pidname in $pidnames)
 							<table>
 								<tbody>
-								#set($value="#emptyDataCheck($pidname.FirstGivenName)")
+								#set($value="#emptyCheckData($pidname.FirstGivenName)")
 								#set($name="#trimVar($value)")
 								#set($name=$StringUtils.deleteWhitespace($name))
 								#if($name != " ")	
@@ -30,7 +30,7 @@
 									</tr>
 								#end
 									
-								#set($value="#emptyDataCheck($pidname.MiddleName)")
+								#set($value="#emptyCheckData($pidname.MiddleName)")
 								#set($name="#trimVar($value)")
 								#set($name=$StringUtils.deleteWhitespace($name))
 								#if($name != " ")	
@@ -39,7 +39,7 @@
 									</tr>
 								#end
 									
-								#set($value="#emptyDataCheck($pidname.IndiaMiddleName3)")
+								#set($value="#emptyCheckData($pidname.IndiaMiddleName3)")
 								#set($name="#trimVar($value)")
 								#set($name=$StringUtils.deleteWhitespace($name))
 								#if($name != " ")	
@@ -48,7 +48,7 @@
 									</tr>
 								#end
 									
-								#set($value="#emptyDataCheck($pidname.OtherMiddleNames)")
+								#set($value="#emptyCheckData($pidname.OtherMiddleNames)")
 								#set($name="#trimVar($value)")
 								#set($name=$StringUtils.deleteWhitespace($name))
 								#if($name != " ")	
@@ -57,7 +57,7 @@
 									</tr>
 								#end
 									
-								#set($value="#emptyDataCheck($pidname.FamilyName)")
+								#set($value="#emptyCheckData($pidname.FamilyName)")
 								#set($name="#trimVar($value)")
 								#set($name=$StringUtils.deleteWhitespace($name))
 								#if($name != " ")	
@@ -71,11 +71,11 @@
 							</td>
                           </tr>
                           <tr>
-                            <td style="padding-top:0px;">#set($value="#emptyDataCheck($!responseInfo.ConsumerResponse.PERSONID.Gender)")$value</td>
+                            <td style="padding-top:0px;">#set($value="#emptyCheckData($!responseInfo.ConsumerResponse.PERSONID.Gender)")$value</td>
                           </tr>
-                          #set($day = "#emptyDataCheck($!responseInfo.ConsumerResponse.PERSONID.BirthDay)")
-			 			  #set($month = "#emptyDataCheck($!responseInfo.ConsumerResponse.PERSONID.BirthMonth)")
-			              #set($year = "#emptyDataCheck($!responseInfo.ConsumerResponse.PERSONID.BirthYear)")
+                          #set($day = "#emptyCheckData($!responseInfo.ConsumerResponse.PERSONID.BirthDay)")
+			 			  #set($month = "#emptyCheckData($!responseInfo.ConsumerResponse.PERSONID.BirthMonth)")
+			              #set($year = "#emptyCheckData($!responseInfo.ConsumerResponse.PERSONID.BirthYear)")
 			  
 			              #set($dob = $day +"/"+ $month +"/"+ $year)
                           <tr>
@@ -90,7 +90,7 @@
 				    #foreach($perinpaddr in $perinpaddrs)
 					<table>
                         <tbody>
-                        #set($value="#emptyDataCheck($perinpaddr.AddrLine1)")
+                        #set($value="#emptyCheckData($perinpaddr.AddrLine1)")
 						#set($name="#trimVar($value)")
 						#set($name=$StringUtils.deleteWhitespace($name))
 						#if($name != " ")	
@@ -99,7 +99,7 @@
 							</tr>
 						#end
 						
-						#set($value="#emptyDataCheck($perinpaddr.AddrLine2)")
+						#set($value="#emptyCheckData($perinpaddr.AddrLine2)")
 						#set($name="#trimVar($value)")
 						#set($name=$StringUtils.deleteWhitespace($name))
 						#if($name != " ")	
@@ -108,7 +108,7 @@
 							</tr>
 						#end
 						
-						#set($value="#emptyDataCheck($perinpaddr.AddrLine3)")
+						#set($value="#emptyCheckData($perinpaddr.AddrLine3)")
 						#set($name="#trimVar($value)")
 						#set($name=$StringUtils.deleteWhitespace($name))
 						#if($name != " ")							
@@ -117,7 +117,7 @@
 							</tr>
 						#end
 						
-						#set($value="#emptyDataCheck($perinpaddr.PostalCode)")
+						#set($value="#emptyCheckData($perinpaddr.PostalCode)")
 						#set($name="#trimVar($value)")
 						#set($name=$StringUtils.deleteWhitespace($name))
 						#if($name != " ")	
@@ -126,7 +126,7 @@
 							</tr>
 						#end
 						
-						#set($value="#emptyDataCheck($perinpaddr.localityName)")
+						#set($value="#emptyCheckData($perinpaddr.localityName)")
 						#set($name="#trimVar($value)")
 						#set($name=$StringUtils.deleteWhitespace($name))
 						#if($name != " ")	
@@ -135,7 +135,7 @@
 							</tr>
 						#end
 						
-						#set($value="#emptyDataCheck($perinpaddr.regionName)")
+						#set($value="#emptyCheckData($perinpaddr.regionName)")
 						#set($name="#trimVar($value)")
 						#set($name=$StringUtils.deleteWhitespace($name))
 						#if($name != " ")	
@@ -153,7 +153,7 @@
                         #set($perinpphns = $responseInfo.ConsumerResponse.PERSONID.PIDPHONE)
                         #foreach($perinpphn in $perinpphns)
                         	#set($phoneType = $perinpphn.PhoneType)
-                        	#set($value="#emptyDataCheck($perinpphn.PhoneNumber)")
+                        	#set($value="#emptyCheckData($perinpphn.PhoneNumber)")
                             #if($phoneType == "1")
 	                          <tr>
 	                            <td style="padding-top:0px;">$value(H)</td>
@@ -216,7 +216,7 @@
                         <tbody>
 						#foreach($perinpidc in $perinpidcs)
                         	#set($idType = $perinpidc.IdNumberType)
-                        	#set($idNum="#emptyDataCheck($perinpidc.idNumber)")
+                        	#set($idNum="#emptyCheckData($perinpidc.idNumber)")
                         	 #if($idType == "10")
 		                          <tr height="26px">
 		                            <td style="padding-top:0px;">$idNum</td>
@@ -253,7 +253,7 @@
                         <tbody>
 						#foreach($perinpidc in $perinpidcs)
                         	#set($idType = $perinpidc.IdNumberType)
-                        	#set($issueDt="#emptyDataCheck($perinpidc.IdIssueDate)")
+                        	#set($issueDt="#emptyCheckData($perinpidc.IdIssueDate)")
                         	 #if($idType == "10")
 		                          <tr height="26px">
 		                            <td style="padding-top:0px;">$issueDt</td>
@@ -290,7 +290,7 @@
                         <tbody>
 						#foreach($perinpidc in $perinpidcs)
                         	#set($idType = $perinpidc.IdNumberType)
-                        	#set($expDt="#emptyDataCheck($perinpidc.IdExpirationDate)")
+                        	#set($expDt="#emptyCheckData($perinpidc.IdExpirationDate)")
                         	 #if($idType == "10")
 		                          <tr height="26px">
 		                            <td style="padding-top:0px;">$expDt</td>

@@ -49,7 +49,7 @@
 							<input type="text" class="form-control" id="exampleInputName2" [formControl]="cirForm.controls['cmpName']" value = {{commonArray.cir.companyName}} placeholder="Company Name" name="companyName" [(ngModel)]="commonArray.cir.companyName">
 						<div *ngIf="(cirForm.controls['cmpName'].hasError('required') && cirForm.controls['cmpName'].touched)||(cirForm.controls['cmpName'].hasError('required') && submitted)"
 							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"> Please Enter Mandatory field </div>
-						<div *ngIf="cirForm.controls['cmpName'].hasError('pattern') && cirForm.controls['cmpName'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Enter valid Company Name.</div>
+						<div *ngIf="cirForm.controls['cmpName'].hasError('pattern') && cirForm.controls['cmpName'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">No special characters should be used for Company Name</div>
 						</div>
 						<div class="form-group col-md-3" [ngClass]="{'has-error':(cirForm.controls['product'].hasError('required') && cirForm.controls['product'].touched)||(cirForm.controls['product'].hasError('required') && submitted )}">
 							<label for="exampleInputName2">Product Field <font style="color: red;"> * </font></label>
@@ -95,7 +95,7 @@
 							 [formControl]="cirForm.controls['address']">
 							<div *ngIf="(cirForm.controls['address'].hasError('required') && cirForm.controls['address'].touched)||(cirForm.controls['address'].hasError('required') && submitted)"
 							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"> Input error - Flat/Plot/House No is a mandatory field</div>
-						<div *ngIf="cirForm.controls['address'].hasError('pattern') && cirForm.controls['address'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Please Enter address less than 40 characters</div>
+						<div *ngIf="cirForm.controls['address'].hasError('maxLength') && cirForm.controls['address'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Please Enter address less than 40 characters</div>
 						
 						</div>
 						<div class="form-group col-md-6">
@@ -128,7 +128,7 @@
 							 [formControl]="cirForm.controls['pincode']">
 							<div *ngIf="(cirForm.controls['pincode'].hasError('required') && cirForm.controls['pincode'].touched)||(cirForm.controls['pincode'].hasError('required') && submitted)"
 							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Input error -PIN code is a mandatory field</div>
-							<div *ngIf="cirForm.controls['pincode'].hasError('pattern') && cirForm.controls['pincode'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Input Error - PIN Code is  invalid - Should be 6 digit Numeric Value</div>
+							<div *ngIf="cirForm.controls['pincode'].hasError('pattern') && cirForm.controls['pincode'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">PIN Code is  invalid</div>
 							<!--<div *ngIf="cirForm.controls['pincode'].hasError('pattern') && cirForm.controls['pincode'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Input Error - PIN Code is  invalid - Should be at least 6 digits</div>-->
 						</div>
 						
@@ -160,8 +160,8 @@
 							<input type="email" class="form-control" id="exampleInputName2" placeholder="Email ID" [formControl]="cirForm.controls['email']"
 							 name="emailId" [(ngModel)]="commonArray.cir.emailId">
 							<div *ngIf="(cirForm.controls['email'].hasError('required') && cirForm.controls['email'].touched)||(cirForm.controls['email'].hasError('required') && submitted)"
-							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"> Please enter valid Email Id </div>
-							<div *ngIf="cirForm.controls['email'].hasError('pattern') && cirForm.controls['email'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Enter Valid EmailId.</div>
+							 class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"> You must include Email Id </div>
+							<div *ngIf="cirForm.controls['email'].hasError('pattern') && cirForm.controls['email'].touched" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Enter Valid Email Id.</div>
 						</div>
 					</div>
 				</form>

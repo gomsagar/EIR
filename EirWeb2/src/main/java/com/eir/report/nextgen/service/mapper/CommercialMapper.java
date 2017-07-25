@@ -176,50 +176,57 @@ public class CommercialMapper {
 	
 	public CompanyDetails getCompanyDetails() {
 		CompanyDetails companyDetails = new CompanyDetails();
-		companyDetails.setBusNm(responseInfo.getBusinessResponse().getBUSINESS().getBusinessName());
-		companyDetails.setCompanyShortName(responseInfo.getBusinessResponse().getBUSINESS().getBusinessShortName());
-		companyDetails.setLegalConstitution(responseInfo.getBusinessResponse().getBUSINESS().getLegalDescription());
-		companyDetails.setIndusCd(responseInfo.getBusinessResponse().getBUSINESS().getIndustryType());
-		Bidaddrs address = responseInfo.getBusinessResponse().getBUSINESS().getBidaddrs().get(0);
-		String addr = address.getAddressL1() + "," + address.getAddressL2() + "," + address.getAddressL3() + ","
-					+ address.getCity() + "," + address.getPinCode() + "," + address.getState();
-		companyDetails.setBusAddress(addr);
-		if(responseInfo.getBusinessResponse().getBUSINESS().getBidphone() != null 
-				&& !responseInfo.getBusinessResponse().getBUSINESS().getBidphone().isEmpty())
+		
+		if(responseInfo.getBusinessResponse() != null && responseInfo.getBusinessResponse().getBUSINESS() != null )
 		{
-			companyDetails.setBusinessTelephone(responseInfo.getBusinessResponse().getBUSINESS().getBidphone().get(0).getPhoneNumber());	
-		}
-		
-		List<BidCards> bidCards = responseInfo.getBusinessResponse().getBUSINESS().getBidCards();
-		for(BidCards bidCard: bidCards)
-		{
-			if(bidCard.getIdNumberType().equals("10"))
+				
+			companyDetails.setBusNm(responseInfo.getBusinessResponse().getBUSINESS().getBusinessName());
+			companyDetails.setCompanyShortName(responseInfo.getBusinessResponse().getBUSINESS().getBusinessShortName());
+			companyDetails.setLegalConstitution(responseInfo.getBusinessResponse().getBUSINESS().getLegalDescription());
+			companyDetails.setIndusCd(responseInfo.getBusinessResponse().getBUSINESS().getIndustryType());
+			Bidaddrs address = responseInfo.getBusinessResponse().getBUSINESS().getBidaddrs().get(0);
+			String addr = address.getAddressL1() + "," + address.getAddressL2() + "," + address.getAddressL3() + ","
+						+ address.getCity() + "," + address.getPinCode() + "," + address.getState();
+			companyDetails.setBusAddress(addr);
+			if(responseInfo.getBusinessResponse().getBUSINESS().getBidphone() != null 
+					&& !responseInfo.getBusinessResponse().getBUSINESS().getBidphone().isEmpty())
 			{
-				companyDetails.setPanNumber(bidCard.getIdNumber());
+				companyDetails.setBusinessTelephone(responseInfo.getBusinessResponse().getBUSINESS().getBidphone().get(0).getPhoneNumber());	
 			}
-			if(bidCard.getIdNumberType().equals("13"))
+			
+			List<BidCards> bidCards = responseInfo.getBusinessResponse().getBUSINESS().getBidCards();
+			if(bidCards != null && !bidCards.isEmpty())
 			{
-				companyDetails.setCin(bidCard.getIdNumber());
+				for(BidCards bidCard: bidCards)
+				{
+					if(bidCard.getIdNumberType().equals("10"))
+					{
+						companyDetails.setPanNumber(bidCard.getIdNumber());
+					}
+					if(bidCard.getIdNumberType().equals("13"))
+					{
+						companyDetails.setCin(bidCard.getIdNumber());
+					}
+					if(bidCard.getIdNumberType().equals("15"))
+					{
+						companyDetails.setServiceTaxNumber(bidCard.getIdNumber());
+					}
+				}
 			}
-			if(bidCard.getIdNumberType().equals("15"))
+			
+			if(responseInfo.getBusinessResponse().getBUSINESS().getBussfirm() != null 
+					&& !responseInfo.getBusinessResponse().getBUSINESS().getBussfirm().isEmpty())
 			{
-				companyDetails.setServiceTaxNumber(bidCard.getIdNumber());
+				Bussfirm bussfirm = responseInfo.getBusinessResponse().getBUSINESS().getBussfirm().get(0);
+				companyDetails.setBusRegNb4In(bussfirm.getRegistrationNumber());
+			    companyDetails.setBusRegDt(convertDate(bussfirm.getRegistrationDate()));
+				companyDetails.setBusRegCityNum(bussfirm.getRegistrationCity());
+				companyDetails.setBusRegProvinceCd4In(bussfirm.getRegistrationProvince());
+				companyDetails.setTotalEmpCt(bussfirm.getNumberOfEmployees());
+				companyDetails.setSalesFigureAm(bussfirm.getSalesFigureAmt());	
 			}
+			
 		}
-		
-		if(responseInfo.getBusinessResponse().getBUSINESS().getBussfirm() != null 
-				&& !responseInfo.getBusinessResponse().getBUSINESS().getBussfirm().isEmpty())
-		{
-			Bussfirm bussfirm = responseInfo.getBusinessResponse().getBUSINESS().getBussfirm().get(0);
-			companyDetails.setBusRegNb4In(bussfirm.getRegistrationNumber());
-		    companyDetails.setBusRegDt(convertDate(bussfirm.getRegistrationDate()));
-			companyDetails.setBusRegCityNum(bussfirm.getRegistrationCity());
-			companyDetails.setBusRegProvinceCd4In(bussfirm.getRegistrationProvince());
-			companyDetails.setTotalEmpCt(bussfirm.getNumberOfEmployees());
-			companyDetails.setSalesFigureAm(bussfirm.getSalesFigureAmt());	
-		}
-		
-		
 		return companyDetails;
 	}
 	/*private String mapToAddressInputData(List<Bidaddrs> list)

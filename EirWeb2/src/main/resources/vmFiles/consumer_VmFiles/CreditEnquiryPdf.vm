@@ -23,14 +23,14 @@
                   <tr class="list listh" id="R0" style="background-color: white !important;">
                     ##<td style="width:11%">#set($date="#formatdate($enqrhist.dateTime)")$date</td>
                     <td style="width:11%">$enqrhist.EnquiryDate</td>
-                    <td style="width:08%">#set($value="#emptyDataCheck($enqrhist.EnquiryRefNum)")$value</td>
-                    <td style="width:10%">#set($value="#emptyDataCheck($enqrhist.BureauMemberName)")$value</td>
-                    <td style="width:10%">#set($value="#emptyDataCheck($enqrhist.BureauMemberId)")$value</td>
-                    <td style="width:11%">#set($value="#emptyDataCheck($enqrhist.EnquiryAccountType)")$value</td>
-                    <td style="width:11%;text-align: right;">#set($value="#emptyDataCheck($enqrhist.EnquiryAmount)")$value</td>
-                    <td style="width:11%">#set($value="#emptyDataCheck($enqrhist.EnquiryFinRespCd)")$value</td>
-                    <td style="width:9%">#set($value="#emptyDataCheck($enqrhist.Frequency)")$value &nbsp;Monthly</td>
-                    <td style="width:14%">#set($value="#emptyDataCheck($enqrhist.EnquiryBankAccountNumber)")$value</td>
+                    <td style="width:08%">#set($value="#emptyCheckData($enqrhist.EnquiryRefNum)")$value</td>
+                    <td style="width:10%">#set($value="#emptyCheckData($enqrhist.BureauMemberName)")$value</td>
+                    <td style="width:10%">#set($value="#emptyCheckData($enqrhist.BureauMemberId)")$value</td>
+                    <td style="width:11%">#set($value="#emptyCheckData($enqrhist.EnquiryAccountType)")$value</td>
+                    <td style="width:11%;text-align: right;">#set($value="#emptyCheckData($enqrhist.EnquiryAmount)")$value</td>
+                    <td style="width:11%">#set($value="#emptyCheckData($enqrhist.EnquiryFinRespCd)")$value</td>
+                    <td style="width:9%">#set($value="#emptyCheckData($enqrhist.Frequency)")$value &nbsp;Monthly</td>
+                    <td style="width:14%">#set($value="#emptyCheckData($enqrhist.EnquiryBankAccountNumber)")$value</td>
                    
                   </tr>
                    
@@ -45,15 +45,15 @@
                               <tr>
                                 <th style="text-align:left; padding-left:2px;padding-top :5px;background-color: #EFEFEF !important;color:#0c5dab;" colspan="9">Applicant Details</th>
                               </tr>
-                              <tr class="list_header" style="color: #0C5DAB !important;background-color: #EFEFEF; !important">
-                                <td style="width:14%;">Personal Information</td>
-                                <td style="width:14%">Addresses</td>
-                                <td style="width:16%">Contact Info </td>
-                                <td style="width:16%">Occupation </td>
-                                <td style="width:10%">ID Card Type </td>
-                                <td style="width:10%">ID Card Num </td>
-                                <td style="width:10%">Issue Date </td>
-                                <td style="width:10%">Expiry Date </td>
+                              <tr class="list_header" style="color: #0C5DAB !important;background-color: #EFEFEF !important;">
+                                <td style="width:14%;color: #0C5DAB !important;">Personal Information</td>
+                                <td style="width:14%;color: #0C5DAB !important;">Addresses</td>
+                                <td style="width:16%;color: #0C5DAB !important;">Contact Info </td>
+                                <td style="width:16%;color: #0C5DAB !important;">Occupation </td>
+                                <td style="width:10%;color: #0C5DAB !important;">ID Card Type </td>
+                                <td style="width:10%;color: #0C5DAB !important;">ID Card Num </td>
+                                <td style="width:10%;color: #0C5DAB !important;">Issue Date </td>
+                                <td style="width:10%;color: #0C5DAB !important;">Expiry Date </td>
                               </tr>
                               <tr class="list listpds" style="background-color: white;">
 								<td style="padding-left: 5px; padding-top:0px;">
@@ -65,7 +65,7 @@
 										<td style="padding:0px;">
 										<table>
 											<tbody>
-												#set($value="#emptyDataCheck($prsnsrch.firstGivenName)")
+												#set($value="#emptyCheckData($prsnsrch.firstGivenName)")
 												#set($name="#trimVar($value)")
 												#set($name=$StringUtils.deleteWhitespace($name))
 												#if($name != 0)	
@@ -73,7 +73,7 @@
 													<td style="padding-top:0px;">$value</td>
 												</tr>
 												#end
-												#set($value="#emptyDataCheck($prsnsrch.middleName)")
+												#set($value="#emptyCheckData($prsnsrch.middleName)")
 												#set($name="#trimVar($value)")
 												#set($name=$StringUtils.deleteWhitespace($name))
 												#if($name != 0)
@@ -82,7 +82,7 @@
 												</tr>
 												#end
 												
-												#set($value="#emptyDataCheck($prsnsrch.otherMiddleNames)")
+												#set($value="#emptyCheckData($prsnsrch.otherMiddleNames)")
 												#set($name="#trimVar($value)")
 												#set($name=$StringUtils.deleteWhitespace($name))
 												#if($name != 0)
@@ -90,7 +90,7 @@
 													<td style="padding-top:0px;">$value</td>
 												</tr>
 												#end
-												#set($value="#emptyDataCheck($prsnsrch.indiaMiddleName3)")
+												#set($value="#emptyCheckData($prsnsrch.indiaMiddleName3)")
 												#set($name="#trimVar($value)")
 												#set($name=$StringUtils.deleteWhitespace($name))
 												#if($name != 0)
@@ -98,7 +98,7 @@
 													<td style="padding-top:0px;">$value</td>
 												</tr>
 												#end
-												#set($value="#emptyDataCheck($prsnsrch.familyName)")
+												#set($value="#emptyCheckData($prsnsrch.familyName)")
 												#set($name="#trimVar($value)")
 												#set($name=$StringUtils.deleteWhitespace($name))
 												#if($name != 0)
@@ -111,10 +111,10 @@
 										</td>
 									  </tr>
 									  <tr>
-										<td style="padding-top:0px;">#set($value="#emptyDataCheck($prsnsrch.Gender)")$value</td>
+										<td style="padding-top:0px;">#set($value="#emptyCheckData($prsnsrch.Gender)")$value</td>
 									  </tr>
 									  <tr>
-										<td style="padding-top:0px;">#set($value="#emptyDataCheck($prsnsrch.DateOfBirth)")$value</td>
+										<td style="padding-top:0px;">#set($value="#emptyCheckData($prsnsrch.DateOfBirth)")$value</td>
 									  </tr>
 									  <tr> </tr>
 									</tbody>
@@ -127,7 +127,7 @@
 									#foreach($persaddr in $persaddrs)
 									<table>
 										<tbody>
-										#set($value="#emptyDataCheck($persaddr.addressL1)")
+										#set($value="#emptyCheckData($persaddr.addressL1)")
 										#set($name="#trimVar($value)")
 										#set($name=$StringUtils.deleteWhitespace($name))
 										#if($name != 0)
@@ -135,7 +135,7 @@
 				                            	<td style="padding-top:0px;">$value</td>
 											</tr>
 										#end
-										#set($value="#emptyDataCheck($persaddr.addressL2)")
+										#set($value="#emptyCheckData($persaddr.addressL2)")
 										#set($name="#trimVar($value)")
 										#set($name=$StringUtils.deleteWhitespace($name))
 										#if($name != 0)
@@ -143,7 +143,7 @@
 				                            <td style="padding-top:0px;">$value</td>
 										</tr>
 										#end
-										#set($value="#emptyDataCheck($persaddr.addressL3)")
+										#set($value="#emptyCheckData($persaddr.addressL3)")
 										#set($name="#trimVar($value)")
 										#set($name=$StringUtils.deleteWhitespace($name))
 										#if($name != 0)
@@ -151,7 +151,7 @@
 				                            <td style="padding-top:0px;">$value</td>
 										</tr>
 										#end
-										#set($value="#emptyDataCheck($persaddr.PostalCode)")
+										#set($value="#emptyCheckData($persaddr.PostalCode)")
 										#set($name="#trimVar($value)")
 										#set($name=$StringUtils.deleteWhitespace($name))
 										#if($name != 0)
@@ -159,7 +159,7 @@
 				                            <td style="padding-top:0px;">$value</td>
 										</tr>
 										#end
-										#set($value="#emptyDataCheck($persaddr.LocalityName)")
+										#set($value="#emptyCheckData($persaddr.LocalityName)")
 										#set($name="#trimVar($value)")
 										#set($name=$StringUtils.deleteWhitespace($name))
 										#if($name != 0)
@@ -167,7 +167,7 @@
 				                            <td style="padding-top:0px;">$value</td>
 										</tr>
 										#end
-										#set($value="#emptyDataCheck($persaddr.RegionCode)")
+										#set($value="#emptyCheckData($persaddr.RegionCode)")
 										#set($name="#trimVar($value)")
 										#set($name=$StringUtils.deleteWhitespace($name))
 										#if($name != 0)
@@ -182,8 +182,8 @@
 								<td style="padding-top:0px;">
 									#set($persphones = $enqrhist.PERSPHONE)
 									#foreach($persphone in $persphones)
-									#set($value="#emptyDataCheck($persphone.PhoneNumber)")
-									#set($phoneType="#emptyDataCheck($persphone.phoneType)")
+									#set($value="#emptyCheckData($persphone.PhoneNumber)")
+									#set($phoneType="#emptyCheckData($persphone.phoneType)")
 									#set($phoneType=$StringUtils.deleteWhitespace($phoneType))
 									<table>
 										<tbody>
@@ -218,21 +218,21 @@
                  				  <table>
 			                        <tbody>     
 			                          <tr> 
-			                          #set($value="#emptyDataCheck($employer.OccYearsEmployed)")
+			                          #set($value="#emptyCheckData($employer.OccYearsEmployed)")
 			                          #set($value=$StringUtils.deleteWhitespace($value))
 			                          	#if($value != "-")
 			                          		<td style="padding-top:0px;">Years Employed &nbsp;$value</td>
 			                          	#end
 			                          	</tr>
 			                          <tr>
-			                          #set($value="#emptyDataCheck($employer.OccMonthsEmployed)")
+			                          #set($value="#emptyCheckData($employer.OccMonthsEmployed)")
 			                          #set($value=$StringUtils.deleteWhitespace($value))
 			                          #if($value != "-")
 			                          <td style="padding-top:0px;">Months Employed &nbsp;$value</td> 
 			                          #end
 			                          </tr>
 			                          <tr>
-			                          #set($value="#emptyDataCheck($employer.NetMontlyIncome)")
+			                          #set($value="#emptyCheckData($employer.NetMontlyIncome)")
 			                          #set($value=$StringUtils.deleteWhitespace($value))
 			                           #if($value != "-")
 			                          <td style="padding-top:0px;">Net Monthly Income &nbsp;$value</td>
@@ -287,8 +287,8 @@
 									#set($personidInqs = $enqrhist.PERSONIDINQ)
 								    #foreach($personidInq in $personidInqs)
 								    
-										#set($idType = "#emptyDataCheck($personidInq.IdNumberType)")
-										#set($idNum = "#emptyDataCheck($personidInq.IdNumber)")
+										#set($idType = "#emptyCheckData($personidInq.IdNumberType)")
+										#set($idNum = "#emptyCheckData($personidInq.IdNumber)")
 										 #set($idType=$StringUtils.deleteWhitespace($idType))
 											<table id="card-num">
 											<tbody>
@@ -333,9 +333,9 @@
 								    #foreach($personidInq in $personidInqs)
 										<table id="card-num">
 										<tbody>
-										 #set($idType = "#emptyDataCheck($personidInq.IdNumberType)")
+										 #set($idType = "#emptyCheckData($personidInq.IdNumberType)")
 										  #set($idType=$StringUtils.deleteWhitespace($idType))
-										 #set($issueDt="#emptyDataCheck($personidInq.IdIssueDate)")
+										 #set($issueDt="#emptyCheckData($personidInq.IdIssueDate)")
 												#if($idType == "10")
 							                          <tr height="26px">
 							                            <td style="padding-top:0px;">$issueDt</td>
@@ -375,9 +375,9 @@
 								    #foreach($personidInq in $personidInqs)
 										<table id="card-num">
 										<tbody>
-										#set($idType = "#emptyDataCheck($personidInq.IdNumberType)")
+										#set($idType = "#emptyCheckData($personidInq.IdNumberType)")
 										 #set($idType=$StringUtils.deleteWhitespace($idType))
-										#set($expDt="#emptyDataCheck($personidInq.IdExpirationDate)")
+										#set($expDt="#emptyCheckData($personidInq.IdExpirationDate)")
 										#if($idType == "10")
 					                          <tr height="26px">
 					                            <td style="padding-top:0px;">$expDt</td>

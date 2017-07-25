@@ -107,7 +107,7 @@ table tr td {
     background: #fff;
 }
 .pdsTable .list_header td {
-    border-right: 0px solid #EFEFEF !important;
+    border-right: 0px solid white !important;
 }
 .tabular_data_wrap .list_header td {
     color: #0C5DAB;
@@ -133,7 +133,7 @@ table tr td {
 }
 #app-details td, #credit-account-details td, #borrower-details td, .business-details td {
     border: none;
-    font-size: 12px;
+    font-size: 12px !important;
 }
 #consumer-nofootprint-enquiry, #consumer-gvap-enquiry, #consumer-other-enquiry, #consumer-experian-enquiry, #ccredit-account-details, #non-credit-account-details {
     /* border-bottom: 1px solid #EEEEEE; */
@@ -213,7 +213,7 @@ table tr td {
     margin-top: -12px;
 }
 #credit-score h1 {
-    font-size: 30px;
+   // font-size: 30px;
     font-weight: bold;
     margin-top: 0px;
     line-height: 58px;

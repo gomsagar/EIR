@@ -3762,7 +3762,7 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 					responseInfoList = getConsumerReport(consumerRequests);
 					comboDomain.setResponseInfoList(responseInfoList);
 				 }
-				 if(reportDetails != null && responseInfoList != null)
+				 if(reportDetails != null || responseInfoList != null)
 				 {
 					summaryDetails = getSummaryDetails(reportDetails,responseInfoList);
 					comboDomain.setSummaryDetails(summaryDetails);

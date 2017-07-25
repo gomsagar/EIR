@@ -13,7 +13,7 @@
 		$align
 	#end
 	
-#macro(emptyDataCheck $emptyDataIndicator)##
+#macro(emptyCheckData $emptyDataIndicator)##
 #set($currenyByteArray="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAQBAMAAAACH4lsAAAAMFBMVEX/////wX4zMzMzfsH//9+gWjN+wf+gWlqg3//BfjP//8F+M37B//9aoN//36BaM34Y0ZRzAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAAAEgAAABIAEbJaz4AAAAqSURBVAjXY2AgHggpKcOYrgmYYu4NMDE1uJZpcNbqAzAW5wUYi+8PQTsBmU8GN1MaUKwAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTctMDEtMjRUMDQ6MzI6NDEtMDU6MDBWW/dcAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE3LTAxLTI0VDA0OjMyOjQxLTA1OjAwJwZP4AAAAABJRU5ErkJggg==")##
 #if($StringUtils.isEmpty($emptyDataIndicator))##
 #set($emptyDataIndicator=" ")##

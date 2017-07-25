@@ -188,7 +188,7 @@
 				<div class="form-group col-xs-4" [formGroup]="requisitionForm" [ngClass]="{'has-error':((!requisitionForm.controls['personAddrLine1'+i].valid && requisitionForm.controls['personAddrLine1'+i].touched)||(!requisitionForm.controls['personAddrLine1'+i].valid && submitted))}">
 					<label for="exampleInputName2">Address 1 <font style="color: red;"> * </font></label> <input type="text" class="form-control" id="exampleInputName2" placeholder="Address 1"
 					 name="personAddrLine1{{i}}" formControlName="personAddrLine1{{i}}" [(ngModel)]="consumerData[i].personAddrLine1">
-					<control-messages [control]="requisitionForm.controls['personAddrLine1'+i]" [label]="'Person Address Line1'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
+					<control-messages [control]="requisitionForm.controls['personAddrLine1'+i]" [label]="'Flat/Plot/House No'" style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;"></control-messages>
 				</div>
 				<div class="form-group col-xs-4">
 					<label for="exampleInputName2">Address 2</label> <input type="text" class="form-control" id="exampleInputName2" placeholder="Address 2"

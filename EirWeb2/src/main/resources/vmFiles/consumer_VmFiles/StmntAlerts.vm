@@ -13,9 +13,9 @@
                   
                   #foreach($stmtAlert in $stmtAlerts)
                   <tr class="list_header">
-                    <td style="width:15%">#set($value="#emptyDataCheck($stmtAlert.StatementDate)")$value</td>
-                    <td style="width:15%">#set($value="#emptyDataCheck($stmtAlert.StatementTypeCode)")$value </td>
-                    <td style="width:70%">#set($value="#emptyDataCheck($stmtAlert.StatementText)")$value</td>
+                    <td style="width:15%">#set($value="#emptyCheckData($stmtAlert.StatementDate)")$value</td>
+                    <td style="width:15%">#set($value="#emptyCheckData($stmtAlert.StatementTypeCode)")$value </td>
+                    <td style="width:70%">#set($value="#emptyCheckData($stmtAlert.StatementText)")$value</td>
                   </tr>
                   #end
                   #else

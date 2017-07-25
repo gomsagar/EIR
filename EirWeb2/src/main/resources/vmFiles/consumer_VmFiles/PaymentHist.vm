@@ -1,23 +1,29 @@
  <!-- Payment Details Start -->
                   
-                  <tr id=pr$count class="sublist" style="display: none;background-color: #EFEFEF !important;">
+                  <tr id=pr$count class="sublist" style="display: none;background-color: white !important;">
                   	#set($count = $count + 1)
                     <td colspan="9"><div id="payment-grid" class="pymnthist">
                         <div id="payment-details" class="payment-details-class" style="border:0px">
-                          <table id="payment-details-table" class="tabular_data_wrap  nomargin status" cellspacing="1" border="0">
+                          <table id="payment-details-table" class="tabular_data_wrap  nomargin status"  style="color: #0C5DAB !important;padding-left:3px; background: #EFEFEF !important;border-right: 1px solid black;" cellspacing="1" border="0">
                             <tbody>
                               <tr style="height: 20px;" class="list_header">
-                                <td colspan="37" style="color: #0C5DAB !important;padding-left:3px; background: #EFEFEF !important;">Payment History </td>
+                                <td colspan="37" style="color: #0C5DAB !important;padding-left:3px; border-bottom: 1px solid black;background: #EFEFEF !important;">Payment History </td>
                               </tr>
+                              <tr>&nbsp;</tr>
 							  #set($map = $conscred.paymentHistMap)
 							  #set($i=1)
                               <tr class="list_header">
 							  #foreach($entry in $map.entrySet())
 							  #if($i == 1)
-                                <td style="color: #0C5DAB !important;text-align: left;padding-right:20px;padding-left:3px;background-color: #EFEFEF !important;">Year</td>
+                                <td style="color: #0C5DAB !important;text-align: left;padding-right:20px;padding-left:3px;border-bottom: 1px solid black;border-left: 1px solid black;background-color: #EFEFEF !important;">
+                                	<p style="color: #0C5DAB !important;">Y</p>
+                                	<p style="color: #0C5DAB !important;">E</p>
+                                	<p style="color: #0C5DAB !important;">A</p>
+                                	<p style="color: #0C5DAB !important;">R</p>
+                                </td>
 								#set($i=0)
 							  #end
-                                <td style="color: #0C5DAB !important;text-align: center;background-color: #EFEFEF !important;" colspan=$entry.Value.size()> $entry.Key </td>
+                                <td style="color: #0C5DAB !important;text-align: center;background-color: #EFEFEF !important;border-bottom: 1px solid black;border-left: 1px solid black;" colspan=$entry.Value.size()> $entry.Key </td>
                                #end
 							   #set($i=1)
                               </tr>
@@ -25,12 +31,16 @@
                               <tr class="list_header">
 							  #foreach($entry in $map.entrySet())
 							  #if($i == 1)
-                                <td style="color: #0C5DAB !important;padding-left:3px;background-color: #EFEFEF !important;">Month</td>
+                                <td style="color: #0C5DAB !important;padding-left:3px;background-color: #EFEFEF !important;border-bottom: 1px solid black;border-left: 1px solid black;">
+									<p style="color: #0C5DAB !important;">M</p>
+                                	<p style="color: #0C5DAB !important;">on</p>
+                                	<p style="color: #0C5DAB !important;">th</p>
+								</td>
 								#set($i=0)
 							  #end
 							  
 								#foreach($bpGrid in $entry.Value)
-                                <td style="color: #0C5DAB !important;text-align:center; padding-left:3px;background-color: #EFEFEF !important;">$bpGrid.Monthvalue </td>
+                                <td style="color: #0C5DAB !important;text-align:center; padding-left:3px;background-color: #EFEFEF !important;border-bottom: 1px solid black;border-left: 1px solid black;">$bpGrid.Monthvalue </td>
                                #end
 							   #end
 							   #set($i=1)
@@ -38,11 +48,15 @@
                               <tr class="list_header">
 							   #foreach($entry in $map.entrySet())
 							  #if($i == 1)
-                                <td style="color: #0C5DAB !important;padding-left:3px;background-color: #EFEFEF !important;">DPD</td>
+                                <td style="color: #0C5DAB !important;padding-left:3px;background-color: #EFEFEF !important;border-bottom: 1px solid black;border-left: 1px solid black;">
+									<p style="color: #0C5DAB !important;">D</p>
+                                	<p style="color: #0C5DAB !important;">P</p>
+                                	<p style="color: #0C5DAB !important;">D</p>
+								</td>
 								#set($i=0)
 							  #end
 							  #foreach($bpGrid in $entry.Value)
-                                <td style="color: #0C5DAB !important;padding-left:3px;text-align:center;background-color: #EFEFEF !important;"><span style="color:#0094D9;">$bpGrid.DaysPastDue</span> <span class="daysPastDueCtClass"></span></td>
+                                <td style="color: #0C5DAB !important;padding-left:3px;text-align:center;background-color: #EFEFEF !important;border-bottom: 1px solid black;border-left: 1px solid black;"><span style="color:#0C5DAB;">$bpGrid.DaysPastDue</span> <span class="daysPastDueCtClass"></span></td>
                                #end
 							   #end
                               </tr>

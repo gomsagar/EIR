@@ -1,554 +1,537 @@
-
 <div id="credit-account-details">
-              <h1> Consumer Credit Accounts </h1>
-              #set($conscreds = $responseInfo.ConsumerResponse.Conscred)
-				#set($count = 1)
-				#set($count1 = 1)
-				#set($countAcc = 1)
-			  #foreach($conscred in $conscreds)
-			   #set($countAcc=$countAcc+1)
-              <table class="tabular_data_wrap" style="table-layout:fixed;">
-              <tbody>
-			 
-				<tr class="list_header" style="color: #0C5DAB !important;">
-                    <td style="width:13%;padding-right: 15px;"></td>
-                    <td style="width:7%; padding-right: 10px;"></td>
-                    <td style="width:12%; padding-right: 20px;"></td>
-                    <td style="width:8%"></td>
-                    <td style="width:10%;padding-right: 31px;" class="txtright"></td>
-                    <td style="width:15%"></td>
-                    <td style="width:10%"></td>
-                    <td style="width:10%"></td>
-                    <td style="width:15%">Account $count1</td>
-                    #set($count1 = $count1 +1)
-                  </tr>
-                  <tr class="list_header" style="color: #0C5DAB !important;background-color: #EFEFEF !important;">
-                    <td style="width:13%;padding-right: 15px;">Account<br>Number</td>
-                    <td style="width:7%; padding-right: 10px;">Date Reported</td>
-                    <td style="width:12%; padding-right: 20px;">Account Type</td>
-                    <td style="width:8%">Account Status</td>
-                    <td style="width:10%;padding-right: 31px;" class="txtright">Current<br>Balance </td>
-                    <td style="width:15%">Credit Provider</td>
-                    <td style="width:10%">Account<br>Responsibility</td>
-                    <td style="width:10%">Payment Status</td>
-                    <td style="width:15%">Click to View</td>
-                  </tr>
-                  
-				        #set($size = $conscred.Bpaygrid.size())
-				        #set($size = $size - 1)
-                  
-					<tr class="list listh">
-                    <td style="width:13%;padding-right: 15px;word-wrap: break-word;">#set($value="#emptyDataCheck($conscred.AccountNumber)")$value</td>
-                    <td style="width:7%">#set($value="#emptyDataCheck($conscred.Bpaygrid.get($size).HDETAILS.AccountDate)")$value</td> 
-                    <td style="width:12%">#set($value="#emptyDataCheck($conscred.AccountType)")$value </td>
-                    <td style="width:8%">#set($value="#emptyDataCheck($conscred.AccountStatus)")$value</td>
-                    <td style="width:10%;padding-right: 8px;" class="txtright">#set($value="#emptyDataCheck($conscred.CurrentBalance)")$value</td>
-                    <td style="width:15%"> #set($value="#emptyDataCheck($conscred.CREDITOR.CreditorName)")$value </td>
-                    <td style="width:10%">#set($value="#emptyDataCheck($conscred.AccountFinRespTypeCd)")$value</td>
-                   <td style="width:10%">$!payStatus.paymentStat($conscred.Bpaygrid.get($size).HDETAILS.PaymentStatus)</td>
-                   <td style="width:15%"><a id="showPH" class="paymentDetailsD" onClick="callPaymentHist($count)">Payment History</a> <br>
-                      <a id="showAccountDTL" class="showAccountDTL" onClick="callAccountDetail($countAcc)">Account Details</a></td>
-                  </tr>		  
-					                 
-                 #parse("/vmFiles/consumer_VmFiles/PaymentHist.vm")
-                  
-                  
-                  #set($bpaygrid = $conscred.Bpaygrid.get($size))
-                  
-               
-				  <tr class="accountDetails" id=ar$countAcc style="display: none;background-color: #EFEFEF; !important">
-                    <td colspan="9"><div style="height: 20px;"></div>
-					<div style="width: 100%;">
-					  
-                        <table id="acctable" style="width: 100%; background-color: #EFEFEF !important;">
-                          <tbody>
-                            <tr>
-                              <th style="text-align: left; padding-left: 2px;color:#0C5DAB; background-color: #EFEFEF;" colspan="4"> Account Details</th>
-                            </tr>
-                            <tr>
-                              <td style="border-right: 1px solid #eeeeee;width:33%" valign="top"><table>
-                                  <tbody>
-                                    <tr>
-                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Account Type Detail:</td>
-                                      <td style="background-color: #EFEFEF !important;">$!accType.accountType($!conscred.AccountType)</td>
-                                    </tr>
-                                    <tr>
-                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Account Status Detail:</td>
-                                      <td style="background-color: #EFEFEF !important;">#set($value="#emptyDataCheck($conscred.AccountStatus)")$value</td>
-                                    </tr>
-                                    <tr>
-                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Payment Status Detail:</td>
-                                      <td style="background-color: #EFEFEF !important;">#set($value="#emptyDataCheck($bpaygrid.PaymentStatus)")$value</td>
-                                    </tr>
-                                    <tr>
-                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Terms:</td>
-                                      <td style="background-color: #EFEFEF !important;">#set($value="#emptyDataCheck($bpaygrid.terms)")$value</td>
-                                    </tr>
-                                    <tr>
-                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Open Date:</td>
-                                      <td style="background-color: #EFEFEF !important;">#set($value="#emptyDataCheck($conscred.AccountOpenDate)")$value</td>
-                                    </tr>
-                                    <tr>
-                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Close Date:</td>
-                                      <td style="background-color: #EFEFEF !important;">#set($value="#emptyDataCheck($conscred.AccountClosedDate)")$value</td>
-                                    </tr>
-                                    <tr>
-                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Last Payment Date:</td>
-                                      <td style="background-color: #EFEFEF !important;">#set($value="#emptyDataCheck($bpaygrid.HDETAILS.LastPaymentDate)")$value</td>
-                                    </tr>
-                                  </tbody>
-                                </table></td>
-                              <td style="border-right: 1px solid #eeeeee;width:30%" valign="top"><table>
-                                  <tbody>
-	                                    <tr>
-	                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Credit Extended:</td>
-	                                      <td style="background-color: #EFEFEF !important;text-align: right !important;"> #set($value="#emptyDataCheck($bpaygrid.HDETAILS.CreditExtendedAmt)")$value</td>
-	                                    </tr>
-	                                    <tr>
-	                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Highest Credit:</td>
-	                                      <td style="background-color: #EFEFEF !important;text-align: right !important;">#set($value="#emptyDataCheck($bpaygrid.HDETAILS.HighCreditAmt)")$value</td>
-	                                    </tr>
-	                                    <tr>
-	                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Cash Limit:</td>
-	                                      <td style="background-color: #EFEFEF !important;text-align: right !important;">#set($value="#emptyDataCheck($bpaygrid.HDETAILS.IndiaCashLimitAmt)")$value</td>
-	                                    </tr>
-	                                    <tr>
-	                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Credit Limit:</td>
-	                                      <td style="background-color: #EFEFEF !important;text-align: right !important;"> #set($value="#emptyDataCheck($bpaygrid.HDETAILS.IndiaCreditLimitAmt)")$value</td>
-	                                    </tr>
-	                                    <tr>
-	                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Last Payment Amount:</td>
-	                                      <td style="background-color: #EFEFEF !important;text-align: right !important;">#set($value="#emptyDataCheck($bpaygrid.HDETAILS.LastPaymentAmt)")$value</td>
-	                                    </tr>
-	                                    <tr>
-	                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Amount Overdue:</td>
-	                                      <td style="background-color: #EFEFEF !important;text-align: right !important;">#set($value="#emptyDataCheck($bpaygrid.HDETAILS.IndiaAmountPastDue)")$value</td>
-	                                    </tr>
-                                  </tbody>
-                                </table></td>
-                              <td style="width:37%" valign="top"><table>
-                            <tbody>
-                                    <tr>
-                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important; width: 50%">Type of Collateral:</td>
-                                      <td style="background-color: #EFEFEF !important;>#set($value="#emptyDataCheck($bpaygrid.PAYTERMS.Collateral)")$value</td>
-                                    </tr>
-                                    <tr>
-                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important; width: 50%">Collateral Value:</td>
-                                      <td style="background-color: #EFEFEF !important;text-align: right !important;">#set($value="#emptyDataCheck($conscred.PAYTERMS.CollateralAmt)")$value</td>
-                                    </tr>
-                                    <tr>
-                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important; width: 50%">Rate of Interest:</td>
-                                      <td style="background-color: #EFEFEF !important;text-align:right !important;">#set($value="#emptyDataCheck($bpaygrid.PAYTERMS.InterestRate)")$value</td>
-                                    </tr>
-                                    <tr>
-                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important; width: 50%">Settlement Amount:</td>
-                                      <td style="background-color: #EFEFEF !important;text-align: right !important;">#set($value="#emptyDataCheck($bpaygrid.HDETAILS.IndiaSettlAmt)")$value</td>
-                                    </tr>
-                                    <tr>
-                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Total Write-off Amount:</td>
-                                      <td style="background-color: #EFEFEF !important;text-align: right !important;">#set($value="#emptyDataCheck($bpaygrid.HDETAILS.IndiaTotWriteOffAmt)")$value</td>
-                                    </tr>
-                                    <tr>
-                                      <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Principal Write-off Amount:</td>
-                                      <td style="background-color: #EFEFEF !important;text-align: right !important;">#set($value="#emptyDataCheck($bpaygrid.HDETAILS.IndiaPrincWriteOffAmt)")$value</td>
-                                    </tr>
-                                  </tbody>
-                           </table>
-						</td>
-							</tr>
-                          </tbody>
-                        </table>
-                      </div>
-				</td>
-				</tr>
-				
-		
-				<!-- Account Details End --> 
-				
-                  <!-- Borrower Details Start -->
-               
-				#set($borrowers = $conscred.BORROWER)
-			    #foreach($borrower in $borrowers)
-                  <tr id=br$countAcc class="sublist" style="display: none;background-color: #EFEFEF; !important">
-                 	   
-					<td colspan="9"><div style="height: 20px;"></div>
-					<div style="width: 100%;">
-                        <table id="borrower" style="width: 100%;">
-                          <tbody>
-							<tr>
-                              <th style="text-align: left; padding-left: 2px; background-color: #EFEFEF;color:#0C5DAB;" colspan="8"> Borrower Details </th>
-                            </tr>
-                            <tr class="list_header" style="color: #0C5DAB !important;">
-                              <td style="width:16%;">Personal Information</td>
-                              <td style="width:13%">Addresses</td>
-                              <td style="width:16%">Contact Info</td>
-                              <td style="width:12%">Occupation</td>
-							  <td style="width:16%">ID Card Type</td>
-                              <td style="width:25%">ID Card Num</td>
-                              <td style="width:13%">Issue Date</td>
-                              <td style="width:20%; padding-left: 26px;">Expiry Date</td>
-                            </tr>
-							
-	                        	
-					<tr class="list listpds" style="background-color: white;">
-					<td style="padding-left: 5px; padding-top:0px;"> 
-				     <table>
-                        <tbody>
+   <h1> Consumer Credit Accounts </h1>
+   #set($conscreds = $responseInfo.ConsumerResponse.Conscred)
+   #set($count = 1)
+   #set($count1 = 1)
+   #set($countAcc = 1)
+   #foreach($conscred in $conscreds)
+   #set($countAcc=$countAcc+1)
+   <table class="tabular_data_wrap" style="table-layout:fixed;">
+      <tbody>
+         <tr class="list_header" style="color: #0C5DAB !important;">
+            <td style="width:13%;padding-right: 15px;"></td>
+            <td style="width:7%; padding-right: 10px;"></td>
+            <td style="width:12%; padding-right: 20px;"></td>
+            <td style="width:8%"></td>
+            <td style="width:10%;padding-right: 31px;" class="txtright"></td>
+            <td style="width:15%"></td>
+            <td style="width:10%"></td>
+            <td style="width:10%"></td>
+            <td style="width:15%">Account $count1</td>
+            #set($count1 = $count1 +1)
+         </tr>
+         <tr class="list_header" style="color: #0C5DAB !important;background-color: #EFEFEF !important;">
+            <td style="width:13%;padding-right: 15px;">Account<br>Number</td>
+            <td style="width:7%; padding-right: 10px;">Date Reported</td>
+            <td style="width:12%; padding-right: 20px;">Account Type</td>
+            <td style="width:8%">Account Status</td>
+            <td style="width:10%;padding-right: 31px;" class="txtright">Current<br>Balance </td>
+            <td style="width:15%">Credit Provider</td>
+            <td style="width:10%">Account<br>Responsibility</td>
+            <td style="width:10%">Payment Status</td>
+            <td style="width:15%">Click to View</td>
+         </tr>
+         #set($size = $conscred.Bpaygrid.size())
+         #set($size = $size - 1)
+         <tr class="list listh">
+            <td style="width:13%;padding-right: 15px;word-wrap: break-word;">#set($value="#emptyCheckData($conscred.AccountNumber)")$value</td>
+            <td style="width:7%">#set($value="#emptyCheckData($conscred.Bpaygrid.get($size).HDETAILS.AccountDate)")$value</td>
+            <td style="width:12%">#set($value="#emptyCheckData($conscred.AccountType)")$value </td>
+            <td style="width:8%">#set($value="#emptyCheckData($conscred.AccountStatus)")$value</td>
+            <td style="width:10%;padding-right: 8px;" class="txtright">#set($value="#emptyCheckData($conscred.CurrentBalance)")$value</td>
+            <td style="width:15%"> #set($value="#emptyCheckData($conscred.CREDITOR.CreditorName)")$value </td>
+            <td style="width:10%">#set($value="#emptyCheckData($conscred.AccountFinRespTypeCd)")$value</td>
+            <td style="width:10%">$!payStatus.paymentStat($conscred.Bpaygrid.get($size).HDETAILS.PaymentStatus)</td>
+            <td style="width:15%"><a id="showPH" class="paymentDetailsD" onClick="callPaymentHist($count)">Payment History</a> <br>
+               <a id="showAccountDTL" class="showAccountDTL" onClick="callAccountDetail($countAcc)">Account Details</a>
+            </td>
+         </tr>
+         #parse("/vmFiles/consumer_VmFiles/PaymentHist.vm")
+         #set($bpaygrid = $conscred.Bpaygrid.get($size))
+         <tr class="accountDetails" id=ar$countAcc style="display: none;background-color: #EFEFEF; !important">
+            <td colspan="9">
+               <div style="height: 20px;"></div>
+               <div style="width: 100%;">
+                  <table id="acctable" style="width: 100%; background-color: #EFEFEF !important;">
+                     <tbody>
                         <tr>
-						#set($borrowernms = $borrower.BORROWERNM)
-				        #foreach($borrowernm in $borrowernms)   
-	                         <td style="padding:0px;">
-                        	                   
-								<table>
-									<tbody>
-									#set($value="#emptyDataCheck($borrowernm.FirstGivenName)")
-									#set($name="#trimVar($value)")
-									#set($name=$StringUtils.deleteWhitespace($name))
-									#if($name != 0)	
-									<tr>
-										<td style="padding-top:0px;">$value</td>
-									</tr>
-									#end
-									
-									#set($value="#emptyDataCheck($borrowernm.MiddleName)")
-									#set($name="#trimVar($value)")
-									#set($name=$StringUtils.deleteWhitespace($name))
-									#if($name != 0)
-									<tr>
-										<td style="padding-top:0px;">$value</td>
-									</tr>
-									#end
-									
-									#set($value="#emptyDataCheck($borrowernm.OtherMiddleNames)")
-									#set($name="#trimVar($value)")
-									#set($name=$StringUtils.deleteWhitespace($name))
-									#if($name != 0)
-									<tr>
-										<td style="padding-top:0px;">$value</td>
-									</tr>
-									#end
-									#set($value="#emptyDataCheck($borrowernm.IndiaMiddleName3)")
-									#set($name="#trimVar($value)")
-									#set($name=$StringUtils.deleteWhitespace($name))
-									#if($name != 0)
-									<tr>
-										<td style="padding-top:0px;">$value</td>
-									</tr>
-									#end
-									#set($value="#emptyDataCheck($borrowernm.FamilyName)")
-									#set($name="#trimVar($value)")
-									#set($name=$StringUtils.deleteWhitespace($name))
-									#if($name != 0)
-									<tr>
-										<td style="padding-top:0px;">$value</td>
-									</tr>
-								#end
-									</tbody>
-								</table>
-							</td>
-							#end
-                          </tr>
-                          <tr>
-                            <td style="padding-top:0px;">#set($value="#emptyDataCheck($borrower.Gender)")$value</td>
-                          </tr>
-                          
-                          <tr>
-                            <td style="padding-top:0px;">#set($value="#emptyDataCheck($borrower.DOB)")$value</td>
-                          </tr>
-                          <tr> </tr>
-                          <tr> </tr>
-                         
-                        </tbody>
-                      </table>
-					  </td>
-					  <td style="padding-top: 0px;">
-	                    #set($borrowerads = $borrower.BORROWERAD)
-					    #foreach($borrowerad in $borrowerads)
-							<table>
-		                        <tbody>
-		                        #set($value="#emptyDataCheck($borrowerad.IndiaAddressL1)")
-								#set($name="#trimVar($value)")
-								#set($name=$StringUtils.deleteWhitespace($name))
-								#if($name != 0)
-		                        	<tr>
-		                            	<td style="padding-top:0px;">$value</td>
-									</tr>
-								#end
-								#set($value="#emptyDataCheck($borrowerad.IndiaAddressL2)")
-								#set($name="#trimVar($value)")
-								#set($name=$StringUtils.deleteWhitespace($name))
-								#if($name != 0)
-									<tr>
-			                            <td style="padding-top:0px;">$value</td>
-									</tr>
-								#end
-								#set($value="#emptyDataCheck($borrowerad.IndiaAddressL3)")
-								#set($name="#trimVar($value)")
-								#set($name=$StringUtils.deleteWhitespace($name))
-								#if($name != 0)
-									<tr>
-			                            <td style="padding-top:0px;">$value</td>
-									</tr>
-									#end
-									#set($value="#emptyDataCheck($borrowerad.PostalCode)")
-									#set($name="#trimVar($value)")
-									#set($name=$StringUtils.deleteWhitespace($name))
-									#if($name != 0)
-									<tr>
-			                            <td style="padding-top:0px;">$value</td>
-									</tr>
-									#end
-									#set($value="#emptyDataCheck($borrowerad.LocalityName)")
-									#set($name="#trimVar($value)")
-									#set($name=$StringUtils.deleteWhitespace($name))
-									#if($name != 0)
-									<tr>
-			                            <td style="padding-top:0px;">$value</td>
-									</tr>
-									#end
-									#set($value="#emptyDataCheck($borrowerad.RegionCode)")
-									#set($name="#trimVar($value)")
-									#set($name=$StringUtils.deleteWhitespace($name))
-									#if($name != 0)
-										<tr>
-				                            <td style="padding-top:0px;">$value</td>
-										</tr>
-									#end
-		                        </tbody>
-		                      </table>
-                    	  #end
-                      </td>
-					  <td style="padding-top:0px;">
-                    	#set($borrowerphs = $borrower.BORROWERPH)
-                           	#foreach($borrowerph in $borrowerphs)
-                        	#set($phoneType = $borrowerph.PhoneType)
-                        	#set($value="#emptyDataCheck($borrowerph.PhoneNumber)")
-                    		<table>
-                        		<tbody>
-	                            #if($phoneType == "1")
-		                          <tr>
-		                            <td style="padding-top:0px;">$value(H)</td>
-		                          </tr>
-		                        #elseif($phoneType == "6")
-								  <tr>
-		                            <td style="padding-top:0px;">$value(M)</td>
-		                          </tr>
-		                        #elseif($phoneType == "3")
-								  <tr>
-		                            <td style="padding-top:0px;">$value(O)</td>
-		                          </tr>
-		                        #elseif($phoneType == "7")
-								  <tr>
-		                            <td style="padding-top:0px;">$value(OT)</td>
-		                          </tr>
-		                          #elseif($phoneType == "" && $value != "")
-								  <tr>
-		                            <td style="padding-top:0px;">$value</td>
-		                          </tr>
-	                       	   #end
-	                       
-                        </tbody>
-                      </table>
-                       #end
-                      </td>
-                      
-                      <td style="padding-top:0px;"><table>
-                        <tbody>     
-                          <tr> 
-                          #set($value="#emptyDataCheck($borrower.OccYearsEmployed)")
-                          #set($value=$StringUtils.deleteWhitespace($value))
-                          	#if($value != "-")
-                          		<td style="padding-top:0px;">Years Employed &nbsp;$value</td>
-                          	#end
-                          	</tr>
-                          <tr>
-                          #set($value="#emptyDataCheck($borrower.OccMonthsEmployed)")
-                          #set($value=$StringUtils.deleteWhitespace($value))
-                          #if($value != "-")
-                          <td style="padding-top:0px;">Months Employed &nbsp;$value</td> 
-                          #end
-                          </tr>
-                          <tr>
-                          #set($value="#emptyDataCheck($borrower.NetMontlyIncome)")
-                          #set($value=$StringUtils.deleteWhitespace($value))
-                           #if($value != "-")
-                          <td style="padding-top:0px;">Net Monthly Income &nbsp;$value</td>
-                          #end
-                           </tr>
-                        </tbody>
-                      </table></td>
-                      
-					  <td style="padding-top:0px;">#set($bidcards=$borrower.BIDCARDS)
-                   		 #foreach($bidcard in $bidcards)
-                   		 	#set($idType = $bidcard.IdNumberType)
-	                   		 <table id="card-type">
-	                        	<tbody>
-	                        	 #if($idType == "10")
-			                          <tr height="26px">
-			                            <td style="padding-top:0px;">PAN</td>
-			                          </tr>
-						         #elseif($idType == "7")
-			                          <tr height="26px">
-			                            <td style="padding-top:0px;">VOTER ID</td>
-			                          </tr>
-								 #elseif($idType == "1")	
-			                          <tr height="26px">
-			                            <td style="padding-top:0px;">D/L</td>
-			                          </tr>
-								 #elseif($idType == "11")	
-			                          <tr height="26px">
-			                            <td style="padding-top:0px;">RATION CARD</td>
-			                          </tr>
-								 #elseif($idType == "4")	
-			                          <tr height="26px">
-			                            <td style="padding-top:0px;">Passport Number</td>
-			                          </tr>
-								 #elseif($idType == "12")	
-			                          <tr height="26px">
-			                            <td style="padding-top:0px;">AADHAR</td>
-			                          </tr>
-			                     #elseif($idType == "19")	
-			                          <tr height="26px">
-			                            <td style="padding-top:0px;">Account Number</td>
-			                          </tr>
-								   #end
-								   </tbody>
-                      			</table>
-							 #end
-                        </td>
-                    <td>
-						  #foreach($bidcard in $bidcards)
-                        	#set($idType = $bidcard.IdNumberType)
-                        	#set($idNum="#emptyDataCheck($bidcard.IndiaIdNumber)")
-                        	<table id="card-num">
-                        	<tbody>
-                        	 #if($idType == "10")
-		                          <tr height="26px">
-		                            <td style="padding-top:0px;">$idNum</td>
-		                          </tr>
-							 #elseif($idType == "7")	
-		                          <tr height="26px">
-		                            <td style="padding-top:0px;">$idNum</td>
-		                          </tr>
-							 #elseif($idType == "1")	
-		                          <tr height="26px">
-		                            <td style="padding-top:0px;">$idNum</td>
-		                          </tr>
-							 #elseif($idType == "11")	
-		                          <tr height="26px">
-		                            <td style="padding-top:0px;">$idNum</td>
-		                          </tr>
-							 #elseif($idType == "4")	
-		                          <tr height="26px">
-		                            <td style="padding-top:0px;">$idNum</td>
-		                          </tr>
-							 #elseif($idType == "12")	
-		                          <tr height="26px">
-		                            <td style="padding-top:0px;">$idNum</td>
-		                          </tr>
-		                     #elseif($idType == "19")	
-		                          <tr height="26px">
-		                            <td style="padding-top:0px;">$idNum</td>
-		                          </tr>
-							 #end
-	                        </tbody>
-	                      </table>
-                      #end
-                      </td>
-                      <td>
-                          #foreach($bidcard in $bidcards)
-                        	#set($idType = $bidcard.IdNumberType)
-                        	#set($issueDt="#emptyDataCheck($bidcard.IdIssueDate)")
-	                        	<table id="card-num">
-	                        		<tbody>
-			                        	 #if($idType == "10")
-					                          <tr height="26px">
-					                            <td style="padding-top:0px;">$issueDt</td>
-					                          </tr>
-										#elseif($idType == "7")	
-					                          <tr height="26px">
-					                            <td style="padding-top:0px;">$issueDt</td>
-					                          </tr>
-										#elseif($idType == "1")	
-					                          <tr height="26px">
-					                            <td style="padding-top:0px;">$issueDt</td>
-					                          </tr>
-										#elseif($idType == "11")	
-					                          <tr height="26px">
-					                            <td style="padding-top:0px;">$issueDt</td>
-					                          </tr>
-										#elseif($idType == "4")	
-					                          <tr height="26px">
-					                            <td style="padding-top:0px;">$issueDt</td>
-					                          </tr>
-										#elseif($idType == "12")	
-					                          <tr height="26px">
-					                            <td style="padding-top:0px;">$issueDt</td>
-					                          </tr>
-					                    #elseif($idType == "19")	
-					                          <tr height="26px">
-					                            <td style="padding-top:0px;">$issueDt</td>
-					                          </tr>
-									  	#end
-							
-	                       		 	</tbody>
-	                     		 </table>
-	                      #end
-                      </td>
-                      
-                      <td style="padding-right: 5px;background: white !important;">
-                          #foreach($bidcard in $bidcards)
-                        	#set($idType = $bidcard.IdNumberType)
-                        	#set($expDt="#emptyDataCheck($bidcard.IdExpirationDate)")
-                        	<table id="card-num" style="background: white !important;">
-                       		 <tbody>
-	                        	 #if($idType == "10")
-			                          <tr height="26px">
-			                            <td style="padding-top:0px;">$expDt</td>
-			                          </tr>
-								#elseif($idType == "7")	
-			                          <tr height="26px">
-			                            <td style="padding-top:0px;">$expDt</td>
-			                          </tr>
-								#elseif($idType == "1")	
-			                          <tr height="26px">
-			                            <td style="padding-top:0px;">$expDt</td>
-			                          </tr>
-								#elseif($idType == "11")	
-			                          <tr height="26px">
-			                            <td style="padding-top:0px;">$expDt</td>
-			                          </tr>
-								#elseif($idType == "4")	
-			                          <tr height="26px">
-			                            <td style="padding-top:0px;">$expDt</td>
-			                          </tr>
-								#elseif($idType == "12")	
-			                          <tr height="26px">
-			                            <td style="padding-top:0px;">$expDt</td>
-			                          </tr>
-			                    #elseif($idType == "19")	
-			                          <tr height="26px">
-			                            <td style="padding-top:0px;">$expDt</td>
-			                          </tr>
-							   #end
-		                        </tbody>
-		                      </table>
-	                      #end
-                      </td>
-				  
-					 
-					</tr>
-					#end
-						  </tbody>
-                        </table>
-					</div>
-					</td>
-				</tr>
-				
-				<tr class="list_header">
-                    <td style="width:100%" colspan="12"><hr></td>
-                  </tr>
-				</tbody>
-				</table>
-				 #end
+                           <th style="text-align: left; padding-left: 2px;color:#0C5DAB; background-color: #EFEFEF;" colspan="4"> Account Details</th>
+                        </tr>
+                        <tr>
+                           <td style="border-right: 1px solid #eeeeee;width:33%" valign="top">
+                              <table>
+                                 <tbody>
+                                    <tr>
+                                       <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Account Type Detail:</td>
+                                       <td style="background-color: #EFEFEF !important;">$!accType.accountType($!conscred.AccountType)</td>
+                                    </tr>
+                                    <tr>
+                                       <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Account Status Detail:</td>
+                                       <td style="background-color: #EFEFEF !important;">#set($value="#emptyCheckData($conscred.AccountStatus)")$value</td>
+                                    </tr>
+                                    <tr>
+                                       <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Payment Status Detail:</td>
+                                       <td style="background-color: #EFEFEF !important;">#set($value="#emptyCheckData($bpaygrid.PaymentStatus)")$value</td>
+                                    </tr>
+                                    <tr>
+                                       <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Terms:</td>
+                                       <td style="background-color: #EFEFEF !important;">#set($value="#emptyCheckData($bpaygrid.terms)")$value</td>
+                                    </tr>
+                                    <tr>
+                                       <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Open Date:</td>
+                                       <td style="background-color: #EFEFEF !important;">#set($value="#emptyCheckData($conscred.AccountOpenDate)")$value</td>
+                                    </tr>
+                                    <tr>
+                                       <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Close Date:</td>
+                                       <td style="background-color: #EFEFEF !important;">#set($value="#emptyCheckData($conscred.AccountClosedDate)")$value</td>
+                                    </tr>
+                                    <tr>
+                                       <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Last Payment Date:</td>
+                                       <td style="background-color: #EFEFEF !important;">#set($value="#emptyCheckData($bpaygrid.HDETAILS.LastPaymentDate)")$value</td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </td>
+                           <td style="border-right: 1px solid #eeeeee;width:30%" valign="top">
+                              <table>
+                                 <tbody>
+                                    <tr>
+                                       <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Credit Extended:</td>
+                                       <td style="background-color: #EFEFEF !important;text-align: right !important;"> #set($value="#emptyCheckData($bpaygrid.HDETAILS.CreditExtendedAmt)")$value</td>
+                                    </tr>
+                                    <tr>
+                                       <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Highest Credit:</td>
+                                       <td style="background-color: #EFEFEF !important;text-align: right !important;">#set($value="#emptyCheckData($bpaygrid.HDETAILS.HighCreditAmt)")$value</td>
+                                    </tr>
+                                    <tr>
+                                       <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Cash Limit:</td>
+                                       <td style="background-color: #EFEFEF !important;text-align: right !important;">#set($value="#emptyCheckData($bpaygrid.HDETAILS.IndiaCashLimitAmt)")$value</td>
+                                    </tr>
+                                    <tr>
+                                       <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Credit Limit:</td>
+                                       <td style="background-color: #EFEFEF !important;text-align: right !important;"> #set($value="#emptyCheckData($bpaygrid.HDETAILS.IndiaCreditLimitAmt)")$value</td>
+                                    </tr>
+                                    <tr>
+                                       <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Last Payment Amount:</td>
+                                       <td style="background-color: #EFEFEF !important;text-align: right !important;">#set($value="#emptyCheckData($bpaygrid.HDETAILS.LastPaymentAmt)")$value</td>
+                                    </tr>
+                                    <tr>
+                                       <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Amount Overdue:</td>
+                                       <td style="background-color: #EFEFEF !important;text-align: right !important;">#set($value="#emptyCheckData($bpaygrid.HDETAILS.IndiaAmountPastDue)")$value</td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </td>
+                           <td style="width:37%" valign="top">
+                              <table>
+                                 <tbody>
+                                    <tr>
+                                       <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important; width: 50%">Type of Collateral:</td>
+                                       <td style="background-color: #EFEFEF !important;>#set($value="#emptyCheckData($bpaygrid.PAYTERMS.Collateral)")$value</td>
+                                    </tr>
+                                    <tr>
+                                       <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important; width: 50%">Collateral Value:</td>
+                                       <td style="background-color: #EFEFEF !important;text-align: right !important;">#set($value="#emptyCheckData($conscred.PAYTERMS.CollateralAmt)")$value</td>
+                                    </tr>
+                                    <tr>
+                                       <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important; width: 50%">Rate of Interest:</td>
+                                       <td style="background-color: #EFEFEF !important;text-align:right !important;">#set($value="#emptyCheckData($bpaygrid.PAYTERMS.InterestRate)")$value</td>
+                                    </tr>
+                                    <tr>
+                                       <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important; width: 50%">Settlement Amount:</td>
+                                       <td style="background-color: #EFEFEF !important;text-align: right !important;">#set($value="#emptyCheckData($bpaygrid.HDETAILS.IndiaSettlAmt)")$value</td>
+                                    </tr>
+                                    <tr>
+                                       <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Total Write-off Amount:</td>
+                                       <td style="background-color: #EFEFEF !important;text-align: right !important;">#set($value="#emptyCheckData($bpaygrid.HDETAILS.IndiaTotWriteOffAmt)")$value</td>
+                                    </tr>
+                                    <tr>
+                                       <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Principal Write-off Amount:</td>
+                                       <td style="background-color: #EFEFEF !important;text-align: right !important;">#set($value="#emptyCheckData($bpaygrid.HDETAILS.IndiaPrincWriteOffAmt)")$value</td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+            </td>
+         </tr>
+         <!-- Account Details End --> 
+         <!-- Borrower Details Start -->
+         #set($borrowers = $conscred.BORROWER)
+         #foreach($borrower in $borrowers)
+         <tr id=br$countAcc class="sublist" style="display: none;background-color: #EFEFEF !important;">
+            <td colspan="9">
+               <div style="height: 20px;"></div>
+               <div style="width: 100%;">
+                  <table id="borrower" style="width: 100%;">
+                     <tbody>
+                        <tr>
+                           <th style="text-align: left; padding-left: 2px; background-color: #EFEFEF;color:#0C5DAB;" colspan="8"> Borrower Details </th>
+                        </tr>
+                        <tr class="list_header" style="color: #0C5DAB !important;">
+                           <td style="width:16%;">Personal Information</td>
+                           <td style="width:13%">Addresses</td>
+                           <td style="width:16%">Contact Info</td>
+                           <td style="width:12%">Occupation</td>
+                           <td style="width:16%">ID Card Type</td>
+                           <td style="width:25%">ID Card Num</td>
+                           <td style="width:13%">Issue Date</td>
+                           <td style="width:20%; padding-left: 26px;">Expiry Date</td>
+                        </tr>
+                        <tr class="list listpds" style="background-color: #EFEFEF !important;">
+                           <td style="padding-left: 5px; padding-top:0px;">
+                              <table>
+                                 <tbody>
+                                    <tr>
+                                       #set($borrowernms = $borrower.BORROWERNM)
+                                       #foreach($borrowernm in $borrowernms)   
+                                       <td style="padding:0px;">
+                                          <table>
+                                             <tbody>
+                                                #set($value="#emptyCheckData($borrowernm.FirstGivenName)")
+                                                #set($name="#trimVar($value)")
+                                                #set($name=$StringUtils.deleteWhitespace($name))
+                                                 #if($name !=" ")	
+                                                <tr>
+                                                   <td style="padding-top:0px;">$value</td>
+                                                </tr>
+                                                #end
+                                                #set($value="#emptyCheckData($borrowernm.MiddleName)")
+                                                #set($name="#trimVar($value)")
+                                                #set($name=$StringUtils.deleteWhitespace($name))
+                                                 #if($name !=" ")
+                                                <tr>
+                                                   <td style="padding-top:0px;">$value</td>
+                                                </tr>
+                                                #end
+                                                #set($value="#emptyCheckData($borrowernm.OtherMiddleNames)")
+                                                #set($name="#trimVar($value)")
+                                                #set($name=$StringUtils.deleteWhitespace($name))
+                                                 #if($name !=" ")
+                                                <tr>
+                                                   <td style="padding-top:0px;">$value</td>
+                                                </tr>
+                                                #end
+                                                #set($value="#emptyCheckData($borrowernm.IndiaMiddleName3)")
+                                                #set($name="#trimVar($value)")
+                                                #set($name=$StringUtils.deleteWhitespace($name))
+                                                 #if($name !=" ")
+                                                <tr>
+                                                   <td style="padding-top:0px;">$value</td>
+                                                </tr>
+                                                #end
+                                                #set($value="#emptyCheckData($borrowernm.FamilyName)")
+                                                #set($name="#trimVar($value)")
+                                                #set($name=$StringUtils.deleteWhitespace($name))
+                                                 #if($name !=" ")
+                                                <tr>
+                                                   <td style="padding-top:0px;">$value</td>
+                                                </tr>
+                                                #end
+                                             </tbody>
+                                          </table>
+                                       </td>
+                                       #end
+                                    </tr>
+                                    <tr>
+                                       <td style="padding-top:0px;">#set($value="#emptyCheckData($borrower.Gender)")$value</td>
+                                    </tr>
+                                    <tr>
+                                       <td style="padding-top:0px;">#set($value="#emptyCheckData($borrower.DOB)")$value</td>
+                                    </tr>
+                                    <tr> </tr>
+                                    <tr> </tr>
+                                 </tbody>
+                              </table>
+                           </td>
+                           <td style="padding-top: 0px;">
+                              #set($borrowerads = $borrower.BORROWERAD)
+                              #foreach($borrowerad in $borrowerads)
+                              <table>
+                                 <tbody>
+                                    #set($value="#emptyCheckData($borrowerad.IndiaAddressL1)")
+                                    #set($name="#trimVar($value)")
+                                    #set($name=$StringUtils.deleteWhitespace($name))
+                                     #if($name !=" ")
+                                    <tr>
+                                       <td style="padding-top:0px;">$value</td>
+                                    </tr>
+                                    #end
+                                    #set($value="#emptyCheckData($borrowerad.IndiaAddressL2)")
+                                    #set($name="#trimVar($value)")
+                                    #set($name=$StringUtils.deleteWhitespace($name))
+                                     #if($name !=" ")
+                                    <tr>
+                                       <td style="padding-top:0px;">$value</td>
+                                    </tr>
+                                    #end
+                                    #set($value="#emptyCheckData($borrowerad.IndiaAddressL3)")
+                                    #set($name="#trimVar($value)")
+                                    #set($name=$StringUtils.deleteWhitespace($name))
+                                     #if($name !=" ")
+                                    <tr>
+                                       <td style="padding-top:0px;">$value</td>
+                                    </tr>
+                                    #end
+                                    #set($value="#emptyCheckData($borrowerad.PostalCode)")
+                                    #set($name="#trimVar($value)")
+                                    #set($name=$StringUtils.deleteWhitespace($name))
+                                     #if($name !=" ")
+                                    <tr>
+                                       <td style="padding-top:0px;">$value</td>
+                                    </tr>
+                                    #end
+                                    #set($value="#emptyCheckData($borrowerad.LocalityName)")
+                                    #set($name="#trimVar($value)")
+                                    #set($name=$StringUtils.deleteWhitespace($name))
+                                     #if($name !=" ")
+                                    <tr>
+                                       <td style="padding-top:0px;">$value</td>
+                                    </tr>
+                                    #end
+                                    #set($value="#emptyCheckData($borrowerad.RegionCode)")
+                                    #set($name="#trimVar($value)")
+                                    #set($name=$StringUtils.deleteWhitespace($name))
+                                     #if($name !=" ")
+                                    <tr>
+                                       <td style="padding-top:0px;">$value</td>
+                                    </tr>
+                                    #end
+                                 </tbody>
+                              </table>
+                              #end
+                           </td>
+                           <td style="padding-top:0px;">
+                              #set($borrowerphs = $borrower.BORROWERPH)
+                              #foreach($borrowerph in $borrowerphs)
+                              #set($phoneType = $borrowerph.PhoneType)
+                              #set($value="#emptyCheckData($borrowerph.PhoneNumber)")
+                              <table>
+                                 <tbody>
+                                    #if($phoneType == "1")
+                                    <tr>
+                                       <td style="padding-top:0px;">$value(H)</td>
+                                    </tr>
+                                    #elseif($phoneType == "6")
+                                    <tr>
+                                       <td style="padding-top:0px;">$value(M)</td>
+                                    </tr>
+                                    #elseif($phoneType == "3")
+                                    <tr>
+                                       <td style="padding-top:0px;">$value(O)</td>
+                                    </tr>
+                                    #elseif($phoneType == "7")
+                                    <tr>
+                                       <td style="padding-top:0px;">$value(OT)</td>
+                                    </tr>
+                                    #elseif($phoneType == "" && $value != "")
+                                    <tr>
+                                       <td style="padding-top:0px;">$value</td>
+                                    </tr>
+                                    #end
+                                 </tbody>
+                              </table>
+                              #end
+                           </td>
+                           <td style="padding-top:0px;">
+                              <table>
+                                 <tbody>
+                                    <tr>
+                                       #set($value="#emptyCheckData($borrower.OccYearsEmployed)")
+                                       #set($value=$StringUtils.deleteWhitespace($value))
+                                       #if($value != "-")
+                                       <td style="padding-top:0px;">Years Employed &nbsp;$value</td>
+                                       #end
+                                    </tr>
+                                    <tr>
+                                       #set($value="#emptyCheckData($borrower.OccMonthsEmployed)")
+                                       #set($value=$StringUtils.deleteWhitespace($value))
+                                       #if($value != "-")
+                                       <td style="padding-top:0px;">Months Employed &nbsp;$value</td>
+                                       #end
+                                    </tr>
+                                    <tr>
+                                       #set($value="#emptyCheckData($borrower.NetMontlyIncome)")
+                                       #set($value=$StringUtils.deleteWhitespace($value))
+                                       #if($value != "-")
+                                       <td style="padding-top:0px;">Net Monthly Income &nbsp;$value</td>
+                                       #end
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </td>
+                           <td style="padding-top:0px;">
+                              #set($bidcards=$borrower.BIDCARDS)
+                              #foreach($bidcard in $bidcards)
+                              #set($idType = $bidcard.IdNumberType)
+                              <table id="card-type">
+                                 <tbody>
+                                    #if($idType == "10")
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">PAN</td>
+                                    </tr>
+                                    #elseif($idType == "7")
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">VOTER ID</td>
+                                    </tr>
+                                    #elseif($idType == "1")	
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">D/L</td>
+                                    </tr>
+                                    #elseif($idType == "11")	
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">RATION CARD</td>
+                                    </tr>
+                                    #elseif($idType == "4")	
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">Passport Number</td>
+                                    </tr>
+                                    #elseif($idType == "12")	
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">AADHAR</td>
+                                    </tr>
+                                    #elseif($idType == "19")	
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">Account Number</td>
+                                    </tr>
+                                    #end
+                                 </tbody>
+                              </table>
+                              #end
+                           </td>
+                           <td>
+                              #foreach($bidcard in $bidcards)
+                              #set($idType = $bidcard.IdNumberType)
+                              #set($idNum="#emptyCheckData($bidcard.IndiaIdNumber)")
+                              <table id="card-num">
+                                 <tbody>
+                                    #if($idType == "10")
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">$idNum</td>
+                                    </tr>
+                                    #elseif($idType == "7")	
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">$idNum</td>
+                                    </tr>
+                                    #elseif($idType == "1")	
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">$idNum</td>
+                                    </tr>
+                                    #elseif($idType == "11")	
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">$idNum</td>
+                                    </tr>
+                                    #elseif($idType == "4")	
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">$idNum</td>
+                                    </tr>
+                                    #elseif($idType == "12")	
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">$idNum</td>
+                                    </tr>
+                                    #elseif($idType == "19")	
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">$idNum</td>
+                                    </tr>
+                                    #end
+                                 </tbody>
+                              </table>
+                              #end
+                           </td>
+                           <td>
+                              #foreach($bidcard in $bidcards)
+                              #set($idType = $bidcard.IdNumberType)
+                              #set($issueDt="#emptyCheckData($bidcard.IdIssueDate)")
+                              <table id="card-num">
+                                 <tbody>
+                                    #if($idType == "10")
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">$issueDt</td>
+                                    </tr>
+                                    #elseif($idType == "7")	
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">$issueDt</td>
+                                    </tr>
+                                    #elseif($idType == "1")	
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">$issueDt</td>
+                                    </tr>
+                                    #elseif($idType == "11")	
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">$issueDt</td>
+                                    </tr>
+                                    #elseif($idType == "4")	
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">$issueDt</td>
+                                    </tr>
+                                    #elseif($idType == "12")	
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">$issueDt</td>
+                                    </tr>
+                                    #elseif($idType == "19")	
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">$issueDt</td>
+                                    </tr>
+                                    #end
+                                 </tbody>
+                              </table>
+                              #end
+                           </td>
+                           <td style="padding-right: 5px;background: #EFEFEF !important;">
+                              #foreach($bidcard in $bidcards)
+                              #set($idType = $bidcard.IdNumberType)
+                              #set($expDt="#emptyCheckData($bidcard.IdExpirationDate)")
+                              <table id="card-num" style="background: #EFEFEF !important;">
+                                 <tbody>
+                                    #if($idType == "10")
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">$expDt</td>
+                                    </tr>
+                                    #elseif($idType == "7")	
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">$expDt</td>
+                                    </tr>
+                                    #elseif($idType == "1")	
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">$expDt</td>
+                                    </tr>
+                                    #elseif($idType == "11")	
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">$expDt</td>
+                                    </tr>
+                                    #elseif($idType == "4")	
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">$expDt</td>
+                                    </tr>
+                                    #elseif($idType == "12")	
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">$expDt</td>
+                                    </tr>
+                                    #elseif($idType == "19")	
+                                    <tr height="26px">
+                                       <td style="padding-top:0px;">$expDt</td>
+                                    </tr>
+                                    #end
+                                 </tbody>
+                              </table>
+                              #end
+                           </td>
+                        </tr>
+                        #end
+                     </tbody>
+                  </table>
+               </div>
+            </td>
+         </tr>
+         <tr class="list_header">
+            <td style="width:100%" colspan="12">
+               <hr>
+            </td>
+         </tr>
+      </tbody>
+   </table>
+   #end
 </div>
