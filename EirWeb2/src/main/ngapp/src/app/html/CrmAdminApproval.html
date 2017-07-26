@@ -1,0 +1,33 @@
+                <div class="row">
+                    <h1 class="page-header">KYC Document Details</h1>
+                    <!-- table-responsive -->
+                    <div class="create-enquiry">
+                        <div class="row top-bar">
+                           
+                            <form class="user-form" id="disputeDetails">
+                                <div class="row">
+                                   
+                                    
+                                
+                                <!--<div *ngIf="rowData.length > 0" class="table-responsive kyc">-->
+                                    <div class="table-responsive kyc">
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <th>File Name</th>
+                                            <th>File Type</th>                                            
+                                            <th>Actions</th>
+                                        </tr>
+                                        
+                                    </table>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="back-btn pull-left"><button (click)="back()" type="submit" class="btn btn-primary">Back</button></div>
+                    <div class="next-btn pull-right"><input (click)="kycApprove()" type="submit" class="btn btn-primary form-control" name="Approve" value="Approve"></div>
+                    <div class="next-btn pull-right"><button type="button" (click)="kycReject()" class="btn btn-primary reset">Reject</button></div>
+                </div>
+                 <!--<span *ngIf="showLoader" class="loading"></span>	  -->

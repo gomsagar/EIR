@@ -19,7 +19,8 @@ import { KycComponent } from './component/eir.KycComponent';
 import { APP_CONFIG, AppConfig } from './app.config';
 import { LoaderService } from './services/eir.loader';
 import { MyDatePickerModule } from 'mydatepicker';
-
+import {CrmAdmin} from './component/eir.crmAdmin';
+import {CrmAdminApproval} from './component/eir.CrmAdminApproval';
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
    { path: 'createEnquiry', component: EirCreateComponent },
@@ -30,11 +31,13 @@ const appRoutes: Routes = [
      { path: 'consumerComponent', component: ConsumerComponent},
      { path: 'viewEnquiryComponent', component: ViewEnquiryComponent},
      { path: 'kycComponent', component: KycComponent},
-     
+     { path: 'crmAdmin', component: CrmAdmin},
+     { path: 'crmAdminApproval', component: CrmAdminApproval},
 ];
 @NgModule({
   declarations: [AppComponent,HomeComponent,EirCreateComponent,InputForEnquiryComponent,RaiseDisputeComponent,
-  ViewEarlierRequestComponent,TrackDisputeComponent,ConsumerComponent,ControlMessages,KycComponent,ViewEnquiryComponent],
+  ViewEarlierRequestComponent,TrackDisputeComponent,ConsumerComponent,ControlMessages,KycComponent,ViewEnquiryComponent,
+  CrmAdmin,CrmAdminApproval],
   imports: [
     RouterModule,
     RouterModule.forRoot(appRoutes),

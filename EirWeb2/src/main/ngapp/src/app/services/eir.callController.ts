@@ -65,6 +65,18 @@ public serviceUrl : string;
             .map(res=>res.json());
     }
 
+    getRequestDataForCRMAdmin(crmAdminEnqData)
+    {
+        var head = new Headers();
+        head.append('Content-Type', 'application/json');
+         
+         return this._http.post(this.serviceUrl+ 'getCrmAdminEnqData',
+             JSON.stringify(crmAdminEnqData),{
+                    headers:head
+             })
+            .map(res=>res.json());
+    }
+
     sendReSubmitRequestForBIR(requestId,birRequestId){
           return this._http.get(this.serviceUrl+ 'reSubmitRequestForBIR?birRequestId='+birRequestId)
         .map(res=>res.json());

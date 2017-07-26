@@ -34,4 +34,8 @@ export class AppComponent {
   {
     this.router.navigate(['home']);
   }
+  goToCrmAdmin(){
+    console.log("goToCrmAdmin");
+    this.router.navigate(['crmAdmin']);
+  }
 }

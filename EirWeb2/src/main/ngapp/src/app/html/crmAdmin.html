@@ -1,0 +1,134 @@
+
+            
+          <div class="row">    		
+				<h1 class="page-header">CRM Admin Details</h1>
+				<!-- table-responsive -->
+				<div class="create-enquiry">
+					<div class="row top-bar">
+						<form >
+						  <!--<div class="form-group col-md-3">
+							<label for="exampleInputName2">Request ID</label>
+							<input type="text" class="form-control" id="exampleInputName2" placeholder="Enter Request Id" [(ngModel)]="data.requestId" name="requestId">
+						  </div>-->
+							<div class="form-group col-md-3" [ngClass]="{'has-error':(!requisitionForm.controls['requestId'].valid && requisitionForm.controls['requestId'].touched)||(!requisitionForm.controls['requestId'].valid && submitted)}">
+								<label for="exampleInputName2">Request ID</label>
+								<input type="text" class="form-control" id="exampleInputName2" placeholder="Enter Request Id" [(ngModel)]="data.requestId" name="requestId" [formControl]="requisitionForm.controls['requestId']">
+								<div *ngIf="(requisitionForm.controls['requestId'].hasError('pattern') && requisitionForm.controls['requestId'].touched) ||(requisitionForm.controls['requestId'].hasError('pattern') && submitted)" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Please Enter 10 digit Numeric Value!</div>
+							</div>
+						   <div class="form-group col-md-1"><span class="or">OR</span></div>
+						  <div class="form-group col-md-3">
+							<label for="exampleInputName2">From</label>
+							<br>
+							<!--<ng2-datepicker id="fromdate" name="fromDate" [options]="{maxDate: dateExpires,format:MM-DD-YYYY}" [(ngModel)]="data.fromDate"></ng2-datepicker>-->
+							<my-date-picker id="fromdate" name="fromdate" [options]="myDatePickerOptions" [(ngModel)]="data.fromDate" ></my-date-picker>
+							<!--<input type="text" class="form-control" id="exampleInputName2" placeholder="Enter From Date"  [(ngModel)]="data.fromDate" name="fromDate">-->
+						  </div>						
+						  <div class="form-group  col-md-3">
+							<label for="exampleInputName2">To</label>
+							<br>
+							<!--<ng2-datepicker id="todate" name="toDate" [options]="{maxDate:dateExpires,format:MM-DD-YYYY}" [(ngModel)]="data.toDate"></ng2-datepicker>-->
+						<my-date-picker id="todate" name="todate" [options]="myDatePickerOptions" [(ngModel)]="data.toDate" ></my-date-picker>
+							<!--<ng2-datepicker id="todate" name="toDate"  [options]="{maxDate: dateExpires,minDate:compareDateWithFromDate,format:MM-DD-YYYY}" [(ngModel)]="data.toDate"></ng2-datepicker>-->
+							<!--<input type="text" class="form-control" id="exampleInputName2" placeholder="Enter To Date"  [(ngModel)]="data.toDate" name="toDate">						-->
+						  </div>		
+						  <div class="form-group col-md-2">	
+								<label for="" style="visibility: hidden;" class="hidden-sm hidden-xs">Click to Search</label>						  
+								<button type="button" class="btn btn-primary glyphicon glyphicon-ok" aria-hidden="true" style="text-align:center;width: 100px;position: relative;padding-left: 15px;background: #61a6d2;border: 0;" (click)="ViewKycApprovalEnq()"></button>
+						  </div>						  
+						</form>					
+						<form class="blank-form">
+							<div class="row">		
+								<div class="col-md-2">
+									
+								</div>							
+								<div class="col-md-2">
+									
+								</div>
+							</div>
+						</form>		
+						<div class="table-responsive view-enquiry">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<!--<th>Name</th>-->
+										<th>Request Id</th>
+										<th>Combo with Score</th>
+										<th>Combo without Score</th>
+										<th>Commercial CIR with Score</th>
+										<th>Commercial CIR without Score</th>
+										<th>Business Information Report</th>
+										<th>Litigations Data</th>
+										<th>CRISIL SME Rating</th>
+										<th>News Feed</th>
+										<th>Overall Status</th>
+										<th>Check</th>
+									</tr>
+								</thead>
+								<tbody>
+								
+									<tr *ngFor="let requestStatus of crmAdminRequestData;let i = index;">
+										<!--<td>User 1</td>									 
+										 <input name="company" value = requestStatus.requestId [(ngModel)]="data.reqId"  (ngModelChange)="onChange($event)">-->	
+										<td>{{requestStatus.requestId}}</td>										
+										<td><img src="assets/img/{{requestStatus.comboWithScoreStatus}}.png"></td>
+										<td><img src="assets/img/{{requestStatus.comboWithoutScoreStatus}}.png"></td>
+										<td><img src="assets/img/{{requestStatus.commWithScoreStatus}}.png"></td>
+										<td><img src="assets/img/{{requestStatus.commWithoutScoreStatus}}.png"></td>
+										<td><img src="assets/img/{{requestStatus.birReportStatus}}.png"></td>
+										<td><img src="assets/img/{{requestStatus.litigationStatus}}.png"></td>
+										<td><img src="assets/img/{{requestStatus.smeStatus}}.png"></td>
+										<td><img src="assets/img/{{requestStatus.newsFeedStatus}}.png"></td>
+										<td></td>
+										<td>
+										  <!--<input type="checkbox" value="None" id="squaredThree" name="check" checked />-->
+										<button (click)="submit(crmAdminRequestData[i].requestId)" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button>
+										  <label for="squaredThree"></label>
+										</td>
+									</tr>
+									<!--<tr>
+										<td>User 2</td>-->
+										<!--<td>COM2</td>
+										<td><img src="assets/img/select.png"></td>
+										<td><img src="assets/img/not-select.png"></td>
+										<td><img src="assets/img/select.png"></td>
+										<td><img src="assets/img/not-avail.png"></td>
+										<td><img src="assets/img/loading.png"></td>
+										<td><img src="assets/img/not-avail.png"></td>
+										<td><img src="assets/img/not-avail.png"></td>
+										<td><img src="assets/img/not-avail.png"></td>
+										<td></td>
+										<td>
+										  <input type="checkbox" value="None" id="squaredThree" name="check" checked />
+										  <label for="squaredThree"></label>
+										</td>
+									</tr>
+									<tr>-->
+										<!--<td>User 2</td>-->
+										<!--<td>COM3</td>
+										<td><img src="assets/img/not-avail.png"></td>
+										<td><img src="assets/img/loading.png"></td>
+										<td><img src="assets/img/select.png"></td>
+										<td><img src="assets/img/select.png"></td>
+										<td><img src="assets/img/not-select.png"></td>
+										<td><img src="assets/img/not-avail.png"></td>
+										<td><img src="assets/img/not-avail.png"></td>
+										<td><img src="assets/img/not-avail.png"></td>
+										<td></td>
+										<td>
+											<input type="checkbox" value="None" id="squaredThree" name="check" checked />
+										    <label for="squaredThree"></label>
+										</td>
+									</tr>-->
+								</tbody>
+							</table>
+						</div>										
+					</div>
+				</div>				
+          </div>
+
+		  <div class="row">
+			<div class="back-btn pull-left"><button (click)="back()" type="submit" class="btn btn-primary">Back</button></div>
+		  </div> 
+
+			 <span *ngIf="showLoader" class="loading"> </span>
+    
