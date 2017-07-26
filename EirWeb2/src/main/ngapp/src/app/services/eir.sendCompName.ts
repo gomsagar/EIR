@@ -25,13 +25,12 @@ export class CompanyNameService {
         .map(res=>res.json());
     }
 
-    getCount(userId) 
+    getCount() 
     {
-         console.log('userId ------------------------------------ '+userId);
+         
         var headr = new Headers();
         headr.append('Content-Type', 'application/json');
 
-        return this._http.post(this.serviceUrl+ 'getDashboardObject?userId=' + userId , 
-        JSON.stringify(userId), { headers:headr}).map(res=>res.json());
+        return this._http.post(this.serviceUrl+ 'getDashboardObject', { headers:headr}).map(res=>res.json());
     }
 }

@@ -66,16 +66,14 @@ public class EirController {
 
 	@CrossOrigin("*")
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-	public String callDashboard(@RequestParam("userId") Integer userID, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+	public String callDashboard(@RequestParam("userId") Integer userID, HttpServletRequest httpServletRequest,
+			HttpServletResponse httpServletResponse) {
 		logger.debug("EirController - callDashboard: Start");
-		
-		try
-		{
-			if(userID != null )
-			{
+
+		try {
+			if (userID != null) {
 				UserDetails userDetails = eirService.getUserById(userID);
-				if(userDetails != null)
-				{
+				if (userDetails != null) {
 					httpServletRequest.getSession().setAttribute(Constant.USER_ID, userID);
 					httpServletResponse.sendRedirect("ng/index.html");
 					return "ng/index.html";
@@ -83,9 +81,7 @@ public class EirController {
 			}
 			logger.debug("EirController - callDashboard: Invalid User");
 			httpServletResponse.sendRedirect("ng/error.html");
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "ng/error.html";
@@ -206,7 +202,7 @@ public class EirController {
 	 */
 	@CrossOrigin("*")
 	@RequestMapping(value = "/uploadKYCDocuments", method = RequestMethod.POST)
-	public @ResponseBody void uploadKYCDocuments(@RequestParam Integer requestId,HttpServletRequest request, HttpServletResponse response) 
+	public void uploadKYCDocuments(@RequestParam Integer requestId,HttpServletRequest request, HttpServletResponse response) 
 	{
 		eirService.uploadKYCDocuments(request,response,requestId);
 	}
@@ -220,17 +216,17 @@ public class EirController {
 	
 	@Transactional
 	@CrossOrigin("*")
-	@RequestMapping(value = "/getUserFlag" , method = RequestMethod.GET,produces="application/json")
-	public @ResponseBody MemberObject getUserFlag()
-	{
-		
-		/*SpecifiedUserFlag flag = new SpecifiedUserFlag();
-		flag.setUserFlag("NonSpecifiedUser");
-		//flag.setUserFlag("SpecifiedUser");
-		System.out.println("flag = " + flag.getUserFlag());
-		//SpecifiedUserFlag flag = eirService.getSpecifiedUserFlag();
-*/		
-		Integer userId = Constant.HARDCOADED_USERID;
+	@RequestMapping(value = "/getUserFlag", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody MemberObject getUserFlag(HttpServletRequest request) {
+
+		/*
+		 * SpecifiedUserFlag flag = new SpecifiedUserFlag();
+		 * flag.setUserFlag("NonSpecifiedUser");
+		 * //flag.setUserFlag("SpecifiedUser"); System.out.println("flag = " +
+		 * flag.getUserFlag()); //SpecifiedUserFlag flag =
+		 * eirService.getSpecifiedUserFlag();
+		 */
+		Integer userId = Integer.parseInt((String) request.getSession().getAttribute(Constant.USER_ID));
 		MemberObject userType = eirService.getUserType(userId);
 		return userType;		
 	}
@@ -249,22 +245,25 @@ public class EirController {
 				
 	   return requestObj.getStatus().getStatusDescription() ;
 	}
-	
+
 	@CrossOrigin("*")
-	@RequestMapping(value="/getConsumerFinancialPurposeList", method = RequestMethod.GET)
-	public @ResponseBody List<com.eir.bir.request.model.ConsumerFinancialPurpose> getConsumerFinancialPurposeList(@RequestParam("purposeId") Integer purposeId){
+	@RequestMapping(value = "/getConsumerFinancialPurposeList", method = RequestMethod.GET)
+	public @ResponseBody List<com.eir.bir.request.model.ConsumerFinancialPurpose> getConsumerFinancialPurposeList(
+			@RequestParam("purposeId") Integer purposeId) {
 		logger.debug("EirController - getConsumerPurposeList(): Start");
-		
-		 List<com.eir.bir.request.model.ConsumerFinancialPurpose> consumerFinancialPurposeList = eirService.findConsumerFinancialPurposeByPurposeId(purposeId);
-		 
-		return consumerFinancialPurposeList;		
+
+		List<com.eir.bir.request.model.ConsumerFinancialPurpose> consumerFinancialPurposeList = eirService
+				.findConsumerFinancialPurposeByPurposeId(purposeId);
+
+		return consumerFinancialPurposeList;
 	}
 	
 	@CrossOrigin("*")
-	@RequestMapping(value="/saveProductSelection", method = RequestMethod.POST,produces="application/json")
-	public @ResponseBody Integer saveProductSelection(@RequestBody EligibleReport selection, @RequestParam(required= true) Integer sentRequestId)
-	{
-		return eirService.saveSelectedProduct(selection,sentRequestId);
+	@RequestMapping(value = "/saveProductSelection", method = RequestMethod.POST, produces = "application/json")
+	public @ResponseBody Integer saveProductSelection(@RequestBody EligibleReport selection,
+			@RequestParam(required = true) Integer sentRequestId, HttpServletRequest request) {
+		Integer userId = Integer.parseInt((String) request.getSession().getAttribute(Constant.USER_ID));
+		return eirService.saveSelectedProduct(selection, sentRequestId, userId);
 	}
 	
 	@CrossOrigin("*")
@@ -275,19 +274,19 @@ public class EirController {
 	}
 	
 	@CrossOrigin("*")
-	@RequestMapping(value = "/getDashboardObject", method = RequestMethod.POST,produces="application/json")
-	public @ResponseBody DashboardObject getDashboardDetails(@RequestParam(required= true) Integer userId)
-	{
+	@RequestMapping(value = "/getDashboardObject", method = RequestMethod.POST, produces = "application/json")
+	public @ResponseBody DashboardObject getDashboardDetails(HttpServletRequest request) {
+		Integer userId = Integer.parseInt((String) request.getSession().getAttribute(Constant.USER_ID));
 		return eirService.getDashboardDetails(userId);
 	}
-	
+
 	@Transactional
 	@CrossOrigin("*")
-	@RequestMapping(value="/getHTMLReport", method = RequestMethod.GET)
-	public ModelAndView getEIRReport(@RequestParam(required= true) Integer requestId, @RequestParam(required= true) String reportType,@RequestParam(required= true) Boolean isPdf)
-	{
-		
-		String htmlReport = nextGenWebService.getEIRReport(requestId, reportType,isPdf);
+	@RequestMapping(value = "/getHTMLReport", method = RequestMethod.GET)
+	public ModelAndView getEIRReport(@RequestParam(required = true) Integer requestId,
+			@RequestParam(required = true) String reportType, @RequestParam(required = true) Boolean isPdf) {
+
+		String htmlReport = nextGenWebService.getEIRReport(requestId, reportType, isPdf);
 		logger.debug("EirController - getEIRReport(): report generated");
 		
 		//return Constant.HTML_FILE_PATH;
@@ -298,11 +297,12 @@ public class EirController {
 	}
 	@Transactional
 	@CrossOrigin("*")
-	@RequestMapping(value="/getPDFReport", method = RequestMethod.GET)
-	public void getEIRPDFReport(@RequestParam(required= true) Integer requestId, @RequestParam(required= true) String reportType,@RequestParam(required= true) Boolean isPdf,HttpServletRequest request, HttpServletResponse response)
-	{
-		
-		String pdfString = nextGenWebService.getEIRReport(requestId, reportType,isPdf);
+	@RequestMapping(value = "/getPDFReport", method = RequestMethod.GET)
+	public void getEIRPDFReport(@RequestParam(required = true) Integer requestId,
+			@RequestParam(required = true) String reportType, @RequestParam(required = true) Boolean isPdf,
+			HttpServletRequest request, HttpServletResponse response) {
+
+		String pdfString = nextGenWebService.getEIRReport(requestId, reportType, isPdf);
 		CommonUtilityService commonUtilityService = new CommonUtilityService();
 	    ByteArrayOutputStream htmlToPdfFile = commonUtilityService.htmlToPdfFile(pdfString, "", "");
 	    eirService.getDownloadFile(htmlToPdfFile,Constant.FILE_EXTENTION_PDF,request,response);
@@ -311,22 +311,33 @@ public class EirController {
 	}
 	@Transactional
 	@CrossOrigin("*")
-	@RequestMapping(value="/getXMLReport", method = RequestMethod.GET)
-	public String getXMLReport(@RequestParam(required= true) Integer requestId, @RequestParam(required= true) String reportType, HttpServletRequest request, HttpServletResponse response)
-	{
-	    String responceststus = eirService.getEirXMLReport(requestId,reportType,request,response);
-	    
+	@RequestMapping(value = "/getXMLReport", method = RequestMethod.GET)
+	public String getXMLReport(@RequestParam(required = true) Integer requestId,
+			@RequestParam(required = true) String reportType, HttpServletRequest request,
+			HttpServletResponse response) {
+		String responceststus = eirService.getEirXMLReport(requestId, reportType, request, response);
+
 		logger.debug("EirController - getEirXMLReport(): report generated");
 		
 		return responceststus;
 	}
 	
 	@CrossOrigin("*")
-    @RequestMapping(value = "/getEarlierEnquiryRequestData", method = RequestMethod.POST,produces="application/json")
-    public @ResponseBody List<ViewEarlierEnquiresObject> getEarlierEnquiryRequestData(@RequestBody ViewEarlierEnqRequestObject input , HttpServletRequest request) 
+   	@RequestMapping(value = "/getEarlierEnquiryRequestData", method = RequestMethod.POST, produces = "application/json")
+	public @ResponseBody List<ViewEarlierEnquiresObject> getEarlierEnquiryRequestData(
+			@RequestBody ViewEarlierEnqRequestObject input, HttpServletRequest request) {
+
+		Integer userId =  Integer.parseInt((String)request.getSession().getAttribute(Constant.USER_ID));
+		List<ViewEarlierEnquiresObject> viewEnquiresObjectList = eirService.getEarlierEnquiryRequestData(input,userId);
+		return viewEnquiresObjectList;
+	}
+	
+	@CrossOrigin("*")
+    @RequestMapping(value = "/getCrmAdminEnqData", method = RequestMethod.POST,produces="application/json")
+    public @ResponseBody List<ViewEarlierEnquiresObject> getCrmAdminEnqData(@RequestBody ViewEarlierEnqRequestObject input , HttpServletRequest request) 
     {
          
-           List<ViewEarlierEnquiresObject> viewEnquiresObjectList = eirService.getEarlierEnquiryRequestData(input);              
+           List<ViewEarlierEnquiresObject> viewEnquiresObjectList = eirService.getCrmAdminRequestData(input);              
            return viewEnquiresObjectList;
     }
 

@@ -12,7 +12,8 @@ public enum Status {
 	RECIEVEANDPLACED("Received & Placed"),
 	SCOREDANDSERVED("Scored + Served"),
 	OPEN("Open"),
-	CLOSED("Closed");
+	CLOSED("Closed"),
+	Pending_KYC_Approval("Pending KYC Approval");
 	
 	private String status;
 

@@ -347,11 +347,11 @@ public class EirServiceImpl implements EirService{
 		return null;
 	}*/
 
-	private CirRequest mapCirInputToCIRRequest(com.eir.bir.request.model.CirRequest cirRequest, Request request) {
+	private CirRequest mapCirInputToCIRRequest(com.eir.bir.request.model.CirRequest cirRequest, Request request,String statusDescription) {
 		CirRequest cirRequestEntity = new CirRequest();		
 				
 		cirRequestEntity.setRequest(request);
-		cirRequestEntity.setStatus(getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.status()));
+		cirRequestEntity.setStatus(getStatusByDescription(statusDescription));
 		cirRequestEntity.setBusName(cirRequest.getCompanyName());
 		if(cirRequest.getProductField() != null)
 		{
@@ -376,7 +376,7 @@ public class EirServiceImpl implements EirService{
 	}
 	
 	
-	private List<ConsumerRequest> mapConsumerInputToConsumerRequest(List<Consumer>  consumerInputList, Request requestEntity, CirRequest cirRequestEntity) 
+	private List<ConsumerRequest> mapConsumerInputToConsumerRequest(List<Consumer>  consumerInputList, Request requestEntity, String statusDescription,CirRequest cirRequestEntity) 
 	{
 		List<ConsumerRequest> consumerEntityRequestList = null;
 		
@@ -396,7 +396,7 @@ public class EirServiceImpl implements EirService{
 				consumerEntity.setBureauMemberId(Constant.BUREAU_MEMBER_ID);
 				consumerEntity.setProductField(Constant.CONSPRODUCTFIELD);
 				consumerEntity.setScore(consumerInput.getScore());
-				consumerEntity.setStatusId(getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.status()));
+				consumerEntity.setStatusId(getStatusByDescription(statusDescription));
 				if(consumerInput.getRelationType() != null )
 				{
 					consumerEntity.setRelationTypeId(consumerInput.getRelationType().getRelationTypeId());	
@@ -476,24 +476,28 @@ public class EirServiceImpl implements EirService{
  		requestRepository.save(reqEntity);*/
  		Integer requestId = input.getRequestId();
  		Request reqEntity = requestRepository.findByRequestId(requestId);
+ 		CirRequest cirRequestEntity = new CirRequest();
  		
  		if (input.getIsBIRActive()) 
 		{
-			birService.createBIRrequest(input.getBir(), reqEntity);					
+			birService.createBIRrequest(input.getBir(), reqEntity,reqEntity.getStatus().getStatusDescription());					
 		}
 		
 		if (input.getIsCIRActive() || input.getIsComboActive()) 
 		{
 			
-			CirRequest cirInputRequest = mapCirInputToCIRRequest(input.getCir(), reqEntity);
+			CirRequest cirInputRequest = mapCirInputToCIRRequest(input.getCir(), reqEntity,reqEntity.getStatus().getStatusDescription());
 			
-			CirRequest cirRequestEntity = nextGenWebService.createCIRReport(cirInputRequest );
-			
+			if(Constant.SPECIFIED.equalsIgnoreCase(reqEntity.getType())){
+				cirRequestEntity = nextGenWebService.createCIRReport(cirInputRequest );
+			}
 			
 			if (input.getIsComboActive()) 
 			{
-				List<ConsumerRequest> consumerEntityRequest = mapConsumerInputToConsumerRequest(input.getConsumerList(), reqEntity, cirRequestEntity);
-				nextGenWebService.createConsumerReport(consumerEntityRequest);
+				List<ConsumerRequest> consumerEntityRequest = mapConsumerInputToConsumerRequest(input.getConsumerList(), reqEntity,reqEntity.getStatus().getStatusDescription(), cirRequestEntity);
+				if(Constant.SPECIFIED.equalsIgnoreCase(reqEntity.getType())){
+					nextGenWebService.createConsumerReport(consumerEntityRequest);
+				}
 			}
 		}
 		
@@ -701,6 +705,8 @@ public class EirServiceImpl implements EirService{
 			upload.setSizeMax(Constant.MAX_REQUEST_SIZE);
 			
 			try {
+				String kycDocumentFilePath = null;
+				String description = null;
 				// parses the request's content to extract file data
 				@SuppressWarnings("unchecked")
 				List<FileItem> formItems = upload.parseRequest(request);
@@ -711,8 +717,21 @@ public class EirServiceImpl implements EirService{
 					WriteFile writeFile = new WriteFile();
 					for (FileItem item : formItems) {
 						// Creating the directory to store file
-						//byte[] bytes = item.get();						
-						String kycDocumentFilePath = writeFile.saveKycDocument(xmlOutputPath, item , requestId, Constant.KYC);
+						//byte[] bytes = item.get();		
+						if(Constant.DESCRIPTION.equalsIgnoreCase(item.getFieldName())){
+							byte[] bytes = item.get();
+							description = new String(bytes);
+						}else{
+							kycDocumentFilePath = writeFile.saveKycDocument(xmlOutputPath, item , requestId, Constant.KYC);
+							if(fileName.toString().isEmpty())
+							{
+								fileName.append(kycDocumentFilePath);	
+							}else{
+								fileName.append(",");
+								fileName.append(kycDocumentFilePath);	
+							}
+						}
+						
 						//String rootPath = System.getProperty("catalina.home");
 						/*ServletContext context = request.getServletContext();
 						String appPath = context.getRealPath("");
@@ -730,25 +749,19 @@ public class EirServiceImpl implements EirService{
 						
 						//logger.info("Server File Location="	+ serverFile.getAbsolutePath());
 						
-						if(fileName.toString().isEmpty())
-						{
-							fileName.append(kycDocumentFilePath);	
-						}else{
-							fileName.append(",");
-							fileName.append(kycDocumentFilePath);	
-						}
+						
 					}
 				}
 				
 				KycApproval kycApprval = new KycApproval();
 				
 				kycApprval.setRequestId(requestId);
-				kycApprval.setComment("uploaded completed");
+				kycApprval.setComment(description);
 				//fileName.replace(fileName.length()-1, fileName.length()-1, "");
 				//fileName.replace(fileName.length()-1, fileName.length(), " ");
 				kycApprval.setKycDocument(fileName.toString());
 				//kycApprval.setStatus(getStatusByDescription(com.eir.report.constant.Status.PENDING.status()).getStatusId());
-				kycApprval.setStatus(getStatusByDescription(com.eir.report.constant.Status.PENDING.status()));
+				kycApprval.setStatus(getStatusByDescription(com.eir.report.constant.Status.Pending_KYC_Approval.status()));
 				kycApprovalRepository.save(kycApprval);
 
 			} catch (Exception e) {
@@ -820,15 +833,23 @@ public class EirServiceImpl implements EirService{
 	}
 
 	@Override
-	public Integer saveSelectedProduct(EligibleReport selection,Integer sentRequestId) 
+	public Integer saveSelectedProduct(EligibleReport selection,Integer sentRequestId, Integer userId) 
 	{
 		Request reqEntity = new Request();
-		reqEntity.setUserDetails(getUserDetails(Constant.HARDCOADED_USERID));
+		reqEntity.setUserDetails(getUserDetails(userId));
+		Member member = memberRepository.getUserType(userId);
+		
 		reqEntity.setUserHit(1);//TODO temporarily harcode values saved
 		//reqEntity.setEntityDetails(getEntityObject(input,request));
-		reqEntity.setStatus(getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.status()));
+		if(Constant.NonSPECIFIED.equals(member.getMemberType())){
+			reqEntity.setStatus(getStatusByDescription(com.eir.report.constant.Status.Pending_KYC_Approval.status()));
+		}
+		else{
+			reqEntity.setStatus(getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.status()));
+		}
 		reqEntity.setAdminHit(1);//TODO save according to admin hit
-		reqEntity.setType(Constant.SPECIFIED);//TODO change according to FE flag
+		
+		reqEntity.setType(member.getMemberType());//TODO change according to FE flag
 		reqEntity.setMemberId(1);
 		
 		if(sentRequestId == 0)
@@ -1124,12 +1145,11 @@ public class EirServiceImpl implements EirService{
 	}
 	
 	@Override
-	public List<ViewEarlierEnquiresObject> getEarlierEnquiryRequestData(ViewEarlierEnqRequestObject input) {
+	public List<ViewEarlierEnquiresObject> getEarlierEnquiryRequestData(ViewEarlierEnqRequestObject input,Integer userId) {
 		
 		  Long requestID = null;
 		  String fromDate  =null;
 		  String toDate  =null;
-		  Integer userId = Constant.HARDCOADED_USERID;
 		  if(null != input){
 		       if(null != input.getRequestId() && input.getRequestId() !="")
 		       {
@@ -1142,8 +1162,6 @@ public class EirServiceImpl implements EirService{
 		    	   toDate = input.getToDate().getFormatted();
 		       }
 		  }
-		Map<Integer,ViewEarlierEnquiresObject> reportStatus = new HashMap<Integer, ViewEarlierEnquiresObject>();
-		List<ViewEarlierEnquiresObject> enquiresObjects = new ArrayList<ViewEarlierEnquiresObject>();
 		List<Object[]> cirRequests = new ArrayList<>();
 		List<Object[]> birRequests = new ArrayList<>();
 		List<Object[]> consumerRequests= new ArrayList<>();
@@ -1171,11 +1189,76 @@ public class EirServiceImpl implements EirService{
 			
 		    consumerRequests = consumerListRepository.getConsumerRequestByRequestId(requestID,userId);
 		}
+		
+		return getViewEarlierEnquiriesObject(cirRequests, birRequests, consumerRequests);
+		
+	}
+	
+	@Override
+	public List<ViewEarlierEnquiresObject> getCrmAdminRequestData(ViewEarlierEnqRequestObject input) {
+		
+		  Long requestID = null;
+		  String fromDate  =null;
+		  String toDate  =null;
+		  if(null != input){
+		       if(null != input.getRequestId() && input.getRequestId() !="")
+		       {
+		              requestID = Long.parseLong(input.getRequestId());
+		       }
+		       if(null != input.getFromDate() && input.getFromDate().getFormatted() != null && !input.getFromDate().getFormatted().isEmpty()){
+		    	   fromDate = input.getFromDate().getFormatted();
+		       }
+		       if(null != input.getToDate() && input.getToDate().getFormatted() != null && !input.getToDate().getFormatted().isEmpty()){
+		    	   toDate = input.getToDate().getFormatted();
+		       }
+		  }
+		List<Object[]> cirRequests = new ArrayList<>();
+		List<Object[]> birRequests = new ArrayList<>();
+		List<Object[]> consumerRequests= new ArrayList<>();
+		
+		if(null != requestID && (null != fromDate ) && (null != toDate)){
+			
+			cirRequests = cirReqRepository.getCirRequestByDateAndRequestIdForCrmAdmin(fromDate, toDate, requestID);
+			 
+			birRequests = birRequestRepository.getBirRequestByDateAndRequestIdForCrmAdmin(fromDate, toDate, requestID);
+			
+		    consumerRequests = consumerListRepository.getConsumerRequestByDateAndRequestIdForCrmAdmin(fromDate, toDate, requestID);
+			
+		}else if(null == requestID && null != fromDate && null != toDate){
+			
+			cirRequests = cirReqRepository.getCirRequestByDateForCrmAdmin(fromDate, toDate);
+			 
+			birRequests = birRequestRepository.getBirRequestByDateForCrmAdmin(fromDate, toDate);
+			
+		    consumerRequests = consumerListRepository.getConsumerRequestByDateForCrmAdmin(fromDate, toDate);
+			
+		}else if(null != requestID && (null == fromDate) && (null == toDate )){
+			cirRequests = cirReqRepository.getCirRequestByRequestIdForCrmAdmin(requestID);
+		 
+			birRequests = birRequestRepository.getBirRequestByRequestIdForCrmAdmin(requestID);
+			
+		    consumerRequests = consumerListRepository.getConsumerRequestByRequestIdForCrmAdmin(requestID);
+		}
+		
+		return getViewEarlierEnquiriesObject(cirRequests, birRequests, consumerRequests);
+		
+	}
+
+	/**
+	 * @param cirRequests
+	 * @param birRequests
+	 * @param consumerRequests
+	 */
+	private List<ViewEarlierEnquiresObject> getViewEarlierEnquiriesObject(List<Object[]> cirRequests, List<Object[]> birRequests,
+			List<Object[]> consumerRequests) {
+		
 		ViewEarlierEnquiresObject viewEnquiresObject;
 		String withScore;
 		Integer reqId =0;
 		String statusDesc  = null;
-		
+		Map<Integer,ViewEarlierEnquiresObject> reportStatus = new HashMap<Integer, ViewEarlierEnquiresObject>();
+		List<ViewEarlierEnquiresObject> enquiresObjects = new ArrayList<ViewEarlierEnquiresObject>();
+
 		//consumer
 		if(!consumerRequests.isEmpty() && null != consumerRequests){
 						
@@ -1315,6 +1398,11 @@ public class EirServiceImpl implements EirService{
 					birObject.setBirResponseDate(formatDate(birRequest.getUpdateUserDate().toString()));
 					birObject.setBirMessage(Constant.REPORT_COMPLETED_READY);
 				}
+				else if(birRequest.getStatus().getStatusDescription().equals(com.eir.report.constant.Status.Pending_KYC_Approval.status()))
+				{
+					birObject.setBirMessage(Constant.KYC_APPROVAL_PENDING);
+					
+				}
 				else
 				{
 					birObject.setBirMessage(Constant.REPORT_INCOMPLETE);
@@ -1341,6 +1429,11 @@ public class EirServiceImpl implements EirService{
 						comboWithScoreObject.setComboWithScoreResponseDate(formatDate(cirRequet.getUpdateUserDate().toString()));
 						comboWithScoreObject.setComboWithScoreMessage(Constant.REPORT_COMPLETED_READY);
 					}
+					else if(cirRequet.getStatus().getStatusDescription().equals(com.eir.report.constant.Status.Pending_KYC_Approval.status()))
+					{
+						comboWithScoreObject.setComboWithScoreMessage(Constant.KYC_APPROVAL_PENDING);
+						
+					}
 					else
 					{
 						comboWithScoreObject.setComboWithScoreMessage(Constant.REPORT_INCOMPLETE);
@@ -1357,6 +1450,11 @@ public class EirServiceImpl implements EirService{
 							&& cirRequet.getUpdateUserDate() != null){
 						comboWithoutScoreObject.setComboWithOutScoreResponseDate(formatDate(cirRequet.getUpdateUserDate().toString()));
 						comboWithoutScoreObject.setComboWithOutScoreMessage(Constant.REPORT_COMPLETED_READY);
+					}
+					else if(cirRequet.getStatus().getStatusDescription().equals(com.eir.report.constant.Status.Pending_KYC_Approval.status()))
+					{
+						comboWithoutScoreObject.setComboWithOutScoreMessage(Constant.KYC_APPROVAL_PENDING);
+						
 					}
 					else
 					{
@@ -1377,6 +1475,10 @@ public class EirServiceImpl implements EirService{
 						cirWithScoreObject.setCirWithScoreResponseDate(formatDate(cirRequet.getUpdateUserDate().toString()));
 						cirWithScoreObject.setCirWithScoreMessage(Constant.REPORT_COMPLETED_READY);
 					}
+					else if(cirRequet.getStatus().getStatusDescription().equals(com.eir.report.constant.Status.Pending_KYC_Approval.status()))
+					{
+						cirWithScoreObject.setCirWithScoreMessage(Constant.KYC_APPROVAL_PENDING);
+					}
 					else
 					{
 						cirWithScoreObject.setCirWithScoreMessage(Constant.REPORT_INCOMPLETE);
@@ -1392,6 +1494,11 @@ public class EirServiceImpl implements EirService{
 							&& cirRequet.getStatus().getStatusDescription().equals(com.eir.report.constant.Status.COMPLETED.status())){
 						cirWithOutScoreObject.setCirWithOutScoreResponseDate(formatDate(cirRequet.getUpdateUserDate().toString()));
 						cirWithOutScoreObject.setCirWithOutScoreMessage(Constant.REPORT_COMPLETED_READY);	
+					}
+					else if(cirRequet.getStatus().getStatusDescription().equals(com.eir.report.constant.Status.Pending_KYC_Approval.status()))
+					{
+						cirWithOutScoreObject.setCirWithOutScoreMessage(Constant.KYC_APPROVAL_PENDING);
+						cirWithOutScoreObject.setCirWithOutScoreMessage(Constant.KYC_APPROVAL_PENDING);
 					}
 					else
 					{
@@ -1557,6 +1664,11 @@ public class EirServiceImpl implements EirService{
 					comboWithoutScoreObject.setComboWithOutScoreResponseDate(formatDate(cirRequestEntity.getUpdateUserDate().toString()));
 					comboWithoutScoreObject.setComboWithOutScoreMessage(Constant.REPORT_COMPLETED_READY);	
 				}
+				else if(cirRequestEntity.getStatus().getStatusDescription().equals(com.eir.report.constant.Status.Pending_KYC_Approval.status()))
+				{
+					comboWithoutScoreObject.setComboWithOutScoreMessage(Constant.KYC_APPROVAL_PENDING);
+					
+				}
 				else
 				{
 					comboWithoutScoreObject.setComboWithOutScoreMessage(Constant.REPORT_INCOMPLETE);
@@ -1589,6 +1701,11 @@ public class EirServiceImpl implements EirService{
 					cirWithScoreObject.setCirWithScoreResponseDate(formatDate(cirRequestEntity.getRequest().getUpdateUserDate().toString()));
 					cirWithScoreObject.setCirWithScoreMessage(Constant.REPORT_COMPLETED_READY);	
 				}
+				else if(cirRequestEntity.getStatus().getStatusDescription().equals(com.eir.report.constant.Status.Pending_KYC_Approval.status()))
+				{
+					cirWithScoreObject.setCirWithScoreMessage(Constant.KYC_APPROVAL_PENDING);
+					
+				}
 				else
 				{
 					cirWithScoreObject.setCirWithScoreMessage(Constant.REPORT_INCOMPLETE);
@@ -1606,7 +1723,11 @@ public class EirServiceImpl implements EirService{
 					cirWithOutScoreObject.setCirWithOutScoreResponseDate(formatDate(cirRequestEntity.getRequest().getUpdateUserDate().toString()));
 					cirWithOutScoreObject.setCirWithOutScoreMessage(Constant.REPORT_COMPLETED_READY);
 				}
-				else
+				else if(cirRequestEntity.getStatus().getStatusDescription().equals(com.eir.report.constant.Status.Pending_KYC_Approval.status()))
+				{
+					cirWithOutScoreObject.setCirWithOutScoreMessage(Constant.KYC_APPROVAL_PENDING);
+					
+				}else
 				{
 					cirWithOutScoreObject.setCirWithOutScoreMessage(Constant.REPORT_INCOMPLETE);
 				}

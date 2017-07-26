@@ -479,7 +479,7 @@ public class BirReportServiceImpl implements BirReportService {
 	}*/
 	
 	@Override
-	public BirRequest createBIRrequest(com.eir.bir.request.model.BirRequest birInputRequest, Request request) 
+	public BirRequest createBIRrequest(com.eir.bir.request.model.BirRequest birInputRequest, Request request,String statusDescription) 
 	{
 		BirRequest birReq = new BirRequest();
 		
@@ -495,7 +495,7 @@ public class BirReportServiceImpl implements BirReportService {
 		if (reportToken != null && !reportToken.isEmpty()) 
 		{
 			birReq.setReportToken(reportToken);
-			birReq.setStatus(getStatusByDescription(com.eir.report.constant.Status.IN_PROCCESS.status()));
+			birReq.setStatus(getStatusByDescription(statusDescription));
 			birReqRepository.save(birReq);
 			logger.debug("BirReportServiceImpl createBIRrequestsaved() BirRequest saved to db Id: " + birReq.getBirRequestId());
 		} 

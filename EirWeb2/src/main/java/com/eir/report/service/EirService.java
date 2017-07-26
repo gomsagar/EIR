@@ -66,7 +66,7 @@ public interface EirService {
 	
 	List<com.eir.bir.request.model.ConsumerFinancialPurpose> findConsumerFinancialPurposeByPurposeId(Integer purposeId);
 
-	Integer saveSelectedProduct(EligibleReport selection, Integer sentRequestId);
+	Integer saveSelectedProduct(EligibleReport selection, Integer sentRequestId, Integer userId);
 	
 	List<Gender> getGender();
 	SpecifiedUserFlag getSpecifiedUserFlag();
@@ -78,7 +78,9 @@ public interface EirService {
 	
 	ViewEnquiryObject getRequestByRequestId(Integer reqId);
 
-	List<ViewEarlierEnquiresObject> getEarlierEnquiryRequestData(ViewEarlierEnqRequestObject input);
+	List<ViewEarlierEnquiresObject> getEarlierEnquiryRequestData(ViewEarlierEnqRequestObject input, Integer userId);
+	
+	List<ViewEarlierEnquiresObject> getCrmAdminRequestData(ViewEarlierEnqRequestObject input);
 	
 		void getDownloadFile(ByteArrayOutputStream htmlToPdfFile,String fileExtention, HttpServletRequest request, HttpServletResponse response);
 

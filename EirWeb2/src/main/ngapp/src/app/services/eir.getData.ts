@@ -38,10 +38,16 @@ export class DataService {
          return this._http.get(this.serviceUrl+ 'getSelectedProduct?reqID=' + reqID)
             .map((res:Response) => res.json()); 
     }
+    // uploadKyc(formData,requestId,data){
+   
+    //    return this._http.post(this.serviceUrl+ 'uploadKYCDocuments?requestId='+requestId, data)
+    //     .map(res => res.json())
+        
+    // }
     uploadKyc(formData,requestId){
    
        return this._http.post(this.serviceUrl+ 'uploadKYCDocuments?requestId='+requestId, formData)
-        .map(res => res.json())
+        .map(res => res)
         
     }
 }

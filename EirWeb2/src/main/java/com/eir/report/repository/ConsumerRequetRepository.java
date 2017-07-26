@@ -30,5 +30,23 @@ public interface ConsumerRequetRepository extends JpaRepository<ConsumerRequest,
 
 	@Query(value = "select conr.XML_OUTPUT_PATH from eir.CONSUMER_REQUEST conr where conr.REQUEST_ID =:requestID", nativeQuery=true)
 	public String findByRequest(@Param("requestID")Integer requestID);
+	
+	@Query(value = "select con.REQUEST_ID,s.STATUS_DESCRIPTION from CONSUMER_REQUEST con"
+			+ " inner join eir.REQUEST r on r.REQUEST_ID = con.REQUEST_ID inner join eir.STATUS s on con.STATUS_ID = s.STATUS_ID "
+			+ "inner join eir.KYC_APPROVAL kyc on r.REQUEST_ID = kyc.request_id where r.REQUEST_ID =:requestID and (kyc.STATUS_ID=11 or kyc.STATUS_ID=5)",
+			nativeQuery=true)
+	public List<Object[]> getConsumerRequestByRequestIdForCrmAdmin(@Param("requestID") Long requestID);
+	
+	@Query(value = "select con.REQUEST_ID,s.STATUS_DESCRIPTION from CONSUMER_REQUEST con"
+			+ " inner join eir.REQUEST r on r.REQUEST_ID = con.REQUEST_ID inner join eir.STATUS s on con.STATUS_ID = s.STATUS_ID "
+			+ "inner join eir.KYC_APPROVAL kyc on r.REQUEST_ID = kyc.request_id where r.CREATE_DATE >= :fromDate and r.CREATE_DATE <= :toDate and (kyc.STATUS_ID=11 or kyc.STATUS_ID=5)",
+			nativeQuery=true)
+	public List<Object[]> getConsumerRequestByDateForCrmAdmin(@Param("fromDate") String fromDate,@Param("toDate") String toDate);
+	
+	@Query(value = "select con.REQUEST_ID,s.STATUS_DESCRIPTION from CONSUMER_REQUEST con"
+			+ " inner join eir.REQUEST r on r.REQUEST_ID = con.REQUEST_ID inner join eir.STATUS s on con.STATUS_ID = s.STATUS_ID "
+			+ "inner join eir.KYC_APPROVAL kyc on r.REQUEST_ID = kyc.request_id where r.REQUEST_ID =:requestID and r.CREATE_DATE >= :fromDate and r.CREATE_DATE <= :toDate and (kyc.STATUS_ID=11 or kyc.STATUS_ID=5)",
+			nativeQuery=true)
+	public List<Object[]> getConsumerRequestByDateAndRequestIdForCrmAdmin(@Param("fromDate") String fromDate,@Param("toDate") String toDate,@Param("requestID") Long requestID);
 
 }

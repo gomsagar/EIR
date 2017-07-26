@@ -20,19 +20,19 @@ export class HomeComponent
  private inProcessEnq;
  private pendingDisp;
  private totDisp;
- userId:Number;
+ //userId:Number;
  showLoader:boolean;
 
   constructor(private router: Router,private loaderService: LoaderService,private _compService:CompanyNameService) 
   {
-    this.userId=1;
+    //this.userId=1;
     console.log("HomeComponent");   
    this.loaderService.display(true);
    this.loaderService.status.subscribe((val: boolean) => {
             this.showLoader = val;
 
         });
-     this._subscription = this._compService.getCount(this.userId)
+     this._subscription = this._compService.getCount()
             .subscribe((count) => {
                     
                     this.jsonResponse = JSON.stringify(count);

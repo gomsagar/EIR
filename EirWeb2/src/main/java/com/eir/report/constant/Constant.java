@@ -24,9 +24,10 @@ public class Constant {
 	
 	public static final String USER_ID = "USER_ID";
 	public static final String SPECIFIED = "SPECIFIED";
+	public static final String NonSPECIFIED = "NON-SPECIFIED";
 	public static final String ACCESS_TOKEN = "AccessToken"; 
 	
-	public static final Integer HARDCOADED_USERID = 1;
+	//public static final Integer HARDCOADED_USERID = 1;
 	public static final Integer BUREAU_MEMBER_ID = 3388;
 	public static final String CONSPRODUCTFIELD = "INCCIR002";
 	
@@ -43,12 +44,14 @@ public class Constant {
 	
 	public static final Integer RETRY_COUNT = 3;
 	
+	public static final String DESCRIPTION = "Description";
 	public static final String HTML_FILE_PATH = "C:/output/HTMLReport.html";
 	
 	public static final String STATUS_DESCRIPTION_ERROR = "ERROR";
 	
 	public static final String REPORT_COMPLETED_READY = "Report Created and Ready to View";
 	public static final String REPORT_INCOMPLETE = "Report is Not Ready";
+	public static final String KYC_APPROVAL_PENDING = "Pending for kyc Approval";
 	
 	public static final Integer REGISTERED_LEGAL_OFFICE_ADDRESS_ID = 14;
 	

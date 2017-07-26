@@ -116,9 +116,9 @@ public class MemberUserMapping implements Serializable {
 
 	/**
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
+	/*@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumns({ @JoinColumn(name = "member_id", referencedColumnName = "memberid" , insertable = false, updatable = false) })
-	Member member;
+	Member member;*/
 
 	/**
 	 */
@@ -218,15 +218,15 @@ public class MemberUserMapping implements Serializable {
 
 	/**
 	 */
-	public void setMember(Member member) {
+	/*public void setMember(Member member) {
 		this.member = member;
 	}
 
-	/**
-	 */
+	*//**
+	 *//*
 	public Member getMember() {
 		return member;
-	}
+	}*/
 
 	/**
 	 */

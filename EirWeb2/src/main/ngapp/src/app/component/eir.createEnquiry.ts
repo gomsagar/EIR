@@ -200,6 +200,7 @@ public static reqId : number;
   }
   selectedCheckBox()
   { 
+    this.loaderService.display(true); 
       console.log("Hello......... from function");
       if(this.data.comboWithoutScore)
       {
@@ -270,20 +271,20 @@ public static reqId : number;
           this._appService.submit(this.value,this.sendRequestId).subscribe((reqId) => {
               EirCreateComponent.reqId=reqId;     
               console.log("reqID"+EirCreateComponent.reqId);
-              
+              this.loaderService.display(false); 
             });
           console.log("reqID outside:"+EirCreateComponent.reqId);
          //console.log("_subscription:"+this._subscription.)
 
-          // if(this.loggedInUserFlagVar == 'NON-SPECIFIED')
-          // {            
-          //   this.router.navigate(['kycComponent'],{ queryParams: { isOnlyBir: this.isOnlyBir, isCombo: this.isCombo, isCir: this.isCir} });
-          // }else {
-          //     this.router.navigate(['inputForEnquiry'],{queryParams: { isOnlyBir: this.isOnlyBir, isCombo: this.isCombo, isCir: this.isCir}});
-          // }
+          if(this.loggedInUserFlagVar == 'NON-SPECIFIED')
+          {            
+            this.router.navigate(['kycComponent'],{ queryParams: { isOnlyBir: this.isOnlyBir, isCombo: this.isCombo, isCir: this.isCir} });
+          }else {
+              this.router.navigate(['inputForEnquiry'],{queryParams: { isOnlyBir: this.isOnlyBir, isCombo: this.isCombo, isCir: this.isCir}});
+          }
 //debugger;
         
-         this.router.navigate(['inputForEnquiry'],{queryParams: { isOnlyBir: this.isOnlyBir, isCombo: this.isCombo, isCir: this.isCir, reqId: EirCreateComponent.reqId}});
+         //this.router.navigate(['inputForEnquiry'],{queryParams: { isOnlyBir: this.isOnlyBir, isCombo: this.isCombo, isCir: this.isCir, reqId: EirCreateComponent.reqId}});
     }
     else
     {

@@ -46,4 +46,21 @@ public interface BirRequestRepository extends JpaRepository<BirRequest, Integer>
 			nativeQuery=true)
 	public List<Object[]> getBirRequestByDateAndRequestId(@Param("fromDate") String fromDate,@Param("toDate") String toDate,@Param("requestID") Long requestID,@Param("userId") Integer userId);
 
+	@Query(value = "select br.REQUEST_ID,s.STATUS_DESCRIPTION from eir.BIR_REQUEST br"
+			+ " inner join eir.REQUEST r on r.REQUEST_ID = br.REQUEST_ID inner join eir.STATUS s on br.STATUS_ID = s.STATUS_ID "
+			+ "inner join eir.KYC_APPROVAL kyc on r.REQUEST_ID = kyc.request_id where r.REQUEST_ID =:requestID and (kyc.STATUS_ID=11 or kyc.STATUS_ID=5)",
+			nativeQuery=true)
+	public List<Object[]> getBirRequestByRequestIdForCrmAdmin(@Param("requestID") Long requestID);
+	
+	@Query(value = "select br.REQUEST_ID,s.STATUS_DESCRIPTION from eir.BIR_REQUEST br"
+			+ " inner join eir.REQUEST r on r.REQUEST_ID = br.REQUEST_ID inner join eir.STATUS s on br.STATUS_ID = s.STATUS_ID "
+			+ "inner join eir.KYC_APPROVAL kyc on r.REQUEST_ID = kyc.request_id where r.CREATE_DATE >= :fromDate and r.CREATE_DATE <= :toDate and (kyc.STATUS_ID=11 or kyc.STATUS_ID=5)",
+			nativeQuery=true)
+	public List<Object[]> getBirRequestByDateForCrmAdmin(@Param("fromDate") String fromDate,@Param("toDate") String toDate);
+	
+	@Query(value = "select br.REQUEST_ID,s.STATUS_DESCRIPTION from eir.BIR_REQUEST br"
+			+ " inner join eir.REQUEST r on r.REQUEST_ID = br.REQUEST_ID inner join eir.STATUS s on br.STATUS_ID = s.STATUS_ID "
+			+ "inner join eir.KYC_APPROVAL kyc on r.REQUEST_ID = kyc.request_id where r.REQUEST_ID =:requestID and r.CREATE_DATE >= :fromDate and r.CREATE_DATE <= :toDate and (kyc.STATUS_ID=11 or kyc.STATUS_ID=5)",
+			nativeQuery=true)
+	public List<Object[]> getBirRequestByDateAndRequestIdForCrmAdmin(@Param("fromDate") String fromDate,@Param("toDate") String toDate,@Param("requestID") Long requestID);
 }

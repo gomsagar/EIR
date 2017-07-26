@@ -7,8 +7,8 @@
                             <form class="user-form" id="disputeDetails">
                                 <div class="row">
                                     <div class="form-group col-md-12">
-                                        <label for="exampleInputName2">Description</label>
-                                        <textarea class="form-control" rows="5" id="comment" placeholder="Description"></textarea>
+                                        <label for="exampleInputName2">Comment</label>
+                                        <textarea class="form-control" rows="5" id="comment" placeholder="Comment" name="Description" [(ngModel)]="data.description"></textarea>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <label for="exampleInputName2">Upload a File</label>
@@ -51,3 +51,4 @@
                     <div class="next-btn pull-right"><input (click)="kycSubmit()" type="submit" class="btn btn-primary form-control" name="Submit" value="Submit"></div>
                     <div class="next-btn pull-right"><button type="button" (click)="resetFile()" class="btn btn-primary reset">Reset</button></div>
                 </div>
+                 <span *ngIf="showLoader" class="loading"></span>	  

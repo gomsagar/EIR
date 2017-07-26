@@ -3,6 +3,7 @@ package com.eir.report.servlet;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -110,7 +111,15 @@ public class SSOServlet extends HttpServlet {
            String userID = request.getParameter("userId");
            System.out.println("=============================================" + userID);
            try {
-        	   String userId = (String) request.getSession().getAttribute(Constant.USER_ID);
+        	   
+        	 /* // RequestDispatcher dispatcher = request.getRequestDispatcher("ng/index.html");
+        	   request.getSession().setAttribute(Constant.USER_ID, userID);
+        	   response.sendRedirect("ng/index.html");
+        	  // dispatcher.forward(request, response);
+*/        	   
+        	   request.getSession().setAttribute(Constant.USER_ID, userID);
+        	   
+        	  /* String userId = (String) request.getSession().getAttribute(Constant.USER_ID);
         	   
         	   if(userId == null || userId.isEmpty()) {
        			userId = request.getHeader(CT_REMOTE_USER);
@@ -122,9 +131,10 @@ public class SSOServlet extends HttpServlet {
        				setSessionValues(request, userId);
        			}catch(Exception e){
                        throw new ServletException("Error setting user data");
-       			}
-       		}
-        	   response.sendRedirect("ng/index.html");	
+       			}*/
+        	   
+        	   response.sendRedirect("ng/index.html");
+         	  	
                   
            } catch (Exception e) {
                   e.printStackTrace();
