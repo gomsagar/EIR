@@ -32,19 +32,19 @@ public interface BirRequestRepository extends JpaRepository<BirRequest, Integer>
 	public BirRequest findByBirRequestId(Integer birRequestId);
 	
 	@Query(value = "select br.REQUEST_ID,s.STATUS_DESCRIPTION from eir.BIR_REQUEST br inner join eir.REQUEST r on r.REQUEST_ID = br.REQUEST_ID "
-			+"inner join eir.STATUS s on br.STATUS_ID = s.STATUS_ID where br.REQUEST_ID =:requestID and r.USER_ID =:userId",
+			+"inner join eir.STATUS s on br.STATUS_ID = s.STATUS_ID where br.REQUEST_ID =:requestID and br.REQUEST_ID>=:startIndex and br.REQUEST_ID<=:endIndex and r.USER_ID =:userId",
 			nativeQuery=true)
-	public List<Object[]> getBirRequestByRequestId(@Param("requestID") Long requestID,@Param("userId") Integer userId);
+	public List<Object[]> getBirRequestByRequestId(@Param("requestID") Long requestID,@Param("userId") Integer userId,@Param("startIndex") Integer startIndex,@Param("endIndex") Integer endIndex);
 	
 	@Query(value = "select br.REQUEST_ID,s.STATUS_DESCRIPTION from eir.BIR_REQUEST br inner join eir.REQUEST r on r.REQUEST_ID = br.REQUEST_ID "
-			+"inner join eir.STATUS s on br.STATUS_ID = s.STATUS_ID where r.CREATE_DATE >= :fromDate and r.CREATE_DATE <= :toDate and r.USER_ID =:userId",
+			+"inner join eir.STATUS s on br.STATUS_ID = s.STATUS_ID where r.CREATE_DATE >= :fromDate and r.CREATE_DATE <= :toDate and r.USER_ID =:userId and br.REQUEST_ID>=:startIndex and br.REQUEST_ID<=:endIndex",
 			nativeQuery=true)
-	public List<Object[]> getBirRequestByDate(@Param("fromDate") String fromDate,@Param("toDate") String toDate,@Param("userId") Integer userId);
+	public List<Object[]> getBirRequestByDate(@Param("fromDate") String fromDate,@Param("toDate") String toDate,@Param("userId") Integer userId,@Param("startIndex") Integer startIndex,@Param("endIndex") Integer endIndex);
 	
 	@Query(value = "select br.REQUEST_ID,s.STATUS_DESCRIPTION from eir.BIR_REQUEST br inner join eir.REQUEST r on r.REQUEST_ID = br.REQUEST_ID "
-			+"inner join eir.STATUS s on br.STATUS_ID = s.STATUS_ID where r.CREATE_DATE >= :fromDate and r.CREATE_DATE <= :toDate and br.REQUEST_ID =:requestID and r.USER_ID =:userId",
+			+"inner join eir.STATUS s on br.STATUS_ID = s.STATUS_ID where r.CREATE_DATE >= :fromDate and r.CREATE_DATE <= :toDate and br.REQUEST_ID =:requestID and r.USER_ID =:userId  and br.REQUEST_ID>=:startIndex and br.REQUEST_ID<=:endIndex",
 			nativeQuery=true)
-	public List<Object[]> getBirRequestByDateAndRequestId(@Param("fromDate") String fromDate,@Param("toDate") String toDate,@Param("requestID") Long requestID,@Param("userId") Integer userId);
+	public List<Object[]> getBirRequestByDateAndRequestId(@Param("fromDate") String fromDate,@Param("toDate") String toDate,@Param("requestID") Long requestID,@Param("userId") Integer userId,@Param("startIndex") Integer startIndex,@Param("endIndex") Integer endIndex);
 
 	@Query(value = "select br.REQUEST_ID,s.STATUS_DESCRIPTION from eir.BIR_REQUEST br"
 			+ " inner join eir.REQUEST r on r.REQUEST_ID = br.REQUEST_ID inner join eir.STATUS s on br.STATUS_ID = s.STATUS_ID "

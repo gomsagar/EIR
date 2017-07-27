@@ -33,7 +33,7 @@
 						  </div>		
 						  <div class="form-group col-md-2">	
 								<label for="" style="visibility: hidden;" class="hidden-sm hidden-xs">Click to Search</label>						  
-								<button type="button" class="btn btn-primary glyphicon glyphicon-ok" aria-hidden="true" style="text-align:center;width: 100px;position: relative;padding-left: 15px;background: #61a6d2;border: 0;" (click)="ViewEarlierEnq()"></button>
+								<button type="button" class="btn btn-primary glyphicon" aria-hidden="true" style="text-align:center" (click)="ViewEarlierEnq()">Submit</button>
 						  </div>						  
 						</form>					
 						<form class="blank-form">
@@ -49,7 +49,7 @@
 						<div class="table-responsive view-enquiry">
 							<table class="table table-bordered">
 								<thead>
-									<tr>
+									<tr *ngIf=" pagedItems != undefined && pagedItems.length > 0;">
 										<!--<th>Name</th>-->
 										<th>Request Id</th>
 										<th>Combo with Score</th>
@@ -66,7 +66,8 @@
 								</thead>
 								<tbody>
 								
-									<tr *ngFor="let requestStatus of earlierRequestList;let i = index;">
+									<!--<tr *ngFor="let requestStatus of earlierRequestList;let i = index;">-->
+										<tr *ngFor="let requestStatus of pagedItems;let i = index;">
 										<!--<td>User 1</td>									 
 										 <input name="company" value = requestStatus.requestId [(ngModel)]="data.reqId"  (ngModelChange)="onChange($event)">-->	
 										<td>{{requestStatus.requestId}}</td>										
@@ -81,7 +82,7 @@
 										<td></td>
 										<td>
 										  <!--<input type="checkbox" value="None" id="squaredThree" name="check" checked />-->
-										<button (click)="submit(earlierRequestList[i].requestId)" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button>
+										<button (click)="submit(requestStatus.requestId)" type="submit" id="squaredThree"  name="view" class="btn btn-primary glyphicon " aria-hidden="true" style="text-align:center">View</button>
 										  <label for="squaredThree"></label>
 										</td>
 									</tr>
@@ -123,7 +124,25 @@
 							</table>
 						</div>										
 					</div>
-				</div>				
+				</div>
+				<!-- pager -->
+            <ul *ngIf="pager.pages && pager.pages.length && pager.pages.length > 1 " class="pagination">
+                <li [ngClass]="{disabled:pager.currentPage === 1}">
+                    <a (click)="setPage(1)">First</a>
+                </li>
+                <li [ngClass]="{disabled:pager.currentPage === 1}">
+                    <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+                </li>
+                <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                    <a (click)="setPage(page)">{{page}}</a>
+                </li>
+                <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                    <a (click)="setPage(pager.currentPage + 1)">Next</a>
+                </li>
+                <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                    <a (click)="setPage(pager.totalPages)">Last</a>
+                </li>
+            </ul>				
           </div>
 
 		  <div class="row">

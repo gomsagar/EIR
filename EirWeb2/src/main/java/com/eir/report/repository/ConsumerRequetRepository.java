@@ -14,19 +14,19 @@ public interface ConsumerRequetRepository extends JpaRepository<ConsumerRequest,
 	public List<ConsumerRequest> findByConsumerRequestId(Integer requestId);
 	
 	@Query(value = "select con.REQUEST_ID, s.STATUS_DESCRIPTION from eir.CONSUMER_REQUEST con inner join eir.REQUEST r on r.REQUEST_ID = con.REQUEST_ID "
-			+"inner join eir.STATUS s on con.STATUS_ID = s.STATUS_ID where con.REQUEST_ID =:requestID and r.USER_ID =:userId",
+			+"inner join eir.STATUS s on con.STATUS_ID = s.STATUS_ID where con.REQUEST_ID =:requestID and r.USER_ID =:userId and con.REQUEST_ID>=:startIndex and con.REQUEST_ID<=:endIndex ",
 			nativeQuery=true)
-	public List<Object[]> getConsumerRequestByRequestId(@Param("requestID") Long requestID,@Param("userId") Integer userId);
+	public List<Object[]> getConsumerRequestByRequestId(@Param("requestID") Long requestID,@Param("userId") Integer userId,@Param("startIndex") Integer startIndex,@Param("endIndex") Integer endIndex);
 	
 	@Query(value = "select con.REQUEST_ID, s.STATUS_DESCRIPTION from eir.CONSUMER_REQUEST con inner join eir.REQUEST r on r.REQUEST_ID = con.REQUEST_ID "
-			+"inner join eir.STATUS s on con.STATUS_ID = s.STATUS_ID where r.CREATE_DATE >= :fromDate and r.CREATE_DATE <= :toDate and r.USER_ID =:userId",
+			+"inner join eir.STATUS s on con.STATUS_ID = s.STATUS_ID where r.CREATE_DATE >= :fromDate and r.CREATE_DATE <= :toDate and r.USER_ID =:userId  and con.REQUEST_ID>=:startIndex and con.REQUEST_ID<=:endIndex",
 			nativeQuery=true)
-	public List<Object[]> getConsumerRequestByDate(@Param("fromDate") String fromDate,@Param("toDate") String toDate,@Param("userId") Integer userId);
+	public List<Object[]> getConsumerRequestByDate(@Param("fromDate") String fromDate,@Param("toDate") String toDate,@Param("userId") Integer userId,@Param("startIndex") Integer startIndex,@Param("endIndex") Integer endIndex);
 	
 	@Query(value = "select con.REQUEST_ID, s.STATUS_DESCRIPTION from eir.CONSUMER_REQUEST con inner join eir.REQUEST r on r.REQUEST_ID = con.REQUEST_ID "
-			+"inner join eir.STATUS s on con.STATUS_ID = s.STATUS_ID where r.CREATE_DATE >= :fromDate and r.CREATE_DATE <= :toDate and con.REQUEST_ID =:requestID and r.USER_ID =:userId",
+			+"inner join eir.STATUS s on con.STATUS_ID = s.STATUS_ID where r.CREATE_DATE >= :fromDate and r.CREATE_DATE <= :toDate and con.REQUEST_ID =:requestID and r.USER_ID =:userId  and con.REQUEST_ID>=:startIndex and con.REQUEST_ID<=:endIndex",
 			nativeQuery=true)
-	public List<Object[]> getConsumerRequestByDateAndRequestId(@Param("fromDate") String fromDate,@Param("toDate") String toDate,@Param("requestID") Long requestID,@Param("userId") Integer userId);
+	public List<Object[]> getConsumerRequestByDateAndRequestId(@Param("fromDate") String fromDate,@Param("toDate") String toDate,@Param("requestID") Long requestID,@Param("userId") Integer userId,@Param("startIndex") Integer startIndex,@Param("endIndex") Integer endIndex);
 
 	@Query(value = "select conr.XML_OUTPUT_PATH from eir.CONSUMER_REQUEST conr where conr.REQUEST_ID =:requestID", nativeQuery=true)
 	public String findByRequest(@Param("requestID")Integer requestID);

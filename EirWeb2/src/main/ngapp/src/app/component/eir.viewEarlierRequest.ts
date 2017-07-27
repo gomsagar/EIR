@@ -5,6 +5,8 @@ import { AppService } from '../services/eir.callController';
 import { DatePickerOptions, DateModel } from 'ng2-datepicker';
 import { LoaderService } from '../services/eir.loader';
 import { MyDatePicker, IMyDpOptions, IMyDate } from 'mydatepicker';
+import * as _ from 'underscore';
+import { PagerService } from '../services/pager.service'
 
 @Component({
   selector: 'viewEarlierRequest',
@@ -57,7 +59,11 @@ export class ViewEarlierRequestComponent {
     dateFormat: 'yyyy-mm-dd',
     editableDateField: false
   };
-
+  private allItems: any[];
+  // pager object
+  pager: any = {};
+  // paged items
+  pagedItems: any[];
   ngOnInit() {
     // debugger;
     // this._dataService.getEarlierRequestData(this.userId).subscribe((earlierRequestData) => {
@@ -75,11 +81,10 @@ export class ViewEarlierRequestComponent {
     //     });
 
   }
-  constructor(private router: Router, private _appService: AppService, private loaderService: LoaderService, public fb1: FormBuilder,
-    private _routeParams: ActivatedRoute) {
-    //this.loaderService.display(true);
-    this.loaderService.status.subscribe((val: boolean) => {
-      this.showLoader = val;
+  constructor(private router: Router,private _appService:AppService,private loaderService: LoaderService,public fb1: FormBuilder,private _routeParams: ActivatedRoute, private pagerService: PagerService){ 
+    this.loaderService.display(true);
+   this.loaderService.status.subscribe((val: boolean) => {
+            this.showLoader = val;
 
     });
 
@@ -107,7 +112,7 @@ export class ViewEarlierRequestComponent {
 
       this.serviceCallForViewData(this.data);
     }
-    //this.loaderService.display(false);
+    this.loaderService.display(false);
   }
 
 
@@ -140,6 +145,14 @@ export class ViewEarlierRequestComponent {
     if (this.data.toDate != null && this.data.toDate != undefined) {
       this.toDateBack = this.data.toDate.formatted;
     }
+    if(!this.customValidator(this.requisitionForm))
+    {
+      debugger;
+      this.pagedItems = [];
+       alert("Please Enter Search Criteria!");
+       return;
+      
+    }
     if (this.requisitionForm.valid) {
       if (this.data.fromDate !== undefined && this.data.toDate !== undefined && this.data.fromDate !== null && this.data.toDate !== null
         && this.data.fromDate.date !== undefined && this.data.toDate.date !== undefined && this.data.fromDate.date !== null && this.data.toDate.date !== null) {
@@ -148,35 +161,133 @@ export class ViewEarlierRequestComponent {
           this.serviceCallForViewData(this.data);
         }
         else {
-          this.earlierRequestList = [];
+          this.pagedItems = [];
           alert("To Date should be greater than From Date!");
         }
       }
       else {
         this.serviceCallForViewData(this.data);
       }
+      else{
+        this.pagedItems = [];
+        alert("Please Enter Search Criteria!");
+      }
+
     }
-  }
 
-  serviceCallForViewData(formParameter) {
-    this.loaderService.display(true);
-    this._appService.getRequestData(this.data).subscribe((earlierRequestData) => {
-      if (null != earlierRequestData && earlierRequestData.length > 0) {
+    /*serviceCallForViewData(formParameter)
+    {      
+      this.loaderService.display(true);
+        this._appService.getRequestData(this.data).subscribe((earlierRequestData) => 
+        { 
+          // set items to json response
+          this.allItems = earlierRequestData;
+          // initialize to page 1
+          this.setPage(1);
+          if(null != earlierRequestData && earlierRequestData.length > 0)
+              { 
+                  this.loaderService.display(true);
+                  console.log("Inside if...........");
+                  this.earlierRequestList = earlierRequestData;
+                  console.log("Inside if..........."+this.earlierRequestList.length+" - "+this.earlierRequestList);
+                  for(var i=0;i<this.earlierRequestList.length;i++)
+                  {
+                    this.reqId = this.earlierRequestList[i].requestId;
+                  }
+              } 
+              else
+              {
+                  console.log("Inside else...........");
+                  this.earlierRequestList = [];
+                  this.loaderService.display(false);
+                  alert("No Data Found.");
+              }    
+	      this.loaderService.display(false);    
+          });
+      }*/
+     
+
+    serviceCallForViewData(formParameter)
+    {    
         this.loaderService.display(true);
-        console.log("Inside if...........");
-        this.earlierRequestList = earlierRequestData;
-        for (var i = 0; i < this.earlierRequestList.length; i++) {
-          this.reqId = this.earlierRequestList[i].requestId;
-        }
-      }
-      else {
-        console.log("Inside else...........");
-        this.earlierRequestList = [];
-        this.loaderService.display(false);
-        alert("No Data Found.");
-      }
-      this.loaderService.display(false);
-    });
-  }
+        this._appService.viewRequestIds(this.data).subscribe((earlierRequestData) => 
+        { 
+              // set items to json response
+              this.allItems = earlierRequestData;
+              debugger;
+              if(this.allItems == undefined || this.allItems.length <= 0 )
+              {
+                this.pagedItems = [];
+                  alert("No Data Found.");
+              }
+              
+             //return this.allItems;
+              // initialize to page 1
+              this.setPage(1);
+                
+           this.loaderService.display(false);    
+        });
 
+        this.loaderService.display(false);
+      }
+
+      setPage(page: number) 
+      { debugger;
+
+        this.pager = this.pagerService.getPager(this.allItems.length, page);
+            if (page < 1 || page > this.pager.pages.length) 
+            {
+                return;
+            }
+            // get pager object from service
+            console.log("this.allItems -------- "+this.allItems);
+            //this.pager = this.pagerService.getPager(this.allItems.length, page);
+            let startId = this.allItems[this.pager.startIndex];
+            let endId = this.allItems[this.pager.endIndex];
+            this.data.startIndex = startId;
+            this.data.endIndex = endId;
+
+            this._appService.getRequestData(this.data).subscribe((earlierRequestData) => 
+            {
+                debugger;
+                  // set items to json response
+                  this.pagedItems = earlierRequestData;
+                  // initialize to page 1
+                  if(null != earlierRequestData && earlierRequestData.length > 0)
+                      { 
+                            this.loaderService.display(true);
+                            console.log("Inside if...........");
+                            this.pagedItems = earlierRequestData;
+                            console.log("Inside if..........."+this.pagedItems.length+" - "+this.pagedItems);
+                      } 
+                      else
+                      {
+                            console.log("Inside else...........");
+                            this.pagedItems = [];
+                            this.loaderService.display(false);
+                            //alert("No Data Found.");
+                            window.confirm("no data");
+                            this.message = "No Data Found";
+                      }
+                this.loaderService.display(false);
+              });
+                // get current page of items
+                debugger;
+                this.pagedItems = this.allItems.slice(this.pager.startIndex, this.pager.endIndex + 1);
+                this.loaderService.display(false);
+      }
+
+          customValidator(group: FormGroup) {
+
+            if( (this.fromDateBack == undefined || this.fromDateBack == "" ) && 
+            (this.toDateBack == undefined || this.toDateBack == "")
+            &&( this.data.requestId == undefined || this.data.requestId == "") ) 
+              {
+                    return false;
+                } 
+                else
+                {
+                  return true;
+                }
+          }
 }

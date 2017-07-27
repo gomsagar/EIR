@@ -7,6 +7,8 @@ public class ViewEarlierEnqRequestObject {
 	String requestId;
 	DateCustomFormatter fromDate;
 	DateCustomFormatter toDate;
+	Integer startIndex;
+	Integer endIndex;
 	
 	public String getRequestId() {
 		return requestId;
@@ -25,6 +27,18 @@ public class ViewEarlierEnqRequestObject {
 	}
 	public void setToDate(DateCustomFormatter toDate) {
 		this.toDate = toDate;
+	}
+	public Integer getStartIndex() {
+		return startIndex;
+	}
+	public void setStartIndex(Integer startIndex) {
+		this.startIndex = startIndex;
+	}
+	public Integer getEndIndex() {
+		return endIndex;
+	}
+	public void setEndIndex(Integer endIndex) {
+		this.endIndex = endIndex;
 	}
 	
 	

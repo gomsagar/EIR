@@ -340,6 +340,14 @@ public class EirController {
            List<ViewEarlierEnquiresObject> viewEnquiresObjectList = eirService.getCrmAdminRequestData(input);              
            return viewEnquiresObjectList;
     }
+	@CrossOrigin("*")
+    @RequestMapping(value = "/viewRequestIds", method = RequestMethod.POST,produces="application/json")
+    public @ResponseBody List<Integer> viewRequestIds(@RequestBody ViewEarlierEnqRequestObject input , HttpServletRequest request) 
+    {
+         
+           List<Integer> viewEnquiresObjectList = eirService.getRequestedIds(input);              
+           return viewEnquiresObjectList;
+    }
 
 	
 	@Transactional

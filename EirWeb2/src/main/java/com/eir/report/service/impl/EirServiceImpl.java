@@ -1150,6 +1150,7 @@ public class EirServiceImpl implements EirService{
 		  Long requestID = null;
 		  String fromDate  =null;
 		  String toDate  =null;
+		  Integer startIndex = null, endIndex = null;
 		  if(null != input){
 		       if(null != input.getRequestId() && input.getRequestId() !="")
 		       {
@@ -1161,34 +1162,44 @@ public class EirServiceImpl implements EirService{
 		       if(null != input.getToDate() && input.getToDate().getFormatted() != null && !input.getToDate().getFormatted().isEmpty()){
 		    	   toDate = input.getToDate().getFormatted();
 		       }
+		       if(null != input.getStartIndex())
+		       {
+		    	   startIndex = input.getStartIndex();
+		       }
+		       if(null != input.getEndIndex())
+		       {
+		    	   endIndex =input.getEndIndex();
+		       }			   
 		  }
 		List<Object[]> cirRequests = new ArrayList<>();
 		List<Object[]> birRequests = new ArrayList<>();
 		List<Object[]> consumerRequests= new ArrayList<>();
-		
+	if(null != input.getStartIndex() && null != input.getEndIndex())
+	{		
 		if(null != requestID && (null != fromDate ) && (null != toDate)){
 			
-			cirRequests = cirReqRepository.getCirRequestByDateAndRequestId(fromDate, toDate, requestID,userId);
+			cirRequests = cirReqRepository.getCirRequestByDateAndRequestId(fromDate, toDate, requestID,userId,startIndex,endIndex);
 			 
-			birRequests = birRequestRepository.getBirRequestByDateAndRequestId(fromDate, toDate, requestID,userId);
+			birRequests = birRequestRepository.getBirRequestByDateAndRequestId(fromDate, toDate, requestID,userId,startIndex,endIndex);
 			
-		    consumerRequests = consumerListRepository.getConsumerRequestByDateAndRequestId(fromDate, toDate, requestID,userId);
+		    consumerRequests = consumerListRepository.getConsumerRequestByDateAndRequestId(fromDate, toDate, requestID,userId,startIndex,endIndex);
 			
 		}else if(null == requestID && null != fromDate && null != toDate){
 			
-			cirRequests = cirReqRepository.getCirRequestByDate(fromDate, toDate,userId);
+			cirRequests = cirReqRepository.getCirRequestByDate(fromDate, toDate,userId,startIndex,endIndex);
 			 
-			birRequests = birRequestRepository.getBirRequestByDate(fromDate, toDate,userId);
+			birRequests = birRequestRepository.getBirRequestByDate(fromDate, toDate,userId,startIndex,endIndex);
 			
-		    consumerRequests = consumerListRepository.getConsumerRequestByDate(fromDate, toDate,userId);
+		    consumerRequests = consumerListRepository.getConsumerRequestByDate(fromDate, toDate,userId,startIndex,endIndex);
 			
 		}else if(null != requestID && (null == fromDate) && (null == toDate )){
-			cirRequests = cirReqRepository.getCirRequestByRequestId(requestID,userId);
+			cirRequests = cirReqRepository.getCirRequestByRequestId(requestID,userId,startIndex,endIndex);
 		 
-			birRequests = birRequestRepository.getBirRequestByRequestId(requestID,userId);
+			birRequests = birRequestRepository.getBirRequestByRequestId(requestID,userId,startIndex,endIndex);
 			
-		    consumerRequests = consumerListRepository.getConsumerRequestByRequestId(requestID,userId);
+		    consumerRequests = consumerListRepository.getConsumerRequestByRequestId(requestID,userId,startIndex,endIndex);
 		}
+	}
 		
 		return getViewEarlierEnquiriesObject(cirRequests, birRequests, consumerRequests);
 		
@@ -1879,5 +1890,36 @@ public class EirServiceImpl implements EirService{
 		}
 		
 		return getXMLReportFilePath;
+	}
+
+	@Override
+	public List<Integer> getRequestedIds(ViewEarlierEnqRequestObject input) 
+	{
+		Integer requestID = null;
+		  String fromDate  =null;
+		  String toDate  =null;
+		  List<Integer> requestedIdList = null;
+		  if(null != input)
+		  {
+			  requestedIdList = new ArrayList<>();
+		       if(null != input.getRequestId() && !input.getRequestId().isEmpty())
+		       {
+		              requestID = Integer.parseInt(input.getRequestId());
+		              
+		              requestedIdList.add(requestID);
+		       }
+		       else 
+		       {		       
+			       if(null != input.getFromDate() && input.getFromDate().getFormatted() != null && !input.getFromDate().getFormatted().isEmpty()){
+			    	   fromDate = input.getFromDate().getFormatted();
+			       }
+			       if(null != input.getToDate() && input.getToDate().getFormatted() != null && !input.getToDate().getFormatted().isEmpty()){
+			    	   toDate = input.getToDate().getFormatted();
+			       }
+			       requestedIdList = requestRepository.findRequestByDateAndRequestId(fromDate, toDate);
+		       }
+		  }
+		
+		return requestedIdList;
 	}
 }

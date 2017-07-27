@@ -21,6 +21,7 @@ import { LoaderService } from './services/eir.loader';
 import { MyDatePickerModule } from 'mydatepicker';
 import {CrmAdmin} from './component/eir.crmAdmin';
 import {CrmAdminApproval} from './component/eir.CrmAdminApproval';
+import { PagerService } from './services/pager.service';
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
    { path: 'createEnquiry', component: EirCreateComponent },
@@ -48,7 +49,7 @@ const appRoutes: Routes = [
     MyDatePickerModule,
      DatePickerModule
   ],
-  providers: [RouterModule,LoaderService,ReactiveFormsModule,{ provide: APP_CONFIG, useValue: AppConfig }],
+  providers: [RouterModule,LoaderService,ReactiveFormsModule,PagerService,{ provide: APP_CONFIG, useValue: AppConfig }],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

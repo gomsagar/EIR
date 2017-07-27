@@ -98,4 +98,6 @@ public interface EirService {
 		EligibleReport getSelectedProduct(Integer reqID);
 		
 		String getEirXMLReport(Integer requestId, String reportType, HttpServletRequest request,HttpServletResponse response);
+
+		List<Integer> getRequestedIds(ViewEarlierEnqRequestObject input);
 }

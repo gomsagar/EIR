@@ -64,7 +64,17 @@ public serviceUrl : string;
              })
             .map(res=>res.json());
     }
-
+    viewRequestIds(viewEarlierEnqData)
+    {
+        var head = new Headers();
+        head.append('Content-Type', 'application/json');
+         
+         return this._http.post(this.serviceUrl+ 'viewRequestIds',
+             JSON.stringify(viewEarlierEnqData),{
+                    headers:head
+             })
+            .map(res=>res.json());
+    }
     getRequestDataForCRMAdmin(crmAdminEnqData)
     {
         var head = new Headers();
