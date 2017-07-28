@@ -68,6 +68,7 @@ showLoader1:boolean;
  month = this.d.getMonth();
 day = this.d.getDate();
 mind:String;
+loaderService: LoaderService;
 //options: DatePickerOptions;
 private myDatePickerOptions: IMyDpOptions = {
         // other options...
@@ -87,7 +88,7 @@ private selDate: IMyDate = {year: 0, month: 0, day: 0};
  ];
 
  constructor(public fb1: FormBuilder, private _appService:AppService, private _newService:NewService, private _accntTypeList:AccountTyprList, private _relationTypeList:RelationTypeList,
-  private _consumerPurposeList:ConsumerPurposeList,private loaderService: LoaderService, private _stateListService:StateListService , private _consumerAddrTypeList:AddressTypeList) {
+  private _consumerPurposeList:ConsumerPurposeList, private _stateListService:StateListService , private _consumerAddrTypeList:AddressTypeList) {
  /* this.subscription = _newService.missionAnnounced$.subscribe(
       mission => {
           console.log("AstronautComponent missionService.missionAnnounced$.subscribe ");
@@ -95,11 +96,9 @@ private selDate: IMyDate = {year: 0, month: 0, day: 0};
     });
 
 */
+this.loaderService = new LoaderService;
 this.loaderService.display(true);
-   this.loaderService.status.subscribe((val: boolean) => {
-            this.showLoader1 = val;
-
-        });
+   
 //this.options = new DatePickerOptions();
   this.subscription =  _newService.inqueryCompVar$.subscribe(
             inqueryCompVar => {

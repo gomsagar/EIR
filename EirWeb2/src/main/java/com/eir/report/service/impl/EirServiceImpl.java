@@ -371,7 +371,8 @@ public class EirServiceImpl implements EirService{
 		cirRequestEntity.setTin(cirRequest.getTin());
 		cirRequestEntity.setEmailId(cirRequest.getEmailId());
 		
-		cirReqRepository.save(cirRequestEntity);
+		cirRequestEntity = cirReqRepository.save(cirRequestEntity);
+		cirReqRepository.flush();
 		return cirRequestEntity;
 	}
 	
@@ -1156,11 +1157,14 @@ public class EirServiceImpl implements EirService{
 		       {
 		              requestID = Long.parseLong(input.getRequestId());
 		       }
-		       if(null != input.getFromDate() && input.getFromDate().getFormatted() != null && !input.getFromDate().getFormatted().isEmpty()){
-		    	   fromDate = input.getFromDate().getFormatted();
-		       }
-		       if(null != input.getToDate() && input.getToDate().getFormatted() != null && !input.getToDate().getFormatted().isEmpty()){
-		    	   toDate = input.getToDate().getFormatted();
+		       else 
+		       {
+		    	   if(null != input.getFromDate() && input.getFromDate().getFormatted() != null && !input.getFromDate().getFormatted().isEmpty()){
+			    	   fromDate = input.getFromDate().getFormatted();
+			       }
+			       if(null != input.getToDate() && input.getToDate().getFormatted() != null && !input.getToDate().getFormatted().isEmpty()){
+			    	   toDate = input.getToDate().getFormatted();
+			       }
 		       }
 		       if(null != input.getStartIndex())
 		       {

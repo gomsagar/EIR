@@ -71,6 +71,7 @@ export class KycComponent
     }
     else{
         alert("Please upload the kyc document !!!");
+        this.loaderService.display(false);
         this.router.navigate(['kycComponent']);
     }
   }
@@ -110,6 +111,7 @@ uploadFile(event){
     }
     else{
       alert("No file selected");
+      this.loaderService.display(false);
     }
   }
 

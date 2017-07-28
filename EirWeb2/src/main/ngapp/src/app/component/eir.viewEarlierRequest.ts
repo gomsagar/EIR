@@ -37,11 +37,15 @@ export class ViewEarlierRequestComponent {
   dateExpires: Date;
   requisitionForm: FormGroup;
   submitted: boolean = false;
+  fromDateStr: String[];
+  toDateStr: String[];
   formDateObj: any = {
-    "day": "", "month": "", "year": "", "formatted": "", "momentObj": ""
+    formatted: "",
+    date: {"day": "", "month": "", "year": "",  "momentObj": ""}
   };
   toDateObj: any = {
-    "day": "", "month": "", "year": "", "formatted": "", "momentObj": ""
+    formatted: "",
+    date: {"day": "", "month": "", "year": "",  "momentObj": ""}
   };
   showLoader: boolean;
   d = new Date();
@@ -100,19 +104,29 @@ export class ViewEarlierRequestComponent {
         this.fromDateBack = params["fromDate"],
         this.toDateBack = params["toDate"];
     });
-
+  debugger;
     if ((this.backRequestedId !== null && this.backRequestedId !== undefined) || (this.fromDateBack !== null
-      && this.fromDateBack !== undefined) || (this.toDateBack !== null && this.toDateBack !== undefined)) {
-      this.data.requestId = this.backRequestedId;
+      && this.fromDateBack !== undefined) || (this.toDateBack !== null && this.toDateBack !== undefined)) 
+      {
+        this.data.requestId = this.backRequestedId;
 
-      this.formDateObj.formatted = this.fromDateBack;
-      this.data.fromDate = this.formDateObj;
-      this.toDateObj.formatted = this.toDateBack;
-      this.data.toDate = this.toDateObj;
+        this.formDateObj.formatted = this.fromDateBack;
+        this.fromDateStr = this.fromDateBack.split("-");
+        this.formDateObj.date.day = this.fromDateStr[2];
+        this.formDateObj.date.month = this.fromDateStr[1];
+        this.formDateObj.date.year = this.fromDateStr[0];
+        this.data.fromDate = this.formDateObj;
 
-      this.serviceCallForViewData(this.data);
-    }
-    this.loaderService.display(false);
+        this.toDateObj.formatted = this.toDateBack;
+        this.toDateStr = this.toDateBack.split("-");
+        this.toDateObj.date.day = this.toDateStr[2];
+        this.toDateObj.date.month = this.toDateStr[1];
+        this.toDateObj.date.year = this.toDateStr[0];
+        this.data.toDate = this.toDateObj;
+
+        this.serviceCallForViewData(this.data);
+      }
+      this.loaderService.display(false);
   }
 
 
@@ -145,35 +159,58 @@ export class ViewEarlierRequestComponent {
     if (this.data.toDate != null && this.data.toDate != undefined) {
       this.toDateBack = this.data.toDate.formatted;
     }
-    if(!this.customValidator(this.requisitionForm))
+    if(!this.customValidator())
     {
       debugger;
       this.pagedItems = [];
+      this.allItems = [];
        alert("Please Enter Search Criteria!");
-       return;
-      
+       return;      
     }
-    if (this.requisitionForm.valid) {
-      if (this.data.fromDate !== undefined && this.data.toDate !== undefined && this.data.fromDate !== null && this.data.toDate !== null
-        && this.data.fromDate.date !== undefined && this.data.toDate.date !== undefined && this.data.fromDate.date !== null && this.data.toDate.date !== null) {
-        if ((this.data.fromDate.date.year <= this.data.toDate.date.year) && (this.data.fromDate.date.month <= this.data.toDate.date.month)
-          && (this.data.fromDate.date.day <= this.data.toDate.date.day)) {
-          this.serviceCallForViewData(this.data);
+    if (this.requisitionForm.valid) 
+    {
+      if(this.data.requestId == null || this.data.requestId == undefined || this.data.requestId == '')
+      {
+                  if (this.data.fromDate !== undefined && this.data.fromDate !== null && this.data.fromDate.date !== undefined  && this.data.fromDate.date !== null
+                    && (this.data.toDate == undefined ||  this.data.toDate == null || this.data.toDate.date == undefined  || this.data.toDate.date == null) ) 
+                    {
+                      this.pagedItems = [];
+                      this.allItems = [];
+                      alert("Please Enter To Date!")
+                      
+                    }
+                    else if(this.data.toDate !== undefined && this.data.toDate !== null && this.data.toDate.date !== undefined  && this.data.toDate.date !== null
+                    && (this.data.fromDate == undefined ||  this.data.fromDate == null || this.data.fromDate.date == undefined  || this.data.fromDate.date == null) )
+                    {
+                      this.pagedItems = [];
+                      this.allItems = [];
+                      alert("Please Enter From Date!");
+                      
+                    }
+                  else
+                  {
+                        if ((this.data.fromDate.date.year <= this.data.toDate.date.year) && (this.data.fromDate.date.month <= this.data.toDate.date.month)
+                          && (this.data.fromDate.date.day <= this.data.toDate.date.day)) {
+                          this.serviceCallForViewData(this.data);
+                        }
+                        else {
+                          this.pagedItems = [];
+                          this.allItems = [];
+                          alert("To Date should be greater than From Date!");
+                        }
+                  }
+
         }
         else {
-          this.pagedItems = [];
-          alert("To Date should be greater than From Date!");
+          this.serviceCallForViewData(this.data);
         }
-      }
-      else {
-        this.serviceCallForViewData(this.data);
-      }
-      else{
-        this.pagedItems = [];
-        alert("Please Enter Search Criteria!");
-      }
-
     }
+    else{
+      this.pagedItems = [];
+      this.allItems = [];
+      alert("Please Enter Search Criteria!");
+    }
+  }
 
     /*serviceCallForViewData(formParameter)
     {      
@@ -218,6 +255,7 @@ export class ViewEarlierRequestComponent {
               if(this.allItems == undefined || this.allItems.length <= 0 )
               {
                 this.pagedItems = [];
+                this.allItems = [];
                   alert("No Data Found.");
               }
               
@@ -264,10 +302,9 @@ export class ViewEarlierRequestComponent {
                       {
                             console.log("Inside else...........");
                             this.pagedItems = [];
+                            this.allItems = [];
                             this.loaderService.display(false);
-                            //alert("No Data Found.");
-                            window.confirm("no data");
-                            this.message = "No Data Found";
+                            alert("No Data Found.");
                       }
                 this.loaderService.display(false);
               });
@@ -277,17 +314,17 @@ export class ViewEarlierRequestComponent {
                 this.loaderService.display(false);
       }
 
-          customValidator(group: FormGroup) {
-
-            if( (this.fromDateBack == undefined || this.fromDateBack == "" ) && 
-            (this.toDateBack == undefined || this.toDateBack == "")
-            &&( this.data.requestId == undefined || this.data.requestId == "") ) 
+          customValidator() 
+          {
+              if(( this.data.fromDate == null || this.data.fromDate == undefined ||this.data.fromDate.formatted == undefined || this.data.fromDate.formatted == null)
+                && ( this.data.toDate == null || this.data.toDate == undefined || this.data.toDate.formatted == undefined || this.data.toDate.formatted == null)
+                &&( this.data.requestId == undefined || this.data.requestId == ""))
               {
-                    return false;
-                } 
-                else
-                {
-                  return true;
-                }
+                  return false;
+              }
+              else
+              {
+                return true;
+              }
           }
 }

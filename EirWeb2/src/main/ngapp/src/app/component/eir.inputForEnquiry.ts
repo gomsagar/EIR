@@ -64,6 +64,7 @@ export class InputForEnquiryComponent implements OnInit
     isValidPan:boolean=false;
     isValidCin:boolean=false;
     isValidTin:boolean=false;
+    loaderService: LoaderService;
     //EirCreateComponent createComponent = new EirCreateComponent();
      showLoader:boolean;
   
@@ -129,8 +130,9 @@ export class InputForEnquiryComponent implements OnInit
   }
       
     constructor(private _cmpservice:CompanyListService,private _cmpname:CompanyNameService,private _newService :NewService,private controlMessage:ControlMessages,private _stateListService:StateListService,private _addressTypeList:AddressTypeList,
-    private _cirPurposeList:CirPurposeList,private loaderService: LoaderService, private _reportTypeList:ReportTypeList,private _appService:AppService,private router: Router,fb: FormBuilder,fb1: FormBuilder,private _routeParams: ActivatedRoute)
+    private _cirPurposeList:CirPurposeList, private _reportTypeList:ReportTypeList,private _appService:AppService,private router: Router,fb: FormBuilder,fb1: FormBuilder,private _routeParams: ActivatedRoute)
     {
+        this.loaderService = new LoaderService;
         this.loaderService.display(true);
    this.loaderService.status.subscribe((val: boolean) => {
             this.showLoader = val;
