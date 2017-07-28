@@ -16,6 +16,7 @@ import org.apache.velocity.app.VelocityEngine;
 
 import com.eir.commercial.domains.CommonUtilityService;
 import com.eir.domain.EIRDomain;
+import com.eir.report.constant.AccountResp;
 import com.eir.report.constant.AccountType;
 import com.eir.report.constant.Constant;
 import com.eir.report.constant.IndustryType;
@@ -47,6 +48,7 @@ public class CreateReport {
 			context.put("Double", Double.class);
 			context.put("industryType",new IndustryType());
 			context.put("accType",new AccountType());
+			context.put("accResp",new AccountResp());
 			context.put("payStatus",new PaymentStatus());
 			context.put("reportType",reportType);
 			

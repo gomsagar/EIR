@@ -62,7 +62,7 @@ h1, h2, h3, h4, h5, h6 {
     color: #0C5DAB;
 }
 #app-details, #credit-account-details, .business-details {
-    /* border-bottom: 1px solid #EEEEEE; */
+   
     color: #666666;
     padding: 10px 0 10px;
 }
@@ -88,7 +88,7 @@ table tr td {
     background: white !important;
 }
 .pdsTable .list_header td:nth-last-child(1) {
-    border-right: 0px !important;
+    ##border-right: 0px !important;
 }
 #app-details .list, #credit-account-details .list, #borrower-details .list, #negative-indicator .list, #payment-details .list, .business-details .list {
     font-size: 11px;
@@ -123,7 +123,7 @@ table tr td {
 }
 .pdsTable .list_header {
     background-color: #eee;
-    border-bottom: 1px solid #bebebe;
+  
 }
 #app-details .list_header td, #credit-account-details .list_header td, #borrower-details .list_header td, #negative-indicator .list_header td, #payment-details .list_header td, .business-details .list_header td {
     color: #0C5DAB;
@@ -141,7 +141,7 @@ table tr td {
     padding: 20px 0;
 }
 .txtright {
-    text-align: right;
+    text-align: right !important;
 }
 #disclaimer_rights {
     text-align: center;
@@ -149,12 +149,12 @@ table tr td {
     font-weight: bold;
     border-top: 1px solid #9E9C9C;
     padding-top: 12px;
-    color: #808080;
+    color: gray;
 }
 #disclaimer_message {
     font-size: 11px;
     font-weight: bold;
-    color: #808080;
+    color: gray;
 }
 #model-score {
     margin-top: 25px;
@@ -235,13 +235,13 @@ table tr td {
     background-color: #FFFFFF;
 }
 #app-details .tabular_data_wrap {
-    /* border-bottom: 1px solid #EEEEEE; */
+    
     border-top: none;
 }
 #disclaimer_end {
     font-size: 12px;
     font-weight: bold;
-    color: #808080;
-    text-align: center;
+    color: gray;
+    text-align: center !important;
 }
   </style>

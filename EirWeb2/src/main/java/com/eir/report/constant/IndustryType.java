@@ -1,11 +1,14 @@
 package com.eir.report.constant;
 
+import org.apache.commons.lang.StringUtils;
+
 public class IndustryType {
 	
 	public String indType(String value)
 	{
 		if(!value.equals("") && !value.equals(null))
 		{
+			value = StringUtils.deleteWhitespace(value);
 			switch(value)
 			{
 				case "37":

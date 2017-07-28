@@ -1,11 +1,14 @@
 package com.eir.report.constant;
 
+import org.apache.commons.lang.StringUtils;
+
 public class PaymentStatus {
 
 	public String paymentStat (String value)
 	{
-		if(!value.equals("") && !value.equals(null))
+		if(null != value && !value.equals("") )
 		{
+			value = StringUtils.deleteWhitespace(value);
 			switch(value)
 			{
 				case "1":
@@ -160,6 +163,6 @@ public class PaymentStatus {
 			}
 			
 		}
-		return "-";
+		return "";
 	}
 }

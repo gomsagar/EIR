@@ -370,6 +370,12 @@ public class NextGenWebServiceImpl implements NextGenWebService{
 					}
 					
 				}
+				int listSize = bpayGridList.size();
+				int addList = 36 - listSize;
+				/*while(listSize != 36)
+				{
+					
+				}*/
 				conscred.setPaymentHistMap(paymentHistMap);
 			}
 		}

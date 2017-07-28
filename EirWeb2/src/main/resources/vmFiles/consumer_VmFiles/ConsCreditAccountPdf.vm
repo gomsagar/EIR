@@ -35,18 +35,25 @@
          <tr class="list listh">
             <td style="width:16%;padding-right: 15px;word-wrap: break-word;">#set($value="#emptyCheckData($conscred.AccountNumber)")$value</td>
             <td style="width:8%">#set($value="#emptyCheckData($conscred.Bpaygrid.get($size).HDETAILS.AccountDate)")$value</td>
-            <td style="width:14%">#set($value="#emptyCheckData($conscred.AccountType)")$value </td>
-            <td style="width:9%">#set($value="#emptyCheckData($conscred.AccountStatus)")$value</td>
+            <td style="width:14%">$!accType.accountType($conscred.AccountType)</td>
+            
+            #set($value="#emptyCheckData($conscred.AccountStatus)")
+             #set($value=$StringUtils.deleteWhitespace($value))
+            #if($value == "C")
+            	<td style="width:9%">Closed</td>
+            #elseif($value == "O")
+            	<td style="width:9%">Open</td>
+            #end
             <td style="width:13%;padding-right: 8px;" class="txtright">#set($value="#emptyCheckData($conscred.CurrentBalance)")$value</td>
             <td style="width:17%"> #set($value="#emptyCheckData($conscred.CREDITOR.CreditorName)")$value </td>
-            <td style="width:11%">#set($value="#emptyCheckData($conscred.AccountFinRespTypeCd)")$value</td>
-            <td style="width:12%">$!payStatus.paymentStat($conscred.Bpaygrid.get($size).HDETAILS.PaymentStatus)</td>
+            <td style="width:11%">$!accResp.acctResp($conscred.AccountFinRespTypeCd)</td>
+            <td style="width:12%">$!payStatus.paymentStat($conscred.Bpaygrid.get($size).PaymentStatusValue)</td>
          </tr>
          #parse("/vmFiles/consumer_VmFiles/PaymentHistPdf.vm")
          #set($bpaygrid = $conscred.Bpaygrid.get($size))
          <tr id=ar$countAcc class="accountDetails" style="background-color: #EFEFEF !important;">
             <td colspan="9">
-               <div style="height: 20px;"></div>
+               <div style="height: 20px;background-color: white !important;"></div>
                <div style="width: 100%;">
                   <table id="acctable" style="width: 100%; background-color: #EFEFEF !important;">
                      <tbody>
@@ -63,11 +70,17 @@
                                     </tr>
                                     <tr>
                                        <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Account Status Detail:</td>
-                                       <td style="background-color: #EFEFEF !important;">#set($value="#emptyCheckData($conscred.AccountStatus)")$value</td>
+                                       #set($value="#emptyCheckData($!conscred.AccountStatus)")
+                                        #set($value=$StringUtils.deleteWhitespace($value))
+                                       #if($value == "C")
+							            	<td style="background-color: #EFEFEF !important;">Closed</td>
+							            #elseif($value == "O")
+							            	<td style="background-color: #EFEFEF !important;">Open</td>
+							            #end
                                     </tr>
                                     <tr>
                                        <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Payment Status Detail:</td>
-                                       <td style="background-color: #EFEFEF !important;">#set($value="#emptyCheckData($bpaygrid.PaymentStatus)")$value</td>
+                                       <td style="background-color: #EFEFEF !important;">$!payStatus.paymentStat($bpaygrid.PaymentStatus)</td>
                                     </tr>
                                     <tr>
                                        <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important;">Terms:</td>
@@ -123,7 +136,7 @@
                                  <tbody>
                                     <tr>
                                        <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important; width: 50%">Type of Collateral:</td>
-                                       <td style="background-color: #EFEFEF !important;>#set($value="#emptyCheckData($bpaygrid.PAYTERMS.Collateral)")$value</td>
+                                       <td style="background-color: #EFEFEF !important;text-align: right !important;">#set($value="#emptyCheckData($bpaygrid.PAYTERMS.Collateral)")$value</td>
                                     </tr>
                                     <tr>
                                        <td style="font-weight: bold; color: #0C5DAB;background-color: #EFEFEF !important; width: 50%">Collateral Value:</td>
@@ -160,7 +173,7 @@
          #foreach($borrower in $borrowers)
          <tr id=br$countAcc class="sublist" style="background-color: #EFEFEF !important;">
             <td colspan="9">
-               <div style="height: 20px;"></div>
+               <div style="height: 20px;background-color: white !important;"></div>
                <div style="width: 100%;">
                   <table id="borrower" style="width: 100%;">
                      <tbody>
@@ -178,53 +191,53 @@
                            <td style="width:12%;">Expiry Date</td>
                         </tr>
                         <tr class="list listpds" style="background-color: #EFEFEF !important;">
-                           <td style="padding-left: 5px; padding-top:0px;">
+                           <td style="padding-left: 5px; padding-top:0px;background-color: #EFEFEF !important;">
                               <table>
                                  <tbody>
                                     <tr>
                                        #set($borrowernms = $borrower.BORROWERNM)
                                        #foreach($borrowernm in $borrowernms)   
-                                       <td style="padding:0px;">
+                                       <td style="padding:0px;background-color: #EFEFEF !important;">
                                           <table>
                                              <tbody>
                                                 #set($value="#emptyCheckData($borrowernm.FirstGivenName)")
                                                 #set($name="#trimVar($value)")
                                                 #set($name=$StringUtils.deleteWhitespace($name))
-                                                 #if($name != " ")	
-                                                <tr>
-                                                   <td style="padding-top:0px;">$value</td>
+                                                 #if($name != "")	
+                                                <tr style="background-color: #EFEFEF !important;">
+                                                   <td style="padding-top:0px;background-color: #EFEFEF !important;">$value</td>
                                                 </tr>
                                                 #end
                                                 #set($value="#emptyCheckData($borrowernm.MiddleName)")
                                                 #set($name="#trimVar($value)")
                                                 #set($name=$StringUtils.deleteWhitespace($name))
-                                                 #if($name != " ")
-                                                <tr>
-                                                   <td style="padding-top:0px;">$value</td>
+                                                 #if($name != "")
+                                                <tr style="background-color: #EFEFEF !important;">
+                                                   <td style="padding-top:0px;background-color: #EFEFEF !important;">$value</td>
                                                 </tr>
                                                 #end
                                                 #set($value="#emptyCheckData($borrowernm.OtherMiddleNames)")
                                                 #set($name="#trimVar($value)")
                                                 #set($name=$StringUtils.deleteWhitespace($name))
-                                                 #if($name != " ")
-                                                <tr>
-                                                   <td style="padding-top:0px;">$value</td>
+                                                 #if($name != "")
+                                                <tr style="background-color: #EFEFEF !important;">
+                                                   <td style="padding-top:0px;background-color: #EFEFEF !important;">$value</td>
                                                 </tr>
                                                 #end
                                                 #set($value="#emptyCheckData($borrowernm.IndiaMiddleName3)")
                                                 #set($name="#trimVar($value)")
                                                 #set($name=$StringUtils.deleteWhitespace($name))
-                                                 #if($name != " ")
-                                                <tr>
-                                                   <td style="padding-top:0px;">$value</td>
+                                                 #if($name != "")
+                                                <tr style="background-color: #EFEFEF !important;">
+                                                   <td style="padding-top:0px;background-color: #EFEFEF !important;">$value</td>
                                                 </tr>
                                                 #end
                                                 #set($value="#emptyCheckData($borrowernm.FamilyName)")
                                                 #set($name="#trimVar($value)")
                                                 #set($name=$StringUtils.deleteWhitespace($name))
-                                                 #if($name != " ")
-                                                <tr>
-                                                   <td style="padding-top:0px;">$value</td>
+                                                 #if($name != "")
+                                                <tr style="background-color: #EFEFEF !important;">
+                                                   <td style="padding-top:0px;background-color: #EFEFEF !important;">$value</td>
                                                 </tr>
                                                 #end
                                              </tbody>
@@ -232,18 +245,18 @@
                                        </td>
                                        #end
                                     </tr>
-                                    <tr>
-                                       <td style="padding-top:0px;">#set($value="#emptyCheckData($borrower.Gender)")$value</td>
+                                    <tr style="background-color: #EFEFEF !important;">
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">#set($value="#emptyCheckData($borrower.Gender)")$value</td>
                                     </tr>
-                                    <tr>
-                                       <td style="padding-top:0px;">#set($value="#emptyCheckData($borrower.DOB)")$value</td>
+                                    <tr style="background-color: #EFEFEF !important;">
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">#set($value="#emptyCheckData($borrower.DOB)")$value</td>
                                     </tr>
-                                    <tr> </tr>
-                                    <tr> </tr>
+                                  ##  <tr> </tr>
+                                    ##<tr> </tr>
                                  </tbody>
                               </table>
                            </td>
-                           <td style="padding-top: 0px;">
+                           <td style="padding-top: 0px;background-color: #EFEFEF !important;">
                               #set($borrowerads = $borrower.BORROWERAD)
                               #foreach($borrowerad in $borrowerads)
                               <table>
@@ -251,264 +264,270 @@
                                     #set($value="#emptyCheckData($borrowerad.IndiaAddressL1)")
                                     #set($name="#trimVar($value)")
                                     #set($name=$StringUtils.deleteWhitespace($name))
-                                     #if($name != " ")
-                                    <tr>
-                                       <td style="padding-top:0px;">$value</td>
+                                     #if($name != "")
+                                    <tr style="background-color: #EFEFEF !important;">
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">$value</td>
                                     </tr>
                                     #end
                                     #set($value="#emptyCheckData($borrowerad.IndiaAddressL2)")
                                     #set($name="#trimVar($value)")
                                     #set($name=$StringUtils.deleteWhitespace($name))
-                                     #if($name != " ")
-                                    <tr>
-                                       <td style="padding-top:0px;">$value</td>
+                                     #if($name != "")
+                                    <tr style="background-color: #EFEFEF !important;">
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">$value</td>
                                     </tr>
                                     #end
                                     #set($value="#emptyCheckData($borrowerad.IndiaAddressL3)")
                                     #set($name="#trimVar($value)")
                                     #set($name=$StringUtils.deleteWhitespace($name))
-                                     #if($name != " ")
-                                    <tr>
-                                       <td style="padding-top:0px;">$value</td>
+                                     #if($name != "")
+                                    <tr style="background-color: #EFEFEF !important;">
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">$value</td>
                                     </tr>
                                     #end
                                     #set($value="#emptyCheckData($borrowerad.PostalCode)")
                                     #set($name="#trimVar($value)")
                                     #set($name=$StringUtils.deleteWhitespace($name))
-                                     #if($name != " ")
-                                    <tr>
-                                       <td style="padding-top:0px;">$value</td>
+                                     #if($name != "")
+                                    <tr style="background-color: #EFEFEF !important;">
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">$value</td>
                                     </tr>
                                     #end
                                     #set($value="#emptyCheckData($borrowerad.LocalityName)")
                                     #set($name="#trimVar($value)")
                                     #set($name=$StringUtils.deleteWhitespace($name))
-                                     #if($name != " ")
-                                    <tr>
-                                       <td style="padding-top:0px;">$value</td>
+                                     #if($name != "")
+                                    <tr style="background-color: #EFEFEF !important;">
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">$value</td>
                                     </tr>
                                     #end
                                     #set($value="#emptyCheckData($borrowerad.RegionCode)")
                                     #set($name="#trimVar($value)")
                                     #set($name=$StringUtils.deleteWhitespace($name))
-                                     #if($name != " ")
-                                    <tr>
-                                       <td style="padding-top:0px;">$value</td>
+                                     #if($name != "")
+                                    <tr style="background-color: #EFEFEF !important;">
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">$value</td>
                                     </tr>
                                     #end
                                  </tbody>
                               </table>
                               #end
                            </td>
-                           <td style="padding-top:0px;">
+                           <td style="padding-top:0px;background-color: #EFEFEF !important;">
                               #set($borrowerphs = $borrower.BORROWERPH)
                               #foreach($borrowerph in $borrowerphs)
                               #set($phoneType = $borrowerph.PhoneType)
+                              #set($phoneType=$StringUtils.deleteWhitespace($phoneType))
                               #set($value="#emptyCheckData($borrowerph.PhoneNumber)")
                               <table>
                                  <tbody>
                                     #if($phoneType == "1")
-                                    <tr>
-                                       <td style="padding-top:0px;">$value(H)</td>
+                                    <tr style="background-color: #EFEFEF !important;">
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">$value(H)</td>
                                     </tr>
                                     #elseif($phoneType == "6")
-                                    <tr>
-                                       <td style="padding-top:0px;">$value(M)</td>
+                                    <tr style="background-color: #EFEFEF !important;">
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">$value(M)</td>
                                     </tr>
                                     #elseif($phoneType == "3")
-                                    <tr>
-                                       <td style="padding-top:0px;">$value(O)</td>
+                                    <tr style="background-color: #EFEFEF !important;">
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">$value(O)</td>
                                     </tr>
                                     #elseif($phoneType == "7")
-                                    <tr>
-                                       <td style="padding-top:0px;">$value(OT)</td>
+                                    <tr style="background-color: #EFEFEF !important;">
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">$value(OT)</td>
                                     </tr>
-                                    #elseif($phoneType == "" && $value != "")
-                                    <tr>
-                                       <td style="padding-top:0px;">$value</td>
+                          ##          #elseif($phoneType != "" && $value != "")
+                          			#else
+                                    <tr style="background-color: #EFEFEF !important;">
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">$value</td>
                                     </tr>
                                     #end
                                  </tbody>
                               </table>
                               #end
                            </td>
-                           <td style="padding-top:0px;">
+                           <td style="padding-top:0px;background-color: #EFEFEF !important;">
                               <table>
                                  <tbody>
-                                    <tr>
+                                    <tr style="background-color: #EFEFEF !important;">
                                        #set($value="#emptyCheckData($borrower.OccYearsEmployed)")
                                        #set($value=$StringUtils.deleteWhitespace($value))
-                                       #if($value != "-")
-                                       <td style="padding-top:0px;">Years Employed &nbsp;$value</td>
+                                       #if($value != "" && $value != "0")
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">Years Employed &nbsp;$value</td>
                                        #end
                                     </tr>
-                                    <tr>
+                                    <tr style="background-color: #EFEFEF !important;">
                                        #set($value="#emptyCheckData($borrower.OccMonthsEmployed)")
                                        #set($value=$StringUtils.deleteWhitespace($value))
-                                       #if($value != "-")
-                                       <td style="padding-top:0px;">Months Employed &nbsp;$value</td>
+                                       #if($value != "" && $value != "0")
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">Months Employed &nbsp;$value</td>
                                        #end
                                     </tr>
-                                    <tr>
+                                    <tr style="background-color: #EFEFEF !important;">
                                        #set($value="#emptyCheckData($borrower.NetMontlyIncome)")
                                        #set($value=$StringUtils.deleteWhitespace($value))
-                                       #if($value != "-")
-                                       <td style="padding-top:0px;">Net Monthly Income &nbsp;$value</td>
+                                       #if($value != "" && $value != "0")
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">Net Monthly Income &nbsp;$value</td>
                                        #end
                                     </tr>
                                  </tbody>
                               </table>
                            </td>
-                           <td style="padding-top:0px;">
+                           <td style="padding-top:0px;background-color: #EFEFEF !important;">
                               #set($bidcards=$borrower.BIDCARDS)
                               #foreach($bidcard in $bidcards)
                               #set($idType = $bidcard.IdNumberType)
+                              #set($idType=$StringUtils.deleteWhitespace($idType))
                               <table id="card-type">
                                  <tbody>
                                     #if($idType == "10")
                                     <tr height="26px">
-                                       <td style="padding-top:0px;">PAN</td>
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">PAN</td>
                                     </tr>
                                     #elseif($idType == "7")
                                     <tr height="26px">
-                                       <td style="padding-top:0px;">VOTER ID</td>
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">VOTER ID</td>
                                     </tr>
                                     #elseif($idType == "1")	
                                     <tr height="26px">
-                                       <td style="padding-top:0px;">D/L</td>
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">D/L</td>
                                     </tr>
                                     #elseif($idType == "11")	
                                     <tr height="26px">
-                                       <td style="padding-top:0px;">RATION CARD</td>
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">RATION CARD</td>
                                     </tr>
                                     #elseif($idType == "4")	
                                     <tr height="26px">
-                                       <td style="padding-top:0px;">Passport Number</td>
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">Passport Number</td>
                                     </tr>
                                     #elseif($idType == "12")	
                                     <tr height="26px">
-                                       <td style="padding-top:0px;">AADHAR</td>
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">AADHAR</td>
                                     </tr>
                                     #elseif($idType == "19")	
                                     <tr height="26px">
-                                       <td style="padding-top:0px;">Account Number</td>
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">Account Number</td>
                                     </tr>
                                     #end
                                  </tbody>
                               </table>
                               #end
                            </td>
-                           <tdstyle="padding-top:0px;">
+                           <td style="padding-top:0px;background-color: #EFEFEF !important;">
                            #foreach($bidcard in $bidcards)
                            #set($idType = $bidcard.IdNumberType)
+                           #set($idType=$StringUtils.deleteWhitespace($idType))
                            #set($idNum="#emptyCheckData($bidcard.IndiaIdNumber)")
                            <table id="card-num">
                               <tbody>
                                  #if($idType == "10")
                                  <tr height="26px">
-                                    <td style="padding-top:0px;">$idNum</td>
+                                    <td style="padding-top:0px;background-color: #EFEFEF !important;">$idNum</td>
                                  </tr>
                                  #elseif($idType == "7")	
                                  <tr height="26px">
-                                    <td style="padding-top:0px;">$idNum</td>
+                                    <td style="padding-top:0px;background-color: #EFEFEF !important;">$idNum</td>
                                  </tr>
                                  #elseif($idType == "1")	
                                  <tr height="26px">
-                                    <td style="padding-top:0px;">$idNum</td>
+                                    <td style="padding-top:0px;background-color: #EFEFEF !important;">$idNum</td>
                                  </tr>
                                  #elseif($idType == "11")	
                                  <tr height="26px">
-                                    <td style="padding-top:0px;">$idNum</td>
+                                    <td style="padding-top:0px;background-color: #EFEFEF !important;">$idNum</td>
                                  </tr>
                                  #elseif($idType == "4")	
                                  <tr height="26px">
-                                    <td style="padding-top:0px;">$idNum</td>
+                                    <td style="padding-top:0px;background-color: #EFEFEF !important;">$idNum</td>
                                  </tr>
                                  #elseif($idType == "12")	
                                  <tr height="26px">
-                                    <td style="padding-top:0px;">$idNum</td>
+                                    <td style="padding-top:0px;background-color: #EFEFEF !important;">$idNum</td>
                                  </tr>
                                  #elseif($idType == "19")	
                                  <tr height="26px">
-                                    <td style="padding-top:0px;">$idNum</td>
+                                    <td style="padding-top:0px;background-color: #EFEFEF !important;">$idNum</td>
                                  </tr>
                                  #end
                               </tbody>
                            </table>
                            #end
                            </td>
-                           <td style="padding-top:0px;">
+                           <td style="padding-top:0px;background-color: #EFEFEF !important;">
                               #foreach($bidcard in $bidcards)
                               #set($idType = $bidcard.IdNumberType)
+                              #set($idType=$StringUtils.deleteWhitespace($idType))
                               #set($issueDt="#emptyCheckData($bidcard.IdIssueDate)")
                               <table id="card-num">
                                  <tbody>
                                     #if($idType == "10")
                                     <tr height="26px">
-                                       <td style="padding-top:0px;">$issueDt</td>
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">$issueDt</td>
                                     </tr>
                                     #elseif($idType == "7")	
                                     <tr height="26px">
-                                       <td style="padding-top:0px;">$issueDt</td>
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">$issueDt</td>
                                     </tr>
                                     #elseif($idType == "1")	
                                     <tr height="26px">
-                                       <td style="padding-top:0px;">$issueDt</td>
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">$issueDt</td>
                                     </tr>
                                     #elseif($idType == "11")	
                                     <tr height="26px">
-                                       <td style="padding-top:0px;">$issueDt</td>
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">$issueDt</td>
                                     </tr>
                                     #elseif($idType == "4")	
                                     <tr height="26px">
-                                       <td style="padding-top:0px;">$issueDt</td>
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">$issueDt</td>
                                     </tr>
                                     #elseif($idType == "12")	
                                     <tr height="26px">
-                                       <td style="padding-top:0px;">$issueDt</td>
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">$issueDt</td>
                                     </tr>
                                     #elseif($idType == "19")	
                                     <tr height="26px">
-                                       <td style="padding-top:0px;">$issueDt</td>
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">$issueDt</td>
                                     </tr>
                                     #end
                                  </tbody>
                               </table>
                               #end
                            </td>
-                           <td style="padding-top:0px;">
+                           <td style="padding-top:0px;background-color: #EFEFEF !important;">
                               #foreach($bidcard in $bidcards)
                               #set($idType = $bidcard.IdNumberType)
+                              #set($idType=$StringUtils.deleteWhitespace($idType))
                               #set($expDt="#emptyCheckData($bidcard.IdExpirationDate)")
                               <table id="card-num">
                                  <tbody>
                                     #if($idType == "10")
                                     <tr height="26px">
-                                       <td style="padding-top:0px;">$expDt</td>
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">$expDt</td>
                                     </tr>
                                     #elseif($idType == "7")	
                                     <tr height="26px">
-                                       <td style="padding-top:0px;">$expDt</td>
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">$expDt</td>
                                     </tr>
                                     #elseif($idType == "1")	
                                     <tr height="26px">
-                                       <td style="padding-top:0px;">$expDt</td>
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">$expDt</td>
                                     </tr>
                                     #elseif($idType == "11")	
                                     <tr height="26px">
-                                       <td style="padding-top:0px;">$expDt</td>
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">$expDt</td>
                                     </tr>
                                     #elseif($idType == "4")	
                                     <tr height="26px">
-                                       <td style="padding-top:0px;">$expDt</td>
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">$expDt</td>
                                     </tr>
                                     #elseif($idType == "12")	
                                     <tr height="26px">
-                                       <td style="padding-top:0px;">$expDt</td>
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">$expDt</td>
                                     </tr>
                                     #elseif($idType == "19")	
                                     <tr height="26px">
-                                       <td style="padding-top:0px;">$expDt</td>
+                                       <td style="padding-top:0px;background-color: #EFEFEF !important;">$expDt</td>
                                     </tr>
                                     #end
                                  </tbody>

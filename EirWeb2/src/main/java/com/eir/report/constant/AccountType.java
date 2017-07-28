@@ -1,11 +1,14 @@
 package com.eir.report.constant;
 
+import org.apache.commons.lang.StringUtils;
+
 public class AccountType {
 
 	public String accountType (String value)
 	{
 		if(!value.equals("") && !value.equals(null))
 		{
+			value = StringUtils.deleteWhitespace(value);
 			switch(value)
 			{
 				case "5":
@@ -90,6 +93,6 @@ public class AccountType {
 			}
 			
 		}
-		return "-";
+		return " ";
 	}
 }

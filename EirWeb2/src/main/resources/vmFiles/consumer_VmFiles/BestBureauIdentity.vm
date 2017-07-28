@@ -1,16 +1,16 @@
 		
 		<div id="app-details">
               <h1> Bureau Best Identity Profile </h1>
-              <table class="tabular_data_wrap" style="margin-top:10px;background-color: #EFEFEF; !important">
+              <table class="tabular_data_wrap" style="margin-top:10px;">
                 <tbody>
                   <tr class="list_header" style="color: #0C5DAB;">
-                    <td>Personal<br>Information</td>
-                    <td style="width:23%">Addresses</td>
-                    <td>Contact Info</td>
-                    <td style="width:18%">ID Card Type</td>
-                    <td>ID Card Num</td>
-                    <td>Issue Date</td>
-                    <td>Expiry Date</td>
+                    <td style="background-color: #EFEFEF; !important">Personal Information</td>
+                    <td style="width:23%;background-color: #EFEFEF; !important">Addresses</td>
+                    <td style="background-color: #EFEFEF; !important">Contact Info</td>
+                    <td style="width:18%;background-color: #EFEFEF; !important">ID Card Type</td>
+                    <td style="background-color: #EFEFEF; !important">ID Card Num</td>
+                    <td style="background-color: #EFEFEF; !important">Issue Date</td>
+                    <td style="background-color: #EFEFEF; !important">Expiry Date</td>
                   </tr>
                   <tr class="list listpds" style="background-color: white;">
                     <td style="padding-left: 5px; padding-top:0px;"><table>
@@ -71,7 +71,13 @@
 							</td>
                           </tr>
                           <tr>
-                            <td style="padding-top:0px;">#set($value="#emptyCheckData($!responseInfo.ConsumerResponse.PERSONID.Gender)")$value</td>
+                          #set($value="#emptyCheckData($!responseInfo.ConsumerResponse.PERSONID.Gender)")
+                          #set($value=$StringUtils.deleteWhitespace($value))
+                          #if($value == "1")
+                            <td style="padding-top:0px;">Male</td>
+                           #elseif($value == "2")
+                            <td style="padding-top:0px;">Female</td>
+                           #end
                           </tr>
                           #set($day = "#emptyCheckData($!responseInfo.ConsumerResponse.PERSONID.BirthDay)")
 			 			  #set($month = "#emptyCheckData($!responseInfo.ConsumerResponse.PERSONID.BirthMonth)")
@@ -90,7 +96,7 @@
 				    #foreach($perinpaddr in $perinpaddrs)
 					<table>
                         <tbody>
-                        #set($value="#emptyCheckData($perinpaddr.AddrLine1)")
+                        #set($value="#emptyCheckData($perinpaddr.AddressL1)")
 						#set($name="#trimVar($value)")
 						#set($name=$StringUtils.deleteWhitespace($name))
 						#if($name != " ")	
@@ -99,7 +105,7 @@
 							</tr>
 						#end
 						
-						#set($value="#emptyCheckData($perinpaddr.AddrLine2)")
+						#set($value="#emptyCheckData($perinpaddr.AddressL2)")
 						#set($name="#trimVar($value)")
 						#set($name=$StringUtils.deleteWhitespace($name))
 						#if($name != " ")	
@@ -108,7 +114,7 @@
 							</tr>
 						#end
 						
-						#set($value="#emptyCheckData($perinpaddr.AddrLine3)")
+						#set($value="#emptyCheckData($perinpaddr.AddressL3)")
 						#set($name="#trimVar($value)")
 						#set($name=$StringUtils.deleteWhitespace($name))
 						#if($name != " ")							
@@ -148,12 +154,15 @@
                       #end
                       </td>
                   
-                    <td style="padding-top:0px;"><table>
-                        <tbody>
+                    <td style="padding-top:0px;">
                         #set($perinpphns = $responseInfo.ConsumerResponse.PERSONID.PIDPHONE)
                         #foreach($perinpphn in $perinpphns)
+                        <table>
+                        <tbody>
                         	#set($phoneType = $perinpphn.PhoneType)
+                        	#set($phoneType=$StringUtils.deleteWhitespace($phoneType))
                         	#set($value="#emptyCheckData($perinpphn.PhoneNumber)")
+                        	#set($value=$StringUtils.deleteWhitespace($value))
                             #if($phoneType == "1")
 	                          <tr>
 	                            <td style="padding-top:0px;">$value(H)</td>
@@ -171,15 +180,19 @@
 	                            <td style="padding-top:0px;">$value(OT)</td>
 	                          </tr>
 	                        #end
-	                        #end
-                        </tbody>
+	                        </tbody>
                       </table>
+	                        #end
+                        
                       </td>
                  #set($perinpidcs=$responseInfo.ConsumerResponse.PERSONID.PIDCARDS)
-                    <td style="padding-top:0px;"><table id="card-type">
-                        <tbody>
+                    <td style="padding-top:0px;">
+                    
                         #foreach($perinpidc in $perinpidcs)
+                        <table id="card-type">
+                        <tbody>
                         	#set($idType = $perinpidc.IdNumberType)
+                        	#set($idType=$StringUtils.deleteWhitespace($idType))
                         	 #if($idType == "10")
 		                          <tr height="26px">
 		                            <td style="padding-top:0px;">PAN</td>
@@ -209,13 +222,16 @@
 		                            <td style="padding-top:0px;">Account Number</td>
 		                          </tr>
 							 #end
+							 </tbody>
+                      </table>
 							 #end
-                        </tbody>
-                      </table></td>
-                    <td><table id="card-num">
-                        <tbody>
+                        </td>
+                    <td>
 						#foreach($perinpidc in $perinpidcs)
+						<table id="card-num">
+                        <tbody>
                         	#set($idType = $perinpidc.IdNumberType)
+                        	#set($idType=$StringUtils.deleteWhitespace($idType))
                         	#set($idNum="#emptyCheckData($perinpidc.idNumber)")
                         	 #if($idType == "10")
 		                          <tr height="26px">
@@ -246,13 +262,16 @@
 		                            <td style="padding-top:0px;">$idNum</td>
 		                          </tr>
 							#end
+							</tbody>
+                      </table>
 							#end
-                        </tbody>
-                      </table></td>
-                      <td><table id="card-num">
-                        <tbody>
+                        </td>
+                      <td>
 						#foreach($perinpidc in $perinpidcs)
+						<table id="card-num">
+                        <tbody>
                         	#set($idType = $perinpidc.IdNumberType)
+                        	#set($idType=$StringUtils.deleteWhitespace($idType))
                         	#set($issueDt="#emptyCheckData($perinpidc.IdIssueDate)")
                         	 #if($idType == "10")
 		                          <tr height="26px">
@@ -283,13 +302,16 @@
 		                            <td style="padding-top:0px;">$issueDt</td>
 		                          </tr>
 						#end
+						</tbody>
+                      </table>
 						#end
-                        </tbody>
-                      </table></td>
-                      <td><table id="card-num">
-                        <tbody>
+                        </td>
+                      <td>
 						#foreach($perinpidc in $perinpidcs)
+						<table id="card-num">
+                        <tbody>
                         	#set($idType = $perinpidc.IdNumberType)
+                        	#set($idType=$StringUtils.deleteWhitespace($idType))
                         	#set($expDt="#emptyCheckData($perinpidc.IdExpirationDate)")
                         	 #if($idType == "10")
 		                          <tr height="26px">
@@ -320,9 +342,10 @@
 		                            <td style="padding-top:0px;">$expDt</td>
 		                          </tr>
 						#end
+						 </tbody>
+                      </table>
 						#end
-                        </tbody>
-                      </table></td>
+                       </td>
                   </tr>
                  
                 </tbody>

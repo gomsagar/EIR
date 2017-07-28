@@ -1,4 +1,6 @@
 /*     */ package com.experian.nextgen.ind.model.consumer.uofpojo;
+import java.text.SimpleDateFormat;
+
 /*     */ 
 /*     */ import javax.xml.bind.annotation.XmlAccessType;
 /*     */ import javax.xml.bind.annotation.XmlAccessorType;
@@ -325,9 +327,30 @@
 /*     */ 
 /*     */   public String getDateOfBirth()
 /*     */   {
-/* 328 */     return this.dateOfBirth;
+/* 328 */     return convertDate(this.dateOfBirth);
 /*     */   }
-/*     */   
+/*     */   private String convertDate(String str) 
+			{
+				try 
+				{
+					if(str != null && !str.isEmpty())
+					{
+						SimpleDateFormat format1 = new SimpleDateFormat("ddmmyyyy");
+						SimpleDateFormat format2 = new SimpleDateFormat("dd/mm/yy");
+						java.util.Date date;
+						String newDate="";
+						date = format1.parse(str);
+						newDate = format2.format(date);
+						return newDate;
+					}
+				} 
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+				
+				return "";
+			}
 /*     */ 
 /*     */ 
 /*     */ 

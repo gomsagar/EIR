@@ -19,12 +19,12 @@
                   </tr>
                   <tr class="list listpds" style="background-color: white;">
                   
-                 #set($value="#emptyCheckData($!responseInfo.ConsumerResponse.CONSBRPT.BurRptDate)")
+                 #set($date="#emptyCheckData($!responseInfo.ConsumerResponse.CONSBRPT.BurRptDate)")
                  ##set($date="#formatdate($value)")
                  
                  #set($time="#emptyCheckData($!responseInfo.ConsumerResponse.CONSBRPT.BurRptTime)")
-                 #set($dateTime="#formatdate($value)" + " " + $time)
-                    <td width="15%">$dateTime</td>
+                ## #set($dateTime="#formatdate($value)" + " " + $time)
+                    <td width="15%">$date $time</td>
                     <td>#set($value="#emptyCheckData($!responseInfo.ConsumerResponse.NGINQUIRY.ClientEnquiryRefNumber)")$value</td>
                  ##      <td>#set($value="$industryType.indType('$!responseInfo.ConsumerResponse.NGINQUIRY.InqBureauMemberIndustry')")$value</td>
                  	<td>$!industryType.indType($!responseInfo.ConsumerResponse.NGINQUIRY.InqBureauMemberIndustry)</td>
@@ -40,7 +40,7 @@
         <table class="tabular_data_wrap">
                    <!-- <table class="tabular_curr_app">-->
                 <tbody>
-                  <tr class="list_header" style="color: #0C5DAB !important;background-color: #EFEFEF; !important">
+                  <tr class="list_header" style="color: #0C5DAB !important;background-color: #EFEFEF !important;">
                     <td style="color: #0C5DAB !important;">Personal Information</td>
                     <td style="color: #0C5DAB !important;">Addresses</td>
                     <td style="color: #0C5DAB !important;">Contact Info.</td>
@@ -58,45 +58,45 @@
 								#set($value="#emptyCheckData($responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.FirstGivenName)")
 								#set($name="#trimVar($value)")
 								#set($name=$StringUtils.deleteWhitespace($name))
-								#if($name != " ")	
+								#if($name != "")	
 									<tr>
-										<td style="padding-top:0px;">$value</td>
+										<td style="padding-top:0px;">$name</td>
 									</tr>
 								#end
 								
 								#set($value="#emptyCheckData($responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.MiddleName)")
 								#set($name="#trimVar($value)")
 								#set($name=$StringUtils.deleteWhitespace($name))
-								#if($name != " ")	
+								#if($name != "")	
 									<tr>
-										<td style="padding-top:0px;">$value</td>
+										<td style="padding-top:0px;">$name</td>
 									</tr>
 								#end
 								
 								#set($value="#emptyCheckData($responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.IndiaMiddleName3)")
 								#set($name="#trimVar($value)")
 								#set($name=$StringUtils.deleteWhitespace($name))
-								#if($name != " ")	
+								#if($name != "")	
 									<tr>
-										<td style="padding-top:0px;">$value</td>
+										<td style="padding-top:0px;">$name</td>
 									</tr>
 								#end
 								
 								#set($value="#emptyCheckData($responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.OtherMiddleNames)")
 								#set($name="#trimVar($value)")
 								#set($name=$StringUtils.deleteWhitespace($name))
-								#if($name != " ")
+								#if($name != "")
 									<tr>
-										<td style="padding-top:0px;">$value</td>
+										<td style="padding-top:0px;">$name</td>
 									</tr>
 								#end
 								
 								#set($value="#emptyCheckData($responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.FamilyName)")
 								#set($name="#trimVar($value)")
 								#set($name=$StringUtils.deleteWhitespace($name))
-								#if($name != " ")	
+								#if($name != "")	
 									<tr>
-										<td style="padding-top:0px;">$value</td>
+										<td style="padding-top:0px;">$name</td>
 									</tr>
 								#end
 								</tbody>
@@ -104,7 +104,15 @@
 							</td>
                           </tr>
                           <tr>
-                            <td style="padding-top:0px;">#set($value="#emptyCheckData($!$responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.Gender)")$value</td>
+                            
+	                          #set($value="#emptyCheckData($!$responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.Gender)")
+	                          #set($value=$StringUtils.deleteWhitespace($value))
+	                          #if($value == "1")
+	                            <td style="padding-top:0px;">Male</td>
+	                           #elseif($value == "2")
+	                            <td style="padding-top:0px;">Female</td>
+	                           #end
+                            
                           </tr>
                           #set($day = "#emptyCheckData($!responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.BirthDay)")
 			 			  #set($month = "#emptyCheckData($!responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.BirthMonth)")
@@ -125,54 +133,54 @@
                         	#set($value="#emptyCheckData($perinpaddr.IndiaAddressL1)")
 							#set($name="#trimVar($value)")
 							#set($name=$StringUtils.deleteWhitespace($name))
-							#if($name != " ")
+							#if($name != "")
 	                        	<tr>
-	                            	<td style="padding-top:0px;">$value</td>
+	                            	<td style="padding-top:0px;">$name</td>
 								</tr>
 							#end
 							
 							#set($value="#emptyCheckData($perinpaddr.IndiaAddressL2)")
 							#set($name="#trimVar($value)")
 							#set($name=$StringUtils.deleteWhitespace($name))
-							#if($name != " ")
+							#if($name != "")
 								<tr>
-		                            <td style="padding-top:0px;">$value</td>
+		                            <td style="padding-top:0px;">$name</td>
 								</tr>
 							#end
 							
 							#set($value="#emptyCheckData($perinpaddr.IndiaAddressL3)")
 							#set($name="#trimVar($value)")
 							#set($name=$StringUtils.deleteWhitespace($name))
-							#if($name != " ")
+							#if($name != "")
 								<tr>
-		                            <td style="padding-top:0px;">$value</td>
+		                            <td style="padding-top:0px;">$name</td>
 								</tr>
 							#end
 							
 							#set($value="#emptyCheckData($perinpaddr.PostalCode)")
 							#set($name="#trimVar($value)")
 							#set($name=$StringUtils.deleteWhitespace($name))
-							#if($name != " ")
+							#if($name != "")
 								<tr>
-		                            <td style="padding-top:0px;">$value</td>
+		                            <td style="padding-top:0px;">$name</td>
 								</tr>
 							#end
 								
 							#set($value="#emptyCheckData($perinpaddr.LocalityName)")
 							#set($name="#trimVar($value)")
 							#set($name=$StringUtils.deleteWhitespace($name))
-							#if($name != " ")
+							#if($name != "")
 								<tr>
-		                            <td style="padding-top:0px;">$value</td>
+		                            <td style="padding-top:0px;">$name</td>
 								</tr>
 							#end
 							
 							#set($value="#emptyCheckData($perinpaddr.RegionName)")
 							#set($name="#trimVar($value)")
 							#set($name=$StringUtils.deleteWhitespace($name))
-							#if($name != " ")
+							#if($name != "")
 								<tr>
-		                            <td style="padding-top:0px;">$value</td>
+		                            <td style="padding-top:0px;">$name</td>
 								</tr>
 							#end
                         </tbody>
@@ -184,6 +192,7 @@
                         #set($perinpphns = $responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.Perinpphn)
                         #foreach($perinpphn in $perinpphns)
                         	#set($phoneType = $perinpphn.PhoneType)
+                        	#set($phoneType=$StringUtils.deleteWhitespace($phoneType))
                         	#set($value="#emptyCheckData($perinpphn.phoneNumber)")
                             #if($phoneType == "1")
 	                          <tr>
@@ -211,21 +220,21 @@
                           <tr> 
                           #set($value="#emptyCheckData($!responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.OccYearsEmployed)")
                           #set($value=$StringUtils.deleteWhitespace($value))
-                          	#if($value != " ")
+                          	#if($value != "")
                           		<td style="padding-top:0px;">Years Employed &nbsp;$value</td>
                           	#end
                           	</tr>
                           <tr>
                           #set($value="#emptyCheckData($!responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.OccMonthsEmployed)")
                           #set($value=$StringUtils.deleteWhitespace($value))
-                          #if($value != " ")
+                          #if($value != "")
                           <td style="padding-top:0px;">Months Employed &nbsp;$value</td> 
                           #end
                           </tr>
                           <tr>
                           #set($value="#emptyCheckData($!responseInfo.ConsumerResponse.NGINQUIRY.PERINPUT.NetMontlyIncome)")
                           #set($value=$StringUtils.deleteWhitespace($value))
-                          #if($value != " ")
+                          #if($value != "")
                           <td style="padding-top:0px;">Net Monthly Income &nbsp;$value</td>
                           #end
                            </tr>

@@ -1,4 +1,5 @@
 /*     */ package com.experian.nextgen.ind.model.consumer.uofpojo;
+import java.text.SimpleDateFormat;
 /*     */ 
 /*     */ import java.util.ArrayList;
 /*     */ import java.util.List;
@@ -400,9 +401,30 @@ import java.util.Map;
 /*     */ 
 /*     */   public String getAccountOpenDate()
 /*     */   {
-/* 392 */     return this.accountOpenDate;
+/* 392 */     return convertDate(this.accountOpenDate);
 /*     */   }
-/*     */   
+/*     */   private String convertDate(String str) 
+			{
+				try 
+				{
+					if(str != null && !str.isEmpty())
+					{
+						SimpleDateFormat format1 = new SimpleDateFormat("ddmmyyyy");
+						SimpleDateFormat format2 = new SimpleDateFormat("dd/mm/yy");
+						java.util.Date date;
+						String newDate="";
+						date = format1.parse(str);
+						newDate = format2.format(date);
+						return newDate;
+					}
+				} 
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+				
+				return "";
+			}
 /*     */ 
 /*     */ 
 /*     */ 
@@ -424,7 +446,7 @@ import java.util.Map;
 /*     */ 
 /*     */   public String getAccountClosedDate()
 /*     */   {
-/* 416 */     return this.accountClosedDate;
+/* 416 */     return convertDate(this.accountClosedDate);
 /*     */   }
 /*     */   
 /*     */ 
