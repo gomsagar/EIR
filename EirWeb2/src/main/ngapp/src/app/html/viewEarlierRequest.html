@@ -1,7 +1,7 @@
 
             
           <div class="row">    		
-				<h1 class="page-header">View Request Details</h1>
+				<h1 class="page-header">View Earlier Request</h1>
 				<!-- table-responsive -->
 				<div class="create-enquiry">
 					<div class="row top-bar">
@@ -15,7 +15,14 @@
 								<input type="text" class="form-control" id="exampleInputName2" placeholder="Enter Request Id" [(ngModel)]="data.requestId" name="requestId" [formControl]="requisitionForm.controls['requestId']">
 								<div *ngIf="(requisitionForm.controls['requestId'].hasError('pattern') && requisitionForm.controls['requestId'].touched) ||(requisitionForm.controls['requestId'].hasError('pattern') && submitted)" class="alert " style="padding: 2px;border-color: #dca7a7;background-color: white;color: #a94442;margin: 0;margin-top: 3px;display: block;">Please Enter 10 digit Numeric Value!</div>
 							</div>
-						   <div class="form-group col-md-1"><span class="or">OR</span></div>
+						   <div class="form-group col-md-1">
+								 <!--<span class="or" style="visibility: hidden;">OR</span>
+								 <span class="or" style="visibility: hidden;">OR</span>
+								 <span class="or" style="visibility: hidden;">OR</span>
+								 <span class="or" style="visibility: hidden;">OR</span>-->
+								 <br><br>
+								 <span class="or">&nbsp;OR</span>
+							</div>
 						  <div class="form-group col-md-3">
 							<label for="exampleInputName2">From</label>
 							<br>
@@ -57,9 +64,9 @@
 										<th>Commercial CIR with Score</th>
 										<th>Commercial CIR without Score</th>
 										<th>Business Information Report</th>
-										<th>Litigations Data</th>
+										<!--<th>Litigations Data</th>
 										<th>CRISIL SME Rating</th>
-										<th>News Feed</th>
+										<th>News Feed</th>-->
 										<th>Overall Status</th>
 										<th>Check</th>
 									</tr>
@@ -76,9 +83,9 @@
 										<td><img src="assets/img/{{requestStatus.commWithScoreStatus}}.png"></td>
 										<td><img src="assets/img/{{requestStatus.commWithoutScoreStatus}}.png"></td>
 										<td><img src="assets/img/{{requestStatus.birReportStatus}}.png"></td>
-										<td><img src="assets/img/{{requestStatus.litigationStatus}}.png"></td>
+										<!--<td><img src="assets/img/{{requestStatus.litigationStatus}}.png"></td>
 										<td><img src="assets/img/{{requestStatus.smeStatus}}.png"></td>
-										<td><img src="assets/img/{{requestStatus.newsFeedStatus}}.png"></td>
+										<td><img src="assets/img/{{requestStatus.newsFeedStatus}}.png"></td>-->
 										<td></td>
 										<td>
 										  <!--<input type="checkbox" value="None" id="squaredThree" name="check" checked />-->

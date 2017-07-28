@@ -10,7 +10,8 @@ import { FileUploader } from 'ng2-file-upload';
 export class AppComponent {
   constructor(private router: Router) 
   {
-    this.router.navigate(['home']);
+  //  this.router.navigate(['home']);
+  this.router.navigate(['createEnquiry']);
   }
 
  goToCreateEnquiry()

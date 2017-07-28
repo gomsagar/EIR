@@ -1,71 +1,54 @@
-
- <!--<form (ngSubmit)='goToCreateHtml()'>-->
-    <nav class="navbar navbar-fixed-top">
-      <div class="container-fluid">
-	  <div class="row">
-        <div class="navbar-header col-sm-3 col-md-2">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+<!--<form (ngSubmit)='goToCreateHtml()'>-->
+<nav class="navbar navbar-fixed-top">
+   <div class="container-fluid">
+      <div class="row">
+         <div class="navbar-header col-sm-3 col-md-2">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#"><img src="assets/img/logo.png"/></a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li>
-				
-				<a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>John Doe	<span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span> </a>
-			
-			</li>           
-          </ul>
-       
-        </div>
-      </div> </div>
-    </nav>
-
-    <div class="container-fluid">
-	
-      <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-     
-        <div class="list-group panel">
-         <!--<a href="goToDashboard()" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu">Dashboard <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span> </a>-->
-		     <label (click)="goToDashboard()" style="color: whitesmoke; font-weight: normal;">&nbsp;Dashboard</label>
-         <a href="#aboutus" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu">About us</a>    
-          
-          <a href="#Service" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu">Service<span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span> </a>
-         
-
-         <div class="collapse" id="Service">
-         	<label for="create" style="color: whitesmoke; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Create Enquiry</label>
-            <button (click)="goToCreateEnquiry()" type="submit" name="Create Enquiry" class="hidden" id="create"></button>	
-					
-         	<label for="view" style="color: whitesmoke; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;View Earlier Request</label>
-            <button (click)="goToViewRequest()" type="submit" name="View Earlier Request" class="hidden" id="view"></button>	
-          <label for="crmAdmin" style="color: whitesmoke; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CRM Admin</label>
-            <button (click)="goToCrmAdmin()" type="submit" name="CRM Admin" class="hidden" id="crmAdmin"></button>	
-						
-          </div>
-           <a href="#Dispute" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu">Dispute <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span> </a>
-            <div class="collapse" id="Dispute">
-            <!--<a href="#" class="list-group-item">Raise A Dispute</a>
-            <a href="" class="list-group-item">Track A Dispute</a>            -->
-            	<label for="raiseDisp" style="color: whitesmoke; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Raise A Dispute</label>
-            <button (click)="goToRaiseDispute()" type="submit" name="RaiseDispute" class="hidden" id="raiseDisp"></button>	
-            	<label for="trackDisp" style="color: whitesmoke; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Track A Dispute</label>
-            <button (click)="goToTrackDispute()" type="submit" name="TrackDispute" class="hidden" id="trackDisp"></button>	
-          </div>
-		    <a href="#cust-supp" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu">Custmore Support</a>    
-        </div>
-  	  
-        </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">   
-
-
-<router-outlet> </router-outlet>
-</div>
+            </button>
+            <a class="navbar-brand" href="#"><img src="assets/img/logo.png"/></a>
+         </div>
+         <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+               <li>
+                  <a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>John Doe	<span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span> </a>
+               </li>
+            </ul>
+         </div>
       </div>
-	  
-    </div>
+   </div>
+</nav>
+<div class="container-fluid">
+   <div class="row">
+      <div class="col-sm-3 col-md-2 sidebar">
+         <div class="list-group panel">
+            <!--<a href="goToDashboard()" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu">Dashboard <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span> </a>-->
+           <!-- <label (click)="goToDashboard()" style="color: whitesmoke; font-weight: normal;">&nbsp;Dashboard</label>
+            <a href="#aboutus" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu">About us</a>  --> 
+            <a href="#Service" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu">Service<span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span> </a>
+            <div class="collapse" id="Service"> 
+               <label for="create" style="color: whitesmoke; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Create Enquiry</label>
+               <button (click)="goToCreateEnquiry()" type="submit" name="Create Enquiry" class="hidden" id="create"></button>	
+               <label for="view" style="color: whitesmoke; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;View Earlier Request</label>
+               <button (click)="goToViewRequest()" type="submit" name="View Earlier Request" class="hidden" id="view"></button>	
+             <!--  <label for="crmAdmin" style="color: whitesmoke; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CRM Admin</label>
+               <button (click)="goToCrmAdmin()" type="submit" name="CRM Admin" class="hidden" id="crmAdmin"></button>	--> 
+           </div>
+            <a href="#Dispute" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu">Dispute <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span> </a>
+            <div class="collapse" id="Dispute">
+               <label for="raiseDisp" style="color: whitesmoke; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Raise A Dispute</label>
+               <button (click)="goToRaiseDispute()" type="submit" name="RaiseDispute" class="hidden" id="raiseDisp"></button>	
+               <label for="trackDisp" style="color: whitesmoke; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Track A Dispute</label>
+               <button (click)="goToTrackDispute()" type="submit" name="TrackDispute" class="hidden" id="trackDisp"></button>	
+            </div>
+            <a href="#cust-supp" class="list-group-item" data-toggle="collapse" data-parent="#MainMenu">Customer Care Support</a>   
+         </div>
+      </div>
+      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+         <router-outlet> </router-outlet>
+      </div>
+   </div>
+</div>

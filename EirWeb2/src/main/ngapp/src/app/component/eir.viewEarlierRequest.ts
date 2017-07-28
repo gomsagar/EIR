@@ -104,7 +104,7 @@ export class ViewEarlierRequestComponent {
         this.fromDateBack = params["fromDate"],
         this.toDateBack = params["toDate"];
     });
-  debugger;
+ // debugger;
     if ((this.backRequestedId !== null && this.backRequestedId !== undefined) || (this.fromDateBack !== null
       && this.fromDateBack !== undefined) || (this.toDateBack !== null && this.toDateBack !== undefined)) 
       {
@@ -148,7 +148,7 @@ export class ViewEarlierRequestComponent {
   }
 
   ViewEarlierEnq() {
-    debugger;
+  //  debugger;
     this.submitted = true;
     console.log("Inside ViewEarlierEnq........");
     console.log("Data........" + this.data);
@@ -161,7 +161,7 @@ export class ViewEarlierRequestComponent {
     }
     if(!this.customValidator())
     {
-      debugger;
+      //debugger;
       this.pagedItems = [];
       this.allItems = [];
        alert("Please Enter Search Criteria!");
@@ -251,7 +251,7 @@ export class ViewEarlierRequestComponent {
         { 
               // set items to json response
               this.allItems = earlierRequestData;
-              debugger;
+            //  debugger;
               if(this.allItems == undefined || this.allItems.length <= 0 )
               {
                 this.pagedItems = [];
@@ -270,7 +270,7 @@ export class ViewEarlierRequestComponent {
       }
 
       setPage(page: number) 
-      { debugger;
+      { //debugger;
 
         this.pager = this.pagerService.getPager(this.allItems.length, page);
             if (page < 1 || page > this.pager.pages.length) 
@@ -287,7 +287,7 @@ export class ViewEarlierRequestComponent {
 
             this._appService.getRequestData(this.data).subscribe((earlierRequestData) => 
             {
-                debugger;
+               // debugger;
                   // set items to json response
                   this.pagedItems = earlierRequestData;
                   // initialize to page 1
@@ -309,7 +309,7 @@ export class ViewEarlierRequestComponent {
                 this.loaderService.display(false);
               });
                 // get current page of items
-                debugger;
+               // debugger;
                 this.pagedItems = this.allItems.slice(this.pager.startIndex, this.pager.endIndex + 1);
                 this.loaderService.display(false);
       }
